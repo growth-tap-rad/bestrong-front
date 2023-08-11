@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <h1>Teste</h1>
+    <h1>bacate</h1>
     <div class="wrapper">
       <div class="alert alert-primary" role="alert">
         A simple primary alert—check it out!
