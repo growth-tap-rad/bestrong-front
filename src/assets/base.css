@@ -4,3 +4,10 @@ body {
   min-height: 100vh;
 }
 
+
+:root {
+  --button-color-light: #40B2FF;
+  --button-color-facebook: #4267B2;
+  --bg-color-dark: #222222;
+  --bg-color-light: #fdfafa;
+}
