@@ -4,18 +4,18 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
+ <!--  <header>
     <h1>bacate</h1>
     <div class="wrapper">
       <div class="alert alert-primary" role="alert">
         A simple primary alert—check it out!
       </div>
       <nav>
-        <!-- <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink> -->
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink> 
       </nav>
     </div>
-  </header>
+  </header>-->
 
   <RouterView />
 </template>
