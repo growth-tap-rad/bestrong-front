@@ -3,7 +3,7 @@
       <VtitlePage title="Qual a sua idade?" />
   
       <VInput :data="InputAge" />
-      <VButton text="Age" class="button" />
+      <VButton text="Confirme a sua idade" class="button" />
     </div>
   </template>
   
@@ -12,7 +12,7 @@
   import VInput from '../components/VInput.vue'
   import VtitlePage from '../components/VtitlePage.vue'
   const InputAge = {
-    title: 'Age',
+    title: 'Digite a sua idade:',
     placeholder: 'ex: 25'
   }
   </script>
