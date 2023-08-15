@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import levelPhysicalActivity from "../views/levelPhysicalActivity.vue"
-import alturaPeso from '../views/Altura-Peso.vue'
+import HeightWeight from '../views/HeightWeight.vue'
+import Age from '../views/Age.vue'
 
 import Home from '../views/Home.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
@@ -26,7 +27,12 @@ const router = createRouter({
     {
       path: '/height-weight',
       name:'heightWeight',
-      component: alturaPeso 
+      component: HeightWeight 
+    },
+    {
+      path: '/age',
+      name:'age',
+      component: Age 
     }
   ]
 })
