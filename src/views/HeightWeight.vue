@@ -14,7 +14,7 @@ import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 const InputAltura = {
   title: 'Altura',
-  placeholder: 'ex:1,70'
+  placeholder: 'ex:170 cm'
 }
 const InputPeso = {
   title: 'Peso',
