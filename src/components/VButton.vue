@@ -19,7 +19,7 @@ defineProps({
   font-size: 1rem;
   border: none;
   border-radius: 50px;
-  color: white;
+  color: var(--text-color-light);
   font-weight: bold;
   width: 100%;
 }

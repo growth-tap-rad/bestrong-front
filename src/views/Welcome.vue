@@ -5,18 +5,18 @@ import VButton from '../components/VButton.vue';
 const router = useRouter();
 
 const goToWhatYourGoal = () => {
-  router.push('/your-goal');
+  router.push('/diet');
 };
 </script>
 
 <template>
-  <div class="bg-entry">
+  <section class="bg-entry">
     <img src="../assets/imgs/growth-supplements.png" alt="growtrh logo" class="logo">
     <div class="actions">
       <VButton text="Entrar com Facebook" class="button1" @click="goToWhatYourGoal" />
       <VButton text="E-MAIL" class="button2" @click="goToWhatYourGoal"/>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

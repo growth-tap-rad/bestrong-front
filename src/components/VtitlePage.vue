@@ -15,6 +15,6 @@ defineProps({
 
 <style scoped>
   .title {
-    color: white;
+    color: var(--text-color-light);
   }
 </style>
