@@ -1,22 +1,45 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
+
+import PhysicalActivityLevel from "../views/PhysicalActivityLevel.vue"
+import HeightWeight from '../views/HeightWeight.vue'
+import Age from '../views/Age.vue'
+import WhatYourGoal from '../views/WhatYourGoal.vue'
+import Welcome from '../views/Welcome.vue'
+import Diet from '../views/Diet.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: HomeView
-    // },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    {
+      path: '/',
+      name: 'Welcome',
+      component: Welcome
+    },
+    {
+      path: '/your-goal',
+      name: 'YourGoal',
+      component: WhatYourGoal
+    }, {
+      path: '/physical-activity-level',
+      name: 'PhysicalActivityLevel',
+      component: PhysicalActivityLevel
+    },
+    {
+      path: '/height-weight',
+      name:'HeightWeight',
+      component: HeightWeight 
+    },
+    {
+      path: '/age',
+      name:'Age',
+      component: Age 
+    },
+    {
+      path: '/diet',
+      name: 'Diet',
+      component: Diet
+    }
   ]
 })
 
