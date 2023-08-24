@@ -1,4 +1,5 @@
 <script setup>
+import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 
@@ -101,6 +102,12 @@ console.log(tbm_man(80, 168, 23))
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashInfo" :macros="macros" />
+      <div class="box-ingredients">
+        <VAccordionMeal class="meal" title="Agua" :isWater="true" quantity="200"/>
+        <VAccordionMeal class="meal" title="Café da tarde" :isWater="false" quantity="100"
+          :items="[{ name: 'bacate', quantity: '10g' },{ name: 'iorgute', quantity: '400ml' }]" />
+      </div>
+
     </main>
   </section>
 </template>
@@ -110,11 +117,26 @@ console.log(tbm_man(80, 168, 23))
   background-color: var(--bg-color-dark);
   width: 100%;
   height: 100vh;
+ /*  height: 100%;
+  min-height: 100vh; */
   display: flex;
   flex-direction: column;
 
+
+
   .main {
     width: 100%;
+
+    .box-ingredients {
+
+      margin-top: 50px;
+
+
+      .meal {
+        padding: 5px 20px;
+      }
+    }
+
   }
 }
 </style>
