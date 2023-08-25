@@ -102,11 +102,11 @@ console.log(tbm_man(80, 168, 23))
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashInfo" :macros="macros" />
-      <div class="box-ingredients">
+    <!--   <div class="box-ingredients">
         <VAccordionMeal class="meal" title="Agua" :isWater="true" quantity="200"/>
         <VAccordionMeal class="meal" title="Café da tarde" :isWater="false" quantity="100"
-          :items="[{ name: 'bacate', quantity: '10g' },{ name: 'iorgute', quantity: '400ml' }]" />
-      </div>
+          :items="[{ name: 'bacate', quantity: '10g' },{ name: 'iorgute', quantity: '400ml' }]" /> 
+      </div>-->
 
     </main>
   </section>
