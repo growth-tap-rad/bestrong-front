@@ -6,6 +6,8 @@ import Age from '../views/Age.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
 import Welcome from '../views/Welcome.vue'
 import Diet from '../views/Diet.vue'
+import SignIn from '../views/SignIn.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 
 
 const router = createRouter({
@@ -15,6 +17,16 @@ const router = createRouter({
       path: '/',
       name: 'Welcome',
       component: Welcome
+    },
+    {
+      path: '/sign-in',
+      name: 'SignIn',
+      component: SignIn
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
     },
     {
       path: '/your-goal',
