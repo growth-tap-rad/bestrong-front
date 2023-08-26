@@ -5,7 +5,7 @@ import VButton from '../components/VButton.vue';
 const router = useRouter();
 
 const goToWhatYourGoal = () => {
-  router.push('/diet');
+  router.push('/sign-in');
 };
 </script>
 
