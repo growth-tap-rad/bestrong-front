@@ -51,12 +51,12 @@ defineProps({
 }
 
   .title {
-    color: white;
+    color: var(--text-color-light);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.939);
   }
 
   .text {
-    color: #f9f9f9;
+    color: var(--text-color-light2);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.872)
   }
 }

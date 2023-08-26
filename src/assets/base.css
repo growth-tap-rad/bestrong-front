@@ -9,5 +9,11 @@ body {
   --button-color-light: #40B2FF;
   --button-color-facebook: #4267B2;
   --bg-color-dark: #222222;
+  --bg-color-dark2: #1c1b1b;
   --bg-color-light: #fdfafa;
+  --text-color-light: #ffffff;
+  --text-color-light2:  #f1eeee;
+  --text-color-highlighted: #9CBACD;
+  --text-color-highlighted2: #40B2FF;
+
 }

@@ -28,11 +28,11 @@ const GOALS = [
 </script>
 
 <template>
-  <div class="bg-goal">
+  <section class="bg-goal">
     <VTitlePage title="Qual o seu objetivo?" />
     <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" />
     <VButton text="CONFIRMAR OBJETIVO" class="button" />
-  </div>
+  </section>
 </template>
 
 <style scoped>

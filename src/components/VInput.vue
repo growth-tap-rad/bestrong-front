@@ -18,7 +18,7 @@ defineProps({
 <template>
   <div class="inputs">
     <label for="altura" class="label">{{ data.title }}</label>
-    <input type="text" id="altura" class="input" :placeholder="data.placeholder" />
+    <input type="text" id="altura" class="input" :placeholder="data.placeholder" v-mask="'#.#X'"/>
   </div>
 
 </template>
