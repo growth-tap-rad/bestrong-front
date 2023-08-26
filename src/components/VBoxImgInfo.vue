@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="card text-bg-dark">
+  <div class="card text-bg-dark" @click="$emit('clicked', data.title)">
     <div class="box-overlay"></div>
     <img :src="data.bg" class="card-img" :alt="`card img of ${data.title}`">
     <div class="card-img-overlay custom">
@@ -47,12 +47,12 @@ defineProps({
   }
 
   .title {
-    color: var(--text-color-light);
+    color:var(--text-color-light);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.939);
   }
 
   .text {
-    color: var(--text-color-light2);
+    color:var(--text-color-light);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.872)
   }
 }

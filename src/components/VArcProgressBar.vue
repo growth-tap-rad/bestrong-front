@@ -29,9 +29,6 @@ const dashoffset = computed(() => circumference * (1 - (props.percentage) / 100)
 </script>
 
 <style scoped>
-.progress-wrapper {
-  
-}
 
 path {
   stroke-linecap: round;
