@@ -7,9 +7,12 @@ body {
 
 :root {
   --button-color-light: #40B2FF;
+  --button-color-light-hover: #359fe6;
   --button-color-facebook: #4267B2;
   --bg-color-dark: #222222;
   --bg-color-dark3: #191b1b;
+  --bg-color-dark2: #1c1b1b;
+  --bg-color-grey: #3b3838;
   --bg-color-light: #fdfafa;
   --text-color-light: #ffffff;
   --text-color-light2: #f1eeee;
