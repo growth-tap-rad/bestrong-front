@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import PhysicalActivityLevel from "../views/PhysicalActivityLevel.vue"
 import HeightWeight from '../views/HeightWeight.vue'
 import Age from '../views/Age.vue'
