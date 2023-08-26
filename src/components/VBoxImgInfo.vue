@@ -2,17 +2,12 @@
 
 defineProps({
   data: {
-    title: {
-      type: String,
-      default: "Title",
-    },
-    text: {
-      type: String,
-      default: "Texto",
-    },
-    bg: {
-      type: String,
-    }
+    type: Object,
+    default: () => ({
+      title: "Title",
+      text: "Texto",
+      bg: ''
+    })
   }
 });
 
@@ -34,21 +29,22 @@ defineProps({
   position: relative;
   width: 100%;
   max-width: 500px;
+
   .box-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.178));
-      z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.178));
+    z-index: 5;
   }
 
   .custom {
-  bottom: 0;
-  top: inherit;
-  text-align: center;
-}
+    bottom: 0;
+    top: inherit;
+    text-align: center;
+  }
 
   .title {
     color: var(--text-color-light);
