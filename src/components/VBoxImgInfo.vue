@@ -2,17 +2,12 @@
 
 defineProps({
   data: {
-    title: {
-      type: String,
-      default: "Title",
-    },
-    text: {
-      type: String,
-      default: "Texto",
-    },
-    bg: {
-      type: String,
-    }
+    type: Object,
+    default: () => ({
+      title: "Title",
+      text: "Texto",
+      bg: ''
+    })
   }
 });
 

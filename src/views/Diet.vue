@@ -33,6 +33,7 @@ const macros = {
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashInfo" :macros="macros" />
+
       <div class="box-ingredients">
         <VAccordionMeal class="meal" title="Agua" :isWater="true" quantity="200"/>
         <VAccordionMeal class="meal" title="Café da tarde" :isWater="false" quantity="100"
