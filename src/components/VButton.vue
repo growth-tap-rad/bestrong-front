@@ -5,13 +5,12 @@ defineProps({
     type: String,
     default: "Texto",
     required: true
-  },
-  defaultColor: false
+  }
 })
 </script>
 
 <template>
-  <button class="btn button-text" :class="{ 'default-color': defaultColor }">{{ text }}</button>
+  <button class="btn button-text">{{ text }}</button>
 </template>
 
 <style scoped>
@@ -24,10 +23,8 @@ defineProps({
   font-weight: bold;
   width: 100%;
 }
-.default-color {
-    background-color: var(--button-color-light);
-    &:hover {
-      background-color: var(--button-color-light-hover);
-    }
-  }
+
+.btn {
+  background-color: var(--button-color-light);
+}
 </style>
