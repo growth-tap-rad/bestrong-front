@@ -1,3 +1,4 @@
+
 <template>
     <section class="add-water">
         <div class="main">
@@ -15,7 +16,9 @@
 </script>
 
 <style scoped>
-.add-water {
+.add-water 
+
+
     .main {
         position: fixed;
         bottom: 0;
@@ -47,5 +50,5 @@
 
         }
     }
-}
+
 </style>

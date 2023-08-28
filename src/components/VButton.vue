@@ -5,7 +5,7 @@ defineProps({
     type: String,
     default: "Texto",
     required: true
-  },
+  }
 })
 </script>
 
@@ -15,12 +15,16 @@ defineProps({
 
 <style scoped>
 .button-text {
-  padding: 20px 0;
+  padding: 15px 0;
   font-size: 1rem;
   border: none;
   border-radius: 50px;
   color: var(--text-color-light);
   font-weight: bold;
   width: 100%;
+}
+
+.btn {
+  background-color: var(--button-color-light);
 }
 </style>

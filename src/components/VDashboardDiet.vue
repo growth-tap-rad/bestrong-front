@@ -71,12 +71,13 @@ const macroPercentages = computed(() => {
 });
 
 const remainingCaloriesAndPercentage = computed(() => {
-  const { consumed, burned, goal } = props.dashInfo;
+  const { consumed, goal } = props.dashInfo;
 
-  const remainingCalories = goal - (burned - consumed);
-  console.log(remainingCalories)
-  const remainingPercent = calculatePercentage(remainingCalories, goal);
-  // console.log(remainingPercent)
+  const remainingCalories = goal - consumed;
+
+  let remainingPercent = calculatePercentage(remainingCalories, goal);
+  remainingPercent = (100 - remainingPercent)
+
   return {
     remainingPercent,
     remainingCalories
@@ -135,7 +136,6 @@ const remainingCaloriesAndPercentage = computed(() => {
 
 <style scoped>
 .dashboard-diet {
-  /* margin-top: 50px; */
   color: var(--text-color-light2);
 
   .dash {
@@ -211,7 +211,6 @@ const remainingCaloriesAndPercentage = computed(() => {
 
   .box-progress {
     flex: 1;
-    /* padding: 40px; */
     max-width: 100px;
     color: white;
     text-align: center;

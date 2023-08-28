@@ -16,6 +16,7 @@ import VtitlePage from '../components/VtitlePage.vue'
 const InputAge = {
   title: 'Selecione a sua data de nascimento:'
 }
+
 </script>
 
 <style scoped>
