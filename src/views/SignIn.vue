@@ -31,7 +31,7 @@ const backToLogin = () => {
     <main class="main">
       <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" />
       <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" />
-      <VButton text="Continuar" class="button" :defaultColor="true" />
+      <VButton text="Continuar" class="button" />
       <p class="text">Esqueceu sua senha? <router-link to="/forgot-password" class="cta-forgot-pass">Clique aqui!</router-link></p>
     </main>
   </section>
