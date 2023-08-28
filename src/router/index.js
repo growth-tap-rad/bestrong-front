@@ -7,6 +7,7 @@ import Welcome from '../views/Welcome.vue'
 import Diet from '../views/Diet.vue'
 import AddWater from "../views/AddWater.vue"
 import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 
 
@@ -22,6 +23,10 @@ const router = createRouter({
       path: '/sign-in',
       name: 'SignIn',
       component: SignIn
+    },{
+      path:'/sign-up',
+      name: 'SignUp',
+      component:SignUp
     },
     {
       path: '/forgot-password',
