@@ -5,26 +5,16 @@ defineProps({
       type: String,
       required: true,
       default: ''
-    },
-    placeholder: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    mask: {
-      type: String,
-      default: 'X'
     }
   }
 })
 </script>
 
 <template>
-  <div class="inputs">
-    <label for="altura" class="label">{{ data.title }}</label>
-    <input type="number" id="altura" class="input" :placeholder="data.placeholder" v-mask="data.mask"/>
+  <div class="inputs" id="datepicker">
+    <label for="date" class="label">{{ data.title }}</label>
+    <input type="date" class="input" id="date"/>
   </div>
-
 </template>
 
 <style scoped>
@@ -43,8 +33,6 @@ defineProps({
 .input{
 padding: 10px;
 border-radius: 8px;
-
-
 }
 }
 </style>

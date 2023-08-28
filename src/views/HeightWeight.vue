@@ -12,13 +12,16 @@
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
+
 const InputAltura = {
   title: 'Altura',
-  placeholder: 'ex:170 cm'
+  placeholder: 'ex:170 cm',
+  mask: "X.XX"
 }
 const InputPeso = {
   title: 'Peso',
-  placeholder: 'ex:80'
+  placeholder: 'ex:80',
+  
 }
 </script>
 
