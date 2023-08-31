@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import PhysicalActivityLevel from "../views/PhysicalActivityLevel.vue"
 import HeightWeight from '../views/HeightWeight.vue'
 import Age from '../views/Age.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
@@ -37,10 +36,6 @@ const router = createRouter({
       path: '/your-goal',
       name: 'YourGoal',
       component: WhatYourGoal
-    }, {
-      path: '/physical-activity-level',
-      name: 'PhysicalActivityLevel',
-      component: PhysicalActivityLevel
     },
     {
       path: '/height-weight',

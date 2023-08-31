@@ -4,7 +4,16 @@ const router = useRouter();
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import Diet from "../views/Diet.vue"
+import { ref } from 'vue';
+
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const username = ref('')
+const birthday = ref(Date)
+
+
+
 const inputName = {
     title: "Nome",
     placeholder: "Digite seu nome",
@@ -20,13 +29,45 @@ const inputPassword = {
     placeholder: "Digite uma senha",
     type: 'password'
 }
+const inputUserName = {
+    title: "Nome de Usuario",
+    placeholder: "Digite um nome de usuario",
+    type: 'text'
+}
+const inputBirthDay = {
+    title: "Data de Nascimento",
+    placeholder: "Digite sua data de Nascimento",
+    type: 'date'
+}
 
 const backToLogin = () => {
     router.back()
 }
-function goForDiet(){
-    router.push("/diet")
-}
+function goForDiet() {
+    const bodyData = {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        username: username.value,
+        birthday: birthday.value,
+    };
+
+    fetch("http://localhost:3000/api/auth/sign-up", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bodyData)
+
+    }).then((user) => {
+        return user.json()
+    }).then((user) => {
+        console.log("cadastrou", user)
+        router.push("/diet")
+    }).catch(() => {
+        alert("Erro ao criar sua conta!")
+    })
+} 
 </script>
 
 <template>
@@ -38,17 +79,26 @@ function goForDiet(){
             <h1 class="title-page">Crie sua conta usando seu e-mail</h1>
         </header>
         <main class="main">
-            <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" />
-            <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" />
-            <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" />
+
+            <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="name" />
+            <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="username" />
+            <VInputIcon :data="inputBirthDay" :hasIcon="true" iconName="bi bi-key-fill" v-model="birthday" />
+            <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="email" />
+            <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="password" />
             <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
-           
+
+
+
         </main>
     </section>
 </template>
 
 
 <style scoped>
+h1 {
+    color: white;
+}
+
 .sign-up {
     background-color: var(--bg-color-dark);
     width: 100%;
@@ -82,4 +132,5 @@ function goForDiet(){
             color: var(--text-color-light);
         }
     }
-}</style>
+}
+</style>v-model

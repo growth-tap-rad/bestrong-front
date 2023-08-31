@@ -22,8 +22,10 @@ defineProps({
     <label :for="data.title" class="label">{{ data.title }}</label>
     <div v-if="hasIcon" class="box-input">
       <i :class="[iconName, 'icon']"></i>
-      <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" />
-    </div>
+      <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" @input="$emit('update:modelValue', $event.target.value)"/>
+    </div><!-- @change="()=>{ this.$emit(change,event.target.value)}
+    @change="$emit(change , event.target.value)"
+    -->
   </div>
 </template>
 
@@ -42,6 +44,7 @@ defineProps({
 
   .box-input {
     position: relative;
+
     .input {
       padding: 10px 10px 10px 45px;
       border-radius: 8px;
@@ -50,7 +53,7 @@ defineProps({
       border: none;
       width: 100%;
     }
-  
+
     .icon {
       padding: 0;
       font-size: 20px;
