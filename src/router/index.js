@@ -27,9 +27,22 @@ const router = createRouter({
       path: '/forgot-password',
       name: 'ForgotPassword',
       component: ForgotPassword
+      name: 'Welcome',
+      component: Welcome
+    },
+    {
+      path: '/sign-in',
+      name: 'SignIn',
+      component: SignIn
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
     },
     {
       path: '/your-goal',
+      name: 'YourGoal',
       name: 'YourGoal',
       component: WhatYourGoal
     }, {
@@ -47,6 +60,12 @@ const router = createRouter({
       name:'Age',
       component: Age 
     },
+   ,
+    {
+      path: '/diet',
+      name: 'Diet',
+      component: Diet
+    },
     {
       path: '/diet',
       name: 'Diet',
@@ -56,7 +75,6 @@ const router = createRouter({
       name: "AddWater",
       component:AddWater
     }
-    
   ]
 })
 

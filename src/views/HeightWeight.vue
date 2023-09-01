@@ -4,6 +4,7 @@
 
     <VInput :data="InputAltura" />
     <VInput :data="InputPeso" />
+
     <VButton text="Altura e Peso" class="button" />
   </div>
 </template>
@@ -16,12 +17,12 @@ import VtitlePage from '../components/VtitlePage.vue'
 const InputAltura = {
   title: 'Altura',
   placeholder: 'ex:170 cm',
-  mask: "X.XX"
+  mask: "X.XX",
 }
 const InputPeso = {
   title: 'Peso',
   placeholder: 'ex:80',
-  
+  mask:"XX.X"
 }
 </script>
 
