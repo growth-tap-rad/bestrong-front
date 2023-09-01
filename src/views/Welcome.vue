@@ -5,30 +5,31 @@ import VButton from '../components/VButton.vue';
 const router = useRouter();
 
 const goToWhatYourGoal = () => {
-  router.push('/your-goal');
+  router.push('/sign-in');
 };
 </script>
 
 <template>
-  <div class="bg-entry">
-    <img src="../assets/imgs/growth-supplements.png" alt="growtrh logo" class="logo">
-    <div class="actions">
-      <VButton text="Entrar com Facebook" class="button1" @click="goToWhatYourGoal" />
-      <VButton text="E-MAIL" class="button2" @click="goToWhatYourGoal"/>
+  <section class="bg-entry">
+    <div class="box-img">
+      <img src="../assets/imgs/BeStrongWhiteSvg.svg" alt="growtrh logo" class="logo">
     </div>
-  </div>
+    <div class="actions">
+      <VButton text="Login" @click="goToWhatYourGoal" />
+      <VButton text="Cadastrar-se" class="button2" @click="goToWhatYourGoal" />
+    </div>
+  </section>
 </template>
 
 <style scoped>
 .bg-entry {
-  background-color: var(--bg-color-light);
+  background-color: var(--bg-color-dark);
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 
-  /* min-height: 1024px; */
   .actions {
     display: flex;
     flex-direction: column;
@@ -37,20 +38,21 @@ const goToWhatYourGoal = () => {
     padding-bottom: 30px;
     margin: 0 15px;
 
-    .button1 {
-      background-color: var(--button-color-facebook);
-    }
-
     .button2 {
-      background-color: var(--button-color-light);
+      background-color: transparent;
     }
   }
 
-  .logo {
+  .box-img {
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    padding: 20px;
+    margin-top: 60px;
+    .logo {
+      height: 150px;
+    }
   }
 
 }

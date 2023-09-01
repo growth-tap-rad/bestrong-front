@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
@@ -25,14 +26,22 @@ const GOALS = [
   }
 ]
 
+const selectedGoal = ref("") 
+
+function run(e){
+  // console.log(e)
+  selectedGoal.value = e.toLowerCase()
+  console.log(selectedGoal)
+}
+
 </script>
 
 <template>
-  <div class="bg-goal">
+  <section class="bg-goal">
     <VTitlePage title="Qual o seu objetivo?" />
-    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" />
+    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" @clicked="run"/>
     <VButton text="CONFIRMAR OBJETIVO" class="button" />
-  </div>
+  </section>
 </template>
 
 <style scoped>

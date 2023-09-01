@@ -1,18 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import levelPhysicalActivity from "../views/levelPhysicalActivity.vue"
-import MenuInferior from '../components/MenuInferior.vue'
-
-
-// <<<<<<< HEAD
-import alturaPeso from '../views/HeightWeight.vue'
-// import alturaPeso from '../views/Altura-Peso.vue'
-// =======
+import PhysicalActivityLevel from "../views/PhysicalActivityLevel.vue"
 import HeightWeight from '../views/HeightWeight.vue'
 import Age from '../views/Age.vue'
-// >>>>>>> c2ad14117889c38b2cf0d0eb586d34c31acd818b
-
-import Home from '../views/Home.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
+import Welcome from '../views/Welcome.vue'
+import Diet from '../views/Diet.vue'
+import AddWater from "../views/AddWater.vue"
+import SignIn from '../views/SignIn.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 
 
 const router = createRouter({
@@ -20,32 +15,46 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'Welcome',
+      component: Welcome
+    },
+    {
+      path: '/sign-in',
+      name: 'SignIn',
+      component: SignIn
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
     },
     {
       path: '/your-goal',
-      name: 'your-goal',
+      name: 'YourGoal',
       component: WhatYourGoal
     }, {
-      path: '/levelPhysicalActivity',
-      name: 'levelPhysicalActivity',
-      component: levelPhysicalActivity
+      path: '/physical-activity-level',
+      name: 'PhysicalActivityLevel',
+      component: PhysicalActivityLevel
     },
     {
       path: '/height-weight',
-      name:'heightWeight',
+      name:'HeightWeight',
       component: HeightWeight 
     },
     {
       path: '/age',
-      name:'age',
+      name:'Age',
       component: Age 
     },
     {
-      path:'/menuInferior',
-      name:'menuInferior',
-      component: MenuInferior
+      path: '/diet',
+      name: 'Diet',
+      component: Diet
+    },{
+      path:"/add-water",
+      name: "AddWater",
+      component:AddWater
     }
     
   ]

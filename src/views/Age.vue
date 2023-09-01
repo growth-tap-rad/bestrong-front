@@ -1,7 +1,6 @@
 <template>
   <div class="bg-age">
     <VtitlePage title="Qual a sua idade?" />
-
     <VInputDate :data="InputAge" />
     <VButton text="Confirme a sua idade" class="button" />
 
@@ -13,9 +12,11 @@ import VButton from '../components/VButton.vue'
 import VInputDate from '../components/VInputDate.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 
+
 const InputAge = {
   title: 'Selecione a sua data de nascimento:'
 }
+
 </script>
 
 <style scoped>
