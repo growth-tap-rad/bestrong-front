@@ -8,7 +8,7 @@ import AddWater from "../views/AddWater.vue"
 import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
-
+import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +41,11 @@ const router = createRouter({
       path: '/height-weight',
       name:'HeightWeight',
       component: HeightWeight 
+    },
+    {
+      path: '/physical-activity-level',
+      name:'PhysicalActivityLevel',
+      component: PhysicalActivityLevel 
     },
     {
       path: '/age',

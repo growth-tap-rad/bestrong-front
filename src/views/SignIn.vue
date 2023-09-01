@@ -5,10 +5,11 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-
+import axios from 'axios';
 
 const email = ref('')
 const password = ref('')
+
 
 const inputEmail = {
   title: "E-mail",
@@ -24,31 +25,19 @@ const backToLogin = () => {
   router.back()
 }
 
- const  signin = () => {
-  const bodyData = {
+const signin = () => {
+
+  axios.post("http://localhost:3000/api/auth/sign-in", {
     email: email.value,
     password: password.value,
-  }
-fetch("http://localhost:3000/api/auth/sign-in", {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(bodyData)
+  }).then((user) => {
+    sessionStorage.setItem('accessToken', user.data)
+    router.push("/diet")
+  }).catch(() => {
+    alert("Email ou senha incorreto")
+  })
 
-    }).then((user) => {
-        return user.json()
-    }).then((user) => {
-      if(user.accessToken){
-        console.log("logou", user)
-        router.push("/diet")
-      }
-      else{
-        alert("Email ou senha incorreto")
-      }
-        
-    })
-} 
+}
 </script>
 
 <template>
@@ -74,7 +63,8 @@ fetch("http://localhost:3000/api/auth/sign-in", {
 .sign-in {
   background-color: var(--bg-color-dark);
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 20px 20px;

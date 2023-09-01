@@ -23,9 +23,7 @@ defineProps({
     <div v-if="hasIcon" class="box-input">
       <i :class="[iconName, 'icon']"></i>
       <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" @input="$emit('update:modelValue', $event.target.value)"/>
-    </div><!-- @change="()=>{ this.$emit(change,event.target.value)}
-    @change="$emit(change , event.target.value)"
-    -->
+    </div>
   </div>
 </template>
 

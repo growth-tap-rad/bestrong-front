@@ -1,18 +1,17 @@
 <script setup>
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
+import axios from 'axios';
 
+const router = useRouter();
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const username = ref('')
 const birthday = ref(Date)
-
-
 
 const inputName = {
     title: "Nome",
@@ -39,33 +38,23 @@ const inputBirthDay = {
     placeholder: "Digite sua data de Nascimento",
     type: 'date'
 }
-
 const backToLogin = () => {
     router.back()
 }
 function goForDiet() {
-    const bodyData = {
+    axios.post("http://localhost:3000/api/auth/sign-up", {
         name: name.value,
         email: email.value,
         password: password.value,
         username: username.value,
         birthday: birthday.value,
-    };
-
-    fetch("http://localhost:3000/api/auth/sign-up", {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(bodyData)
-
     }).then((user) => {
-        return user.json()
-    }).then((user) => {
-        console.log("cadastrou", user)
-        router.push("/diet")
-    }).catch(() => {
-        alert("Erro ao criar sua conta!")
+        if (user.data) {
+            sessionStorage.setItem('accessToken', user.data.accessToken)
+            router.push("/diet")
+        } else {
+            alert("Erro ao criar sua conta!")
+        }
     })
 } 
 </script>
@@ -86,23 +75,19 @@ function goForDiet() {
             <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="email" />
             <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="password" />
             <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
-
-
-
         </main>
     </section>
 </template>
-
 
 <style scoped>
 h1 {
     color: white;
 }
-
 .sign-up {
     background-color: var(--bg-color-dark);
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 20px 20px;
@@ -111,21 +96,18 @@ h1 {
         .nav {
             margin-bottom: 20px;
         }
-
         .title-page {
             color: var(--text-color-light);
             font-size: 20px;
             margin-bottom: 30px;
         }
     }
-
     .main {
         width: 100%;
 
         .button {
             margin-top: 50px;
         }
-
         .text {
             margin-top: 25px;
             text-align: center;
@@ -133,4 +115,4 @@ h1 {
         }
     }
 }
-</style>v-model
+</style>
