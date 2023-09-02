@@ -7,6 +7,9 @@ const router = useRouter();
 const goToWhatYourGoal = () => {
   router.push('/sign-in');
 };
+const goToCreateRegistration = ()=>{
+  router.push("/sign-up")
+}
 </script>
 
 <template>
@@ -16,7 +19,7 @@ const goToWhatYourGoal = () => {
     </div>
     <div class="actions">
       <VButton text="Login" @click="goToWhatYourGoal" />
-      <VButton text="Cadastrar-se" class="button2" @click="goToWhatYourGoal" />
+      <VButton text="Cadastrar-se" class="button2" @click="goToCreateRegistration" />
     </div>
   </section>
 </template>

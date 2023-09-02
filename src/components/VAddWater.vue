@@ -16,10 +16,7 @@
 </script>
 
 <style scoped>
-.add-water {
-    background-color: var(--bg-color-dark);
-    width: 100%;
-    height: 100vh;
+.add-water 
 
 
     .main {
@@ -53,5 +50,5 @@
 
         }
     }
-}
+
 </style>

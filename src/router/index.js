@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import PhysicalActivityLevel from "../views/PhysicalActivityLevel.vue"
 import HeightWeight from '../views/HeightWeight.vue'
 import Age from '../views/Age.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
@@ -7,8 +6,9 @@ import Welcome from '../views/Welcome.vue'
 import Diet from '../views/Diet.vue'
 import AddWater from "../views/AddWater.vue"
 import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
-
+import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +22,10 @@ const router = createRouter({
       path: '/sign-in',
       name: 'SignIn',
       component: SignIn
+    },{
+      path:'/sign-up',
+      name: 'SignUp',
+      component:SignUp
     },
     {
       path: '/forgot-password',
@@ -32,15 +36,16 @@ const router = createRouter({
       path: '/your-goal',
       name: 'YourGoal',
       component: WhatYourGoal
-    }, {
-      path: '/physical-activity-level',
-      name: 'PhysicalActivityLevel',
-      component: PhysicalActivityLevel
     },
     {
       path: '/height-weight',
       name:'HeightWeight',
       component: HeightWeight 
+    },
+    {
+      path: '/physical-activity-level',
+      name:'PhysicalActivityLevel',
+      component: PhysicalActivityLevel 
     },
     {
       path: '/age',
