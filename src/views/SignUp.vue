@@ -4,7 +4,7 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-import axios from 'axios';
+import apiAxios from '../api/apiAxios';
 
 const router = useRouter();
 const name = ref('')
@@ -42,7 +42,7 @@ const backToLogin = () => {
     router.back()
 }
 function goForDiet() {
-    axios.post("http://localhost:3000/api/auth/sign-up", {
+    apiAxios.post('auth/sign-up', {
         name: name.value,
         email: email.value,
         password: password.value,
@@ -83,6 +83,7 @@ function goForDiet() {
 h1 {
     color: white;
 }
+
 .sign-up {
     background-color: var(--bg-color-dark);
     width: 100%;
@@ -96,23 +97,25 @@ h1 {
         .nav {
             margin-bottom: 20px;
         }
+
         .title-page {
             color: var(--text-color-light);
             font-size: 20px;
             margin-bottom: 30px;
         }
     }
+
     .main {
         width: 100%;
 
         .button {
             margin-top: 50px;
         }
+
         .text {
             margin-top: 25px;
             text-align: center;
             color: var(--text-color-light);
         }
     }
-}
-</style>
+}</style>

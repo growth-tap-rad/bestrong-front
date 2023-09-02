@@ -5,7 +5,7 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-import axios from 'axios';
+import apiClient from '../api/apiAxios';
 
 const email = ref('')
 const password = ref('')
@@ -26,8 +26,7 @@ const backToLogin = () => {
 }
 
 const signin = () => {
-
-  axios.post("http://localhost:3000/api/auth/sign-in", {
+  apiClient.post('/auth/sign-in', {
     email: email.value,
     password: password.value,
   }).then((user) => {

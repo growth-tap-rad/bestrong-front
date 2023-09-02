@@ -13,14 +13,17 @@ function addWater() {
 }
 
 const props = defineProps({
-  title: "",
-  isWater: false,
-  quantity: "",
-  items: []
+  data: {
+    title: "",
+    isWater: true,
+    quantity: "",
+    items: []
+  }
+
 })
 
 const unity = computed(() => {
-  return props.isWater ? "ml" : "kcal"
+  return props.data.isWater ? "ml" : "kcal"
 })
 </script>
 
@@ -31,19 +34,20 @@ const unity = computed(() => {
         <button class="accordion-button" :class="{ 'show': openAccord }" type="button" data-bs-toggle="collapse"
           data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" @click="open()">
           <div class="MealAndQuantity">
-            <span class="meal">{{ props.title }}</span>
-            <span class="quantity">Consumido {{ props.quantity }} {{ unity }}</span>
+            <span class="meal">{{ props.data.title }}</span>
+            <span class="quantity">Consumido {{ props.data.quantity }} {{ unity }}</span>
           </div>
         </button>
       </h2>
       <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
         data-bs-parent="#accordionExample">
-        <div class="accordion-body" v-if="props.isWater">
+        <div class="accordion-body" v-if="props.data.isWater">
           <button class="addQtdWater" @click="addWater()">+ Adicionar Água</button>
         </div>
         <div v-else>
           <div class="accordionMeals">
-            <div class="MealAndQuantity " v-for="item in items"><span>{{ item.name }} </span><span>{{ item.quantity }}</span>
+            <div class="MealAndQuantity " v-for="item in data.items"><span>{{ item.name }} </span><span>{{ item.quantity
+            }}</span>
             </div>
           </div>
         </div>
@@ -74,7 +78,7 @@ const unity = computed(() => {
 
 .accordionMeals {
   width: 100%;
-  padding: 20px ;
+  padding: 20px;
 }
 
 .MealAndQuantity {
@@ -99,7 +103,7 @@ const unity = computed(() => {
   color: var(--text-color-light);
   background: transparent;
   border: none;
-  
+
 }
 
 .accordion-item:first-of-type .accordion-button {

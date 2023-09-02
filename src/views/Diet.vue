@@ -9,6 +9,21 @@ const dashInfo = {
   burned: 0,
   goal: 0
 }
+const meals = {
+  item1: {
+    title: "Café da tarde",
+    isWater: false,
+    quantity: "40",
+    items: [
+      { name: 'Abacate', quantity: '10g' },
+      { name: 'Iogurte', quantity: '400ml' }]
+  },
+  item2: {
+    title: "Agua",
+    isWater: true,
+    quantity: "140",
+  }
+}
 
 const macros = {
   protein: {
@@ -34,10 +49,8 @@ const macros = {
     <main class="main">
       <VDashboardDiet :dashInfo="dashInfo" :macros="macros" />
 
-      <div class="box-ingredients">
-        <VAccordionMeal class="meal" title="Agua" :isWater="true" quantity="200"/>
-        <VAccordionMeal class="meal" title="Café da tarde" :isWater="false" quantity="100"
-          :items="[{ name: 'bacate', quantity: '10g' },{ name: 'iorgute', quantity: '400ml' }]" />
+      <div class="box-ingredients" v-for="meal in meals">
+        <VAccordionMeal class="meal" :data="meal" />
       </div>
 
     </main>
@@ -49,20 +62,14 @@ const macros = {
   background-color: var(--bg-color-dark);
   width: 100%;
   height: 100vh;
- /*  height: 100%;
-  min-height: 100vh; */
   display: flex;
   flex-direction: column;
-
-
 
   .main {
     width: 100%;
 
     .box-ingredients {
-
-      margin-top: 50px;
-
+      margin-top: 10px;
 
       .meal {
         padding: 5px 20px;
