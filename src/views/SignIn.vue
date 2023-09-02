@@ -30,7 +30,7 @@ const signin = () => {
     email: email.value,
     password: password.value,
   }).then((user) => {
-    sessionStorage.setItem('accessToken', user.data)
+    sessionStorage.setItem('accessToken', user.data.accessToken)
     router.push("/diet")
   }).catch(() => {
     alert("Email ou senha incorreto")

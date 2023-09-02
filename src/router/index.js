@@ -48,9 +48,9 @@ const router = createRouter({
       component: PhysicalActivityLevel 
     },
     {
-      path: '/age',
-      name:'Age',
-      component: Age 
+      path: '/gender-birthday',
+      name:'GenderBirthday',
+      component: GenderBirthday 
     },
     {
       path: '/diet',
