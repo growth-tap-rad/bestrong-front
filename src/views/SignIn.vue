@@ -10,6 +10,7 @@ import { useUserStore } from '../stores/user.store'
 
 const userStore = useUserStore();
 
+
 const email = ref('')
 const password = ref('')
 
@@ -35,8 +36,8 @@ function signin() {
       router.push('/diet')
     }
   })
+};
 
-}
 </script>
 
 <template>
