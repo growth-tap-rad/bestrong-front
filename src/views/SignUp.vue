@@ -4,7 +4,10 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-import * as authService from '../service/authService';
+import * as authService from '../service/auth.service.js';
+
+
+
 const router = useRouter();
 const name = ref('')
 const email = ref('')
