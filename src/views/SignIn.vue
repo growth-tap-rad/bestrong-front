@@ -5,7 +5,11 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-import * as authService from '../service/authService';
+import * as authService from '../service/auth.service.js';
+import { useUserStore } from '../stores/user.store'
+
+const userStore = useUserStore();
+
 
 const email = ref('')
 const password = ref('')
@@ -28,6 +32,7 @@ const backToLogin = () => {
 function signin() {
   authService.signIn({ email, password }).then(data => {
     if (data) {
+      userStore.setToken(data.accessToken)
       router.push('/diet')
     }
   })
