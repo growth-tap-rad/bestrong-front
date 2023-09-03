@@ -5,7 +5,7 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-import apiClient from '../api/apiAxios';
+import * as authService from '../service/authService';
 
 const email = ref('')
 const password = ref('')
@@ -25,18 +25,14 @@ const backToLogin = () => {
   router.back()
 }
 
-const signin = () => {
-  apiClient.post('/auth/sign-in', {
-    email: email.value,
-    password: password.value,
-  }).then((user) => {
-    sessionStorage.setItem('accessToken', user.data)
-    router.push("/diet")
-  }).catch(() => {
-    alert("Email ou senha incorreto")
+function signin() {
+  authService.signIn({ email, password }).then(data => {
+    if (data) {
+      router.push('/diet')
+    }
   })
+};
 
-}
 </script>
 
 <template>

@@ -4,7 +4,7 @@ import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
-import apiAxios from '../api/apiAxios';
+import * as authService from '../service/authService';
 
 const router = useRouter();
 const name = ref('')
@@ -42,18 +42,10 @@ const backToLogin = () => {
     router.back()
 }
 function goForDiet() {
-    apiAxios.post('auth/sign-up', {
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        username: username.value,
-        birthday: birthday.value,
-    }).then((user) => {
-        if (user.data) {
-            sessionStorage.setItem('accessToken', user.data.accessToken)
-            router.push("/diet")
-        } else {
-            alert("Erro ao criar sua conta!")
+
+    authService.signUp({ name, email, password, username, birthday }).then(data => {
+        if (data) {
+            router.push('/diet')
         }
     })
 } 
@@ -118,4 +110,5 @@ h1 {
             color: var(--text-color-light);
         }
     }
-}</style>
+}
+</style>

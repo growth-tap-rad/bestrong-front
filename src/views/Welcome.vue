@@ -15,7 +15,7 @@ const goToCreateRegistration = ()=>{
 <template>
   <section class="bg-entry">
     <div class="box-img">
-      <img src="../assets/imgs/BeStrongWhiteSvg.svg" alt="growtrh logo" class="logo">
+      <img src="../assets/imgs/BeStrongWS.png" alt="growtrh logo" class="logo">
     </div>
     <div class="actions">
       <VButton text="Login" @click="goToWhatYourGoal" />
