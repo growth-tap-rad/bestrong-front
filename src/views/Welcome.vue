@@ -1,13 +1,20 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
+import { useUserStore } from '../stores/user.store'
+import { storeToRefs } from 'pinia';
 
+const userStore = useUserStore();
 const router = useRouter();
 
 const goToWhatYourGoal = () => {
+  if (userStore?.token) {
+    router.push('/diet')
+    return
+  }
   router.push('/sign-in');
 };
-const goToCreateRegistration = ()=>{
+const goToCreateRegistration = () => {
   router.push("/sign-up")
 }
 </script>
@@ -53,6 +60,7 @@ const goToCreateRegistration = ()=>{
     transform: translateX(-50%);
     padding: 20px;
     margin-top: 60px;
+
     .logo {
       height: 150px;
     }

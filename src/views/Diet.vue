@@ -2,6 +2,9 @@
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
+import { onMounted } from 'vue'
+import * as userService from '../service/user.service.js';
+import { reactive } from 'vue';
 
 // TODO Fetch to get this datas...
 const dashInfo = {
