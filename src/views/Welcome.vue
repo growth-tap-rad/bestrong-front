@@ -1,22 +1,32 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
+import { useUserStore } from '../stores/user.store'
+import { storeToRefs } from 'pinia';
 
+const userStore = useUserStore();
 const router = useRouter();
 
 const goToWhatYourGoal = () => {
+  if (userStore?.token) {
+    router.push('/diet')
+    return
+  }
   router.push('/sign-in');
 };
+const goToCreateRegistration = () => {
+  router.push("/sign-up")
+}
 </script>
 
 <template>
   <section class="bg-entry">
     <div class="box-img">
-      <img src="../assets/imgs/BeStrongWhiteSvg.svg" alt="growtrh logo" class="logo">
+      <img src="../assets/imgs/BeStrongWS.png" alt="growtrh logo" class="logo">
     </div>
     <div class="actions">
       <VButton text="Login" @click="goToWhatYourGoal" />
-      <VButton text="Cadastrar-se" class="button2" @click="goToWhatYourGoal" />
+      <VButton text="Cadastrar-se" class="button2" @click="goToCreateRegistration" />
     </div>
   </section>
 </template>
@@ -50,6 +60,7 @@ const goToWhatYourGoal = () => {
     transform: translateX(-50%);
     padding: 20px;
     margin-top: 60px;
+
     .logo {
       height: 150px;
     }
