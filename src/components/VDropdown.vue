@@ -1,15 +1,52 @@
 <script setup>
 defineProps({
-  data: {}
+  data: {
+    type: Object,
+  }
 })
 
 </script>
 <template>
-
-
+  <div class="inputs">
+    <label class="label" for="gender">Selecione o gênero:</label>
+    <select @input="$emit('update:modelValue', $event.target.value)" class="box-input" id="gender">
+      <option   v-for="item in data.options" :value="item" class="input">{{ item }} </option>
+    </select>
+  </div>
 </template>
 <style scoped>
+.inputs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
 
+  .label {
+    color: var(--bg-color-light);
+    padding: 15px;
 
+  }
+
+  .box-input {
+    position: relative;
+
+    .input {
+      padding: 10px 10px 10px 45px;
+      border-radius: 8px;
+      background-color: var(--bg-color-grey);
+      color: var(--text-color-light2);
+      border: none;
+      width: 100%;
+    }
+
+    .icon {
+      padding: 0;
+      font-size: 20px;
+      top: calc(50% - 15px);
+      left: 15px;
+      color: var(--text-color-light2);
+      position: absolute;
+    }
+  }
+}
 </style>

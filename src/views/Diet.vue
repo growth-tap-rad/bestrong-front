@@ -4,7 +4,7 @@ import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import { onMounted } from 'vue'
 import * as userService from '../service/user.service.js';
-
+import Menunferior from '../components/MenuInferior.vue'
 import { reactive } from 'vue';
 
 
@@ -78,10 +78,11 @@ function fetchDashboardData() {
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-        <VAccordionMeal class="meal" :data="meal" v-for="meal in meals"/>
+        <VAccordionMeal class="meal" :data="meal" v-for="meal in meals" />
       </div>
-
+      <Menunferior class="footer" />
     </main>
+
   </section>
 </template>
 
@@ -96,6 +97,12 @@ function fetchDashboardData() {
   .main {
     width: 100%;
 
+    .footer {
+      position: absolute;
+      width: 100%;bottom: 0;
+  
+    }
+
     .box-ingredients {
       margin-top: 30px;
 
@@ -104,6 +111,7 @@ function fetchDashboardData() {
         margin: 0 0 10px 0;
       }
     }
+
 
   }
 }

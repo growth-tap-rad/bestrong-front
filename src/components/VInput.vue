@@ -1,17 +1,3 @@
-<script setup>
-defineProps({
-  data: {
-    type: Object,
-    required: true,
-    default: () => ({
-      title: '',
-      placeholder: '',
-      type: 'text'
-    })
-  }
-})
-</script>
-
 <template>
   <div class="inputs">
     <label :for="data.title" class="label">{{ data.title }}</label>

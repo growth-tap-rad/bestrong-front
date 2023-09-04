@@ -5,15 +5,15 @@ import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 import { ref } from 'vue';
 import * as authService from '../service/auth.service.js';
+import { useUserStore } from '../stores/user.store'
 
 
-
+const userStore = useUserStore();
 const router = useRouter();
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const username = ref('')
-const birthday = ref(Date)
 
 const inputName = {
     title: "Nome",
@@ -35,21 +35,21 @@ const inputUserName = {
     placeholder: "Digite um nome de usuario",
     type: 'text'
 }
-const inputBirthDay = {
-    title: "Data de Nascimento",
-    placeholder: "Digite sua data de Nascimento",
-    type: 'date'
-}
 const backToWelcome = () => {
     router.back()
 }
+
 function goForDiet() {
 
-    authService.signUp({ name, email, password, username, birthday }).then(data => {
-        if (data) {
-            router.push('/diet')
-        }
-    })
+
+    if (name=='' || email=='' || password=='' || username=='') {
+        alert('Preencha todos os campos antes de continuar !')
+        return
+    } else (
+        userStore.setUser({ name, email, password, username, })
+    )
+    router.push('/gender-birthday')
+
 } 
 </script>
 
@@ -65,9 +65,9 @@ function goForDiet() {
 
             <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="name" />
             <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="username" />
-            <VInputIcon :data="inputBirthDay" :hasIcon="true" iconName="bi bi-key-fill" v-model="birthday" />
             <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="email" />
             <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="password" />
+
             <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
         </main>
     </section>

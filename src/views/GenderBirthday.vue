@@ -1,21 +1,42 @@
 <template>
   <div class="bg-age">
-    <VtitlePage title="Qual a sua idade?" />
-    <VInputDate :data="InputAge" />
-    <VDropdown :data="{ item:'homem', item2:'mulher' }" />
-    <VButton text="Confirme a sua idade" class="button" />
+    <VtitlePage title=" data de nascimento:" />
+    <VInputDate v-model="birthday" />
+    <VDropdown :data="inputGender" v-model="gender" />
+    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" />
 
   </div>
 </template>
 
 <script setup>
+
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store';
 import VButton from '../components/VButton.vue'
 import VInputDate from '../components/VInputDate.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 import VDropdown from '../components/VDropdown.vue'
-const InputAge = {
-  title: 'Selecione a sua data de nascimento:'
+import { ref } from 'vue';
+
+const userStore = useUserStore()
+const router = useRouter()
+const birthday = ref(Date)
+const gender = ref('')
+
+const inputGender = {
+  title: 'Selecione seu gênero',
+  options: { item: 'homem', item2: 'mulher' }
 }
+function goForDiet() {
+
+  userStore.setGender(gender.value)
+  userStore.setBirthday(birthday.value)
+
+
+  router.push('/physical-activity-level')
+}
+
+
 
 </script>
 

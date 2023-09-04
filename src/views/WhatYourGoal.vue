@@ -7,7 +7,9 @@ import VBoxImgInfo from '../components/VBoxImgInfo.vue';
 import deaflift from '@/assets/imgs/deadlift.jpeg';
 import crossfit from '@/assets/imgs/crossfit.jpg';
 import gym from '@/assets/imgs/gym.jpeg';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const GOALS = [
   {
     title: "Ganhar peso",
@@ -34,13 +36,16 @@ function run(e){
   console.log(selectedGoal)
 }
 
+function goToHeightWeight (){
+  router.push('/height-weight')
+}
 </script>
 
 <template>
   <section class="bg-goal">
     <VTitlePage title="Qual o seu objetivo?" />
     <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" @clicked="run"/>
-    <VButton text="CONFIRMAR OBJETIVO" class="button" />
+    <VButton @click="goToHeightWeight" text="CONFIRMAR OBJETIVO" class="button" />
   </section>
 </template>
 

@@ -1,17 +1,10 @@
 <script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-    default: ''
-  }
-})
+
 </script>
 
 <template>
   <div class="inputs" id="datepicker">
-    <label for="date" class="label">{{ title }}</label>
-    <input type="date" class="input" id="date" />
+    <input type="date" class="input" id="date" @input="$emit('update:modelValue', $event.target.value)" />
   </div>
 </template>
 
