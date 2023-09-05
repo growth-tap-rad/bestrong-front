@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
@@ -12,39 +12,54 @@ import { useRouter } from 'vue-router';
 const userStore = useUserStore()
 
 const router = useRouter()
-const GOALS = [
+let GOALS = reactive([
   {
     title: "Ganhar peso",
     text: "Vamos te ajudar a organizar o que você precisa comer para ganhar massa.",
     bg: deaflift,
-    value: 'gain'
+    value: 'gain',
+    selected: false
   },
   {
     title: "Perder peso",
     text: "Ajudaremos com as informações do que precisa comer para organizar sua dieta.",
     bg: crossfit,
-    value: 'lose'
+    value: 'lose',
+    selected: false
   },
   {
     title: "Manter peso",
     text: "Vamos te ajudar a equilibrar a alimentação com exercícios para manter.",
     bg: gym,
-    value: 'maintain'
+    value: 'maintain',
+    selected: false
   }
-]
-const selectedGoal = ref("")
-
+])
 
 function goToHeightWeight() {
-  userStore.setGoal(selectedGoal.value)
   router.push('/height-weight')
 }
-</script>
+
+function selectGoal(e) {
+
+  GOALS = GOALS.map(goal => {
+    if (goal.value == e) {
+      goal.selected = !goal.selected
+      userStore.setGoal(goal.value)
+
+    } else {
+      goal.selected = false
+    }
+    return goal
+  })
+}
+</script><!-- v-model="selectedGoal" -->
 
 <template>
   <section class="bg-goal">
     <VTitlePage title="Qual o seu objetivo?" />
-    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" v-model="selectedGoal" @clicked="run" />
+    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" :selected="goal.selected"
+      @update="(e) => selectGoal(e)" />
     <VButton @click="goToHeightWeight" text="CONFIRMAR OBJETIVO" class="button" />
   </section>
 </template>

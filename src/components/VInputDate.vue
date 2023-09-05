@@ -15,15 +15,10 @@
   width: 100%;
 
 
-  .label {
-    color: var(--bg-color-light);
-    padding: 15px;
-
-  }
-
   .input {
     padding: 10px;
     border-radius: 8px;
+    color: var( --bg-color-dark);
   }
 }
 </style>

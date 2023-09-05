@@ -2,7 +2,7 @@
   <div class="bg-age">
     <VtitlePage title=" data de nascimento:" />
     <VInputDate v-model="birthday" />
-    <VDropdown :data="inputGender" v-model="gender"  />
+    <VDropdown :data="inputGender" v-model="gender" />
     <VButton @click="goForDiet" text="Confirme a sua idade" class="button" />
 
   </div>
@@ -31,7 +31,7 @@ const inputGender = {
 }
 function goForDiet() {
   console.log(gender.value)
-   userStore.setGender(gender.value)
+  userStore.setGender(gender.value)
   userStore.setBirthday(birthday.value)
 
 
@@ -51,6 +51,7 @@ function goForDiet() {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
 .button {

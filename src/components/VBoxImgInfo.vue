@@ -7,7 +7,8 @@ defineProps({
       title: "Title",
       text: "Texto",
       bg: '',
-      value: ''
+      value: '',
+      selected: false
     })
   }
 });
@@ -15,8 +16,8 @@ defineProps({
 </script>
 
 <template>
-  <div :value="data.value" class="card text-bg-dark" @click="$emit('update:modelValue', data.value)">
-    <div class="box-overlay"></div>
+  <div :value="data.value" class="card text-bg-dark" @click="$emit('update', data.value)">
+    <div class="box-overlay" :class="{'border-highlight':data.selected}"></div>
     <img :src="data.bg" class="card-img" :alt="`card img of ${data.title}`">
     <div class="card-img-overlay custom">
       <h5 class="card-title title">{{ data.title }}</h5>
@@ -30,7 +31,9 @@ defineProps({
   position: relative;
   width: 100%;
   max-width: 500px;
-
+.border-highlight{
+  border: 2px solid var(--text-color-highlighted2);
+}
   .box-overlay {
     position: absolute;
     top: 0;

@@ -6,7 +6,8 @@ defineProps({
     default: () => ({
       title: '',
       placeholder: '',
-      type: 'text'
+      type: 'text',
+      value: ''
     })
   },
   hasIcon: false,
@@ -22,7 +23,7 @@ defineProps({
     <label :for="data.title" class="label">{{ data.title }}</label>
     <div v-if="hasIcon" class="box-input">
       <i :class="[iconName, 'icon']"></i>
-      <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" @input="$emit('update:modelValue', $event.target.value)"/>
+      <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)"/>
     </div>
   </div>
 </template>

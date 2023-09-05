@@ -7,40 +7,32 @@ import { reactive, ref } from 'vue';
 import * as authService from '../service/auth.service.js';
 import { useUserStore } from '../stores/user.store'
 
-
 const userStore = useUserStore();
 const router = useRouter();
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const username = ref('')
-// if (userStore) {
-//     name = userStore.getName
-//     email = userStore.getEmail
-//     password = userStore.getPassword
-//     username = userStore.getUsername
-// }
 
-
-const inputName = {
+const inputName = reactive({
     title: "Nome",
     placeholder: "Digite seu nome",
-    type: 'text'
-}
+    type: 'text',
+    value: userStore.getName
+})
 const inputEmail = {
     title: "E-mail",
     placeholder: "Digite seu e-mail",
-    type: 'text'
+    type: 'text',
+    value: userStore.getEmail
 }
 const inputPassword = {
     title: "Senha",
     placeholder: "Digite uma senha",
-    type: 'password'
+    type: 'password',
+    value: userStore.getPassword
 }
 const inputUserName = {
     title: "Nome de Usuario",
     placeholder: "Digite um nome de usuario",
     type: 'text',
+    value: userStore.getUsername
 }
 const backToWelcome = () => {
     router.back()
@@ -51,7 +43,7 @@ const backToWelcome = () => {
 function goForDiet() {
 
     const payload = {
-        name: name.value, email: email.value, password: password.value, username: username.value
+        name: inputName.value, email: inputEmail.value, password: inputPassword.value, username: inputUserName.value
     }
     if (!payload.name || !payload.email || !payload.password || !payload.username) {
         alert('Preencha todos os campos antes de continuar !')
@@ -75,10 +67,10 @@ function goForDiet() {
         </header>
         <main class="main">
 
-            <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="name" />
-            <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="username" />
-            <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="email" />
-            <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="password" />
+            <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="inputName.value" />
+            <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputUserName.value" />
+            <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
+            <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
 
             <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
         </main>
