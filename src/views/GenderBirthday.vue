@@ -27,10 +27,10 @@ const inputGender = {
   title: 'Selecione seu gênero',
   options: {
     item: { text: 'homem', value: 'man' }, item2: { text: 'mulher', value: 'women' }
-  }
+  },
 }
 function goForDiet() {
-  console.log(gender.value)
+
   userStore.setGender(gender.value)
   userStore.setBirthday(birthday.value)
 

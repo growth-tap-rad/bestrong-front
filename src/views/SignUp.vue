@@ -10,12 +10,12 @@ import { useUserStore } from '../stores/user.store'
 const userStore = useUserStore();
 const router = useRouter();
 
-const inputName = reactive({
+const inputName = {
     title: "Nome",
     placeholder: "Digite seu nome",
     type: 'text',
     value: userStore.getName
-})
+}
 const inputEmail = {
     title: "E-mail",
     placeholder: "Digite seu e-mail",

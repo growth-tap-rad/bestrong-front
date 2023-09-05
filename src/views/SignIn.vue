@@ -4,27 +4,26 @@ const router = useRouter();
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import * as authService from '../service/auth.service.js';
 import { useUserStore } from '../stores/user.store'
 
 const userStore = useUserStore();
 
 
-const email = ref('')
-const password = ref('')
-
 sessionStorage.clear()
 
 const inputEmail = {
   title: "E-mail",
   placeholder: "Ex: joao@gmail.com",
-  type: 'text'
+  type: 'text',
+  value: userStore.getEmail
 }
 const inputPassword = {
   title: "Senha",
   placeholder: "",
-  type: 'password'
+  type: 'password',
+  value: userStore.getPassword
 }
 const backToLogin = () => {
   router.back()
@@ -32,12 +31,12 @@ const backToLogin = () => {
 
 function signin() {
 
-  authService.signIn({ email, password }).then(data => {
+   authService.signIn({ email: inputEmail, password: inputPassword }).then(data => {
     if (data) {
       userStore.setToken(data.accessToken)
       router.push('/diet')
     }
-  })
+  }) 
 };
 
 </script>
@@ -51,8 +50,8 @@ function signin() {
       <h1 class="title-page">Entre com seu e-mail</h1>
     </header>
     <main class="main">
-      <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="email" />
-      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="password" />
+      <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
+      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
       <VButton @click="signin" text="Continuar" class="button" />
       <p class="text">Esqueceu sua senha? <router-link to="/forgot-password" class="cta-forgot-pass">Clique
           aqui!</router-link></p>
