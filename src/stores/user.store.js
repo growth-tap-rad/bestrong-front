@@ -20,12 +20,16 @@ export const useUserStore = defineStore('user', {
   }),
   getters: {
     getToken: (state) => state.token,
+    getLastProgress: (state) => state.progress[state.progress.length - 1],
+    getUser: (state) => state.user,
     getName: (state) => state.user.name,
     getEmail: (state) => state.user.email,
     getPassword: (state) => state.user.password,
     getUsername: (state) => state.user.username,
     getBirthday: (state) => state.user.birthday,
-    getGender: (state) => state.user.gender
+    getGender: (state) => state.user.gender,
+
+    getLastProgressPosition: (state) => state.progress.length - 1
   },
   actions: {
     setToken(payload) {
@@ -44,16 +48,16 @@ export const useUserStore = defineStore('user', {
       this.user.gender = payload
     },
     setHeight(payload) {
-      this.progress.height = payload
+      this.progress[this.getLastProgressPosition].height = payload
     },
     setWeight(payload) {
-      this.progress.weight = payload
+      this.progress[this.getLastProgressPosition].weight = payload
     },
     setActivity_level(payload) {
-      this.progress.activity_level = payload
+      this.progress[this.getLastProgressPosition].activity_level = payload
     },
     setGoal(payload) {
-      this.progress.goal = payload
+      this.progress[this.getLastProgressPosition].goal = payload
     },
   }
 })

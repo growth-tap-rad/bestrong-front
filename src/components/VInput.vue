@@ -1,8 +1,10 @@
 <template>
   <div class="inputs">
     <label :for="data.title" class="label">{{ data.title }}</label>
-    <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" v-if="data.mask" v-mask="mask"/>
-    <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" v-else/>
+    <input @input="$emit('update:modelValue', $event.target.value)" :type="data.type" :id="data.title" class="input"
+      :placeholder="data.placeholder" v-if="data.mask" v-mask="mask" />
+    <input @input="$emit('update:modelValue', $event.target.value)" :type="data.type" :id="data.title" class="input"
+      :placeholder="data.placeholder" v-else />
   </div>
 </template>
 

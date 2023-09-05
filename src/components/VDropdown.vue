@@ -8,9 +8,9 @@ defineProps({
 </script>
 <template>
   <div class="inputs">
-    <label class="label" for="gender">Selecione o gênero:</label>
-    <select @input="$emit('update:modelValue', $event.target.value)" class="box-input" id="gender">
-      <option   v-for="item in data.options" :value="item" class="input">{{ item }} </option>
+    <select class="form-select" aria-label="Gender"   @input="$emit('update:modelValue', $event.target.value)">
+      <option selected disabled>Selecione seu gênero</option>
+      <option v-for="item in data.options" :value="item.value" class="input">{{ item.text }} </option>
     </select>
   </div>
 </template>

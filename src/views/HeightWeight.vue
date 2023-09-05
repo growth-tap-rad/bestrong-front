@@ -1,13 +1,16 @@
 <template>
   <div class="bg-altura-peso">
     <VtitlePage title="Altura e Peso" />
-    <VInput :data="InputAltura" />
-    <VInput :data="InputPeso" />
+    <VInput :data="InputAltura" v-model="heightInput" />
+    <VInput :data="InputPeso" v-model="weightInput" />
     <VButton @click="goToDiet" text="Altura e Peso" class="button" />
+
   </div>
 </template>
 
 <script setup>
+const heightInput = ref('')
+const weightInput = ref('')
 
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
@@ -15,23 +18,35 @@ import VtitlePage from '../components/VtitlePage.vue'
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user.store'
 import * as authService from '../service/auth.service'
+import * as userService from '../service/user.service'
+
+import { ref } from 'vue';
+
 const router = useRouter()
 const userStore = useUserStore();
 
 function goToDiet() {
-  const name = userStore.getName
-  const email = userStore.getEmail
-  const password = userStore.getPassword
-  const username = userStore.getUsername
-  const birthday = userStore.getBirthday
-  const gender = userStore.getGender
-  console.log('gender ', gender, " birthday ", birthday)
+
+
+  userStore.setHeight(heightInput.value)
+  userStore.setWeight(weightInput.value)
+
+  const { name, email, password, username, birthday, gender } = userStore.getUser
+  const { height, weight, activity_level, goal } = userStore.getLastProgress
+
   authService.signUp({ name, email, password, username, birthday, gender }).then(data => {
     if (data.accessToken) {
       userStore.setToken(data.accessToken)
-      router.push('/diet')
+
+      userService.createProgress({ height, weight, activity_level, goal }).then((data) => {
+        console.log("salvou o progresso ", data)
+        router.push('/diet')
+      })
     }
   })
+
+
+
 }
 const InputAltura = {
   title: 'Altura',

@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import * as authService from '../service/auth.service.js';
 import { useUserStore } from '../stores/user.store'
 
@@ -14,6 +14,13 @@ const name = ref('')
 const email = ref('')
 const password = ref('')
 const username = ref('')
+// if (userStore) {
+//     name = userStore.getName
+//     email = userStore.getEmail
+//     password = userStore.getPassword
+//     username = userStore.getUsername
+// }
+
 
 const inputName = {
     title: "Nome",
@@ -33,21 +40,26 @@ const inputPassword = {
 const inputUserName = {
     title: "Nome de Usuario",
     placeholder: "Digite um nome de usuario",
-    type: 'text'
+    type: 'text',
 }
 const backToWelcome = () => {
     router.back()
 }
 
+
+
 function goForDiet() {
 
-
-    if (name=='' || email=='' || password=='' || username=='') {
+    const payload = {
+        name: name.value, email: email.value, password: password.value, username: username.value
+    }
+    if (!payload.name || !payload.email || !payload.password || !payload.username) {
         alert('Preencha todos os campos antes de continuar !')
         return
     } else (
-        userStore.setUser({ name, email, password, username, })
+        userStore.setUser(payload)
     )
+
     router.push('/gender-birthday')
 
 } 

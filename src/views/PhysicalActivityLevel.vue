@@ -4,22 +4,42 @@ import VBoxImgInfo from "../components/VBoxImgInfo.vue";
 import VButton from "../components/VButton.vue";
 import VtitlePage from "../components/VtitlePage.vue";/*  */
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useUserStore } from "../stores/user.store";
 
+const userStore = useUserStore()
 const router = useRouter()
-
+const selectedActivityLevel = ref('')
 let atividades = [
-    { title: 'Sedentario', text: 'Treina 3 vezes na semana ou menos.', bg: "https://sciath.com.br/wp-content/uploads/2021/11/sedentarismo.jpg" },
-    { title: 'Intermediário', text: 'Treina 3 ou 4 vezes na semana.', bg: "https://www.fab.mil.br/sis/enoticias/imagens/pub/40083/i204619164604314.jpg" },
-    { title: 'Avançado', text: 'Treina todos os dias.', bg: "https://nutrata.com.br/wp-content/webp-express/webp-images/uploads/2023/03/CBUM-altura-idade-peso-e-Mr.-Olympia-2048x1365.png.webp" }
+    {
+        title: 'Sedentario',
+        text: 'Treina 3 vezes na semana ou menos.',
+        bg: "https://sciath.com.br/wp-content/uploads/2021/11/sedentarismo.jpg",
+        value: 'low'
+    },
+    {
+        title: 'Intermediário',
+        text: 'Treina 3 ou 4 vezes na semana.',
+        bg: "https://www.fab.mil.br/sis/enoticias/imagens/pub/40083/i204619164604314.jpg"
+        , value: 'moderate'
+    },
+    {
+        title: 'Avançado',
+        text: 'Treina todos os dias.',
+        bg: "https://nutrata.com.br/wp-content/webp-express/webp-images/uploads/2023/03/CBUM-altura-idade-peso-e-Mr.-Olympia-2048x1365.png.webp",
+        value: 'intense'
+    }
 ]
 function goToYourGoal() {
+    userStore.setActivity_level(selectedActivityLevel.value)
     router.push('/your-goal')
 }
 </script>
 <template>
     <div class="bg-activity">
         <VtitlePage title="Qual seu nivel de atividade Física?" />
-        <VBoxImgInfo v-for="atividade in atividades" :data="atividade" class="margin-y" />
+        <VBoxImgInfo v-for="atividade in atividades" :data="atividade" class="margin-y" v-model="selectedActivityLevel"
+            @clicked="run" />
         <VButton @click="goToYourGoal" text="CONFIRMAR OBJETIVO" class="button" />
     </div>
 </template> 
@@ -47,7 +67,7 @@ function goToYourGoal() {
 }
 
 @media (max-width: 768px) {
-    .bg-goal {
+    .bg-activity {
         padding: 1rem;
     }
 }

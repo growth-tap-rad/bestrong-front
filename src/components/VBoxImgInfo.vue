@@ -6,7 +6,8 @@ defineProps({
     default: () => ({
       title: "Title",
       text: "Texto",
-      bg: ''
+      bg: '',
+      value: ''
     })
   }
 });
@@ -14,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="card text-bg-dark" @click="$emit('clicked', data.title)">
+  <div :value="data.value" class="card text-bg-dark" @click="$emit('update:modelValue', data.value)">
     <div class="box-overlay"></div>
     <img :src="data.bg" class="card-img" :alt="`card img of ${data.title}`">
     <div class="card-img-overlay custom">

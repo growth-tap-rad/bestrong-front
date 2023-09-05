@@ -3,40 +3,40 @@ import { ref } from 'vue'
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
-
+import { useUserStore } from '../stores/user.store';
 import deaflift from '@/assets/imgs/deadlift.jpeg';
 import crossfit from '@/assets/imgs/crossfit.jpg';
 import gym from '@/assets/imgs/gym.jpeg';
 import { useRouter } from 'vue-router';
+
+const userStore = useUserStore()
 
 const router = useRouter()
 const GOALS = [
   {
     title: "Ganhar peso",
     text: "Vamos te ajudar a organizar o que você precisa comer para ganhar massa.",
-    bg: deaflift
+    bg: deaflift,
+    value: 'gain'
   },
   {
     title: "Perder peso",
     text: "Ajudaremos com as informações do que precisa comer para organizar sua dieta.",
-    bg: crossfit
+    bg: crossfit,
+    value: 'lose'
   },
   {
     title: "Manter peso",
     text: "Vamos te ajudar a equilibrar a alimentação com exercícios para manter.",
-    bg: gym
+    bg: gym,
+    value: 'maintain'
   }
 ]
+const selectedGoal = ref("")
 
-const selectedGoal = ref("") 
 
-function run(e){
-  // console.log(e)
-  selectedGoal.value = e.toLowerCase()
-  console.log(selectedGoal)
-}
-
-function goToHeightWeight (){
+function goToHeightWeight() {
+  userStore.setGoal(selectedGoal.value)
   router.push('/height-weight')
 }
 </script>
@@ -44,7 +44,7 @@ function goToHeightWeight (){
 <template>
   <section class="bg-goal">
     <VTitlePage title="Qual o seu objetivo?" />
-    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" @clicked="run"/>
+    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" v-model="selectedGoal" @clicked="run" />
     <VButton @click="goToHeightWeight" text="CONFIRMAR OBJETIVO" class="button" />
   </section>
 </template>
@@ -73,8 +73,8 @@ function goToHeightWeight (){
 }
 
 @media (max-width: 768px) {
-    .bg-goal {
-      padding: 1rem;
-    }
+  .bg-goal {
+    padding: 1rem;
   }
+}
 </style>
