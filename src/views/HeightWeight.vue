@@ -23,10 +23,11 @@ const router = useRouter()
 const userStore = useUserStore();
 
 function onSelectHeight(e){
-  userStore.setHeight(e)
+  userStore.setHeight(e.replace('.', ""))
 }
 
 function onSelectWeight(e){
+ // console.log(e.replace('.', "")) ToDo: ttransformar para pegar depis do ponto tb
   userStore.setWeight(e)
 }
 
