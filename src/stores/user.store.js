@@ -28,6 +28,10 @@ export const useUserStore = defineStore('user', {
     getUsername: (state) => state.user.username,
     getBirthday: (state) => state.user.birthday,
     getGender: (state) => state.user.gender,
+    getActivityLevel: (state) => state.progress[state.progress.length - 1].activity_level,
+    getWeight: (state) => state.progress[state.progress.length - 1].weight,
+    getGoal: (state) => state.progress[state.progress.length - 1].goal,
+    getHeight: (state) => state.progress[state.progress.length - 1].height,
 
     getLastProgressPosition: (state) => state.progress.length - 1
   },

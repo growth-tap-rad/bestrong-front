@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
@@ -53,7 +53,20 @@ function selectGoal(e) {
     return goal
   })
 }
-</script><!-- v-model="selectedGoal" -->
+
+onMounted(() => {
+    
+    const selectedInStore = userStore.getGoal
+
+    GOALS = GOALS.map(goal => {
+        if (goal.value == selectedInStore) {
+            goal.selected = !goal.selected
+        }
+        return goal
+    })
+})
+
+</script>
 
 <template>
   <section class="bg-goal">

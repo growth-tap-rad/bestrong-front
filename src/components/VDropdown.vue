@@ -1,16 +1,18 @@
 <script setup>
-defineProps({
-  data: {
-    type: Object,
-  }
+const props = defineProps({
+  options: {
+    type: Array, required: true, default: () => [
+      { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }
+    ]
+  },
 })
 
 </script>
 <template>
   <div class="inputs">
-    <select class="form-select input" aria-label="Gender" @input="$emit('update:modelValue', $event.target.value)">
+    <select class="form-select input" aria-label="Gender" @input="$emit('update', $event.target.value)">
       <option selected disabled class="option">Selecione seu gênero</option>
-      <option v-for="item in data.options" :value="item.value" class="option">{{ item.text }} </option>
+      <option v-for="(item, index) in props.options" class="option" :value="item.value" :selected="item.selected">{{ item.text }} </option>
     </select>
   </div>
 </template>
@@ -28,6 +30,7 @@ defineProps({
     border: none;
     width: 100%;
     max-width: 200px;
+
 
   }
 

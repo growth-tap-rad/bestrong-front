@@ -1,8 +1,8 @@
 <template>
   <div class="bg-age">
     <VtitlePage title=" data de nascimento:" />
-    <VInputDate v-model="birthday" />
-    <VDropdown :data="inputGender" v-model="gender" />
+    <VInputDate @update="(e) => selectBirthday(e)" :dataValue="birthday"/>
+    <VDropdown :options="inputGender" @update="(e) => selectGender(e)" />
     <VButton @click="goForDiet" text="Confirme a sua idade" class="button" />
 
   </div>
@@ -16,25 +16,49 @@ import VButton from '../components/VButton.vue'
 import VInputDate from '../components/VInputDate.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 import VDropdown from '../components/VDropdown.vue'
-import { ref } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
+
+let birthday = ref(Date);
 
 const userStore = useUserStore()
 const router = useRouter()
-const birthday = ref(Date)
-const gender = ref('')
 
-const inputGender = {
-  title: 'Selecione seu gênero',
-  options: {
-    item: { text: 'homem', value: 'man' }, item2: { text: 'mulher', value: 'women' }
-  },
+let inputGender = reactive([
+  { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }])
+
+function selectBirthday(e){
+  console.log(e)
+  userStore.setBirthday(e)
 }
+function selectGender(e) {
+
+  inputGender = inputGender.map(opt => {
+    if (opt.value == e) {
+      opt.selected = !opt.selected
+      userStore.setGender(opt.value)
+    }
+    else {
+      opt.selected = false
+    }
+    return opt;
+  })
+
+}
+
+onMounted(() => {
+  const selectedBithdayInStore = userStore.getBirthday
+  birthday.value = selectedBithdayInStore
+  const selectedInStore = userStore.getGender
+
+  inputGender = inputGender.map(opt => {
+    if (opt.value == selectedInStore) {
+      opt.selected = !opt.selected
+    }
+    return opt;
+  })
+})
+
 function goForDiet() {
-
-  userStore.setGender(gender.value)
-  userStore.setBirthday(birthday.value)
-
-
   router.push('/physical-activity-level')
 }
 

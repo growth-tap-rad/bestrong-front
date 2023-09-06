@@ -4,7 +4,7 @@ import VBoxImgInfo from "../components/VBoxImgInfo.vue";
 import VButton from "../components/VButton.vue";
 import VtitlePage from "../components/VtitlePage.vue";/*  */
 import { useRouter } from "vue-router";
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useUserStore } from "../stores/user.store";
 
 const userStore = useUserStore()
@@ -50,6 +50,17 @@ function selectActivityLevel(e) {
         return atividade
     })
 }
+onMounted(() => {
+    
+    const selectedInStore = userStore.getActivityLevel
+
+    atividades = atividades.map(atividade => {
+        if (atividade.value == selectedInStore) {
+            atividade.selected = !atividade.selected
+        }
+        return atividade
+    })
+})
 </script>
 <template>
     <div class="bg-activity">

@@ -1,17 +1,14 @@
 <template>
   <div class="bg-altura-peso">
     <VtitlePage title="Altura e Peso" />
-    <VInput :data="InputAltura" v-model="heightInput" />
-    <VInput :data="InputPeso" v-model="weightInput" />
+    <VInput :data="InputAltura" v-model="heightInput" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
+    <VInput :data="InputPeso" v-model="weightInput" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight"/>
     <VButton @click="goToDiet" text="Altura e Peso" class="button" />
 
   </div>
 </template>
 
 <script setup>
-const heightInput = ref('')
-const weightInput = ref('')
-
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
@@ -25,11 +22,16 @@ import { ref } from 'vue';
 const router = useRouter()
 const userStore = useUserStore();
 
+function onSelectHeight(e){
+  userStore.setHeight(e)
+}
+
+function onSelectWeight(e){
+  userStore.setWeight(e)
+}
+
+
 function goToDiet() {
-
-
-  userStore.setHeight(heightInput.value)
-  userStore.setWeight(weightInput.value)
 
   const { name, email, password, username, birthday, gender } = userStore.getUser
   const { height, weight, activity_level, goal } = userStore.getLastProgress

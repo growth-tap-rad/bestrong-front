@@ -1,10 +1,10 @@
 <template>
   <div class="inputs">
     <label :for="data.title" class="label">{{ data.title }}</label>
-    <input @input="$emit('update:modelValue', $event.target.value)" :type="data.type" :id="data.title" class="input"
-      :placeholder="data.placeholder" v-if="data.mask" v-mask="mask" />
-    <input @input="$emit('update:modelValue', $event.target.value)" :type="data.type" :id="data.title" class="input"
-      :placeholder="data.placeholder" v-else />
+    <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
+      :placeholder="data.placeholder" :value="props.value" v-if="data.mask" v-mask="mask" />
+    <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
+      :placeholder="data.placeholder" :value="props.value" v-else />
   </div>
 </template>
 
@@ -22,6 +22,7 @@ const props = defineProps({
       mask: '',
     }),
   },
+  value: ""
 });
 
 const mask = computed(() => {
