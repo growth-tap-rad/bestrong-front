@@ -68,7 +68,7 @@ const ROUTES = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: ROUTES
+ routes: ROUTES
 })
 
 router.beforeEach((to, from, next) => {
@@ -76,6 +76,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     if (!userStore?.token) {
       router.push('/'); // verify if its the better way
+
     }
   }
   next()
