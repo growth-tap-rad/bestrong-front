@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HeightWeight from '../views/HeightWeight.vue'
-import Age from '../views/Age.vue'
+import GenderBirthday from '../views/GenderBirthday.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
 import Welcome from '../views/Welcome.vue'
 import Diet from '../views/Diet.vue'
@@ -49,9 +49,9 @@ const ROUTES = [
     component: PhysicalActivityLevel
   },
   {
-    path: '/age',
-    name: 'Age',
-    component: Age
+    path: '/gender-birthday',
+    name: 'GenderBirthday',
+    component: GenderBirthday
   },
   {
     path: '/diet',

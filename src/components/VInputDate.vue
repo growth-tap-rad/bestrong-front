@@ -1,17 +1,12 @@
 <script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-    default: ''
-  }
+const props = defineProps({
+  dataValue: Date
 })
 </script>
 
 <template>
   <div class="inputs" id="datepicker">
-    <label for="date" class="label">{{ title }}</label>
-    <input type="date" class="input" id="date" />
+    <input type="date" class="input" id="date" :value="props.dataValue" @input="$emit('update', $event.target.value)" />
   </div>
 </template>
 
@@ -22,15 +17,10 @@ defineProps({
   width: 100%;
 
 
-  .label {
-    color: var(--bg-color-light);
-    padding: 15px;
-
-  }
-
   .input {
     padding: 10px;
     border-radius: 8px;
+    color: var( --bg-color-dark);
   }
 }
 </style>

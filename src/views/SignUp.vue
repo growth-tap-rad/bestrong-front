@@ -3,52 +3,57 @@ import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import * as authService from '../service/auth.service.js';
+import { useUserStore } from '../stores/user.store'
 
-
+const userStore = useUserStore();
 const router = useRouter();
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const username = ref('')
-const birthday = ref(Date)
 
 const inputName = {
     title: "Nome",
     placeholder: "Digite seu nome",
-    type: 'text'
+    type: 'text',
+    value: userStore.getName
 }
 const inputEmail = {
     title: "E-mail",
     placeholder: "Digite seu e-mail",
-    type: 'text'
+    type: 'text',
+    value: userStore.getEmail
 }
 const inputPassword = {
     title: "Senha",
     placeholder: "Digite uma senha",
-    type: 'password'
+    type: 'password',
+    value: userStore.getPassword
 }
 const inputUserName = {
     title: "Nome de Usuario",
     placeholder: "Digite um nome de usuario",
-    type: 'text'
+    type: 'text',
+    value: userStore.getUsername
 }
-const inputBirthDay = {
-    title: "Data de Nascimento",
-    placeholder: "Digite sua data de Nascimento",
-    type: 'date'
-}
-const backToLogin = () => {
+const backToWelcome = () => {
     router.back()
 }
+
+
+
 function goForDiet() {
 
-    authService.signUp({ name, email, password, username, birthday }).then(data => {
-        if (data) {
-            router.push('/diet')
-        }
-    })
+    const payload = {
+        name: inputName.value, email: inputEmail.value, password: inputPassword.value, username: inputUserName.value
+    }
+    if (!payload.name || !payload.email || !payload.password || !payload.username) {
+        alert('Preencha todos os campos antes de continuar !')
+        return
+    } else (
+        userStore.setUser(payload)
+    )
+
+    router.push('/gender-birthday')
+
 } 
 </script>
 
@@ -56,17 +61,17 @@ function goForDiet() {
     <section class="sign-up">
         <header class="header">
             <nav class="nav">
-                <VButtonArrowLeft @click="backToLogin" />
+                <VButtonArrowLeft @click="backToWelcome" />
             </nav>
             <h1 class="title-page">Crie sua conta usando seu e-mail</h1>
         </header>
         <main class="main">
 
-            <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="name" />
-            <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="username" />
-            <VInputIcon :data="inputBirthDay" :hasIcon="true" iconName="bi bi-key-fill" v-model="birthday" />
-            <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="email" />
-            <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="password" />
+            <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="inputName.value" />
+            <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputUserName.value" />
+            <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
+            <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
+
             <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
         </main>
     </section>

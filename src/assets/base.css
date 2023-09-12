@@ -6,9 +6,10 @@ body {
 
 
 :root {
+
   --button-color-light: #24669c;
   --button-color-light-hover: #194e79;
-  --button-color-facebook: #4267B2;
+  --button-color-facebook: #007bff;
   --bg-color-dark: #222222;
   --bg-color-dark3: #191b1b;
   --bg-color-dark2: #1c1b1b;

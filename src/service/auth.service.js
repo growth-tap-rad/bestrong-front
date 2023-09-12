@@ -19,18 +19,20 @@ export const signIn = (data) => {
 }
 
 export const signUp = (data) => {
-  const { name, email, password, username, birthday } = data
+  const { name, email, password, username, birthday, gender } = data
 
   return api
     .post('auth/sign-up', {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      username: username.value,
-      birthday: birthday.value
+      name: name,
+      email: email,
+      password: password,
+      username: username,
+      birthday: birthday,
+      gender: gender
     })
     .then(({ data }) => {
-      if (data) {
+
+      if (data.accessToken) {
         sessionStorage.setItem('accessToken', data.accessToken)
         return data
       } else {
