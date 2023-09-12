@@ -1,11 +1,10 @@
 <template>
   <div class="bg-altura-peso">
     <VtitlePage title="Altura e Peso" />
+    <VInput :data="InputAltura" v-model="heightInput" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
+    <VInput :data="InputPeso" v-model="weightInput" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight"/>
+    <VButton @click="goToDiet" text="Altura e Peso" class="button" />
 
-    <VInput :data="InputAltura" />
-    <VInput :data="InputPeso" />
-
-    <VButton text="Altura e Peso" class="button" />
   </div>
 </template>
 
@@ -13,7 +12,45 @@
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store'
+import * as authService from '../service/auth.service'
+import * as userService from '../service/user.service'
 
+import { ref } from 'vue';
+
+const router = useRouter()
+const userStore = useUserStore();
+
+function onSelectHeight(e){
+  userStore.setHeight(e.replace('.', ""))
+}
+
+function onSelectWeight(e){
+ // console.log(e.replace('.', "")) ToDo: ttransformar para pegar depis do ponto tb
+  userStore.setWeight(e)
+}
+
+
+function goToDiet() {
+
+  const { name, email, password, username, birthday, gender } = userStore.getUser
+  const { height, weight, activity_level, goal } = userStore.getLastProgress
+
+  authService.signUp({ name, email, password, username, birthday, gender }).then(data => {
+    if (data.accessToken) {
+      userStore.setToken(data.accessToken)
+
+      userService.createProgress({ height, weight, activity_level, goal }).then((data) => {
+        console.log("salvou o progresso ", data)
+        router.push('/diet')
+      })
+    }
+  })
+
+
+
+}
 const InputAltura = {
   title: 'Altura',
   placeholder: 'ex:170 cm',
@@ -22,7 +59,7 @@ const InputAltura = {
 const InputPeso = {
   title: 'Peso',
   placeholder: 'ex:80',
-  mask:"XX.X"
+  mask: "XX.X"
 }
 </script>
 

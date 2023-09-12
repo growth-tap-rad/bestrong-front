@@ -1,75 +1,78 @@
 <script setup>
 
-const rotaIcones = ()=>{
-   alert('clicou')
-}
 
-const rotaBotaoMais = ()=>{
-  alert('clicou no botao Mais')
-}
 </script>
 
 
 <template>
+  <div class="footer">
+    <div class="buttons-options">
+      <div class="buttons-options-children">
+        <button class="BotoesBarraInferior"><img src="../assets/imgs/dieta.svg" alt=""></button>
+        <button class="BotoesBarraInferior"><img src="../assets/imgs/alter.svg" alt="Alter"></button>
 
-    <footer class="footer">
-          <!-- perguntar pq nao funciona mesmo tendo bootstrap instalado -->
-        <!-- <button>  -->
-        <!-- <i class="bi-6-square" style="font-size: 120px;"></i>
-      </button>
-        <button><i class="bi bi-0-circle"></i></button> -->
-        <button @click="rotaIcones" class="BotoesBarraInferior"><img src="../assets/imgs/dieta.svg" alt=""></button>
-        <button @click="rotaIcones" class="BotoesBarraInferior"><img  src="../assets/imgs/alter.svg" alt="Alter"></button>
-        <button @click="rotaBotaoMais" class="BotoesBarraInferior botaoMais" ><img src="../assets/imgs/mais.svg" alt="Icone de mais"></button>
-        <button @click="rotaIcones" class="BotoesBarraInferior"><img src="../assets/imgs/user.svg" alt="Usuario"></button>
-        <button @click="rotaIcones" class="BotoesBarraInferior"><img class=" carrinho" src="../assets/imgs/carrinhoCompra.svg" alt="Carrinho de compra"></button>
-         
+      </div>
+      <div class="buttons-options-children">
+        <button class="BotoesBarraInferior"><img src="../assets/imgs/user.svg" alt="Usuario"></button>
+        <button class="BotoesBarraInferior"><img class=" carrinho" src="../assets/imgs/carrinhoCompra.svg"
+            alt="Carrinho de compra"></button>
 
-    </footer>
-
+      </div>
+    </div>
+    <button class="BotoesBarraInferior botaoMais">+</button>
+  </div>
 </template>
 
 <style scoped>
- .footer{
+.footer {
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--bg-color-dark3);
+
+
+}
+
+.buttons-options {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+
+  .buttons-options-children {
     display: flex;
-    justify-content: center;
-    background-color: black; 
-    height: 80px;
-    margin-top: 540px;
- }
- 
-.BotoesBarraInferior{
-  border: none; 
-  background-color: transparent; 
-  padding: 20px;
+    align-items: center;
+    gap: 10%;
+    margin: 0;
+  }
 }
- .BotoesBarraInferior:hover{
-  background-color: var(--button-color-light);
+
+.BotoesBarraInferior {
+  border: none;
+  background-color: transparent;
+  padding: 15px;
+  margin: auto;
+
+}
+
+.BotoesBarraInferior img {
+  width: 30px;
+  height: 30px;
+}
+
+
+.botaoMais {
+  position: absolute;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--button-color-facebook);
   cursor: pointer;
-  
-} 
-.botaoMais{
-  border-radius: 200px;
-  background-color: var(--button-color-light);  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  color: var(--text-color-light);
+  box-shadow: 0px 0px 0px 10px var(--bg-color-dark);
 }
-.botaoMais:hover{
-  background-color: var(--button-color-light);
-  appearance: 1;
-  
-}
-.carrinho{
-  fill: blueviolet;
-}
-.carrinho:hover{
- fill: chartreuse;
-  
-}
-.imagem{
-    fill: #626463;
-}
-.imagem:hover{
-  fill: var(--button-color-light);
-}
-
-
 </style>
