@@ -9,6 +9,7 @@ body {
 
   --button-color-light: #24669c;
   --button-color-light-hover: #194e79;
+  --linear-bg-color-light: linear-gradient(#40B2FF, #194e79);
   --button-color-facebook: #007bff;
   --bg-color-dark: #222222;
   --bg-color-dark3: #191b1b;

@@ -71,15 +71,15 @@ const router = createRouter({
  routes: ROUTES
 })
 
-router.beforeEach((to, from, next) => {
-  const userStore = useUserStore()
-  if (to.meta.requiresAuth) {
-    if (!userStore?.token) {
-      router.push('/'); // verify if its the better way
+// router.beforeEach((to, from, next) => {
+//   const userStore = useUserStore()
+//   if (to.meta.requiresAuth) {
+//     if (!userStore?.token) {
+//       router.push('/'); // verify if its the better way
 
-    }
-  }
-  next()
-})
+//     }
+//   }
+//   next()
+// })
 
 export default router

@@ -16,9 +16,11 @@ const inputEmail = {
 const backToLogin = () => {
     router.back()
 }
-function goForDiet(){
-    router.push("/diet")
+
+function goToWelcome() {
+    router.push("/")
 }
+
 </script>
 
 <template>
@@ -31,7 +33,7 @@ function goForDiet(){
         </header>
         <main class="main">
             <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" />
-            <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
+            <VButton text="Continuar" @click="goToWelcome" class="button" />
         </main>
     </section>
 </template>
@@ -45,8 +47,6 @@ function goForDiet(){
     display: flex;
     flex-direction: column;
     padding: 20px 20px;
-    justify-content: space-between;
-   
 
     .header {
         .nav {
@@ -63,10 +63,6 @@ function goForDiet(){
     }
 
     .main {
-        margin: auto 0;
-        width: 100%;
-
-      
 
         .button {
             margin-top: 50px;
@@ -78,4 +74,5 @@ function goForDiet(){
             color: var(--text-color-light);
         }
     }
-}</style>
+}
+</style>
