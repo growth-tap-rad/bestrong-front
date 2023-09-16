@@ -4,6 +4,10 @@ defineProps({
   title: {
     type: String,
     default: "Diário",
+  },
+  actions: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -22,12 +26,12 @@ const formattedDate = `${dayOfWeek}, ${dayOfMonth} de ${month}`;
 
 <template>
   <nav class="box-title-date">
-    <i class="bi bi-chevron-left icon"></i>
-    <div>
+    <i class="bi bi-chevron-left icon" v-if="actions"></i>
+    <div class="center">
       <h3 class="title">{{ title }}</h3>
       <p class="date mb-0">{{ formattedDate.toUpperCase() }}</p>
     </div>
-    <i class="bi bi-chevron-right icon"></i>
+    <i class="bi bi-chevron-right icon" v-if="actions"></i>
   </nav>
 </template>
 
@@ -42,6 +46,10 @@ const formattedDate = `${dayOfWeek}, ${dayOfMonth} de ${month}`;
   text-align: center;
   padding: 15px 15px;
 
+  .center {
+    margin: 0 auto;
+  }
+
   .icon {
     padding: 15px;
     color: var(--text-color-light2);
@@ -52,7 +60,7 @@ const formattedDate = `${dayOfWeek}, ${dayOfMonth} de ${month}`;
   }
 
   .date {
-    color: var(--text-color-light2);
+    color: var(--bg-color-grey2);
   }
 }
 </style>
