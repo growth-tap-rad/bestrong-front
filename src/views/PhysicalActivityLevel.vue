@@ -33,8 +33,8 @@ let atividades = reactive([
         selected: false
     }
 ])
-function goToYourGoal() {
-    router.push('/your-goal')
+async function goToYourGoal() {
+    await router.push('/your-goal')
 }
 function selectActivityLevel(e) {
 

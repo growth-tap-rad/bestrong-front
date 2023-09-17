@@ -60,9 +60,9 @@ onMounted(() => {
   })
 })
 
-function goForDiet() {
+async function goForDiet() {
   if(validDate){
-    router.push('/physical-activity-level')
+  await  router.push('/physical-activity-level')
   }
 }
 

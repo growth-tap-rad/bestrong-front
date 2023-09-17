@@ -2,12 +2,14 @@
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
+import VAddWater from '../components/VAddWater.vue';
 import { onMounted } from 'vue'
 import * as userService from '../service/user.service.js';
 import Menunferior from '../components/MenuInferior.vue'
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import { Alert } from 'bootstrap';
 
-
+const showComponentAddWater = ref(false)
 const dashData = reactive({
   consumed: 0,
   burned: 0,
@@ -31,25 +33,30 @@ const macros = reactive({
 })
 
 const meals = {
-  item1: {
-    title: "Café da tarde",
-    isWater: false,
-    quantity: "40",
-    items: [
-      { name: 'Abacate', quantity: '10g' },
-      { name: 'Iogurte', quantity: '400ml' }]
-  },
-  item2: {
+  /*   item1: {
+      title: "Café da tarde",
+      isWater: false,
+      quantity: "40",
+      items: [
+        { name: 'Abacate', quantity: '10g' },
+        { name: 'Iogurte', quantity: '400ml' }]
+    }, */
+  item: {
     title: "Agua",
     isWater: true,
-    quantity: "140",
+    quantity: "0",
   }
 }
 
 onMounted(() => {
   fetchDashboardData();
 })
+function showAddWater(e) {
+  console.log(this.showComponentAddWater, e)
+  showComponentAddWater.value = e
+  console.log(this.showComponentAddWater, e)
 
+}
 function fetchDashboardData() {
   userService.getDashboardData().then(data => {
     if (data) {
@@ -66,6 +73,9 @@ function fetchDashboardData() {
     }
   })
 }
+const show = {
+  show: showComponentAddWater.value
+}
 
 </script>
 
@@ -78,8 +88,9 @@ function fetchDashboardData() {
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-        <VAccordionMeal class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddWater="(e) => showAddWater(e)" class="meal" :data="meal" v-for="meal in meals" />
       </div>
+      <VAddWater :show="showComponentAddWater" @addWater="showComponentAddWater = false"></VAddWater>
       <Menunferior class="footer" />
     </main>
 
@@ -98,9 +109,11 @@ function fetchDashboardData() {
     width: 100%;
 
     .footer {
-      position: absolute;
-      width: 100%;bottom: 0;
-  
+      position: fixed;
+      z-index: 3;
+      width: 100%;
+      bottom: 0;
+
     }
 
     .box-ingredients {
