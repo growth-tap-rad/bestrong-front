@@ -21,7 +21,7 @@ const inputEmail = {
 }
 const inputPassword = {
   title: "Senha",
-  placeholder: "",
+  placeholder: "**********",
   type: 'password',
   value: userStore.getPassword
 }

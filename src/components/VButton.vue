@@ -5,12 +5,13 @@ defineProps({
     type: String,
     default: "Texto",
     required: true
-  }
+  },
+  disabled: false
 })
 </script>
 
 <template>
-  <button class="btn button-text">{{ text }}</button>
+  <button class="btn button-text" :disabled="disabled">{{ text }}</button>
 </template>
 
 <style scoped>

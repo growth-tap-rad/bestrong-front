@@ -14,7 +14,7 @@
       </div>
       <div class="buttons-options-children">
         <button class="BotoesBarraInferior"><img src="../assets/imgs/user.svg" alt="Usuario"></button>
-        <button class="BotoesBarraInferior"><img class=" carrinho" src="../assets/imgs/carrinhoCompra.svg"
+        <button class="BotoesBarraInferior"><img class="carrinho" src="../assets/imgs/carrinhoCompra.svg"
             alt="Carrinho de compra"></button>
 
       </div>
@@ -36,7 +36,7 @@
   width: 100%;
   margin: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 
   .buttons-options-children {
     display: flex;
@@ -74,5 +74,13 @@
   font-size: 60px;
   color: var(--text-color-light);
   box-shadow: 0px 0px 0px 10px var(--bg-color-dark);
+}
+
+
+@media (max-width: 600px) {
+
+  .buttons-options {
+    justify-content: space-between;
+  }
 }
 </style>

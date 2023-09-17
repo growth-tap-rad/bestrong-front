@@ -1,15 +1,16 @@
 <template>
   <div class="inputs">
-    <label :for="data.title" class="label">{{ data.title }}</label>
+    <label :for="data.title" class="label" v-if="data.title">{{ data.title }}</label>
     <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
-      :placeholder="data.placeholder" :value="props.value" v-if="data.mask" v-mask="mask" />
+      :placeholder="data.placeholder" :value="props.value"  v-if="data.mask"
+      v-mask="data.mask"  />
     <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
-      :placeholder="data.placeholder" :value="props.value" v-else />
+      :placeholder="data.placeholder" :value="props.value" v-else  />
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   data: {
@@ -25,9 +26,6 @@ const props = defineProps({
   value: ""
 });
 
-const mask = computed(() => {
-  return `${props.data.mask}`;
-});
 </script>
 
 <style scoped>
@@ -39,14 +37,17 @@ const mask = computed(() => {
 
   .label {
     color: var(--bg-color-light);
-    padding: 15px;
+    padding: 15px 0;
 
   }
 
   .input {
     padding: 10px;
     border-radius: 8px;
-
+    background-color: var(--bg-color-grey);
+    color: var(--text-color-light2);
+    border: none;
+    width: 100%;
 
   }
 }

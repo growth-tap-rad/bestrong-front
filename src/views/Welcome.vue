@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
 import { useUserStore } from '../stores/user.store'
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -15,8 +16,10 @@ const goToWhatYourGoal = () => {
   router.push('/sign-in');
 };
 const goToCreateRegistration = () => {
+  userStore.resetStore()
   router.push("/sign-up")
 }
+
 </script>
 
 <template>

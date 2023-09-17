@@ -9,6 +9,9 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
+import Train from '../views/Train.vue'
+
+
 import { useUserStore } from '../stores/user.store'
 import { storeToRefs } from 'pinia'
 
@@ -63,7 +66,13 @@ const ROUTES = [
     path: '/add-water',
     name: 'AddWater',
     component: AddWater
-  }
+  },
+  {
+    path: '/train',
+    name: 'Train',
+    component: Train,
+    meta: { requiresAuth: true }
+  },
 ]
 
 const router = createRouter({
@@ -71,15 +80,15 @@ const router = createRouter({
  routes: ROUTES
 })
 
-router.beforeEach((to, from, next) => {
-  const userStore = useUserStore()
-  if (to.meta.requiresAuth) {
-    if (!userStore?.token) {
-      router.push('/'); // verify if its the better way
+// router.beforeEach((to, from, next) => {
+//   const userStore = useUserStore()
+//   if (to.meta.requiresAuth) {
+//     if (!userStore?.token) {
+//       router.push('/'); // verify if its the better way
 
-    }
-  }
-  next()
-})
+//     }
+//   }
+//   next()
+// })
 
 export default router

@@ -37,7 +37,7 @@ defineProps({
 
   .label {
     color: var(--bg-color-light);
-    padding: 15px;
+    padding: 15px 0;
 
   }
 
