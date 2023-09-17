@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-altura-peso">
+  <div class="bg-height-wheight">
     <VtitlePage title="Altura e Peso" />
-    <VInput :data="InputAltura" v-model="heightInput" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
-    <VInput :data="InputPeso" v-model="weightInput" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight"/>
+    <VInput :data="inputHeight" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
+    <VInput :data="inputWheight" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight"/>
     <VButton @click="goToDiet" text="Altura e Peso" class="button" />
 
   </div>
@@ -27,7 +27,6 @@ function onSelectHeight(e){
 }
 
 function onSelectWeight(e){
- // console.log(e.replace('.', "")) ToDo: ttransformar para pegar depis do ponto tb
   userStore.setWeight(e)
 }
 
@@ -47,24 +46,25 @@ function goToDiet() {
       })
     }
   })
-
-
-
 }
-const InputAltura = {
+
+
+
+const inputHeight = {
   title: 'Altura',
-  placeholder: 'ex:170 cm',
-  mask: "X.XX",
+  placeholder: 'ex: 1.70',
+  mask: '#.##',
 }
-const InputPeso = {
+const inputWheight = {
   title: 'Peso',
-  placeholder: 'ex:80',
-  mask: "XX.X"
+  placeholder: 'ex: 100.00',
+  mask: ['##.##', '###.##']
 }
+
 </script>
 
 <style scoped>
-.bg-altura-peso {
+.bg-height-wheight {
   background-color: var(--bg-color-dark);
   width: 100%;
   height: 100vh;
@@ -76,7 +76,6 @@ const InputPeso = {
   .button {
     margin: 30px 0;
     background-color: var(--button-color-light);
-    max-width: 500px;
   }
 }
 </style>

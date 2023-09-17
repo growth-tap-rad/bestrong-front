@@ -1,23 +1,27 @@
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('user', {
-  state: () => ({
-    token: '',
-    user: {
-      name: '',
-      email: '',
-      password: '',
-      username: '',
-      birthday: '',
-      gender: ''
-    },
-    progress: [{
+const defaultState = {
+  token: '',
+  user: {
+    name: '',
+    email: '',
+    password: '',
+    username: '',
+    birthday: '',
+    gender: ''
+  },
+  progress: [
+    {
       height: null,
       weight: null,
       activity_level: '',
-      goal: '',
-    }]
-  }),
+      goal: ''
+    }
+  ]
+}
+
+export const useUserStore = defineStore('user', {
+  state: () => ({...defaultState}),
   getters: {
     getToken: (state) => state.token,
     getLastProgress: (state) => state.progress[state.progress.length - 1],
@@ -63,5 +67,8 @@ export const useUserStore = defineStore('user', {
     setGoal(payload) {
       this.progress[this.getLastProgressPosition].goal = payload
     },
+    resetStore() {
+      Object.assign(this, defaultState);
+    }
   }
 })

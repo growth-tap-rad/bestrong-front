@@ -31,6 +31,7 @@ defineProps({
   position: relative;
   width: 100%;
   max-width: 500px;
+  cursor: pointer;
 .border-highlight{
   border: 2px solid var(--text-color-highlighted2);
 }

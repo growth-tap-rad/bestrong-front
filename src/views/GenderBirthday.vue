@@ -1,9 +1,9 @@
 <template>
   <div class="bg-age">
-    <VtitlePage title=" data de nascimento:" />
-    <VInputDate @update="(e) => selectBirthday(e)" :dataValue="birthday"/>
-    <VDropdown :options="inputGender" @update="(e) => selectGender(e)" />
-    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" />
+    <VtitlePage title="Gênero e Data de nascimento:" />
+    <VInputDate title="Data nascimento:" @changeDate="(e) => selectBirthday(e)" @validDate="bool => validDate = bool" :value="birthday" />
+    <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
+    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate"/>
 
   </div>
 </template>
@@ -18,18 +18,22 @@ import VtitlePage from '../components/VtitlePage.vue'
 import VDropdown from '../components/VDropdown.vue'
 import { ref, reactive, onMounted } from 'vue';
 
-let birthday = ref(Date);
-
 const userStore = useUserStore()
 const router = useRouter()
+
+let birthday = ref(userStore.getBirthday);
+let validDate = ref(false);
+
 
 let inputGender = reactive([
   { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }])
 
-function selectBirthday(e){
-  console.log(e)
-  userStore.setBirthday(e)
+
+function selectBirthday(dataString){
+  userStore.setBirthday(dataString)
 }
+
+
 function selectGender(e) {
 
   inputGender = inputGender.map(opt => {
@@ -46,12 +50,10 @@ function selectGender(e) {
 }
 
 onMounted(() => {
-  const selectedBithdayInStore = userStore.getBirthday
-  birthday.value = selectedBithdayInStore
-  const selectedInStore = userStore.getGender
 
+  const selectedGenderInStore = userStore.getGender
   inputGender = inputGender.map(opt => {
-    if (opt.value == selectedInStore) {
+    if (opt.value == selectedGenderInStore) {
       opt.selected = !opt.selected
     }
     return opt;
@@ -59,7 +61,9 @@ onMounted(() => {
 })
 
 function goForDiet() {
-  router.push('/physical-activity-level')
+  if(validDate){
+    router.push('/physical-activity-level')
+  }
 }
 
 
