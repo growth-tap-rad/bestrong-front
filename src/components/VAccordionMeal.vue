@@ -40,7 +40,7 @@ const unity = computed(() => {
       <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
         data-bs-parent="#accordionExample">
         <div class="accordion-body" v-if="props.data.isWater">
-          <button class="addQtdWater" @click= "$emit('showAddWater', true)">+ Adicionar Água</button>
+          <button class="addQtdWater" @click= "$emit('showAddWater')">+ Adicionar Água</button>
         </div>
         <div v-else>
           <div class="accordionMeals">

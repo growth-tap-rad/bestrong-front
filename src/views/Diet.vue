@@ -13,7 +13,7 @@ const showComponentAddWater = ref(false)
 const dashData = reactive({
   consumed: 0,
   burned: 0,
-  goal: 0
+  goal: 0,
 })
 
 
@@ -44,18 +44,32 @@ const meals = {
   item: {
     title: "Agua",
     isWater: true,
-    quantity: "0",
+    quantity: ref(0),
   }
 }
 
 onMounted(() => {
-  fetchDashboardData();
-})
-function showAddWater(e) {
-  console.log(this.showComponentAddWater, e)
-  showComponentAddWater.value = e
-  console.log(this.showComponentAddWater, e)
 
+  fetchDashboardData();
+  fetchDiaryData()
+
+})
+function showAddWater() {
+  showComponentAddWater.value = true
+}
+async function addWater(e) {
+  showComponentAddWater.value = false
+  await userService.editDiary({ water: e }).then((data)=>{
+    meals.item.quantity.value = data.water
+  })
+
+}
+
+function fetchDiaryData() {
+
+  userService.getDiary().then((data) => {
+    meals.item.quantity.value = data.data.water
+  })
 }
 function fetchDashboardData() {
   userService.getDashboardData().then(data => {
@@ -73,9 +87,8 @@ function fetchDashboardData() {
     }
   })
 }
-const show = {
-  show: showComponentAddWater.value
-}
+
+
 
 </script>
 
@@ -88,9 +101,9 @@ const show = {
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-        <VAccordionMeal @showAddWater="(e) => showAddWater(e)" class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
-      <VAddWater :show="showComponentAddWater" @addWater="showComponentAddWater = false"></VAddWater>
+      <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
       <Menunferior class="footer" />
     </main>
 
@@ -98,6 +111,13 @@ const show = {
 </template>
 
 <style scoped>
+.box-add-water {
+  position: fixed;
+    bottom: 0;
+  z-index: 4;
+
+}
+
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
@@ -107,6 +127,8 @@ const show = {
 
   .main {
     width: 100%;
+
+
 
     .footer {
       position: fixed;
