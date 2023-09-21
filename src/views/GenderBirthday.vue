@@ -1,9 +1,10 @@
 <template>
   <div class="bg-age">
     <VtitlePage title="Gênero e Data de nascimento:" />
-    <VInputDate title="Data nascimento:" @changeDate="(e) => selectBirthday(e)" @validDate="bool => validDate = bool" :value="birthday" />
+    <VInputDate title="Data nascimento:" @changeDate="(data) => selectBirthday(data)"
+      @validDate="bool => validDate = bool" :value="birthday" />
     <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
-    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate"/>
+    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate" />
 
   </div>
 </template>
@@ -29,7 +30,7 @@ let inputGender = reactive([
   { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }])
 
 
-function selectBirthday(dataString){
+function selectBirthday(dataString) {
   userStore.setBirthday(dataString)
 }
 
@@ -60,10 +61,13 @@ onMounted(() => {
   })
 })
 
-async function goForDiet() {
-  if(validDate){
-  await  router.push('/physical-activity-level')
+function goForDiet() {
+  if (validDate && userStore.getGender) {
+    router.push('/physical-activity-level')
+    return
   }
+  alert("preencha todos os campos")
+
 }
 
 

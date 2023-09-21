@@ -4,7 +4,6 @@ import GenderBirthday from '../views/GenderBirthday.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
 import Welcome from '../views/Welcome.vue'
 import Diet from '../views/Diet.vue'
-import AddWater from '../views/AddWater.vue'
 import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
@@ -61,11 +60,6 @@ const ROUTES = [
     name: 'Diet',
     component: Diet,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/add-water',
-    name: 'AddWater',
-    component: AddWater
   },
   {
     path: '/train',
