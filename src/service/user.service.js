@@ -29,3 +29,24 @@ export const createProgress = (data) => {
       alert('falha ao criar progresso')
     })
 }
+export const editDiary = (data) => {
+  const { water } = data
+  return api
+    .put('/users/me/edit-diary', {
+      water
+    }).then(({ data }) => {
+      return data
+    }).catch((e) => {
+      alert("falha ao adicionar água", e)
+    })
+}
+export const getDiary = () => {
+  return api
+    .get('/users/me/diary')
+    .then((data) => {
+      console.log(data)
+      return data
+    }).catch(() => {
+      alert("falha ao requisitar Diary ")
+    })
+}

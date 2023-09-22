@@ -48,10 +48,9 @@ function goForDiet() {
     if (!payload.name || !payload.email || !payload.password || !payload.username) {
         alert('Preencha todos os campos antes de continuar !')
         return
-    } else (
-        userStore.setUser(payload)
-    )
+    }
 
+    userStore.setUser(payload)
     router.push('/gender-birthday')
 
 } 

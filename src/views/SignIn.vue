@@ -31,12 +31,12 @@ const backToLogin = () => {
 
 function signin() {
 
-   authService.signIn({ email: inputEmail, password: inputPassword }).then(data => {
+  authService.signIn({ email: inputEmail, password: inputPassword }).then(data => {
     if (data) {
-      userStore.setToken(data.accessToken)
       router.push('/diet')
+      return
     }
-  }) 
+  })
 };
 
 </script>
