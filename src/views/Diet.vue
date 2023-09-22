@@ -2,16 +2,18 @@
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
+import VAddWater from '../components/VAddWater.vue';
 import { onMounted } from 'vue'
 import * as userService from '../service/user.service.js';
 import Menunferior from '../components/MenuInferior.vue'
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import { Alert } from 'bootstrap';
 
-
+const showComponentAddWater = ref(false)
 const dashData = reactive({
   consumed: 0,
   burned: 0,
-  goal: 0
+  goal: 0,
 })
 
 
@@ -31,25 +33,44 @@ const macros = reactive({
 })
 
 const meals = {
-  item1: {
-    title: "Café da tarde",
-    isWater: false,
-    quantity: "40",
-    items: [
-      { name: 'Abacate', quantity: '10g' },
-      { name: 'Iogurte', quantity: '400ml' }]
-  },
-  item2: {
+  /*   item1: {
+      title: "Café da tarde",
+      isWater: false,
+      quantity: "40",
+      items: [
+        { name: 'Abacate', quantity: '10g' },
+        { name: 'Iogurte', quantity: '400ml' }]
+    }, */
+  item: {
     title: "Agua",
     isWater: true,
-    quantity: "140",
+    quantity: ref(0),
   }
 }
 
 onMounted(() => {
-  fetchDashboardData();
-})
 
+  fetchDashboardData();
+  fetchDiaryData()
+
+})
+function showAddWater() {
+  showComponentAddWater.value = true
+}
+async function addWater(e) {
+  showComponentAddWater.value = false
+  await userService.editDiary({ water: e }).then((data)=>{
+    meals.item.quantity.value = data.water
+  })
+
+}
+
+function fetchDiaryData() {
+
+  userService.getDiary().then((data) => {
+    meals.item.quantity.value = data.data.water
+  })
+}
 function fetchDashboardData() {
   userService.getDashboardData().then(data => {
     if (data) {
@@ -67,6 +88,8 @@ function fetchDashboardData() {
   })
 }
 
+
+
 </script>
 
 <template>
@@ -78,8 +101,9 @@ function fetchDashboardData() {
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-        <VAccordionMeal class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
+      <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
       <Menunferior class="footer" />
     </main>
 
@@ -87,6 +111,13 @@ function fetchDashboardData() {
 </template>
 
 <style scoped>
+.box-add-water {
+  position: fixed;
+    bottom: 0;
+  z-index: 4;
+
+}
+
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
@@ -97,10 +128,14 @@ function fetchDashboardData() {
   .main {
     width: 100%;
 
+
+
     .footer {
-      position: absolute;
-      width: 100%;bottom: 0;
-  
+      position: fixed;
+      z-index: 3;
+      width: 100%;
+      bottom: 0;
+
     }
 
     .box-ingredients {

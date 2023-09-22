@@ -1,5 +1,5 @@
 <script setup>
-import { routerKey } from "vue-router";
+
 import VBoxImgInfo from "../components/VBoxImgInfo.vue";
 import VButton from "../components/VButton.vue";
 import VtitlePage from "../components/VtitlePage.vue";/*  */
@@ -9,7 +9,6 @@ import { useUserStore } from "../stores/user.store";
 
 const userStore = useUserStore()
 const router = useRouter()
-const selectedActivityLevel = ref('')
 let atividades = reactive([
     {
         title: 'Sedentario',
@@ -21,8 +20,8 @@ let atividades = reactive([
     {
         title: 'Intermediário',
         text: 'Treina 3 ou 4 vezes na semana.',
-        bg: "https://www.fab.mil.br/sis/enoticias/imagens/pub/40083/i204619164604314.jpg"
-        , value: 'moderate',
+        bg: "https://www.fab.mil.br/sis/enoticias/imagens/pub/40083/i204619164604314.jpg",
+        value: 'moderate',
         selected: false
     },
     {
@@ -33,16 +32,29 @@ let atividades = reactive([
         selected: false
     }
 ])
-function goToYourGoal() {
-    router.push('/your-goal')
+async function goToYourGoal() {
+    if (userStore.getActivityLevel) {
+        await router.push('/your-goal')
+        return
+    }
+    alert('Selecione um nivel de atividade')
+
+
 }
+
+
+
 function selectActivityLevel(e) {
 
     atividades = atividades.map(atividade => {
         if (atividade.value == e) {
             atividade.selected = !atividade.selected
 
-            userStore.setActivity_level(atividade.value)
+            if (atividade.selected) {
+                userStore.setActivity_level(atividade.value)
+            } else {
+                userStore.setActivity_level('')
+            }
 
         } else {
             atividade.selected = false
@@ -51,7 +63,7 @@ function selectActivityLevel(e) {
     })
 }
 onMounted(() => {
-    
+
     const selectedInStore = userStore.getActivityLevel
 
     atividades = atividades.map(atividade => {

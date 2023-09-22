@@ -1,14 +1,17 @@
 import api from '../api/apiAxios'
+/* import { useUserStore } from '../stores/user.store'
+
+const userStore = useUserStore(); */
 
 export const signIn = (data) => {
   const { email, password } = data
-
   return api
     .post('/auth/sign-in', {
       email: email.value,
       password: password.value
     })
     .then(({ data }) => {
+      /* userStore.setToken = data.accessToken */
       sessionStorage.setItem('accessToken', data.accessToken)
       return data
     })
@@ -41,3 +44,6 @@ export const signUp = (data) => {
       }
     })
 }
+
+
+

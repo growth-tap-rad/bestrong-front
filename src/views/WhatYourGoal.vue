@@ -37,7 +37,12 @@ let GOALS = reactive([
 ])
 
 function goToHeightWeight() {
-  router.push('/height-weight')
+  if (userStore.getGoal) {
+    router.push('/height-weight')
+    return
+  }
+  alert('Selecione o seu Objetivo')
+
 }
 
 function selectGoal(e) {
@@ -45,8 +50,13 @@ function selectGoal(e) {
   GOALS = GOALS.map(goal => {
     if (goal.value == e) {
       goal.selected = !goal.selected
-      userStore.setGoal(goal.value)
+     
 
+      if (goal.selected) {
+        userStore.setGoal(goal.value)
+      } else {
+        userStore.setGoal('')
+      }
     } else {
       goal.selected = false
     }
@@ -55,15 +65,15 @@ function selectGoal(e) {
 }
 
 onMounted(() => {
-    
-    const selectedInStore = userStore.getGoal
 
-    GOALS = GOALS.map(goal => {
-        if (goal.value == selectedInStore) {
-            goal.selected = !goal.selected
-        }
-        return goal
-    })
+  const selectedInStore = userStore.getGoal
+
+  GOALS = GOALS.map(goal => {
+    if (goal.value == selectedInStore) {
+      goal.selected = !goal.selected
+    }
+    return goal
+  })
 })
 
 </script>
