@@ -64,8 +64,8 @@ defineProps({
   .card-exercise-img {
     position: absolute;
     top: 0;
-    right: -10%;
-    width: 60%;
+    right: -20%;
+    width: 80%;
     height: 100%;
     z-index: 1;
   }
