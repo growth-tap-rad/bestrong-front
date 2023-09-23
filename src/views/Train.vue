@@ -1,73 +1,9 @@
 <script setup>
-import VAccordionMeal from '../components/VAccordionMeal.vue';
-import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
-import { onMounted } from 'vue'
-import * as userService from '../service/user.service.js';
-import Menunferior from '../components/MenuInferior.vue'
+import VBottomMenu from '../components/VBottomMenu.vue'
 import { reactive, ref } from 'vue';
 import VTrainList from '../components/VTrainList.vue';
 import esteira from '@/assets/imgs/esteira.jpeg';
-
-
-const dashData = reactive({
-  consumed: 0,
-  burned: 0,
-  goal: 0
-})
-
-
-const macros = reactive({
-  protein: {
-    now: 0,
-    total: 0
-  },
-  carb: {
-    now: 0,
-    total: 0
-  },
-  fat: {
-    now: 0,
-    total: 0
-  }
-})
-
-const meals = {
-  item1: {
-    title: "Café da tarde",
-    isWater: false,
-    quantity: "40",
-    items: [
-      { name: 'Abacate', quantity: '10g' },
-      { name: 'Iogurte', quantity: '400ml' }]
-  },
-  item2: {
-    title: "Agua",
-    isWater: true,
-    quantity: "140",
-  }
-}
-
-onMounted(() => {
-  fetchDashboardData();
-})
-
-function fetchDashboardData() {
-  userService.getDashboardData().then(data => {
-    if (data) {
-      const { daily_goal } = data;
-      dashData.goal = Math.round(daily_goal);
-
-      const protein = data.macros?.protein;
-      const carb = data.macros?.carb;
-      const fat = data.macros?.fat;
-
-      macros.protein.total = protein;
-      macros.carb.total = carb;
-      macros.fat.total = fat;
-    }
-  })
-}
 
 const train = ref(true);
 const exercise = ref(false);
@@ -119,6 +55,7 @@ let atividades = [
           :selected="atividade.selected" @update="(e) => selectActivityLevel(e)" />
       </section>
     </main>
+    <VBottomMenu class="footer" actualRoute="/train" />
   </section>
 </template>
 
@@ -129,6 +66,14 @@ let atividades = [
   height: 100vh;
   display: flex;
   flex-direction: column;
+
+
+  .footer {
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    bottom: 0;
+  }
 
   .main {
     width: 100%;
@@ -173,7 +118,7 @@ let atividades = [
     margin-top: 100px;
     padding: 0 20px;
 
-    .selection{
+    .selection {
       margin: 20px auto;
     }
   }
