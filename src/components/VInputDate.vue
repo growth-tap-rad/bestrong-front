@@ -155,7 +155,7 @@ const emitDateInputFormated = (date) => {
 const updateDateModel = (day) => {
   if (!day) {
     dateInput.value = ""
-    emitDateInputFormated(null);
+    emitDateInputFormated("");
     return
   }
   const formattedDay = day.getDate().toString().padStart(2, '0');
@@ -180,6 +180,7 @@ function checkDate(value) {
 watch(dateInput, (newValue) => {
   isInputDateInvalid.value = !isDateValid(newValue);
   checkDate(newValue)
+  emitDateInputFormated(newValue);
 });
 
 
