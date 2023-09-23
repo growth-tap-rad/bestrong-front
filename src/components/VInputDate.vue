@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch , defineEmits} from 'vue'
+import { ref, computed, onMounted, watch, defineEmits } from 'vue'
 
 const props = defineProps({
   title: {
@@ -158,29 +158,30 @@ const updateDateModel = (day) => {
     emitDateInputFormated("");
     return
   }
+
   const formattedDay = day.getDate().toString().padStart(2, '0');
   const formattedMonth = (day.getMonth() + 1).toString().padStart(2, '0');
   const formattedYear = day.getFullYear();
-
   dateInput.value = `${formattedDay}/${formattedMonth}/${formattedYear}`;
-  emitDateInputFormated( `${formattedYear}-${formattedMonth}-${formattedDay}`);
+  emitDateInputFormated(`${formattedYear}-${formattedMonth}-${formattedDay}`);
 };
 
 const isInputDateInvalid = ref(false);
 
 function checkDate(value) {
-  if(isDateValid(value)){
+  if (isDateValid(value)) {
     emit("validDate", true);
+    return true
   }
-  else{
-    emit("validDate", false);
-  }
+
+  emit("validDate", false);
+  return false
+
 }
 
 watch(dateInput, (newValue) => {
   isInputDateInvalid.value = !isDateValid(newValue);
   checkDate(newValue)
-  emitDateInputFormated(newValue);
 });
 
 
@@ -202,6 +203,17 @@ function toggleCalendar() {
   openCalendar.value = !openCalendar.value
 }
 
+function formatDataInputValue(value) {
+  console.log(value)
+
+  isInputDateInvalid.value = !isDateValid(value);
+  if(checkDate(value)){
+    const dateValue = new Date(value)
+    updateDateModel(dateValue)
+  }
+
+}
+
 
 </script>
 
@@ -211,7 +223,8 @@ function toggleCalendar() {
     <section class="input-icon">
       <i class="bi bi-calendar icon" @click="toggleCalendar"></i>
       <input type="text" class="input" id="date" placeholder="DD/MM/YYYY"
-        v-mask="'XX/XX/XXXX'" v-model="dateInput" :class="{ 'invalid-date': isInputDateInvalid }" />
+        @change="event => formatDataInputValue(event.target.value)" v-mask="'XX/XX/XXXX'" v-model="dateInput"
+        :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
     <transition name="fade">
       <div class="calendar" v-if="openCalendar" :class="{ 'open': openCalendar }">
@@ -261,6 +274,7 @@ function toggleCalendar() {
 
   .input-icon {
     position: relative;
+
     .input {
       padding: 10px;
       border-radius: 8px;
@@ -269,6 +283,7 @@ function toggleCalendar() {
       cursor: pointer;
       width: 100%;
     }
+
     .icon {
       padding: 0;
       font-size: 20px;
@@ -373,8 +388,7 @@ th {
 }
 
 @media (max-width: 768px) {
-  .calendar {
-  }
+  .calendar {}
 
   th,
   td {
