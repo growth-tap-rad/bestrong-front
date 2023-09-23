@@ -42,8 +42,12 @@ function goToDiet() {
 
       userService.createProgress({ height, weight, activity_level, goal }).then((data) => {
         console.log("salvou o progresso ", data)
-        router.push('/diet')
+        userStore.createDiary({water:0}).then(()=>{
+          router.push('/diet')
+        })
+        
       })
+      
     }
   })
 }
