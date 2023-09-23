@@ -204,8 +204,6 @@ function toggleCalendar() {
 }
 
 function formatDataInputValue(value) {
-  console.log(value)
-
   isInputDateInvalid.value = !isDateValid(value);
   if(checkDate(value)){
     const dateValue = new Date(value)
