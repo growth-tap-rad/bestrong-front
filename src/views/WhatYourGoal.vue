@@ -14,10 +14,10 @@ const userStore = useUserStore()
 const router = useRouter()
 let GOALS = reactive([
   {
-    title: "Ganhar peso",
-    text: "Vamos te ajudar a organizar o que você precisa comer para ganhar massa.",
+    title: "Manter peso",
+    text: "Vamos te ajudar a equilibrar a alimentação com exercícios para manter.",
     bg: deaflift,
-    value: 'gain',
+    value: 'maintain',
     selected: false
   },
   {
@@ -27,13 +27,14 @@ let GOALS = reactive([
     value: 'lose',
     selected: false
   },
+
   {
-    title: "Manter peso",
-    text: "Vamos te ajudar a equilibrar a alimentação com exercícios para manter.",
+    title: "Ganhar peso",
+    text: "Vamos te ajudar a organizar o que você precisa comer para ganhar massa.",
     bg: gym,
-    value: 'maintain',
+    value: 'gain',
     selected: false
-  }
+  },
 ])
 
 function goToHeightWeight() {
@@ -50,7 +51,7 @@ function selectGoal(e) {
   GOALS = GOALS.map(goal => {
     if (goal.value == e) {
       goal.selected = !goal.selected
-     
+
 
       if (goal.selected) {
         userStore.setGoal(goal.value)
