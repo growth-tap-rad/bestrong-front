@@ -155,7 +155,7 @@ const emitDateInputFormated = (date) => {
 const updateDateModel = (day) => {
   if (!day) {
     dateInput.value = ""
-    emitDateInputFormated(null);
+    emitDateInputFormated("");
     return
   }
   const formattedDay = day.getDate().toString().padStart(2, '0');
@@ -163,7 +163,7 @@ const updateDateModel = (day) => {
   const formattedYear = day.getFullYear();
 
   dateInput.value = `${formattedDay}/${formattedMonth}/${formattedYear}`;
-  emitDateInputFormated( `${formattedYear}/${formattedMonth}/${formattedDay}`);
+  emitDateInputFormated( `${formattedYear}-${formattedMonth}-${formattedDay}`);
 };
 
 const isInputDateInvalid = ref(false);
@@ -180,6 +180,7 @@ function checkDate(value) {
 watch(dateInput, (newValue) => {
   isInputDateInvalid.value = !isDateValid(newValue);
   checkDate(newValue)
+  emitDateInputFormated(newValue);
 });
 
 

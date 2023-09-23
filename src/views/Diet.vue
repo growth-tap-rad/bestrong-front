@@ -68,7 +68,8 @@ async function addWater(e) {
 function fetchDiaryData() {
 
   userService.getDiary().then((data) => {
-    meals.item.quantity.value = data.data.water
+    console.log(data)
+    meals.item.quantity.value = data.water 
   })
 }
 function fetchDashboardData() {
