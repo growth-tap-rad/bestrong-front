@@ -11,23 +11,23 @@ const userStore = useUserStore()
 const router = useRouter()
 let atividades = reactive([
     {
-        title: 'Sedentario',
+        title: 'Baixa',
         text: 'Treina 3 vezes na semana ou menos.',
-        bg: "https://sciath.com.br/wp-content/uploads/2021/11/sedentarismo.jpg",
+        bg: "https://www.opensesame.com/system/files/images/shutterstock_274330394.jpg",
         value: 'low',
         selected: false
     },
     {
-        title: 'Intermediário',
+        title: 'Moderada',
         text: 'Treina 3 ou 4 vezes na semana.',
         bg: "https://www.fab.mil.br/sis/enoticias/imagens/pub/40083/i204619164604314.jpg",
         value: 'moderate',
         selected: false
     },
     {
-        title: 'Avançado',
-        text: 'Treina todos os dias.',
-        bg: "https://nutrata.com.br/wp-content/webp-express/webp-images/uploads/2023/03/CBUM-altura-idade-peso-e-Mr.-Olympia-2048x1365.png.webp",
+        title: 'Intensa',
+        text: 'Treina todos ou quase todos os dias.',
+        bg: "https://th.bing.com/th/id/R.dd17589b3c570296de6d64e3c47401b0?rik=%2f%2fUrY8lbg6Dp1g&riu=http%3a%2f%2ffitvocate.com%2fsites%2fdefault%2ffiles%2fheavyweight.png&ehk=eTHZwdeNqsPpA6sd9lB6o%2bJnIteo%2fgpUPearzMShfQs%3d&risl=&pid=ImgRaw&r=0",
         value: 'intense',
         selected: false
     }
