@@ -100,7 +100,10 @@ function fetchDiaryData() {
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
+
       <VBottomMenu class="footer" actualRoute="/diet"/>
+
+    
     </main>
 
   </section>
