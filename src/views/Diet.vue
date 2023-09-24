@@ -5,7 +5,7 @@ import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
 import { onMounted } from 'vue'
 import * as userService from '../service/user.service.js';
-import Menunferior from '../components/MenuInferior.vue'
+import VBottomMenu from '../components/VBottomMenu.vue'
 import { reactive, ref } from 'vue';
 import { Alert } from 'bootstrap';
 
@@ -49,18 +49,16 @@ const meals = {
 }
 
 onMounted(() => {
-
-  fetchDashboardData();
   fetchDiaryData()
-
 })
+
 function showAddWater() {
   showComponentAddWater.value = true
 }
 async function addWater(e) {
   showComponentAddWater.value = false
-  await userService.editDiary({ water: e }).then((data)=>{
-    meals.item.quantity.value = data.water
+  await userService.editDiary({ water: e }).then((data) => {
+    meals.item.quantity.value = data.consumed_water
   })
 
 }
@@ -68,28 +66,25 @@ async function addWater(e) {
 function fetchDiaryData() {
 
   userService.getDiary().then((data) => {
-    console.log(data)
-    meals.item.quantity.value = data.water 
+    const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,
+      burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
+
+    const { daily_goal_kcal, protein, carb, fat } = data.progress
+
+    macros.protein.total = protein;
+    macros.carb.total = carb;
+    macros.fat.total = fat;
+
+    dashData.goal = Math.round(daily_goal_kcal);
+    dashData.consumed = consumed_kcal;
+    dashData.burned = burned_kcal;
+
+    meals.item.quantity.value = consumed_water
+    macros.protein.now = consumed_protein;
+    macros.carb.now = consumed_carb;
+    macros.fat.now = consumed_fat;
   })
 }
-function fetchDashboardData() {
-  userService.getDashboardData().then(data => {
-    if (data) {
-      const { daily_goal } = data;
-      dashData.goal = Math.round(daily_goal);
-
-      const protein = data.macros?.protein;
-      const carb = data.macros?.carb;
-      const fat = data.macros?.fat;
-
-      macros.protein.total = protein;
-      macros.carb.total = carb;
-      macros.fat.total = fat;
-    }
-  })
-}
-
-
 
 </script>
 
@@ -105,7 +100,7 @@ function fetchDashboardData() {
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
-      <Menunferior class="footer" />
+      <VBottomMenu class="footer" actualRoute="/diet"/>
     </main>
 
   </section>
@@ -114,7 +109,7 @@ function fetchDashboardData() {
 <style scoped>
 .box-add-water {
   position: fixed;
-    bottom: 0;
+  bottom: 0;
   z-index: 4;
 
 }
