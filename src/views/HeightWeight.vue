@@ -2,8 +2,8 @@
   <div class="bg-height-wheight">
     <VtitlePage title="Altura e Peso" />
     <VInput :data="inputHeight" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
-    <VInput :data="inputWheight" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight"/>
-    <VButton @click="goToDiet" text="Altura e Peso" class="button" />
+    <VInput :data="inputWheight" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight" />
+    <VButton @click="goToDiet" text="Altura e Peso" class="button" :disabled="isFetching"/>
 
   </div>
 </template>
@@ -22,34 +22,62 @@ import { ref } from 'vue';
 const router = useRouter()
 const userStore = useUserStore();
 
-function onSelectHeight(e){
+const isFetching = ref(false);
+
+function onSelectHeight(e) {
   userStore.setHeight(e.replace('.', ""))
 }
 
-function onSelectWeight(e){
+function onSelectWeight(e) {
   userStore.setWeight(e)
 }
 
-
-function goToDiet() {
-
-  const { name, email, password, username, birthday, gender } = userStore.getUser
+async function createProgress() {
   const { height, weight, activity_level, goal } = userStore.getLastProgress
 
-  authService.signUp({ name, email, password, username, birthday, gender }).then(data => {
-    if (data.accessToken) {
-      userStore.setToken(data.accessToken)
-
-      userService.createProgress({ height, weight, activity_level, goal }).then((data) => {
-        console.log("salvou o progresso ", data)
-        userStore.createDiary({water:0}).then(()=>{
-          router.push('/diet')
-        })
-        
-      })
-      
+  try {
+    const dataProgress = await userService.createProgress({ height, weight, activity_level, goal })
+    if (dataProgress) {
+      createDiary();
     }
-  })
+  } catch (error) {
+    console.error(error.response?.data?.message || "Erro ao cadastrar Progresso")
+  }
+}
+
+async function createDiary() {
+  try {
+    const dataDiary = await userService.createDiary()
+    if (dataDiary) {
+      router.push('/diet')
+    }
+  } catch (error) {
+    console.error(error.response?.data?.message || "Erro ao cadastrar Diario")
+  }
+}
+
+async function goToDiet() {
+
+  if (!userStore.getHeight || !userStore.getWeight) {
+    return
+  }
+
+  isFetching.value = true;
+
+  const { name, email, password, username, birthday, gender } = userStore.getUser
+
+  try {
+    const datasSignUp = await authService.signUp({ name, email, password, username, birthday, gender })
+    if (datasSignUp && datasSignUp.accessToken) {
+      userStore.setToken(datasSignUp.accessToken)
+    }
+  } catch (error) {
+    console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
+    return;
+  }
+
+  createProgress();
+  isFetching.value = false;
 }
 
 

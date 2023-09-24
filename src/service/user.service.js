@@ -29,12 +29,9 @@ export const createProgress = (data) => {
       alert('falha ao criar progresso')
     })
 }
-export const createDiary = (data) => {
-  const { water } = data
+export const createDiary = () => {
   return api
-    .post("/users/me/diary", {
-      water
-    }).then((data) => {
+    .post("/users/me/diary").then((data) => {
       return data
     }).catch((e) => {
       alert('erro a criar Diary')
@@ -44,7 +41,7 @@ export const editDiary = (data) => {
   const { water } = data
   return api
     .put('/users/me/edit-diary', {
-      water
+      consumed_water: water
     }).then(({ data }) => {
       return data
     }).catch((e) => {
@@ -55,7 +52,6 @@ export const getDiary = () => {
   return api
     .get('/users/me/diary')
     .then(({ data }) => {
-      console.log(data)
       return data
     }).catch(() => {
       alert("falha ao requisitar Diary ")
