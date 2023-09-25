@@ -203,15 +203,6 @@ function toggleCalendar() {
   openCalendar.value = !openCalendar.value
 }
 
-function formatDataInputValue(value) {
-  isInputDateInvalid.value = !isDateValid(value);
-  if(checkDate(value)){
-    const dateValue = new Date(value)
-    updateDateModel(dateValue)
-  }
-
-}
-
 
 </script>
 
@@ -220,8 +211,8 @@ function formatDataInputValue(value) {
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <section class="input-icon">
       <i class="bi bi-calendar icon" @click="toggleCalendar"></i>
-      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY"
-        @change="event => formatDataInputValue(event.target.value)" v-mask="'XX/XX/XXXX'" v-model="dateInput"
+      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change="event =>emitDateInputFormated(event.target.value)"
+ v-mask="'XX/XX/XXXX'" v-model="dateInput" 
         :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
     <transition name="fade">
@@ -392,4 +383,5 @@ th {
   td {
     padding: 10px;
   }
-}</style>
+}
+</style>
