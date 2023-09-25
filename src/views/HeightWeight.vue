@@ -71,6 +71,7 @@ async function goToDiet() {
     if (datasSignUp && datasSignUp.accessToken) {
       userStore.setToken(datasSignUp.accessToken)
     }
+    console.log("datasSignUp ",datasSignUp)
   } catch (error) {
     console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
     return;
