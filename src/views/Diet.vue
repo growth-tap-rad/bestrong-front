@@ -65,8 +65,6 @@ function addWater(e) {
       meals.item.quantity.value = data.consumed_water
     })
   }
-
-
 }
 
 function fetchDiaryData() {
