@@ -57,7 +57,7 @@ function showAddWater() {
 }
 async function addWater(e) {
   showComponentAddWater.value = false
-  await userService.editDiary({ water: e }).then((data) => {
+  await userService.editDiary({ water: e+ meals.item.quantity.value }).then((data) => {
     meals.item.quantity.value = data.consumed_water
   })
 
