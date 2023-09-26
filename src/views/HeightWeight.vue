@@ -3,7 +3,7 @@
     <VtitlePage title="Altura e Peso" />
     <VInput :data="inputHeight" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
     <VInput :data="inputWheight" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight" />
-    <VButton @click="goToDiet" text="Altura e Peso" class="button" :disabled="isFetching"/>
+    <VButton @click="goToDiet" text="Altura e Peso" class="button" :disabled="isFetching" />
 
   </div>
 </template>
@@ -65,12 +65,15 @@ async function goToDiet() {
   isFetching.value = true;
 
   const { name, email, password, username, birthday, gender } = userStore.getUser
+  const [day, month, year] = birthday.split("/").map(Number)
+  const birthdayFormated = `${year}-${month}-${day}`
 
   try {
-    const datasSignUp = await authService.signUp({ name, email, password, username, birthday, gender })
+    const datasSignUp = await authService.signUp({ name, email, password, username, birthday: birthdayFormated, gender })
     if (datasSignUp && datasSignUp.accessToken) {
       userStore.setToken(datasSignUp.accessToken)
     }
+    console.log("datasSignUp ",datasSignUp)
   } catch (error) {
     console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
     return;
