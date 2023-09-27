@@ -31,7 +31,9 @@ let inputGender = reactive([
 
 
 function selectBirthday(dataString) {
-  userStore.setBirthday(dataString)
+  const [day, month, year] = dataString.split("/").map(Number)
+  const birthdayFormated = `${year}-${month}-${day}`
+  userStore.setBirthday(birthdayFormated)
 }
 
 
@@ -69,7 +71,6 @@ function goForDiet() {
   alert("preencha todos os campos")
 
 }
-
 
 
 </script>

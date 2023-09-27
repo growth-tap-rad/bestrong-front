@@ -163,7 +163,7 @@ const updateDateModel = (day) => {
   const formattedMonth = (day.getMonth() + 1).toString().padStart(2, '0');
   const formattedYear = day.getFullYear();
   dateInput.value = `${formattedDay}/${formattedMonth}/${formattedYear}`;
-  emitDateInputFormated(`${formattedYear}-${formattedMonth}-${formattedDay}`);
+  emitDateInputFormated(dateInput.value);
 };
 
 const isInputDateInvalid = ref(false);
