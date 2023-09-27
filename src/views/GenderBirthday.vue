@@ -71,7 +71,6 @@ function goForDiet() {
 }
 
 
-
 </script>
 
 <style scoped>
