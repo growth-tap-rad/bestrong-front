@@ -31,9 +31,7 @@ let inputGender = reactive([
 
 
 function selectBirthday(dataString) {
-  const [day, month, year] = dataString.split("/").map(Number)
-  const birthdayFormated = `${year}-${month}-${day}`
-  userStore.setBirthday(birthdayFormated)
+  userStore.setBirthday(dataString)
 }
 
 

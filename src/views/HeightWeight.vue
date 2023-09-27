@@ -65,9 +65,11 @@ async function goToDiet() {
   isFetching.value = true;
 
   const { name, email, password, username, birthday, gender } = userStore.getUser
+  const [day, month, year] = birthday.split("/").map(Number)
+  const birthdayFormated = `${year}-${month}-${day}`
   
   try {
-    const datasSignUp = await authService.signUp({ name, email, password, username, birthday: birthday, gender })
+    const datasSignUp = await authService.signUp({ name, email, password, username, birthday: birthdayFormated, gender })
     if (datasSignUp && datasSignUp.accessToken) {
       userStore.setToken(datasSignUp.accessToken)
     }
