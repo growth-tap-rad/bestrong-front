@@ -1,8 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import VArcProgressBar from "./VArcProgressBar.vue"
 import VProgressBar from './VProgressBar.vue';
-
 
 const props = defineProps({
   dashInfo: {

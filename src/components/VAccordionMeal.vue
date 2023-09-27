@@ -1,14 +1,11 @@
 <script setup>
-import { Transition, ref, computed } from 'vue';
-/* import DashboardDiet from '../components/DashboardDiet.vue';
-import VTitleDatePage from '../components/VTitleDatePage.vue'; */
+import {ref, computed } from 'vue';
 
 let openAccord = ref(false);
 
-function open() {
+const open=()=> {
   openAccord.value = !openAccord.value
 }
-
 
 const props = defineProps({
   data: {
@@ -17,7 +14,6 @@ const props = defineProps({
     quantity: "",
     items: []
   }
-
 })
 
 const unity = computed(() => {

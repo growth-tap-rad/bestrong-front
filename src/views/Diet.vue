@@ -1,13 +1,12 @@
 <script setup>
+import { reactive, ref, onMounted } from 'vue';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
-import { onMounted } from 'vue'
-import * as userService from '../service/user.service.js';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import { reactive, ref } from 'vue';
-import { Alert } from 'bootstrap';
+import * as userService from '../service/user.service.js';
+
 
 const showComponentAddWater = ref(false)
 const dashData = reactive({
@@ -52,18 +51,18 @@ onMounted(() => {
   fetchDiaryData()
 })
 
-function showAddWater() {
+const showAddWater = () => {
   showComponentAddWater.value = true
 }
-async function addWater(e) {
+const addWater = async (e) => {
   showComponentAddWater.value = false
-  await userService.editDiary({ water: e }).then((data) => {
+  await userService.editDiary({ water: e + meals.item.quantity.value }).then((data) => {
     meals.item.quantity.value = data.consumed_water
   })
 
 }
 
-function fetchDiaryData() {
+const fetchDiaryData =()=> {
 
   userService.getDiary().then((data) => {
     const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,
@@ -100,7 +99,10 @@ function fetchDiaryData() {
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
-      <VBottomMenu class="footer" actualRoute="/diet"/>
+
+      <VBottomMenu class="footer" actualRoute="/diet" />
+
+
     </main>
 
   </section>

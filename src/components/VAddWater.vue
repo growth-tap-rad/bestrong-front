@@ -1,18 +1,5 @@
-
-<template>
- 
-        <div class="main" v-if="props.show">
-            <h1 class="h1-add-water">Água</h1>
-            <input v-model="inputValue" class="input-add-water" type="text" placeholder="200 ml">
-            <button type="number" class="btn btn-primary button-add-water" @click="$emit('showAddWater',parseInt(inputValue) )">Adicionar</button>
-        </div>
-
-</template>
-
-
 <script setup>
 import { ref } from 'vue';
-
 
 const props = defineProps({
     show: {
@@ -21,15 +8,22 @@ const props = defineProps({
     }
 });
 
-
 const inputValue = ref('')
-
 
 </script>
 
+<template>
+    <div class="main" v-if="props.show">
+        <h1 class="h1-add-water">Água</h1>
+        <input v-model="inputValue" class="input-add-water" type="text" placeholder="200 ml">
+        <button type="number" class="btn btn-primary button-add-water"
+            @click="$emit('showAddWater', parseInt(inputValue))">Adicionar</button>
+    </div>
+</template>
+
 <style scoped>
 .main {
- 
+
     display: flex;
     flex-direction: column;
     text-align: center;

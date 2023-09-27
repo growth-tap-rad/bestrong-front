@@ -1,12 +1,5 @@
-<template>
-  <div class="progress" role="progressbar" aria-label="progress bar" :aria-valuenow="percentage" aria-valuemin="0"
-    aria-valuemax="100">
-    <div class="progress-bar" :style="progressBarStyle"></div>
-  </div>
-</template>
-
 <script setup>
-import { ref, watch, computed } from 'vue';
+import {computed } from 'vue';
 
 const props = defineProps({
   percentage: {
@@ -21,6 +14,13 @@ const progressBarStyle = computed(() => {
 });
 
 </script>
+
+<template>
+  <div class="progress" role="progressbar" aria-label="progress bar" :aria-valuenow="percentage" aria-valuemin="0"
+    aria-valuemax="100">
+    <div class="progress-bar" :style="progressBarStyle"></div>
+  </div>
+</template>
 
 <style scoped>
 .progress-bar {

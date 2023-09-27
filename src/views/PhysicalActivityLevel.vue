@@ -1,11 +1,14 @@
 <script setup>
 
+import { onMounted, reactive } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user.store";
 import VBoxImgInfo from "../components/VBoxImgInfo.vue";
 import VButton from "../components/VButton.vue";
 import VtitlePage from "../components/VtitlePage.vue";/*  */
-import { useRouter } from "vue-router";
-import { onMounted, reactive, ref } from "vue";
-import { useUserStore } from "../stores/user.store";
+import low from '@/assets/imgs/ActivityLevel-low.jpg';
+import moderate from '@/assets/imgs/ActivityLevel-moderate.jpg';
+import intense from '@/assets/imgs/ActivityLevel-intense.png';
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -13,26 +16,26 @@ let atividades = reactive([
     {
         title: 'Baixa',
         text: 'Treina 3 vezes na semana ou menos.',
-        bg: "https://www.opensesame.com/system/files/images/shutterstock_274330394.jpg",
+        bg: low,
         value: 'low',
         selected: false
     },
     {
         title: 'Moderada',
         text: 'Treina 3 ou 4 vezes na semana.',
-        bg: "https://www.fab.mil.br/sis/enoticias/imagens/pub/40083/i204619164604314.jpg",
+        bg: moderate,
         value: 'moderate',
         selected: false
     },
     {
         title: 'Intensa',
         text: 'Treina todos ou quase todos os dias.',
-        bg: "https://th.bing.com/th/id/R.dd17589b3c570296de6d64e3c47401b0?rik=%2f%2fUrY8lbg6Dp1g&riu=http%3a%2f%2ffitvocate.com%2fsites%2fdefault%2ffiles%2fheavyweight.png&ehk=eTHZwdeNqsPpA6sd9lB6o%2bJnIteo%2fgpUPearzMShfQs%3d&risl=&pid=ImgRaw&r=0",
+        bg: intense,
         value: 'intense',
         selected: false
     }
 ])
-async function goToYourGoal() {
+const goToYourGoal = async () => {
     if (userStore.getActivityLevel) {
         await router.push('/your-goal')
         return
@@ -44,7 +47,7 @@ async function goToYourGoal() {
 
 
 
-function selectActivityLevel(e) {
+const selectActivityLevel = (e) => {
 
     atividades = atividades.map(atividade => {
         if (atividade.value == e) {
@@ -74,6 +77,7 @@ onMounted(() => {
     })
 })
 </script>
+
 <template>
     <div class="bg-activity">
         <VtitlePage title="Qual seu nivel de atividade Física?" />
@@ -82,6 +86,7 @@ onMounted(() => {
         <VButton @click="goToYourGoal" text="CONFIRMAR OBJETIVO" class="button" />
     </div>
 </template> 
+
 <style scoped>
 .bg-activity {
     background-color: var(--bg-color-dark);

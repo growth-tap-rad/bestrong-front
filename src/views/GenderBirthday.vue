@@ -1,23 +1,12 @@
-<template>
-  <div class="bg-age">
-    <VtitlePage title="Gênero e Data de nascimento:" />
-    <VInputDate title="Data nascimento:" @changeDate="(data) => selectBirthday(data)"
-      @validDate="bool => validDate = bool" :value="birthday" />
-    <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
-    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate" />
-
-  </div>
-</template>
-
 <script setup>
 
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user.store';
 import VButton from '../components/VButton.vue'
 import VInputDate from '../components/VInputDate.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 import VDropdown from '../components/VDropdown.vue'
-import { ref, reactive, onMounted } from 'vue';
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -30,12 +19,12 @@ let inputGender = reactive([
   { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }])
 
 
-function selectBirthday(dataString) {
+const selectBirthday =(dataString)=> {
   userStore.setBirthday(dataString)
 }
 
 
-function selectGender(e) {
+const  selectGender =(e)=> {
 
   inputGender = inputGender.map(opt => {
     if (opt.value == e) {
@@ -61,7 +50,7 @@ onMounted(() => {
   })
 })
 
-function goForDiet() {
+const goForDiet =()=> {
   if (validDate && userStore.getGender) {
     router.push('/physical-activity-level')
     return
@@ -69,10 +58,19 @@ function goForDiet() {
   alert("preencha todos os campos")
 
 }
-
-
-
 </script>
+
+<template>
+  <div class="bg-age">
+    <VtitlePage title="Gênero e Data de nascimento:" />
+    <VInputDate title="Data nascimento:" @changeDate="(data) => selectBirthday(data)"
+      @validDate="bool => validDate = bool" :value="birthday" />
+    <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
+    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate" />
+
+  </div>
+</template>
+
 
 <style scoped>
 .bg-age {

@@ -1,11 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
 
-
+const router = useRouter();
 const inputEmail = {
     title: "E-mail",
     placeholder: "Digite seu e-mail",
@@ -17,7 +16,7 @@ const backToLogin = () => {
     router.back()
 }
 
-function goToWelcome() {
+const goToWelcome=() =>{
     router.push("/")
 }
 
