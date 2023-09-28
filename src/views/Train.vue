@@ -1,25 +1,13 @@
 <script setup>
+import { ref } from 'vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import { reactive, ref } from 'vue';
 import VTrainList from '../components/VTrainList.vue';
 import esteira from '@/assets/imgs/esteira.jpeg';
+import sedentarismo  from '@/assets/imgs/sedentarismo.jpg'
 
 const train = ref(true);
 const exercise = ref(false);
-
-
-function toggleOption(option) {
-  if (option === 'train') {
-    train.value = !train.value;
-    exercise.value = false;
-  } else if (option === 'exercise') {
-    exercise.value = !exercise.value;
-    train.value = false;
-  }
-
-}
-
 
 let atividades = [
   {
@@ -33,9 +21,22 @@ let atividades = [
     title: 'CARDIO2',
     minutes: 50,
     exercisesQty: 10,
-    img: "https://sciath.com.br/wp-content/uploads/2021/11/sedentarismo.jpg",
+    img: sedentarismo,
   },
 ]
+
+const toggleOption = (option) => {
+  if (option === 'train') {
+    train.value = !train.value;
+    exercise.value = false;
+  } else if (option === 'exercise') {
+    exercise.value = !exercise.value;
+    train.value = false;
+  }
+
+}
+
+
 
 </script>
 

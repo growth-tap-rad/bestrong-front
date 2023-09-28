@@ -1,17 +1,15 @@
 <script setup>
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
+import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import { reactive, ref } from 'vue';
-import * as authService from '../service/auth.service.js';
-import { useUserStore } from '../stores/user.store'
+import * as authService from '../api/resources/auth.service'
+
 
 const userStore = useUserStore();
-
-
-sessionStorage.clear()
+const router = useRouter();
 
 const inputEmail = {
   title: "E-mail",
@@ -29,7 +27,7 @@ const backToLogin = () => {
   router.back()
 }
 
-function signin() {
+const signin = () => {
 
   authService.signIn({ email: inputEmail, password: inputPassword }).then(data => {
     if (data) {
@@ -39,6 +37,9 @@ function signin() {
   })
 };
 
+onMounted(() => {
+  sessionStorage.clear()
+})
 </script>
 
 <template>
@@ -58,7 +59,6 @@ function signin() {
     </main>
   </section>
 </template>
-
 
 <style scoped>
 .sign-in {

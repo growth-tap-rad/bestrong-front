@@ -1,11 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import { reactive, ref } from 'vue';
-import * as authService from '../service/auth.service.js';
-import { useUserStore } from '../stores/user.store'
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -37,10 +35,7 @@ const inputUserName = {
 const backToWelcome = () => {
     router.back()
 }
-
-
-
-function goForDiet() {
+const goForDiet = () => {
 
     const payload = {
         name: inputName.value, email: inputEmail.value, password: inputPassword.value, username: inputUserName.value

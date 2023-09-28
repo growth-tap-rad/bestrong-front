@@ -1,13 +1,11 @@
 <script setup>
+import { reactive, ref, onMounted } from 'vue';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
-import { onMounted } from 'vue'
-import * as userService from '../service/user.service.js';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import { reactive, ref } from 'vue';
-
+import * as userService from '../api/resources/user.service';
 
 const showComponentAddWater = ref(false)
 const dashData = reactive({
@@ -15,7 +13,6 @@ const dashData = reactive({
   burned: 0,
   goal: 0,
 })
-
 
 const macros = reactive({
   protein: {
@@ -52,22 +49,22 @@ onMounted(() => {
   fetchDiaryData()
 })
 
-function showAddWater() {
+const showAddWater = () => {
   showComponentAddWater.value = true
 }
-function addWater(e) {
-  showComponentAddWater.value = false
-  if (e) {
-    userService.editDiary({
-      water: e + meals.item.quantity.value
 
-    }).then((data) => {
-      meals.item.quantity.value = data.consumed_water
-    })
+const addWater = (e) => {
+  showComponentAddWater.value = false
+
+  if (e) {
+    userService.editDiary({ water: e + meals.item.quantity.value })
+      .then((data) => {
+        meals.item.quantity.value = data.consumed_water
+      })
   }
 }
 
-function fetchDiaryData() {
+const fetchDiaryData = () => {
 
   userService.getDiary().then((data) => {
     const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,

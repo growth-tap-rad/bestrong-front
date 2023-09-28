@@ -1,4 +1,4 @@
-import api from '../api/apiAxios'
+import api from '../apiAxios'
 
 export const getDashboardData = () => {
 
@@ -40,7 +40,7 @@ export const createDiary = () => {
 export const editDiary = (data) => {
   const { water } = data
   return api
-    .put('/users/me/edit-diary', {
+    .put('/users/me/diary', {
       consumed_water: water
     }).then(({ data }) => {
       return data

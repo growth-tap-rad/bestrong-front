@@ -1,17 +1,4 @@
-<template>
-  <div class="inputs">
-    <label :for="data.title" class="label" v-if="data.title">{{ data.title }}</label>
-    <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
-      :placeholder="data.placeholder" :value="props.value"  v-if="data.mask"
-      v-mask="data.mask"  />
-    <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
-      :placeholder="data.placeholder" :value="props.value" v-else  />
-  </div>
-</template>
-
 <script setup>
-import { ref } from 'vue';
-
 const props = defineProps({
   data: {
     type: Object,
@@ -27,6 +14,19 @@ const props = defineProps({
 });
 
 </script>
+
+<template>
+  <div class="inputs">
+    <label :for="data.title" class="label" v-if="data.title">{{ data.title }}</label>
+    <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
+      :placeholder="data.placeholder" :value="props.value"  v-if="data.mask"
+      v-mask="data.mask"  />
+    <input @change="$emit('update', $event.target.value)" :type="data.type" :id="data.title" class="input"
+      :placeholder="data.placeholder" :value="props.value" v-else  />
+  </div>
+</template>
+
+
 
 <style scoped>
 .inputs {
