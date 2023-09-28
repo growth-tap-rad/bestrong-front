@@ -98,11 +98,11 @@ const sixBySevenWeeks = computed(() => {
 })
 
 
-const resetSelectedDay = () => {
+const resetSelectedDay =()=> {
   selectedDay.value = null
 }
 
-const handleClickDay = (day) => {
+const  handleClickDay =(day)=> {
   if (day === selectedDay.value) {
     resetSelectedDay()
     updateDateModel("")
@@ -124,7 +124,10 @@ const dayClass = (day) => {
     'other-month': day.getMonth() !== currentMonthIndex.value,
   };
 };
+
+
 const openCalendar = ref(false);
+
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
@@ -160,12 +163,12 @@ const updateDateModel = (day) => {
   const formattedMonth = (day.getMonth() + 1).toString().padStart(2, '0');
   const formattedYear = day.getFullYear();
   dateInput.value = `${formattedDay}/${formattedMonth}/${formattedYear}`;
-  emitDateInputFormated( dateInput.value);
+  emitDateInputFormated(dateInput.value);
 };
 
 const isInputDateInvalid = ref(false);
 
-const checkDate = (value) => {
+const  checkDate=(value)=> {
   if (isDateValid(value)) {
     emit("validDate", true);
     return true
@@ -196,17 +199,11 @@ const isDateValid = (inputDate) => {
   return day >= 1 && day <= lastDayOfMonth && month >= 1 && month <= 12;
 }
 
-const toggleCalendar = () => {
+const toggleCalendar = () =>{
   openCalendar.value = !openCalendar.value
 }
 
-const formatDataInputValue = (value) => {
-  isInputDateInvalid.value = !isDateValid(value);
-  if (checkDate(value)) {
-    const dateValue = new Date(value)
-    updateDateModel(dateValue)
-  }
-}
+
 </script>
 
 <template>
@@ -214,8 +211,8 @@ const formatDataInputValue = (value) => {
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <section class="input-icon">
       <i class="bi bi-calendar icon" @click="toggleCalendar"></i>
-      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY"
-        @change="event => formatDataInputValue(event.target.value)" v-mask="'XX/XX/XXXX'" v-model="dateInput"
+      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change="event =>emitDateInputFormated(event.target.value)"
+ v-mask="'XX/XX/XXXX'" v-model="dateInput" 
         :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
     <transition name="fade">
