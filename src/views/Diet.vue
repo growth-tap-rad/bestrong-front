@@ -53,11 +53,11 @@ const showAddWater = () => {
   showComponentAddWater.value = true
 }
 
-const addWater = async (e) => {
+const addWater = (e) => {
   showComponentAddWater.value = false
 
   if (e) {
-    await userService.editDiary({ water: e + meals.item.quantity.value })
+    userService.editDiary({ water: e + meals.item.quantity.value })
       .then((data) => {
         meals.item.quantity.value = data.consumed_water
       })

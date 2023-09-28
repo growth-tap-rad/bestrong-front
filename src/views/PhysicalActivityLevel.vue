@@ -35,9 +35,9 @@ let atividades = reactive([
         selected: false
     }
 ])
-const goToYourGoal = async () => {
+const goToYourGoal = () => {
     if (userStore.getActivityLevel) {
-        await router.push('/your-goal')
+         router.push('/your-goal')
         return
     }
     alert('Selecione um nivel de atividade')
