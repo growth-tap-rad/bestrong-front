@@ -5,7 +5,7 @@ import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import * as userService from '../service/user.service.js';
+import * as userService from '../api/resources/user.service';
 
 const showComponentAddWater = ref(false)
 const dashData = reactive({

@@ -5,7 +5,8 @@ import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import * as authService from '../service/auth.service.js';
+import * as authService from '../api/resources/auth.service'
+
 
 const userStore = useUserStore();
 const router = useRouter();

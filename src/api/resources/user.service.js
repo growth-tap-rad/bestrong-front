@@ -1,4 +1,4 @@
-import api from '../api/apiAxios'
+import api from '../apiAxios'
 
 export const getDashboardData = () => {
 

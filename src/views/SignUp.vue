@@ -1,9 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import { useUserStore } from '../stores/user.store'
 
 const userStore = useUserStore();
 const router = useRouter();

@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store';
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
-import { useUserStore } from '../stores/user.store';
 import deaflift from '@/assets/imgs/deadlift.jpeg';
 import crossfit from '@/assets/imgs/crossfit.jpg';
 import gym from '@/assets/imgs/gym.jpeg';

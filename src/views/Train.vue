@@ -5,6 +5,7 @@ import VBottomMenu from '../components/VBottomMenu.vue'
 import VTrainList from '../components/VTrainList.vue';
 import esteira from '@/assets/imgs/esteira.jpeg';
 import sedentarismo  from '@/assets/imgs/sedentarismo.jpg'
+
 const train = ref(true);
 const exercise = ref(false);
 

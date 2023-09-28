@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import VButton from '../components/VButton.vue';
 import { useUserStore } from '../stores/user.store'
+import VButton from '../components/VButton.vue';
 
 
 const userStore = useUserStore();
