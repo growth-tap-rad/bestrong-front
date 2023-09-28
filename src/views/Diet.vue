@@ -7,15 +7,12 @@ import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import * as userService from '../service/user.service.js';
 
-
-
 const showComponentAddWater = ref(false)
 const dashData = reactive({
   consumed: 0,
   burned: 0,
   goal: 0,
 })
-
 
 const macros = reactive({
   protein: {
@@ -58,15 +55,16 @@ const showAddWater = () => {
 
 const addWater = async (e) => {
   showComponentAddWater.value = false
-  await userService.editDiary({ water: e + meals.item.quantity.value }).then((data) => {
-    meals.item.quantity.value = data.consumed_water
-    }).then((data) => {
-      meals.item.quantity.value = data.consumed_water
-    })
+
+  if (e) {
+    await userService.editDiary({ water: e + meals.item.quantity.value })
+      .then((data) => {
+        meals.item.quantity.value = data.consumed_water
+      })
   }
+}
 
-
-const fetchDiaryData =()=> {
+const fetchDiaryData = () => {
 
   userService.getDiary().then((data) => {
     const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,
