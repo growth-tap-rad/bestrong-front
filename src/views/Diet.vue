@@ -64,7 +64,7 @@ const addWater = async (e) => {
       meals.item.quantity.value = data.consumed_water
     })
   }
-}
+
 
 const fetchDiaryData =()=> {
 
