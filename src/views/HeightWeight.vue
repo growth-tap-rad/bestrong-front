@@ -32,31 +32,34 @@ const onSelectWeight = (e) => {
   userStore.setWeight(e)
 }
 
-const createProgress = async () => {
+const createProgress = () => {
   const { height, weight, activity_level, goal } = userStore.getLastProgress
 
   try {
-    const dataProgress = await userService.createProgress({ height, weight, activity_level, goal })
-    if (dataProgress) {
-      createDiary();
-    }
+    userService.createProgress({ height, weight, activity_level, goal })
+    .then((dataProgress) => {
+      if (dataProgress) {
+        createDiary();
+      }
+    })
   } catch (error) {
     console.error(error.response?.data?.message || "Erro ao cadastrar Progresso")
   }
 }
 
-const createDiary = async () => {
+const createDiary = () => {
   try {
-    const dataDiary = await userService.createDiary()
-    if (dataDiary) {
-      router.push('/diet')
-    }
+    userService.createDiary().then((dataDiary) => {
+      if (dataDiary) {
+        router.push('/diet')
+      }
+    })
   } catch (error) {
     console.error(error.response?.data?.message || "Erro ao cadastrar Diario")
   }
 }
 
-const goToDiet = async () => {
+const goToDiet = () => {
 
   if (!userStore.getHeight || !userStore.getWeight) {
     return
@@ -68,14 +71,14 @@ const goToDiet = async () => {
 
   const [day, month, year] = birthday.split("/").map(Number)
   const birthdayFormated = `${year}-${month}-${day}`
-  
-  try {
-    const datasSignUp = await authService.signUp({ name, email, password, username, birthday: birthdayFormated, gender })
 
-    if (datasSignUp && datasSignUp.accessToken) {
-      userStore.setToken(datasSignUp.accessToken)
-    }
-    console.log("datasSignUp ",datasSignUp)
+  try {
+    authService.signUp({ name, email, password, username, birthday: birthdayFormated, gender })
+      .then((datasSignUp) => {
+        if (datasSignUp && datasSignUp.accessToken) {
+          userStore.setToken(datasSignUp.accessToken)
+        }
+      })
   } catch (error) {
     console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
     return;
