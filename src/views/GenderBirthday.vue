@@ -67,7 +67,6 @@ const goForDiet =()=> {
       @validDate="bool => validDate = bool" :value="birthday" />
     <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
     <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate" />
-
   </div>
 </template>
 

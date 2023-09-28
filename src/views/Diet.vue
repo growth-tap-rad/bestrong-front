@@ -8,6 +8,7 @@ import VBottomMenu from '../components/VBottomMenu.vue'
 import * as userService from '../service/user.service.js';
 
 
+
 const showComponentAddWater = ref(false)
 const dashData = reactive({
   consumed: 0,
@@ -54,12 +55,15 @@ onMounted(() => {
 const showAddWater = () => {
   showComponentAddWater.value = true
 }
+
 const addWater = async (e) => {
   showComponentAddWater.value = false
   await userService.editDiary({ water: e + meals.item.quantity.value }).then((data) => {
     meals.item.quantity.value = data.consumed_water
-  })
-
+    }).then((data) => {
+      meals.item.quantity.value = data.consumed_water
+    })
+  }
 }
 
 const fetchDiaryData =()=> {
@@ -109,13 +113,6 @@ const fetchDiaryData =()=> {
 </template>
 
 <style scoped>
-.box-add-water {
-  position: fixed;
-  bottom: 0;
-  z-index: 4;
-
-}
-
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
