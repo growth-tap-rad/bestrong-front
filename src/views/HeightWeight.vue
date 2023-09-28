@@ -36,7 +36,8 @@ const createProgress = () => {
   const { height, weight, activity_level, goal } = userStore.getLastProgress
 
   try {
-    userService.createProgress({ height, weight, activity_level, goal }).then((dataProgress) => {
+    userService.createProgress({ height, weight, activity_level, goal })
+    .then((dataProgress) => {
       if (dataProgress) {
         createDiary();
       }
