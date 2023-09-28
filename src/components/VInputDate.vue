@@ -98,11 +98,11 @@ const sixBySevenWeeks = computed(() => {
 })
 
 
-function resetSelectedDay() {
+const resetSelectedDay =()=> {
   selectedDay.value = null
 }
 
-function handleClickDay(day) {
+const  handleClickDay =(day)=> {
   if (day === selectedDay.value) {
     resetSelectedDay()
     updateDateModel("")
@@ -168,7 +168,7 @@ const updateDateModel = (day) => {
 
 const isInputDateInvalid = ref(false);
 
-function checkDate(value) {
+const  checkDate=(value)=> {
   if (isDateValid(value)) {
     emit("validDate", true);
     return true
@@ -199,7 +199,7 @@ const isDateValid = (inputDate) => {
   return day >= 1 && day <= lastDayOfMonth && month >= 1 && month <= 12;
 }
 
-function toggleCalendar() {
+const toggleCalendar = () =>{
   openCalendar.value = !openCalendar.value
 }
 
@@ -384,4 +384,3 @@ th {
     padding: 10px;
   }
 }
-</style>

@@ -12,6 +12,7 @@ const props = defineProps({
 })
 
 </script>
+ 
 <template>
   <div class="inputs">
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
@@ -21,6 +22,7 @@ const props = defineProps({
     </select>
   </div>
 </template>
+
 <style scoped>
 .inputs {
   display: flex;

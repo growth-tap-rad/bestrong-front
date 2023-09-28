@@ -2,8 +2,7 @@
 import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
 import { useUserStore } from '../stores/user.store'
-import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -19,7 +18,6 @@ const goToCreateRegistration = () => {
   userStore.resetStore()
   router.push("/sign-up")
 }
-
 </script>
 
 <template>
@@ -27,6 +25,7 @@ const goToCreateRegistration = () => {
     <div class="box-img">
       <img src="../assets/imgs/BeStrongWS.png" alt="growtrh logo" class="logo">
     </div>
+    
     <div class="actions">
       <VButton text="Login" @click="goToWhatYourGoal" />
       <VButton text="Cadastrar-se" class="button2" @click="goToCreateRegistration" />
