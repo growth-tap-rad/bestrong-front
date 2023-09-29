@@ -27,10 +27,11 @@ export const createDiary = () => {
     })
 }
 export const editDiary = (data) => {
-  const { water } = data
+  const { water, remaning_daily_goal_kcal } = data
   return api
     .put('/users/me/diary', {
-      consumed_water: water
+      consumed_water: water,
+      remaning_daily_goal_kcal
     }).then(({ data }) => {
       return data
     }).catch((e) => {
