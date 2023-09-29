@@ -1,17 +1,5 @@
 import api from '../apiAxios'
 
-export const getDashboardData = () => {
-
-  return api
-    .get('/users/me/tdee')
-    .then(({ data }) => {
-      return data
-    })
-    .catch((e) => {
-      console.error(e)
-      alert('falha ao requisitar dashboard')
-    })
-}
 export const createProgress = (data) => {
   const { height, weight, activity_level, goal } = data
   return api
@@ -31,7 +19,8 @@ export const createProgress = (data) => {
 }
 export const createDiary = () => {
   return api
-    .post("/users/me/diary").then((data) => {
+    .post("/users/me/diary")
+    .then((data) => {
       return data
     }).catch((e) => {
       alert('erro a criar Diary')

@@ -67,7 +67,7 @@ const addWater = (e) => {
 const fetchDiaryData = () => {
 
   userService.getDiary().then((data) => {
-    const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,
+    const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
       burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
 
     const { daily_goal_kcal, protein, carb, fat } = data.progress
@@ -84,6 +84,7 @@ const fetchDiaryData = () => {
     macros.protein.now = consumed_protein;
     macros.carb.now = consumed_carb;
     macros.fat.now = consumed_fat;
+
   })
 }
 

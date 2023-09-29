@@ -32,33 +32,6 @@ const onSelectWeight = (e) => {
   userStore.setWeight(e)
 }
 
-const createProgress = () => {
-  const { height, weight, activity_level, goal } = userStore.getLastProgress
-
-  try {
-    userService.createProgress({ height, weight, activity_level, goal })
-    .then((dataProgress) => {
-      if (dataProgress) {
-        createDiary();
-      }
-    })
-  } catch (error) {
-    console.error(error.response?.data?.message || "Erro ao cadastrar Progresso")
-  }
-}
-
-const createDiary = () => {
-  try {
-    userService.createDiary().then((dataDiary) => {
-      if (dataDiary) {
-        router.push('/diet')
-      }
-    })
-  } catch (error) {
-    console.error(error.response?.data?.message || "Erro ao cadastrar Diario")
-  }
-}
-
 const goToDiet = () => {
 
   if (!userStore.getHeight || !userStore.getWeight) {
@@ -72,19 +45,42 @@ const goToDiet = () => {
   const [day, month, year] = birthday.split("/").map(Number)
   const birthdayFormated = `${year}-${month}-${day}`
 
-  try {
-    authService.signUp({ name, email, password, username, birthday: birthdayFormated, gender })
-      .then((datasSignUp) => {
-        if (datasSignUp && datasSignUp.accessToken) {
-          userStore.setToken(datasSignUp.accessToken)
+
+  authService.signUp({
+    name,
+    email,
+    password,
+    username,
+    birthday: birthdayFormated,
+    gender
+  }).then((datasSignUp) => {
+    if (datasSignUp && datasSignUp.accessToken) {
+      userStore.setToken(datasSignUp.accessToken)
+
+      const { height,
+        weight,
+        activity_level,
+        goal } = userStore.getLastProgress
+
+      userService.createProgress({
+        height,
+        weight,
+        activity_level,
+        goal
+      }).then((dataProgress) => {
+        if (dataProgress) {
+          userService.createDiary()
+            .then(() => {
+              router.push('/diet')
+            }).catch(() => {
+              console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
+              return;
+            })
         }
       })
-  } catch (error) {
-    console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
-    return;
-  }
+    }
+  })
 
-  createProgress();
   isFetching.value = false;
 }
 </script>

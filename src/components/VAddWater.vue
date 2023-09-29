@@ -31,8 +31,8 @@ const inputValue = ref('')
     <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
     <div class="main" v-if="props.show">
         <h1 class="h1-add-water">Água</h1>
-        <input v-model="inputValue" class="input-add-water" type="text" placeholder="200 ml">
-        <button type="number" class="btn btn-primary button-add-water" @click="sendValue">Adicionar</button>
+        <input v-model="inputValue" class="input-add-water" type="number" placeholder="200 ml">
+        <button  class="btn btn-primary button-add-water" @click="sendValue">Adicionar</button>
     </div>
 </template>
 
