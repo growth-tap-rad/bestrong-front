@@ -12,6 +12,8 @@ const dashData = reactive({
   consumed: 0,
   burned: 0,
   goal: 0,
+  remaning: 0,
+  daily: 0
 })
 
 const macros = reactive({
@@ -57,7 +59,7 @@ const addWater = (e) => {
   showComponentAddWater.value = false
 
   if (e) {
-    userService.editDiary({ water: e + meals.item.quantity.value })
+    userService.editDiary({ water: e + meals.item.quantity.value, remaning_daily_goal_kcal: (dashData.goal - dashData.consumed) })
       .then((data) => {
         meals.item.quantity.value = data.consumed_water
       })
@@ -67,7 +69,7 @@ const addWater = (e) => {
 const fetchDiaryData = () => {
 
   userService.getDiary().then((data) => {
-    const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,
+    const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
       burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
 
     const { daily_goal_kcal, protein, carb, fat } = data.progress
@@ -79,11 +81,14 @@ const fetchDiaryData = () => {
     dashData.goal = Math.round(daily_goal_kcal);
     dashData.consumed = consumed_kcal;
     dashData.burned = burned_kcal;
+    dashData.remaning = remaning_daily_goal_kcal;
 
     meals.item.quantity.value = consumed_water
     macros.protein.now = consumed_protein;
     macros.carb.now = consumed_carb;
     macros.fat.now = consumed_fat;
+
+
   })
 }
 
