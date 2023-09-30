@@ -69,7 +69,7 @@ const goToDiet = () => {
 
   const { name, email, password, username, birthday, gender } = userStore.getUser
 
-  const [day, month, year] = birthday.split("/").map(Number)
+  const [day, month, year] = birthday.split("/").map(String)
   const birthdayFormated = `${year}-${month}-${day}`
 
   try {
