@@ -82,12 +82,14 @@ const remainingCaloriesAndPercentage = computed(() => {
   }
 });
 
+import benchpress from '@/assets/imgs/paused-bench-press.jpg';
+
 </script>
 
 <template>
   <div class="dashboard-diet">
     <div class="dash">
-      <img src="src/assets/imgs/paused-bench-press.jpg" alt="Imagem de fundo" class="background-img" />
+      <img :src="benchpress" alt="Imagem de fundo" class="background-img" />
 
       <div class="info consumed lateral">
         <h4 class="title">{{ props.dashInfo.consumed }}</h4>
