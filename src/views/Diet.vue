@@ -59,7 +59,10 @@ const addWater = (e) => {
   showComponentAddWater.value = false
 
   if (e) {
-    userService.editDiary({ water: e + meals.item.quantity.value, remaning_daily_goal_kcal: (dashData.goal - dashData.consumed) })
+    userService.editDiary({
+      consumed_water: (e + meals.item.quantity.value),
+      remaning_daily_goal_kcal: (dashData.goal - dashData.consumed)
+    })
       .then((data) => {
         meals.item.quantity.value = data.consumed_water
       })
