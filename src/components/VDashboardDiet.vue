@@ -72,10 +72,13 @@ const macroPercentages = computed(() => {
 const remainingCaloriesAndPercentage = computed(() => {
   const { consumed, goal } = props.dashInfo;
 
-  const remainingCalories = goal - consumed;
+  let remainingCalories = goal - consumed;
 
   let remainingPercent = calculatePercentage(remainingCalories, goal);
   remainingPercent = (100 - remainingPercent)
+if(remainingCalories < goal ){
+  remainingCalories = 0
+}
   return {
     remainingPercent,
     remainingCalories
