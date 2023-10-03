@@ -1,21 +1,20 @@
 <script setup>
+import { reactive, ref, onMounted } from 'vue';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
-import { onMounted } from 'vue'
-import * as userService from '../service/user.service.js';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import { reactive, ref } from 'vue';
-
+import * as userService from '../api/resources/user.service';
 
 const showComponentAddWater = ref(false)
 const dashData = reactive({
   consumed: 0,
   burned: 0,
   goal: 0,
+  remaning: 0,
+  daily: 0
 })
-
 
 const macros = reactive({
   protein: {
@@ -52,25 +51,28 @@ onMounted(() => {
   fetchDiaryData()
 })
 
-function showAddWater() {
+const showAddWater = () => {
   showComponentAddWater.value = true
 }
-function addWater(e) {
+
+const addWater = (e) => {
   showComponentAddWater.value = false
+
   if (e) {
     userService.editDiary({
-      water: e + meals.item.quantity.value
-
-    }).then((data) => {
-      meals.item.quantity.value = data.consumed_water
+      consumed_water: (e + meals.item.quantity.value),
+      remaning_daily_goal_kcal: (dashData.goal - dashData.consumed)
     })
+      .then((data) => {
+        meals.item.quantity.value = data.consumed_water
+      })
   }
 }
 
-function fetchDiaryData() {
+const fetchDiaryData = () => {
 
   userService.getDiary().then((data) => {
-    const { consumed_daily_goal_kcal, consumed_water, consumed_kcal,
+    const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
       burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
 
     const { daily_goal_kcal, protein, carb, fat } = data.progress
@@ -82,11 +84,14 @@ function fetchDiaryData() {
     dashData.goal = Math.round(daily_goal_kcal);
     dashData.consumed = consumed_kcal;
     dashData.burned = burned_kcal;
+    dashData.remaning = remaning_daily_goal_kcal;
 
     meals.item.quantity.value = consumed_water
     macros.protein.now = consumed_protein;
     macros.carb.now = consumed_carb;
     macros.fat.now = consumed_fat;
+
+
   })
 }
 

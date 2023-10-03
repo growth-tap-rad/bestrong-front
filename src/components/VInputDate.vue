@@ -98,11 +98,11 @@ const sixBySevenWeeks = computed(() => {
 })
 
 
-function resetSelectedDay() {
+const resetSelectedDay =()=> {
   selectedDay.value = null
 }
 
-function handleClickDay(day) {
+const  handleClickDay =(day)=> {
   if (day === selectedDay.value) {
     resetSelectedDay()
     updateDateModel("")
@@ -163,12 +163,12 @@ const updateDateModel = (day) => {
   const formattedMonth = (day.getMonth() + 1).toString().padStart(2, '0');
   const formattedYear = day.getFullYear();
   dateInput.value = `${formattedDay}/${formattedMonth}/${formattedYear}`;
-  emitDateInputFormated(`${formattedYear}-${formattedMonth}-${formattedDay}`);
+  emitDateInputFormated(dateInput.value);
 };
 
 const isInputDateInvalid = ref(false);
 
-function checkDate(value) {
+const  checkDate=(value)=> {
   if (isDateValid(value)) {
     emit("validDate", true);
     return true
@@ -199,7 +199,7 @@ const isDateValid = (inputDate) => {
   return day >= 1 && day <= lastDayOfMonth && month >= 1 && month <= 12;
 }
 
-function toggleCalendar() {
+const toggleCalendar = () =>{
   openCalendar.value = !openCalendar.value
 }
 

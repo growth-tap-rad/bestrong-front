@@ -1,17 +1,17 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store';
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
-import { useUserStore } from '../stores/user.store';
 import deaflift from '@/assets/imgs/deadlift.jpeg';
 import crossfit from '@/assets/imgs/crossfit.jpg';
 import gym from '@/assets/imgs/gym.jpeg';
-import { useRouter } from 'vue-router';
 
 const userStore = useUserStore()
-
 const router = useRouter()
+
 let GOALS = reactive([
   {
     title: "Manter peso",
@@ -37,7 +37,7 @@ let GOALS = reactive([
   },
 ])
 
-function goToHeightWeight() {
+const goToHeightWeight = () => {
   if (userStore.getGoal) {
     router.push('/height-weight')
     return
@@ -46,7 +46,7 @@ function goToHeightWeight() {
 
 }
 
-function selectGoal(e) {
+const selectGoal = (e) => {
 
   GOALS = GOALS.map(goal => {
     if (goal.value == e) {
