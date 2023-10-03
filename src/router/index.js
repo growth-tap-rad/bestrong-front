@@ -9,7 +9,7 @@ import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import Train from '../views/Train.vue'
-
+import Profile from '../views/Profile.vue'
 
 import { useUserStore } from '../stores/user.store'
 import { storeToRefs } from 'pinia'
@@ -67,11 +67,18 @@ const ROUTES = [
     component: Train,
     meta: { requiresAuth: true }
   },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: { requiresAuth: true }
+  }
+
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
- routes: ROUTES
+  routes: ROUTES
 })
 
 // router.beforeEach((to, from, next) => {
