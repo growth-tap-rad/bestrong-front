@@ -2,11 +2,11 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user.store'
+import { useSignInStore } from '../stores/sign.in.store';
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VInputIcon from '../components/VInputIcon.vue';
-import * as authService from '../api/resources/auth.service'
-
+const signInStore= useSignInStore()
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -28,13 +28,13 @@ const backToLogin = () => {
 }
 
 const signin = () => {
-
-  authService.signIn({ email: inputEmail, password: inputPassword }).then(data => {
-    if (data) {
-      router.push('/diet')
-      return
-    }
-  })
+  signInStore.signIn({ email: inputEmail, password: inputPassword })
+    .then(data => {
+      if (data) {
+        router.push('/diet')
+        return
+      }
+    })
 };
 
 onMounted(() => {

@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store'
+import { useHeightWeightStore } from '../stores/height.weight.store';
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
-import { useUserStore } from '../stores/user.store'
-import * as authService from '../api/resources/auth.service'
-import * as userService from '../api/resources/user.service';
 
+
+const HeightWeightStore = useHeightWeightStore()
 
 const router = useRouter()
 const userStore = useUserStore();
@@ -45,7 +46,7 @@ const goToDiet = () => {
   const [day, month, year] = birthday.split("/").map(String)
   const birthdayFormated = `${year}-${month}-${day}`
 
-  authService.signUp({
+  HeightWeightStore.signUp({
     name,
     email,
     password,
@@ -61,14 +62,14 @@ const goToDiet = () => {
         activity_level,
         goal } = userStore.getLastProgress
 
-      userService.createProgress({
+        HeightWeightStore.createProgress({
         height,
         weight,
         activity_level,
         goal
       }).then((dataProgress) => {
         if (dataProgress) {
-          userService.createDiary()
+          HeightWeightStore.createDiary()
             .then(() => {
               router.push('/diet')
             }).catch(() => {

@@ -1,12 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import * as userService from '../api/resources/user.service'
+
+import { useProfileStore } from '../stores/profile.store';
+const profileStore = useProfileStore()
 
 let user = ref({})
 onMounted(() => {
-  userService.getProgress()
+  profileStore.getProgress()
     .then((data) => {
-      console.log(data)
       user.value = data[0]
     })
 })
