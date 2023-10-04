@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import benchpress from '@/assets/imgs/paused-bench-press.jpg';
 import VArcProgressBar from "./VArcProgressBar.vue"
 import VProgressBar from './VProgressBar.vue';
 
@@ -85,7 +86,6 @@ if(remainingCalories < goal ){
   }
 });
 
-import benchpress from '@/assets/imgs/paused-bench-press.jpg';
 
 </script>
 
