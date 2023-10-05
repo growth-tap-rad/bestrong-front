@@ -1,7 +1,7 @@
 import api from '../apiAxios'
-export const signIn = async (data) => {
+export const signIn =  (data) => {
   const { email, password } = data
-  return await api
+  return  api
     .post('/auth/sign-in', {
       email: email.value,
       password: password.value
@@ -17,10 +17,10 @@ export const signIn = async (data) => {
     })
 }
 
-export const signUp = async (data) => {
+export const signUp =  (data) => {
   const { name, email, password, username, birthday, gender } = data
 
-  return await api
+  return  api
     .post('auth/sign-up', {
       name: name,
       email: email,
