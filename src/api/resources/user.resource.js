@@ -17,6 +17,15 @@ export const createProgress = (data) => {
       alert('falha ao criar progresso')
     })
 }
+export const getProgress = () => {
+  return api
+    .get('/users/me/progress')
+    .then(({ data }) => {
+      return data
+    }).catch(() => {
+      alert("falha ao requisitar Diary ")
+    })
+}
 export const createDiary = () => {
   return api
     .post("/users/me/diary")
@@ -41,6 +50,15 @@ export const editDiary = (data) => {
 export const getDiary = () => {
   return api
     .get('/users/me/diary')
+    .then(({ data }) => {
+      return data
+    }).catch(() => {
+      alert("falha ao requisitar Diary ")
+    })
+}
+export const getUser = () => {
+  return api
+    .get('/users/me')
     .then(({ data }) => {
       return data
     }).catch(() => {

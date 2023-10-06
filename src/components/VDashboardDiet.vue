@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import benchpress from '@/assets/imgs/paused-bench-press.jpg';
 import VArcProgressBar from "./VArcProgressBar.vue"
 import VProgressBar from './VProgressBar.vue';
 
@@ -76,16 +77,15 @@ const remainingCaloriesAndPercentage = computed(() => {
 
   let remainingPercent = calculatePercentage(remainingCalories, goal);
   remainingPercent = (100 - remainingPercent)
-if(remainingCalories < goal ){
-  remainingCalories = 0
-}
+  if (remainingCalories < 0) {
+    remainingCalories = 0
+  }
   return {
     remainingPercent,
     remainingCalories
   }
 });
 
-import benchpress from '@/assets/imgs/paused-bench-press.jpg';
 
 </script>
 

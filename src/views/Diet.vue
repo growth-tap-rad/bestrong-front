@@ -1,11 +1,13 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
+import { useDietStore } from '../stores/diet.store';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import * as userService from '../api/resources/user.service';
+
+const dietStore = useDietStore()
 
 const showComponentAddWater = ref(false)
 const dashData = reactive({
@@ -31,21 +33,7 @@ const macros = reactive({
   }
 })
 
-const meals = {
-  /*   item1: {
-      title: "Café da tarde",
-      isWater: false,
-      quantity: "40",
-      items: [
-        { name: 'Abacate', quantity: '10g' },
-        { name: 'Iogurte', quantity: '400ml' }]
-    }, */
-  item: {
-    title: "Agua",
-    isWater: true,
-    quantity: ref(0),
-  }
-}
+let meals = dietStore.getMeals
 
 onMounted(() => {
   fetchDiaryData()
@@ -59,40 +47,41 @@ const addWater = (e) => {
   showComponentAddWater.value = false
 
   if (e) {
-    userService.editDiary({
-      consumed_water: (e + meals.item.quantity.value),
+    dietStore.editDiary({
+      consumed_water: (e + meals.item.quantity),
       remaning_daily_goal_kcal: (dashData.goal - dashData.consumed)
     })
       .then((data) => {
-        meals.item.quantity.value = data.consumed_water
+        dietStore.setConsumedWater(data.consumed_water)
       })
   }
 }
 
-const fetchDiaryData = () => {
+const fetchDiaryData = async () => {
+  await dietStore.fetchDiary()
+  const data = dietStore.getDiary
 
-  userService.getDiary().then((data) => {
-    const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
-      burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
+  const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
+    burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
+  const { daily_goal_kcal, protein, carb, fat } = data.progress
 
-    const { daily_goal_kcal, protein, carb, fat } = data.progress
+  macros.protein.total = protein;
+  macros.carb.total = carb;
+  macros.fat.total = fat;
 
-    macros.protein.total = protein;
-    macros.carb.total = carb;
-    macros.fat.total = fat;
-
-    dashData.goal = Math.round(daily_goal_kcal);
-    dashData.consumed = consumed_kcal;
-    dashData.burned = burned_kcal;
-    dashData.remaning = remaning_daily_goal_kcal;
-
-    meals.item.quantity.value = consumed_water
-    macros.protein.now = consumed_protein;
-    macros.carb.now = consumed_carb;
-    macros.fat.now = consumed_fat;
+  dashData.goal = Math.round(daily_goal_kcal);
+  dashData.consumed = consumed_kcal;
+  dashData.burned = burned_kcal;
+  dashData.remaning = remaning_daily_goal_kcal;
 
 
-  })
+  macros.protein.now = consumed_protein;
+  macros.carb.now = consumed_carb;
+  macros.fat.now = consumed_fat;
+
+
+  dietStore.setConsumedWater(consumed_water)
+
 }
 
 </script>

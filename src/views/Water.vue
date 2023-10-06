@@ -44,10 +44,7 @@ const abreAba = ()=>{
     }
 }
 
-.center {
 
-
-}
 
 h1 {
     display: flex;
