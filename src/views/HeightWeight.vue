@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store'
+import { useHeightWeightStore } from '../stores/height.weight.store';
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
-import { useUserStore } from '../stores/user.store'
-import * as authService from '../service/auth.service'
-import * as userService from '../service/user.service'
 
+
+const HeightWeightStore = useHeightWeightStore()
 
 const router = useRouter()
 const userStore = useUserStore();
@@ -32,33 +33,6 @@ const onSelectWeight = (e) => {
   userStore.setWeight(e)
 }
 
-const createProgress = () => {
-  const { height, weight, activity_level, goal } = userStore.getLastProgress
-
-  try {
-    userService.createProgress({ height, weight, activity_level, goal })
-    .then((dataProgress) => {
-      if (dataProgress) {
-        createDiary();
-      }
-    })
-  } catch (error) {
-    console.error(error.response?.data?.message || "Erro ao cadastrar Progresso")
-  }
-}
-
-const createDiary = () => {
-  try {
-    userService.createDiary().then((dataDiary) => {
-      if (dataDiary) {
-        router.push('/diet')
-      }
-    })
-  } catch (error) {
-    console.error(error.response?.data?.message || "Erro ao cadastrar Diario")
-  }
-}
-
 const goToDiet = () => {
 
   if (!userStore.getHeight || !userStore.getWeight) {
@@ -69,22 +43,44 @@ const goToDiet = () => {
 
   const { name, email, password, username, birthday, gender } = userStore.getUser
 
-  const [day, month, year] = birthday.split("/").map(Number)
+  const [day, month, year] = birthday.split("/").map(String)
   const birthdayFormated = `${year}-${month}-${day}`
 
-  try {
-    authService.signUp({ name, email, password, username, birthday: birthdayFormated, gender })
-      .then((datasSignUp) => {
-        if (datasSignUp && datasSignUp.accessToken) {
-          userStore.setToken(datasSignUp.accessToken)
+  HeightWeightStore.signUp({
+    name,
+    email,
+    password,
+    username,
+    birthday: birthdayFormated,
+    gender
+  }).then((datasSignUp) => {
+    if (datasSignUp && datasSignUp.accessToken) {
+      userStore.setToken(datasSignUp.accessToken)
+
+      const { height,
+        weight,
+        activity_level,
+        goal } = userStore.getLastProgress
+
+        HeightWeightStore.createProgress({
+        height,
+        weight,
+        activity_level,
+        goal
+      }).then((dataProgress) => {
+        if (dataProgress) {
+          HeightWeightStore.createDiary()
+            .then(() => {
+              router.push('/diet')
+            }).catch(() => {
+              console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
+              return;
+            })
         }
       })
-  } catch (error) {
-    console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
-    return;
-  }
+    }
+  })
 
-  createProgress();
   isFetching.value = false;
 }
 </script>

@@ -1,79 +1,53 @@
 <script setup>
-
-import { onMounted, reactive } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/user.store";
+import { useActivityStore } from "../stores/activity.level.store"
 import VBoxImgInfo from "../components/VBoxImgInfo.vue";
 import VButton from "../components/VButton.vue";
-import VtitlePage from "../components/VtitlePage.vue";/*  */
-import low from '@/assets/imgs/ActivityLevel-low.jpg';
-import moderate from '@/assets/imgs/ActivityLevel-moderate.jpg';
-import intense from '@/assets/imgs/ActivityLevel-intense.png';
+import VtitlePage from "../components/VtitlePage.vue";
+
+const ActivityStore = useActivityStore()
 
 const userStore = useUserStore()
 const router = useRouter()
-let atividades = reactive([
-    {
-        title: 'Baixa',
-        text: 'Treina 3 vezes na semana ou menos.',
-        bg: low,
-        value: 'low',
-        selected: false
-    },
-    {
-        title: 'Moderada',
-        text: 'Treina 3 ou 4 vezes na semana.',
-        bg: moderate,
-        value: 'moderate',
-        selected: false
-    },
-    {
-        title: 'Intensa',
-        text: 'Treina todos ou quase todos os dias.',
-        bg: intense,
-        value: 'intense',
-        selected: false
-    }
-])
+let activitys = ActivityStore.getActivitys
+
 const goToYourGoal = () => {
     if (userStore.getActivityLevel) {
-         router.push('/your-goal')
+        router.push('/your-goal')
         return
     }
     alert('Selecione um nivel de atividade')
-
-
 }
-
-
 
 const selectActivityLevel = (e) => {
 
-    atividades = atividades.map(atividade => {
-        if (atividade.value == e) {
-            atividade.selected = !atividade.selected
+    activitys = activitys.map(activity => {
+        if (activity.value == e) {
+            activity.selected = !activity.selected
 
-            if (atividade.selected) {
-                userStore.setActivity_level(atividade.value)
+            if (activity.selected) {
+                userStore.setActivity_level(activity.value)
             } else {
                 userStore.setActivity_level('')
             }
 
         } else {
-            atividade.selected = false
+            activity.selected = false
         }
-        return atividade
+        return activity
     })
 }
 onMounted(() => {
 
     const selectedInStore = userStore.getActivityLevel
 
-    atividades = atividades.map(atividade => {
-        if (atividade.value == selectedInStore) {
-            atividade.selected = !atividade.selected
+    activitys = activitys.map(activity => {
+        if (activity.value == selectedInStore) {
+            activity.selected = !activity.selected
         }
-        return atividade
+        return activity
     })
 })
 </script>
@@ -81,7 +55,7 @@ onMounted(() => {
 <template>
     <div class="bg-activity">
         <VtitlePage title="Qual seu nivel de atividade Física?" />
-        <VBoxImgInfo v-for="atividade in atividades" :data="atividade" class="margin-y" :selected="atividade.selected"
+        <VBoxImgInfo v-for="activity in activitys" :data="activity" class="margin-y" :selected="activity.selected"
             @update="(e) => selectActivityLevel(e)" />
         <VButton @click="goToYourGoal" text="CONFIRMAR OBJETIVO" class="button" />
     </div>

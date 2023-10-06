@@ -1,17 +1,5 @@
-import api from '../api/apiAxios'
+import api from '../apiAxios'
 
-export const getDashboardData = () => {
-
-  return api
-    .get('/users/me/tdee')
-    .then(({ data }) => {
-      return data
-    })
-    .catch((e) => {
-      console.error(e)
-      alert('falha ao requisitar dashboard')
-    })
-}
 export const createProgress = (data) => {
   const { height, weight, activity_level, goal } = data
   return api
@@ -29,19 +17,30 @@ export const createProgress = (data) => {
       alert('falha ao criar progresso')
     })
 }
+export const getProgress = () => {
+  return api
+    .get('/users/me/progress')
+    .then(({ data }) => {
+      return data
+    }).catch(() => {
+      alert("falha ao requisitar Diary ")
+    })
+}
 export const createDiary = () => {
   return api
-    .post("/users/me/diary").then((data) => {
+    .post("/users/me/diary")
+    .then((data) => {
       return data
     }).catch((e) => {
       alert('erro a criar Diary')
     })
 }
 export const editDiary = (data) => {
-  const { water } = data
+  const { consumed_water, remaning_daily_goal_kcal } = data
   return api
     .put('/users/me/diary', {
-      consumed_water: water
+      consumed_water,
+      remaning_daily_goal_kcal
     }).then(({ data }) => {
       return data
     }).catch((e) => {
@@ -51,6 +50,15 @@ export const editDiary = (data) => {
 export const getDiary = () => {
   return api
     .get('/users/me/diary')
+    .then(({ data }) => {
+      return data
+    }).catch(() => {
+      alert("falha ao requisitar Diary ")
+    })
+}
+export const getUser = () => {
+  return api
+    .get('/users/me')
     .then(({ data }) => {
       return data
     }).catch(() => {

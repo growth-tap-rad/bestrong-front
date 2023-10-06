@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import benchpress from '@/assets/imgs/paused-bench-press.jpg';
 import VArcProgressBar from "./VArcProgressBar.vue"
 import VProgressBar from './VProgressBar.vue';
 
@@ -72,23 +73,26 @@ const macroPercentages = computed(() => {
 const remainingCaloriesAndPercentage = computed(() => {
   const { consumed, goal } = props.dashInfo;
 
-  const remainingCalories = goal - consumed;
+  let remainingCalories = goal - consumed;
 
   let remainingPercent = calculatePercentage(remainingCalories, goal);
   remainingPercent = (100 - remainingPercent)
-
+  if (remainingCalories < 0) {
+    remainingCalories = 0
+  }
   return {
     remainingPercent,
     remainingCalories
   }
 });
 
+
 </script>
 
 <template>
   <div class="dashboard-diet">
     <div class="dash">
-      <img src="src/assets/imgs/paused-bench-press.jpg" alt="Imagem de fundo" class="background-img" />
+      <img :src="benchpress" alt="Imagem de fundo" class="background-img" />
 
       <div class="info consumed lateral">
         <h4 class="title">{{ props.dashInfo.consumed }}</h4>

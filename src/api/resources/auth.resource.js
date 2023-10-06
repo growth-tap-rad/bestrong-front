@@ -1,7 +1,7 @@
-import api from '../api/apiAxios'
-export const signIn = (data) => {
+import api from '../apiAxios'
+export const signIn =  (data) => {
   const { email, password } = data
-  return api
+  return  api
     .post('/auth/sign-in', {
       email: email.value,
       password: password.value
@@ -17,10 +17,10 @@ export const signIn = (data) => {
     })
 }
 
-export const signUp = (data) => {
+export const signUp =  (data) => {
   const { name, email, password, username, birthday, gender } = data
 
-  return api
+  return  api
     .post('auth/sign-up', {
       name: name,
       email: email,

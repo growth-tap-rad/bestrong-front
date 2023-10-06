@@ -1,42 +1,17 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user.store';
+import { useGoalStore } from '../stores/goal.store';
 import VButton from '../components/VButton.vue';
 import VTitlePage from '../components/VtitlePage.vue';
 import VBoxImgInfo from '../components/VBoxImgInfo.vue';
-import { useUserStore } from '../stores/user.store';
-import deaflift from '@/assets/imgs/deadlift.jpeg';
-import crossfit from '@/assets/imgs/crossfit.jpg';
-import gym from '@/assets/imgs/gym.jpeg';
 
+const goals = useGoalStore()
 const userStore = useUserStore()
 const router = useRouter()
 
-let GOALS = reactive([
-  {
-    title: "Manter peso",
-    text: "Vamos te ajudar a equilibrar a alimentação com exercícios para manter.",
-    bg: deaflift,
-    value: 'maintain',
-    selected: false
-  },
-  {
-    title: "Perder peso",
-    text: "Ajudaremos com as informações do que precisa comer para organizar sua dieta.",
-    bg: crossfit,
-    value: 'lose',
-    selected: false
-  },
-
-  {
-    title: "Ganhar peso",
-    text: "Vamos te ajudar a organizar o que você precisa comer para ganhar massa.",
-    bg: gym,
-    value: 'gain',
-    selected: false
-  },
-])
-
+let GOALS = goals.getGoals
 const goToHeightWeight = () => {
   if (userStore.getGoal) {
     router.push('/height-weight')
