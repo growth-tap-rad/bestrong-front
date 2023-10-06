@@ -8,8 +8,9 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-import Train from '../views/Train.vue'
 
+import Train from '../views/Train.vue'
+import Water from '../views/Water.vue'
 
 import { useUserStore } from '../stores/user.store'
 import { storeToRefs } from 'pinia'
@@ -67,6 +68,11 @@ const ROUTES = [
     component: Train,
     meta: { requiresAuth: true }
   },
+  {
+    path:'/water',
+    name: 'water',
+    component: Water
+  }
 ]
 
 const router = createRouter({
