@@ -90,6 +90,4 @@ export const useDietStore = defineStore('diet', {
     async fetchDiary() {
       this.diary = await userResource.getDiary()
     }
-
-  },
 })
