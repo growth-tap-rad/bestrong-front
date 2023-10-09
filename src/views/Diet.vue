@@ -45,6 +45,8 @@ const macros = reactive({
   }
 })
 
+let meals = dietStore.getMeals
+
 
 
 onMounted(async () => {
@@ -83,7 +85,6 @@ const addMeal = (e) => {
 }
 
 const fetchDiaryData = async () => {
-
   const data = dietStore.getDiary
 
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,

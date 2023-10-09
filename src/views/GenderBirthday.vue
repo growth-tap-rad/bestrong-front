@@ -16,15 +16,15 @@ let validDate = ref(false);
 
 
 let inputGender = reactive([
-  { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }])
+  { text: 'homem', value: 'man', selected: false },
+  { text: 'mulher', value: 'woman', selected: false }])
 
 
-const selectBirthday =(dataString)=> {
+const selectBirthday = (dataString) => {
   userStore.setBirthday(dataString)
 }
 
-
-const  selectGender =(e)=> {
+const selectGender = (e) => {
 
   inputGender = inputGender.map(opt => {
     if (opt.value == e) {
@@ -50,7 +50,7 @@ onMounted(() => {
   })
 })
 
-const goForDiet =()=> {
+const goForDiet = () => {
   if (validDate && userStore.getGender) {
     router.push('/physical-activity-level')
     return
