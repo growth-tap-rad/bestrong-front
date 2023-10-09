@@ -3,27 +3,13 @@ import { ref } from 'vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VTrainList from '../components/VTrainList.vue';
-import esteira from '@/assets/imgs/esteira.jpeg';
-import sedentarismo  from '@/assets/imgs/sedentarismo.jpg'
 
+import { useTrainStore } from '../stores/train.store';
+const trainStore = useTrainStore()
 const train = ref(true);
 const exercise = ref(false);
 
-let atividades = [
-  {
-    title: 'CARDIO',
-    minutes: 50,
-    exercisesQty: 10,
-    img: esteira,
-    exercises: ["Biceps", "Peito"]
-  },
-  {
-    title: 'CARDIO2',
-    minutes: 50,
-    exercisesQty: 10,
-    img: sedentarismo,
-  },
-]
+let activitys = trainStore.getActivitys
 
 const toggleOption = (option) => {
   if (option === 'train') {
