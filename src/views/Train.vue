@@ -3,14 +3,14 @@ import { ref } from 'vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VTrainList from '../components/VTrainList.vue';
-
 import { useTrainStore } from '../stores/train.store';
 
+import { useTrainStore } from '../stores/train.store';
+const trainStore = useTrainStore()
 const train = ref(true);
 const exercise = ref(false);
 
 let activitys = useTrainStore.getActivitys
-debugger
 const toggleOption = (option) => {
   if (option === 'train') {
     train.value = !train.value;

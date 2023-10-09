@@ -18,8 +18,6 @@ const defaultState = {
       img: sedentarismo,
     },
   ]
-
-
 }
 
 export const useTrainStore = defineStore('train', {
@@ -29,9 +27,5 @@ export const useTrainStore = defineStore('train', {
     getActivitys: (state) => state.activitys
 
   },
-  actions: {
-
-  }
-
 
 })
