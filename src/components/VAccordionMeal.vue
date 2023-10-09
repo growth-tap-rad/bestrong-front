@@ -19,7 +19,7 @@ const props = defineProps({
     })
   }
 })
-console.log(props.data)
+
 const unity = computed(() => {
   return props.data.isWater ? "ml" : "kcal"
 })

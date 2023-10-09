@@ -160,8 +160,7 @@ const fetchDiaryData = async () => {
     }
 
     .box-ingredients {
-      margin-top: 30px;
-
+    margin: 30px 0 100px  0 ;
       .meal {
         padding: 5px 20px;
         margin: 0 0 10px 0;
