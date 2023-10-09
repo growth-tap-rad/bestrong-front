@@ -14,6 +14,7 @@ const showComponentAddWater = ref(false)
 const showComponentAddMeal = ref(false)
 let meals = reactive([])
 
+
 const water = {
 
   title: "Agua",
@@ -76,7 +77,7 @@ const addMeal = (e) => {
   if (e) {
     dietStore.createMeal(e)
       .then((data) => {
-        dietStore.setDiary(data)
+        meals = data.meal
       })
   }
 }
@@ -106,7 +107,7 @@ const fetchDiaryData = async () => {
   water.quantity.value = consumed_water
 
   data.meal.forEach(element => {
-    meals.push({ title: element.name })
+    meals.push({ title: element.name ,  quantity:element.meal_consumed_kcal })
   });
 
 }
@@ -140,6 +141,7 @@ const fetchDiaryData = async () => {
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   display: flex;
   flex-direction: column;

@@ -9,13 +9,17 @@ const open = () => {
 
 const props = defineProps({
   data: {
-    title: "",
-    isWater: true,
-    quantity: "",
-    items: []
+    type: Object,
+    default: () => ({
+      title: "",
+      isWater: true,
+      quantity: 0,
+      meal_consumed_kcal: 0,
+      items: [],
+    })
   }
 })
-
+console.log(props.data)
 const unity = computed(() => {
   return props.data.isWater ? "ml" : "kcal"
 })
@@ -28,8 +32,9 @@ const unity = computed(() => {
         <button class="accordion-button" :class="{ 'show': openAccord }" type="button" data-bs-toggle="collapse"
           data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" @click="open()">
           <div class="MealAndQuantity">
-            <span class="meal">{{ props.data.title || props.data.name  }}</span>
+            <span class="meal">{{ props.data.title }}</span>
             <span class="quantity">Consumido {{ props.data.quantity }} {{ unity }}</span>
+
           </div>
         </button>
       </h2>
@@ -43,7 +48,7 @@ const unity = computed(() => {
             <div class="MealAndQuantity " v-for="item in data.items">
               <span>{{ item.name }} </span><span>{{ item.quantity }}</span>
             </div>
-            <button class="addQtdWater" @click= "$emit('showAddMeal')">+ Adicionar Alimento</button>
+            <button class="addQtdWater" @click="$emit('showAddMeal')">+ Adicionar Alimento</button>
           </div>
         </div>
       </div>

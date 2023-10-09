@@ -15,7 +15,7 @@ const defaultState = {
     meal: {
       item: {
         name: "",
-        type: "",
+        meal_consumed_kcal:0
       },
     }
     ,
@@ -53,7 +53,7 @@ export const useDietStore = defineStore('diet', {
       this.setDiary(await userResource.getDiary())
     },
     async createMeal(payload) {
-      this.setDiary(await userResource.createMeal(payload))
+      this.setMeal(await userResource.createMeal(payload))
       return this.getDiary
     },
     setDiary(payload) {
@@ -62,8 +62,8 @@ export const useDietStore = defineStore('diet', {
     setConsumedWater(payload) {
       this.diary.consumed_water = payload
     },
+    setMeal(payload) {
+      this.diary.meal.push({name:payload.name})
+    }
   },
-
-
-
 })

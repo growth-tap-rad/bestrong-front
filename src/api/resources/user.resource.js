@@ -2,8 +2,7 @@ import api from '../apiAxios'
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
-      name: meal,
-      type: meal
+      name: meal
     })
     .then(({ data }) => {
       return data

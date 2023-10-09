@@ -2,8 +2,9 @@
 import VButton from './VButton.vue';
 import VtitlePage from './VtitlePage.vue';
 import { ref, defineEmits } from 'vue';
-const emit = defineEmits()
 
+const emit = defineEmits()
+const inputValue = ref('')
 const props = defineProps(
   {
     show: {
@@ -14,20 +15,20 @@ const props = defineProps(
 
       type: Array, required: true, default: () => [
         {
-          title: 'Café da manahã',
-          value: 'cafeDaManha'
+          title: 'Cafe Da Manha',
+          value: 'Cafe Da Manha'
         },
         {
           title: 'Almoço',
-          value: 'almoco'
+          value: 'Almoço'
         },
         {
-          title: 'lanche',
-          value: 'lanche'
+          title: 'Lanche',
+          value: 'Lanche'
         },
         {
-          title: 'janta',
-          value: 'janta'
+          title: 'Janta',
+          value: 'Janta'
         }
       ]
     }
@@ -51,7 +52,7 @@ const sendValue = () => {
 const changeValue = (e) => {
   inputValue.value = e
 }
-const inputValue = ref('')
+
 
 </script>
 
