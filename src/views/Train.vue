@@ -38,8 +38,8 @@ const toggleOption = (option) => {
         <button class="button" @click="toggleOption('exercise')" :class="{ 'selected': exercise }">Exercícios</button>
       </section>
       <section class="box-selections">
-        <VTrainList v-if="train" v-for="atividade in atividades" class="selection" :data="atividade"
-          :selected="atividade.selected" @update="(e) => selectActivityLevel(e)" />
+        <VTrainList v-if="train" v-for="activity in activitys" class="selection" :data="activity"
+          :selected="activity.selected" @update="(e) => selectActivityLevel(e)" />
       </section>
     </main>
     <VBottomMenu class="footer" actualRoute="/train" />
