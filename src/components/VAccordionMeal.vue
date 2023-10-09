@@ -1,18 +1,22 @@
 <script setup>
-import {ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 
 let openAccord = ref(false);
 
-const open=()=> {
+const open = () => {
   openAccord.value = !openAccord.value
 }
 
 const props = defineProps({
   data: {
-    title: "",
-    isWater: true,
-    quantity: "",
-    items: []
+    type: Object,
+    default: () => ({
+      title: "",
+      isWater: true,
+      quantity: 0,
+      meal_consumed_kcal: 0,
+      items: [],
+    })
   }
 })
 
@@ -30,19 +34,21 @@ const unity = computed(() => {
           <div class="MealAndQuantity">
             <span class="meal">{{ props.data.title }}</span>
             <span class="quantity">Consumido {{ props.data.quantity }} {{ unity }}</span>
+
           </div>
         </button>
       </h2>
       <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
         data-bs-parent="#accordionExample">
-        <div class="accordion-body" v-if="props.data.isWater">
-          <button class="addQtdWater" @click= "$emit('showAddWater')">+ Adicionar Água</button>
+        <div class="accordion-body" v-if="props.data?.isWater">
+          <button class="addQtdWater" @click="$emit('showAddWater')">+ Adicionar Água</button>
         </div>
         <div v-else>
           <div class="accordionMeals">
-            <div class="MealAndQuantity " v-for="item in data.items"><span>{{ item.name }} </span><span>{{ item.quantity
-            }}</span>
+            <div class="MealAndQuantity " v-for="item in data.items">
+              <span>{{ item.name }} </span><span>{{ item.quantity }}</span>
             </div>
+            <button class="addQtdWater" @click="$emit('showAddMeal')">+ Adicionar Alimento</button>
           </div>
         </div>
       </div>

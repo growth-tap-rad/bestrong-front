@@ -6,16 +6,28 @@ import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
+import VAddMeal from '../components/VAddMeal.vue';
 
 const dietStore = useDietStore()
 
 const showComponentAddWater = ref(false)
+const showComponentAddMeal = ref(false)
+let meals = reactive([])
+
+
+const water = {
+
+  title: "Agua",
+  isWater: true,
+  quantity: ref(0),
+
+}
 const dashData = reactive({
   consumed: 0,
   burned: 0,
   goal: 0,
   remaning: 0,
-  daily: 0
+  daily: 0,
 })
 
 const macros = reactive({
@@ -35,7 +47,10 @@ const macros = reactive({
 
 let meals = dietStore.getMeals
 
-onMounted(() => {
+
+
+onMounted(async () => {
+  await dietStore.fetchDiary()
   fetchDiaryData()
 })
 
@@ -48,17 +63,28 @@ const addWater = (e) => {
 
   if (e) {
     dietStore.editDiary({
-      consumed_water: (e + meals.item.quantity),
+      consumed_water: (e + water.quantity.value),
       remaning_daily_goal_kcal: (dashData.goal - dashData.consumed)
+    }).then((data) => {
+      water.quantity.value = data.consumed_water
+
     })
+  }
+}
+const showAddMeal = () => {
+  showComponentAddMeal.value = true
+}
+const addMeal = (e) => {
+  showComponentAddMeal.value = false
+  if (e) {
+    dietStore.createMeal(e)
       .then((data) => {
-        dietStore.setConsumedWater(data.consumed_water)
+        meals = data.meal
       })
   }
 }
 
 const fetchDiaryData = async () => {
-  await dietStore.fetchDiary()
   const data = dietStore.getDiary
 
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
@@ -79,8 +105,11 @@ const fetchDiaryData = async () => {
   macros.carb.now = consumed_carb;
   macros.fat.now = consumed_fat;
 
+  water.quantity.value = consumed_water
 
-  dietStore.setConsumedWater(consumed_water)
+  data.meal.forEach(element => {
+    meals.push({ title: element.name ,  quantity:element.meal_consumed_kcal })
+  });
 
 }
 
@@ -95,10 +124,12 @@ const fetchDiaryData = async () => {
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-        <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
+
+        <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
+        <VAccordionMeal @showAddMeal="() => showAddMeal()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
-
+      <VAddMeal class="box-add-meal" :show="showComponentAddMeal" @showAddMeal="(e) => { addMeal(e) }" />
       <VBottomMenu class="footer" actualRoute="/diet" />
 
 
@@ -111,7 +142,8 @@ const fetchDiaryData = async () => {
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 
@@ -129,8 +161,7 @@ const fetchDiaryData = async () => {
     }
 
     .box-ingredients {
-      margin-top: 30px;
-
+    margin: 30px 0 100px  0 ;
       .meal {
         padding: 5px 20px;
         margin: 0 0 10px 0;

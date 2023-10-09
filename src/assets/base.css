@@ -9,12 +9,14 @@ body {
 
   --button-color-light: #24669c;
   --button-color-light-hover: #194e79;
+  --button-color-dark:#333333;
   --linear-bg-color-light: linear-gradient(#40B2FF, #194e79);
   --button-color-facebook: #007bff;
   --bg-color-dark: #222222;
-  --bg-color-dark-full: #000001;
-  --bg-color-dark3: #191b1b;
   --bg-color-dark2: #1c1b1b;
+  --bg-color-dark3: #191b1b;
+  --bg-color-dark4: #000000a6;
+  --bg-color-dark-full: #000001;
   --bg-color-grey: #3b3838;
   --bg-color-grey2: #787878;
   --bg-color-light: #fdfafa;

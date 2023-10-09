@@ -2,7 +2,8 @@
 const props = defineProps({
   options: {
     type: Array, required: true, default: () => [
-      { text: 'homem', value: 'man', selected: false }, { text: 'mulher', value: 'woman', selected: false }
+      { text: 'homem', value: 'man', selected: false },
+      { text: 'mulher', value: 'woman', selected: false }
     ]
   },
   title: {
@@ -18,7 +19,8 @@ const props = defineProps({
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <select class="form-select input" aria-label="Gender" @input="$emit('update', $event.target.value)">
       <option selected disabled class="option">Selecione seu gênero</option>
-      <option v-for="(item, index) in props.options" class="option" :value="item.value" :selected="item.selected">{{ item.text }} </option>
+      <option v-for="(item, index) in props.options" class="option" :value="item.value" :selected="item.selected">{{
+        item.text }} </option>
     </select>
   </div>
 </template>

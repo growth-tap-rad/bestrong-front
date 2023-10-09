@@ -10,9 +10,7 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import Train from '../views/Train.vue'
 import Profile from '../views/Profile.vue'
-
-import { useUserStore } from '../stores/user.store'
-import { storeToRefs } from 'pinia'
+import AddFood from'../views/AddFood.vue'
 
 const ROUTES = [
   {
@@ -71,6 +69,13 @@ const ROUTES = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    meta: { requiresAuth: true }
+  }
+  ,
+  {
+    path: '/food',
+    name: 'AddFood',
+    component: AddFood,
     meta: { requiresAuth: true }
   }
 

@@ -1,5 +1,19 @@
 import api from '../apiAxios'
 
+export const createMeal = (meal) => {
+  return api
+    .post('/users/me/meal', {
+      name: meal
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+      alert('falha ao criar refeição')
+    })
+}
+
 export const createProgress = (data) => {
   const { height, weight, activity_level, goal } = data
   return api
