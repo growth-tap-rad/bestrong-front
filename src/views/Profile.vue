@@ -2,19 +2,20 @@
 ;
 
 import { onMounted, ref } from 'vue';
+import { useProfileStore } from '../stores/profile.store';
+const profileStore = useProfileStore()
 
 import { useProfileStore } from '../stores/profile.store';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
 const profileStore = useProfileStore()
 let mostrar = true
 let user = ref({})
-/* onMounted(() => {
+onMounted(() => {
   profileStore.getProgress()
     .then((data) => {
-      console.log(data)
       user.value = data[0]
     })
-}) */
+})
 
 </script>
 <template >

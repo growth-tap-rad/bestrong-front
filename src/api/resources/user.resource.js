@@ -1,4 +1,5 @@
 import api from '../apiAxios'
+
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
@@ -12,6 +13,7 @@ export const createMeal = (meal) => {
       alert('falha ao criar refeição')
     })
 }
+
 export const createProgress = (data) => {
   const { height, weight, activity_level, goal } = data
   return api
