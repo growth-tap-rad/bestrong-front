@@ -50,7 +50,6 @@ const macros = reactive({
 })
 
 onMounted(async () => {
-  await dietStore.fetchDiary()
   fetchDiaryData()
 })
 
@@ -86,10 +85,15 @@ const addMeal = (e) => {
   if (e) {
     dietStore.createMeal(e)
       .then((data) => {
-        meals = data.meal
+        fetchDiaryData()
       })
   }
 }
+const showAddFood = () =>{
+  alert("aqui vai adicionar comida")
+
+}
+
 const hideButtonBottomOptions = () => {
   ButtonBottomOptions.value = false
 }
@@ -97,6 +101,7 @@ const showButtonBottomOptions = () => {
   ButtonBottomOptions.value = !ButtonBottomOptions.value
 }
 const fetchDiaryData = async () => {
+  await dietStore.fetchDiary()
   const data = dietStore.getDiary
 
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
@@ -136,7 +141,8 @@ const fetchDiaryData = async () => {
 
       <div class="box-ingredients">
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal @showAddMeal="() => showAddMeal()" class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddFood="()=> showAddFood()" class="meal" :data="meal"
+          v-for="meal in meals" />
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
