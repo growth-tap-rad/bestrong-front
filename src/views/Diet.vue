@@ -15,7 +15,7 @@ const showComponentAddWater = ref(false)
 const showComponentAddMeal = ref(false)
 
 const ButtonBottomOptions = ref(false)
-let meals = reactive([])
+let meals = ref([])
 
 
 
@@ -85,11 +85,14 @@ const addMeal = (e) => {
   if (e) {
     dietStore.createMeal(e)
       .then((data) => {
-        fetchDiaryData()
+        meals.value = []
+        data.meal.forEach(element => {
+          meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
+        });
       })
   }
 }
-const showAddFood = () =>{
+const showAddFood = () => {
   alert("aqui vai adicionar comida")
 
 }
@@ -125,7 +128,7 @@ const fetchDiaryData = async () => {
   water.quantity.value = consumed_water
 
   data.meal.forEach(element => {
-    meals.push({ title: element.name, quantity: element.meal_consumed_kcal })
+    meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
   });
 }
 
@@ -141,8 +144,7 @@ const fetchDiaryData = async () => {
 
       <div class="box-ingredients">
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal @showAddFood="()=> showAddFood()" class="meal" :data="meal"
-          v-for="meal in meals" />
+        <VAccordionMeal @showAddFood="() => showAddFood()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
