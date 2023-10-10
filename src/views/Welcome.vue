@@ -23,7 +23,7 @@ const goToCreateRegistration = () => {
 <template>
   <section class="bg-entry">
     <div class="box-img">
-      <img src="@/assets/imgs/beStrongHbetterPng.png" alt="growtrh logo" class="logo">
+      <img src="@/assets/imgs/beStrongBetePng.png" alt="bestrong logo" class="logo">
     </div>
     
     <div class="actions">
