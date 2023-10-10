@@ -12,16 +12,13 @@ export const useHeightWeightStore = defineStore('heightweight', {
   },
   actions: {
     async signUp(payload) {
-      console.log("entrou no signUp")
       return await authResource.signUp(payload)
     },
     async createProgress(payload) {
-      console.log("entrou no createProgress")
       return await userResource.createProgress(payload)
     },
     async createDiary() {
-      console.log("entrou no createDiary")
-     return await userResource.createDiary()
+      return await userResource.createDiary()
     }
   }
 })

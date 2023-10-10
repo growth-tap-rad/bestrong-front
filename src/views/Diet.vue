@@ -50,15 +50,16 @@ const macros = reactive({
 })
 
 onMounted(async () => {
-  await dietStore.fetchDiary()
   fetchDiaryData()
 })
 
 const showAddWater = () => {
+  hideButtonBottomOptions()
   showComponentAddWater.value = true
 }
 
 const addWater = (e) => {
+  hideButtonBottomOptions()
   showComponentAddWater.value = false
 
   if (e) {
@@ -72,24 +73,35 @@ const addWater = (e) => {
   }
 }
 const showAddMeal = () => {
+  hideButtonBottomOptions()
   showComponentAddMeal.value = true
+
 }
 const addMeal = (e) => {
+  hideButtonBottomOptions()
   showComponentAddMeal.value = false
+
+
   if (e) {
     dietStore.createMeal(e)
       .then((data) => {
-        meals = data.meal
+        fetchDiaryData()
       })
   }
 }
-const hideButtonBottomOptions = ()=>{
+const showAddFood = () =>{
+  alert("aqui vai adicionar comida")
+
+}
+
+const hideButtonBottomOptions = () => {
   ButtonBottomOptions.value = false
 }
-const showButtonBottomOptions = ()=>{
+const showButtonBottomOptions = () => {
   ButtonBottomOptions.value = !ButtonBottomOptions.value
 }
 const fetchDiaryData = async () => {
+  await dietStore.fetchDiary()
   const data = dietStore.getDiary
 
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
@@ -115,7 +127,6 @@ const fetchDiaryData = async () => {
   data.meal.forEach(element => {
     meals.push({ title: element.name, quantity: element.meal_consumed_kcal })
   });
-
 }
 
 </script>
@@ -129,17 +140,17 @@ const fetchDiaryData = async () => {
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal @showAddMeal="() => showAddMeal()" class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddFood="()=> showAddFood()" class="meal" :data="meal"
+          v-for="meal in meals" />
       </div>
-      <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
 
+      <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
       <VAddMeal class="box-add-meal" :show="showComponentAddMeal" @showAddMeal="(e) => { addMeal(e) }" />
-      <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions" @hideButtonBottomOptions="()=>{ hideButtonBottomOptions()}"/>
-      <VBottomMenu @showButtonBottomOptions="()=>{
-        showButtonBottomOptions()
-      }" class="footer" actualRoute="/diet" />
+
+      <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
+        @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()" />
+      <VBottomMenu @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer" actualRoute="/diet" />
 
 
     </main>
@@ -159,7 +170,7 @@ const fetchDiaryData = async () => {
   .main {
     width: 100%;
 
-  
+
 
     .footer {
       position: fixed;
