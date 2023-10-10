@@ -2,8 +2,7 @@
 ;
 
 import { onMounted, ref } from 'vue';
-import { useProfileStore } from '../stores/profile.store';
-const profileStore = useProfileStore()
+
 
 import { useProfileStore } from '../stores/profile.store';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';

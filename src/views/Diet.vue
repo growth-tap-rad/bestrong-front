@@ -45,10 +45,6 @@ const macros = reactive({
   }
 })
 
-let meals = dietStore.getMeals
-
-
-
 onMounted(async () => {
   await dietStore.fetchDiary()
   fetchDiaryData()

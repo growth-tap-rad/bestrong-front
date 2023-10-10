@@ -2,24 +2,6 @@
 import { defineStore } from "pinia";
 import * as userResource from '../api/resources/user.resource';
 const defaultState = {
-
-  meals: {
-    /*   item1: {
-        title: "Café da tarde",
-        isWater: false,
-        quantity: "40",
-        items: [
-          { name: 'Abacate', quantity: '10g' },
-          { name: 'Iogurte', quantity: '400ml' }]
-      }, */
-    item: {
-      title: "Agua",
-      isWater: true,
-      quantity: 0,
-    }
-
-  },
-
   diary: {
 
     remaning_daily_goal_kcal: 0,
@@ -47,6 +29,7 @@ const defaultState = {
       fat: 0,
       created_at: "2023-10-04T02:13:00.360Z",
       updated_at: "2023-10-04T02:13:00.360Z"
+
     }
   }
 }
@@ -58,8 +41,8 @@ export const useDietStore = defineStore('diet', {
     getMeals: (state) => state.diary.meal,
   },
 
-
   actions: {
+
     async editDiary(payload) {
       this.setDiary(await userResource.editDiary(payload))
       return this.getDiary
@@ -80,16 +63,5 @@ export const useDietStore = defineStore('diet', {
     setMeal(payload) {
       this.diary.meal.push({name:payload.name})
     }
-  },
-    setConsumedWater(payload) {
-      this.meals.item.quantity = payload
-    },
-    editDiary(payload) {
-      return userResource.editDiary(payload)
-    },
-    async fetchDiary() {
-      this.diary = await userResource.getDiary()
-    }
-
   },
 })
