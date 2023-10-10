@@ -48,7 +48,7 @@ const unity = computed(() => {
             <div class="MealAndQuantity " v-for="item in data.items">
               <span>{{ item.name }} </span><span>{{ item.quantity }}</span>
             </div>
-            <button class="addQtdWater" @click="$emit('showAddMeal')">+ Adicionar Alimento</button>
+            <button class="addQtdWater" @click="$emit('showAddFood')">+ Adicionar Alimento</button>
           </div>
         </div>
       </div>

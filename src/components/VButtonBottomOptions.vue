@@ -1,6 +1,7 @@
 <script setup>
-
+import { useRouter } from 'vue-router';
 import { defineEmits } from 'vue';
+const router = useRouter()
 const emit = defineEmits()
 const props = defineProps({
   show: true
@@ -8,30 +9,32 @@ const props = defineProps({
 
 
 const handleClickOutside = () => {
-
   emit('hideButtonBottomOptions')
-
 };
+
+const showAddMeal = () => {
+  emit('showAddMeal')
+}
 </script>
 <template>
   <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
   <div v-show="props.show" class="buttons">
     <div class="top-buttons">
-      <button class="button">
+      <button class="button button-disable">
         <i class="bi bi-arrow-clockwise"></i>
         <span class="text">Adicionar peso</span>
       </button>
-      <button class="button">
+      <button class="button button-disable">
         <i class="bi bi-universal-access"></i>
         <span class="text">Adicionar treino</span>
       </button>
-      <button class="button">
+      <button class="button button-disable">
         <i class="bi bi-person-up"></i>
         <span class="text">Adicionar exercicio</span>
       </button>
     </div>
     <div class="bottom-buttons">
-      <button class="button">
+      <button @click="showAddMeal" class="button">
         <i class="bi bi-cup-straw"></i>
         <span class="text">Adicionar Alimento</span>
       </button>
@@ -64,7 +67,7 @@ const handleClickOutside = () => {
   width: 100%;
   bottom: 0;
   height: 30vh;
-  margin-bottom:5em;
+  margin-bottom: 5em;
 
   .top-buttons,
   .bottom-buttons {
@@ -86,6 +89,11 @@ const handleClickOutside = () => {
       .text {
         font-size: 1em;
       }
+    }
+
+    .button-disable {
+      color: gray;
+      pointer-events: none;
     }
   }
 
