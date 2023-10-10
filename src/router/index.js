@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HeightWeight from '../views/HeightWeight.vue'
 import GenderBirthday from '../views/GenderBirthday.vue'
+import Train from '../views/Train.vue'
+import Water from '../views/Water.vue'
+import Profile from '../views/Profile.vue'
 import WhatYourGoal from '../views/WhatYourGoal.vue'
 import Welcome from '../views/Welcome.vue'
 import Diet from '../views/Diet.vue'
@@ -8,8 +11,6 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-import Train from '../views/Train.vue'
-import Profile from '../views/Profile.vue'
 import AddFood from'../views/AddFood.vue'
 
 const ROUTES = [
@@ -64,6 +65,11 @@ const ROUTES = [
     name: 'Train',
     component: Train,
     meta: { requiresAuth: true }
+  },
+  {
+    path:'/water',
+    name: 'water',
+    component: Water
   },
   {
     path: '/profile',
