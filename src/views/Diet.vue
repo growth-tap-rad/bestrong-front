@@ -7,11 +7,13 @@ import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VAddMeal from '../components/VAddMeal.vue';
+import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
 
 const dietStore = useDietStore()
 
 const showComponentAddWater = ref(false)
 const showComponentAddMeal = ref(false)
+const ButtonBottomOptions = ref(false)
 let meals = reactive([])
 
 
@@ -79,7 +81,12 @@ const addMeal = (e) => {
       })
   }
 }
-
+const hideButtonBottomOptions = ()=>{
+  ButtonBottomOptions.value = false
+}
+const showButtonBottomOptions = ()=>{
+  ButtonBottomOptions.value = !ButtonBottomOptions.value
+}
 const fetchDiaryData = async () => {
   const data = dietStore.getDiary
 
@@ -104,7 +111,7 @@ const fetchDiaryData = async () => {
   water.quantity.value = consumed_water
 
   data.meal.forEach(element => {
-    meals.push({ title: element.name ,  quantity:element.meal_consumed_kcal })
+    meals.push({ title: element.name, quantity: element.meal_consumed_kcal })
   });
 
 }
@@ -125,8 +132,12 @@ const fetchDiaryData = async () => {
         <VAccordionMeal @showAddMeal="() => showAddMeal()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
+
       <VAddMeal class="box-add-meal" :show="showComponentAddMeal" @showAddMeal="(e) => { addMeal(e) }" />
-      <VBottomMenu class="footer" actualRoute="/diet" />
+      <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions" @hideButtonBottomOptions="()=>{ hideButtonBottomOptions()}"/>
+      <VBottomMenu @showButtonBottomOptions="()=>{
+        showButtonBottomOptions()
+      }" class="footer" actualRoute="/diet" />
 
 
     </main>
@@ -146,7 +157,7 @@ const fetchDiaryData = async () => {
   .main {
     width: 100%;
 
-
+  
 
     .footer {
       position: fixed;
@@ -157,7 +168,8 @@ const fetchDiaryData = async () => {
     }
 
     .box-ingredients {
-    margin: 30px 0 100px  0 ;
+      margin: 30px 0 100px 0;
+
       .meal {
         padding: 5px 20px;
         margin: 0 0 10px 0;

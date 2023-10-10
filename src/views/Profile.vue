@@ -5,7 +5,6 @@ import { onMounted, ref } from 'vue';
 
 
 import { useProfileStore } from '../stores/profile.store';
-import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
 const profileStore = useProfileStore()
 let mostrar = true
 let user = ref({})
@@ -34,7 +33,7 @@ onMounted(() => {
     </div>
   </div> -->
 
-  <VButtonBottomOptions :show="true"></VButtonBottomOptions>
+
 </template>
 <style scoped>
 .meal {

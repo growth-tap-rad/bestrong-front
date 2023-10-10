@@ -1,6 +1,8 @@
 <script setup>
+import { defineEmits } from 'vue';
 import { useRouter } from 'vue-router';
 
+const emit = defineEmits()
 const router = useRouter()
 
 const props = defineProps({
@@ -12,6 +14,9 @@ const props = defineProps({
 
 const goTo = (route) => {
   router.push(route);
+}
+const showButtonBottomOptions = ()=>{
+  emit('showButtonBottomOptions')
 }
 
 </script>
@@ -58,7 +63,7 @@ const goTo = (route) => {
         </button>
       </div>
     </div>
-    <button class="botoesBarraInferior botaoMais">+</button>
+    <button @click="showButtonBottomOptions" class="botoesBarraInferior botaoMais">+</button>
   </div>
 </template>
 
