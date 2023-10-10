@@ -40,7 +40,7 @@ const inputValue = ref('')
 .bg {
     display: block;
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.651);
+    background-color: var(--bg-color-dark4);
     top: 0;
     left: 0;
     height: 100%;

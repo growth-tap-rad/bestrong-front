@@ -11,9 +11,7 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-
-
-
+import AddFood from'../views/AddFood.vue'
 
 const ROUTES = [
   {
@@ -77,6 +75,13 @@ const ROUTES = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    meta: { requiresAuth: true }
+  }
+  ,
+  {
+    path: '/food',
+    name: 'AddFood',
+    component: AddFood,
     meta: { requiresAuth: true }
   }
 
