@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VTrainList from '../components/VTrainList.vue';
-import { useTrainStore } from '../stores/train.store';
 
 const trainStore = useTrainStore()
 const train = ref(true);

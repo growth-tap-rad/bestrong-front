@@ -13,8 +13,10 @@ const dietStore = useDietStore()
 
 const showComponentAddWater = ref(false)
 const showComponentAddMeal = ref(false)
+
 const ButtonBottomOptions = ref(false)
 let meals = reactive([])
+
 
 
 const water = {

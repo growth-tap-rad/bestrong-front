@@ -1,10 +1,10 @@
 <script setup>
-;
+
 
 import { onMounted, ref } from 'vue';
-
-
 import { useProfileStore } from '../stores/profile.store';
+
+
 const profileStore = useProfileStore()
 let mostrar = true
 let user = ref({})

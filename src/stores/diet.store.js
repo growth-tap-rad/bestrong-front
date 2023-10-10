@@ -64,4 +64,5 @@ export const useDietStore = defineStore('diet', {
       this.diary.meal.push({name:payload.name})
     }
   },
+
 })
