@@ -16,7 +16,7 @@ const handleClickOutside = () => {
 <template>
   <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
   <div v-show="props.show" class="buttons">
-    <div class="botaosuperior">
+    <div class="top-buttons">
       <button class="button">
         <i class="bi bi-arrow-clockwise"></i>
         <span class="text">Adicionar peso</span>
@@ -30,7 +30,7 @@ const handleClickOutside = () => {
         <span class="text">Adicionar exercicio</span>
       </button>
     </div>
-    <div class="botaoinferior">
+    <div class="bottom-buttons">
       <button class="button">
         <i class="bi bi-cup-straw"></i>
         <span class="text">Adicionar Alimento</span>
@@ -66,12 +66,12 @@ const handleClickOutside = () => {
   height: 30vh;
   margin-bottom:5em;
 
-  .botaosuperior,
-  .botaoinferior {
+  .top-buttons,
+  .bottom-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3em;
+    gap: 2em;
 
     .button {
       width: 5em;
@@ -81,7 +81,7 @@ const handleClickOutside = () => {
 
       background-color: var(--bg-color-dark2);
       border: none;
-      color: var(--button-color-aqua);
+      color: var(--text-color-highlighted2);
 
       .text {
         font-size: 1em;
@@ -89,8 +89,8 @@ const handleClickOutside = () => {
     }
   }
 
-  .botaosuperior {
-    margin-bottom: 3em;
+  .top-buttons {
+    margin-bottom: 2em;
   }
 
 }
