@@ -68,6 +68,7 @@ const changeValue = (e) => {
       <button v-for="meal in props.meals" :key="meal.value" class="meal" @click="changeValue(meal.value)">
         {{ meal.title }}
       </button>
+      <input placeholder="Crie uma refeição personalizada" class="meal" type="text" v-model=" inputValue">
 
 
       <VButton class="add-meal" :text="'ADICIONAR ALIMENTO'" @click="sendValue" />

@@ -4,6 +4,7 @@
 import { onMounted, ref } from 'vue';
 
 import { useProfileStore } from '../stores/profile.store';
+import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
 const profileStore = useProfileStore()
 let mostrar = true
 let user = ref({})
@@ -20,7 +21,7 @@ let user = ref({})
   <!--   <h1>perfil</h1>
   <span>peso: {{ user.weight }}</span>
   <span>Altura : {{ user.height }}</span> -->
-
+<!-- 
   <div v-show="mostrar" class="toast show "  role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
@@ -31,7 +32,9 @@ let user = ref({})
     <div class="toast-body">
       Hello, world! This is a toast message.
     </div>
-  </div>
+  </div> -->
+
+  <VButtonBottomOptions :show="true"></VButtonBottomOptions>
 </template>
 <style scoped>
 .meal {

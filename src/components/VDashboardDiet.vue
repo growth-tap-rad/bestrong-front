@@ -77,9 +77,9 @@ const remainingCaloriesAndPercentage = computed(() => {
 
   let remainingPercent = calculatePercentage(remainingCalories, goal);
   remainingPercent = (100 - remainingPercent)
-if(remainingCalories < goal ){
-  remainingCalories = 0
-}
+  if (remainingCalories < 0) {
+    remainingCalories = 0
+  }
   return {
     remainingPercent,
     remainingCalories
