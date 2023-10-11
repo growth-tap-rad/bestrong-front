@@ -1,5 +1,23 @@
 <script setup>
 
+const props = defineProps({
+    data: {
+        consumed_water: {
+            type: String,
+            default: "0"
+        },
+
+        created_at: {
+            type: String,
+            default: "00/00"
+        }
+
+    }
+
+})
+
+const horaFormatada = new Date(props.data.created_at);
+
 
 
 </script>
@@ -7,8 +25,8 @@
 <template>
     <div class="v-consume-water">
         <section class="primary">
-            <p class="valor">300 ml</p>
-            <p class="valor">08:20</p>
+            <p class="valor">{{ props.data.consumed_water }} ml</p>
+            <p class="valor">{{`${horaFormatada.getHours()} : ${horaFormatada.getMinutes()}` }}</p>
         </section>
 
         <section class="secundary">

@@ -1,13 +1,67 @@
 <script setup>
+import { onMounted, ref } from 'vue'
 import VButton from '../components/VButton.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VConsumeWater from '../components/VConsumeWater.vue';
+import VAddWater from '../components/VAddWater.vue';
+import { useWaterStore } from '../stores/water.store'
+
+
+const showComponentAddWater = ref(false)
+
+const waterStore = useWaterStore();
+
+const ArrayWater = ref([])
+
+
+
+
 
 
 const abreAba = ()=>{
-    alert('Clicou no bagulho')
+    showComponentAddWater.value = true
 }
 
+// const showAddWater = () => {
+
+//   showComponentAddWater.value = true
+// }
+
+const addWater = (e) => {
+ 
+  showComponentAddWater.value = false
+
+  if (e) {
+    waterStore.addWater(
+        e 
+        // + water.quantity.value
+     
+    ).then((data) => {
+    // aqui esta add no pinia
+      ArrayWater.value.push({
+        consumed_water:data.consumed_water,
+        created_at:data.created_at
+
+    })
+      
+      
+    })
+  }
+}
+
+onMounted(()=>{
+    fetchWater()
+})
+
+const fetchWater = async ()=>{
+    await waterStore.fetchWater()
+    ArrayWater.value = waterStore.getArrayWater
+
+
+
+
+   
+}
 
 </script>
 
@@ -19,12 +73,13 @@ const abreAba = ()=>{
     <main>
 
     <div class="center">
-        <h1>2000ml</h1>
+        <h1>2000ml </h1>
         <p>Meta Diaria</p>
     </div>
 
-    <VConsumeWater class="agua-consumida" />
-    
+    <!-- :data="meal" v-for="meal in meals" -->
+    <VConsumeWater :data="element" v-for ="element in ArrayWater" class="agua-consumida" />
+    <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
     <VButton @click="abreAba" :text="`+ Adicionar`" class="vButton" />
 </main>
 
@@ -37,7 +92,8 @@ const abreAba = ()=>{
 .consume-Water {
     background-color: var(--bg-color-grey);
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     align-items: center;
     .agua-consumida {
         margin-top: 30px;
