@@ -152,7 +152,8 @@ const fetchDiaryData = async () => {
 
       <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
         @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()" />
-      <VBottomMenu @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer" actualRoute="/diet" />
+      <VBottomMenu :show="ButtonBottomOptions" @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer"
+        actualRoute="/diet" />
 
 
     </main>
