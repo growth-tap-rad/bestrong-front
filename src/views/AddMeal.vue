@@ -10,14 +10,28 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 const mealStore = useMealStore()
 const meal = ref('')
+
+
+const back = () => {
+  router.back()
+}
 const updateMeal = (e) => {
   meal.value = e
 }
 const addMeal = () => {
-  mealStore.createMeal(meal.value)
-    .then(() => {
-      router.push('/diet')
-    })
+  if (meal.value) {
+    mealStore.createMeal(meal.value)
+      .then(() => {
+        router.push('/diet')
+
+      })
+    return
+  }
+  alert("Digite uma refeição")
+  return
+}
+const addFood = () => {
+  router.push('/food')
 }
 
 </script>
@@ -25,11 +39,11 @@ const addMeal = () => {
 <template>
   <div class="meal">
     <header class="header">
-      <VButtonArrowLeft />
+      <VButtonArrowLeft @click="back" />
       <VtitlePage class="title" :title="'Refeição'" />
       <spam class="spam">text</spam>
     </header>
-    <main>
+    <main class="main">
       <VInput @update="(e) => updateMeal(e)" class="input" />
 
       <section class="macrosValue">
@@ -52,11 +66,11 @@ const addMeal = () => {
       </section>
 
       <section class="mealsList">
-        <P class="meal-value">Pão</P>
-        <p class="meal-value">50g</p>
-      </section>
 
-      <VButton @click="addMeal" :text="`+ Adicionar Alimento`" class="button" />
+
+      </section>
+      <VButton @click="addFood" text="+ Alimento" class="add-food" />
+      <VButton @click="addMeal" text="Adicionar Refeição" class="button" />
     </main>
 
   </div>
@@ -64,6 +78,10 @@ const addMeal = () => {
 
 
 <style scoped>
+p {
+  color: white;
+}
+
 .meal {
   background-color: var(--bg-color-dark);
   width: 100%;
@@ -82,6 +100,12 @@ const addMeal = () => {
       color: transparent;
     }
   }
+
+  .add-food {
+    background-color: transparent;
+    text-align: justify;
+  }
+
 
   .input {
     margin-bottom: 20px;
@@ -127,27 +151,6 @@ const addMeal = () => {
     /* gap: 1000px; */
     padding: 30px;
     margin-top: 30px;
-  }
-
-  .mealsList {
-    background-color: var(--bg-color-grey);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
-    width: 100%;
-    height: 60px;
-    color: var(--text-color-light);
-    border-radius: 8px;
-    margin: auto;
-    margin-bottom: 20px;
-
-    .meal-value {
-      margin: 0;
-    }
-
-
   }
 }
 </style>

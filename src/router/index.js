@@ -11,8 +11,8 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-import AddFood from'../views/AddFood.vue'
-import AddMeal from'../views/AddMeal.vue'
+import AddFood from '../views/AddFood.vue'
+import AddMeal from '../views/AddMeal.vue'
 
 const ROUTES = [
   {
@@ -68,9 +68,10 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path:'/water',
+    path: '/water',
     name: 'water',
-    component: Water
+    component: Water,
+    meta: { requiresAuth: true }
   },
   {
     path: '/profile',

@@ -2,13 +2,17 @@
 import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VtitlePage from '../components/VtitlePage.vue';
-
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const back = () => {
+  router.back()
+}
 </script>
 <template>
   <section class="main">
     <header class="header">
       <nav class="nav">
-        <VButtonArrowLeft @click="backToLogin" />
+        <VButtonArrowLeft @click="back" />
       </nav>
       <VtitlePage class="title-page " title="Alimento" />
       <nav class="nav"></nav>
@@ -93,4 +97,5 @@ import VtitlePage from '../components/VtitlePage.vue';
 
 
   }
-}</style>
+}
+</style>
