@@ -17,8 +17,6 @@ const showComponentAddMeal = ref(false)
 const ButtonBottomOptions = ref(false)
 let meals = ref([])
 
-
-
 const water = {
 
   title: "Agua",
@@ -26,6 +24,10 @@ const water = {
   quantity: ref(0),
 
 }
+const Meal = reactive({
+ showComponentAddMeal,
+  meals
+})
 const dashData = reactive({
   consumed: 0,
   burned: 0,
@@ -81,7 +83,6 @@ const addMeal = (e) => {
   hideButtonBottomOptions()
   showComponentAddMeal.value = false
 
-
   if (e) {
     dietStore.createMeal(e)
       .then((data) => {
@@ -94,7 +95,6 @@ const addMeal = (e) => {
 }
 const showAddFood = () => {
   alert("aqui vai adicionar comida")
-
 }
 
 const hideButtonBottomOptions = () => {
@@ -120,7 +120,6 @@ const fetchDiaryData = async () => {
   dashData.burned = burned_kcal;
   dashData.remaning = remaning_daily_goal_kcal;
 
-
   macros.protein.now = consumed_protein;
   macros.carb.now = consumed_carb;
   macros.fat.now = consumed_fat;
@@ -131,7 +130,6 @@ const fetchDiaryData = async () => {
     meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
   });
 }
-
 </script>
 
 <template>
@@ -148,16 +146,14 @@ const fetchDiaryData = async () => {
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
-      <VAddMeal class="box-add-meal" :show="showComponentAddMeal" @showAddMeal="(e) => { addMeal(e) }" />
+      <VAddMeal class="box-add-meal" :data="Meal" @showAddMeal="(e) => { addMeal(e) }" />
 
       <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
         @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()" />
       <VBottomMenu :show="ButtonBottomOptions" @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer"
         actualRoute="/diet" />
 
-
     </main>
-
   </section>
 </template>
 
@@ -173,14 +169,11 @@ const fetchDiaryData = async () => {
   .main {
     width: 100%;
 
-
-
     .footer {
       position: fixed;
       z-index: 3;
       width: 100%;
       bottom: 0;
-
     }
 
     .box-ingredients {
@@ -191,8 +184,6 @@ const fetchDiaryData = async () => {
         margin: 0 0 10px 0;
       }
     }
-
-
   }
 }
 </style>

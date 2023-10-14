@@ -46,6 +46,7 @@ import VtitlePage from '../components/VtitlePage.vue';
   display: flex;
   flex-direction: column;
 
+
   .header {
 
     display: flex;
@@ -69,7 +70,8 @@ import VtitlePage from '../components/VtitlePage.vue';
     display: flex;
     flex-direction: column;
     width: 95%;
-margin: 0 auto;
+
+
     .food {
       width: 100%;
       text-align: center;
@@ -78,8 +80,9 @@ margin: 0 auto;
     }
 
     .inputs {
-    display: flex;
-    gap: 20px;
+      display: flex;
+      gap: 20px;
+
       .input {
         background-color: transparent;
         border: none;
@@ -90,5 +93,4 @@ margin: 0 auto;
 
 
   }
-}
-</style>
+}</style>
