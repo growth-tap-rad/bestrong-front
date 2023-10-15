@@ -18,20 +18,9 @@ const props = defineProps({
       type: Array, required: true, default: () => [
         {
           title: 'Cafe Da Manha',
-          value: 'Cafe Da Manha'
-        },
-        {
-          title: 'Almoço',
-          value: 'Almoço'
-        },
-        {
-          title: 'Lanche',
-          value: 'Lanche'
-        },
-        {
-          title: 'Janta',
-          value: 'Janta'
+          id: 0
         }
+
       ]
     }
   }
@@ -51,10 +40,10 @@ const sendValue = () => {
   emit('showAddMeal', inputValue.value)
   inputValue.value = ''
 }
-const changeValue = (e) => {
-  inputValue.value = e
+const emitId = (id) => {
+  emit('selectedMeal', id)
 }
-const goToAddMeal = (e)=>{
+const goToAddMeal = (e) => {
   router.push('/meal')
 }
 
@@ -69,10 +58,10 @@ const goToAddMeal = (e)=>{
     </header>
 
     <div class="meals">
-      <button v-for="meal in props.data.meals" :key="meal.value" class="meal" @click="changeValue(meal.value)">
+      <button v-for="meal in props.data.meals" class="meal" @click="emitId(meal.id)">
         {{ meal.title }}
       </button>
-      <button  class="meal" @click="goToAddMeal">+ Adicionar Refeição</button>
+      <button class="meal" @click="goToAddMeal">+ Adicionar Refeição</button>
 
       <VButton class="add-meal" :text="'ADICIONAR ALIMENTO'" @click="sendValue" />
     </div>

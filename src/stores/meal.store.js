@@ -4,6 +4,7 @@ import * as userResource from '../api/resources/user.resource';
 const defaultState = {
   meal: [
     {
+      id: '',
       name: "",
       meal_consumed_kcal: 0
     }
@@ -25,7 +26,12 @@ export const useMealStore = defineStore('meal', {
     },
     setMeal(payload) {
       this.meal.push({ name: payload.name })
+    },
+    async findMeal(payload) {
+     return await userResource.findMeal(payload)
+    },
+    async editMeal(payload){
+      return await userResource.editMeal(payload)
     }
-
   }
 })

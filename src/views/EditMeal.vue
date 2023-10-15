@@ -5,11 +5,21 @@ import VInput from '../components/VInput.vue';
 import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import { useMealStore } from '../stores/meal.store'
-import {  useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter()
+const route = useRoute()
 const mealStore = useMealStore()
 const meal = ref('')
+const findMeal = ref({})
+
+onMounted(async () => {
+  if (route.params.id) {
+
+    findMeal.value = await mealStore.findMeal(route.params.id)
+    meal.value = findMeal.value.name
+  }
+})
 
 const back = () => {
   router.back()
@@ -17,17 +27,23 @@ const back = () => {
 const updateMeal = (e) => {
   meal.value = e
 }
-const addMeal = () => {
+const editMeal = () => {
   if (meal.value) {
-    mealStore.createMeal(meal.value)
+    mealStore.editMeal({
+      name: meal.value,
+      id: route.params.id
+    })
       .then(() => {
         router.push('/diet')
-
+        return
       })
+  }
+  else {
+    alert('aqui vai apagar')
     return
   }
-  alert("Digite uma refeição")
-  return
+
+
 }
 const addFood = () => {
   router.push('/food')
@@ -70,7 +86,7 @@ const data = new Date()
 
       </section>
       <VButton @click="addFood" text="+ Alimento" class="add-food" />
-      <VButton @click="addMeal" text="Adicionar Refeição" class="button" />
+      <VButton @click="editMeal" text="Adicionar Refeição" class="button" />
     </main>
 
   </div>

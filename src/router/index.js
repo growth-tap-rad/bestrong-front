@@ -13,6 +13,7 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import AddFood from '../views/AddFood.vue'
 import AddMeal from '../views/AddMeal.vue'
+import EditMeal from '../views/EditMeal.vue'
 
 const ROUTES = [
   {
@@ -91,6 +92,13 @@ const ROUTES = [
     path: '/meal',
     name: 'AddMeal',
     component: AddMeal,
+    meta: { requiresAuth: true }
+  }
+  ,
+  {
+    path: '/meal/edit/:id',
+    name: 'EditMeal',
+    component: EditMeal,
     meta: { requiresAuth: true }
   }
 

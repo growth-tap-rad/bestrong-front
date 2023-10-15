@@ -1,45 +1,23 @@
 <script setup>
-import VButton from '../components/VButton.vue';
-import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
-import VtitlePage from '../components/VtitlePage.vue';
+import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router';
+import { useFoodStore } from '../stores/food.store'
+import VButton from '../components/VButton.vue';
+
+const foodStore = useFoodStore()
 const router = useRouter()
+const foods = reactive({})
 const back = () => {
   router.back()
 }
+onMounted(async () => {
+  await foodStore.fetchFood()
+  foods.value = foodStore.getFoods
+ 
+})
 </script>
 <template>
-  <section class="main">
-    <header class="header">
-      <nav class="nav">
-        <VButtonArrowLeft @click="back" />
-      </nav>
-      <VtitlePage class="title-page " title="Alimento" />
-      <nav class="nav"></nav>
-    </header>
-    <div class="food-selected">
-      <span class="food">Pão Integral</span>
-      <div class="inputs">
-        <input class="input" type="number">
-        <input class="input" type="text">
-        <span>80 gramas</span>
-
-      </div>
-
-      <div class="macros">
-        <span>100Kcal</span>
-        <span>30 Prot</span>
-        <span>65 Carb</span>
-        <span>9 Gord</span>
-        <span>30 Fibra</span>
-        <span>65 Sódio</span>
-
-
-      </div>
-      <VButton :text="'ADICIONAR'" />
-
-    </div>
-  </section>
+<VButton v-for="food in foods.value" :text="food.id"/>
 </template>
 <style scoped>
 .main {

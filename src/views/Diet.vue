@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useDietStore } from '../stores/diet.store';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
@@ -9,6 +10,7 @@ import VBottomMenu from '../components/VBottomMenu.vue'
 import VAddMeal from '../components/VAddMeal.vue';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
 
+const router = useRouter()
 const dietStore = useDietStore()
 
 const showComponentAddWater = ref(false)
@@ -25,7 +27,7 @@ const water = {
 
 }
 const Meal = reactive({
- showComponentAddMeal,
+  showComponentAddMeal,
   meals
 })
 const dashData = reactive({
@@ -127,9 +129,13 @@ const fetchDiaryData = async () => {
   water.quantity.value = consumed_water
 
   data.meal.forEach(element => {
-    meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
+    meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
+const editMeal = (id) => {
+  router.push(`/meal/edit/${id}`);
+}
+
 </script>
 
 <template>
@@ -146,7 +152,8 @@ const fetchDiaryData = async () => {
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
-      <VAddMeal class="box-add-meal" :data="Meal" @showAddMeal="(e) => { addMeal(e) }" />
+      <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
+        @showAddMeal="(e) => { addMeal(e) }" />
 
       <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
         @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()" />

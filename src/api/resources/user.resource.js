@@ -1,5 +1,32 @@
 import api from '../apiAxios'
 
+export const fetchFood = ()=>{
+  return api 
+  .get('/foods')
+  .then(({ data }) => {
+    return data
+  })
+  .catch((e) => {
+    console.error(e)
+    alert('falha ao fazer fetch Foods')
+  })
+}
+
+export  const editMeal = (meal)=>{
+
+  return  api
+
+  .put(`users/me/meal/${meal.id}`,{
+    name:meal.name
+  })
+   .then(({ data }) => {
+    return data
+  })
+  .catch((e) => {
+    console.error(e)
+    alert('falha ao editar refeição')
+  })
+} 
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
@@ -11,6 +38,17 @@ export const createMeal = (meal) => {
     .catch((e) => {
       console.error(e)
       alert('falha ao criar refeição')
+    })
+}
+export const findMeal = (id) => {
+  return api
+    .get(`users/me/meal/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+      alert('falha ao buscar refeição')
     })
 }
 
