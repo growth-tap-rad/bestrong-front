@@ -30,7 +30,12 @@ const defaultState = {
       created_at: "2023-10-04T02:13:00.360Z",
       updated_at: "2023-10-04T02:13:00.360Z"
 
-    }
+    },
+    water: [{
+      id: 0,
+      consumed_water: 0,
+      created_at: Date
+    }]
   }
 }
 

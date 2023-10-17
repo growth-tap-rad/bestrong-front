@@ -15,6 +15,9 @@ const handleClickOutside = () => {
 const showAddMeal = () => {
   emit('showAddMeal')
 }
+const showAddWater = () => {
+  emit('showAddWater')
+}
 </script>
 <template>
   <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
@@ -38,7 +41,7 @@ const showAddMeal = () => {
         <i class="bi bi-cup-straw"></i>
         <span class="text">Adicionar Alimento</span>
       </button>
-      <button class="button">
+      <button  @click="showAddWater" class="button">
         <i class="bi bi-droplet"></i>
         <span class="text">Adicionar Agua</span>
       </button>

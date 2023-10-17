@@ -1,15 +1,55 @@
 import api from '../apiAxios'
 
-export const fetchFood = (data) => {
-
+export const deleteWater = (id) => {
   return api
-    .get(`/foods?page=${data}`)
+    .delete(`/users/me/water/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+
+      console.error(e)
+      alert('falha ao editar refeição')
+    })
+}
+export const addWater = (water) => {
+  return api
+    .post('/users/me/water', {
+      consumed_water: water,
+      created_at: new Date()
+    })
+
 
     .then(({ data }) => {
       return data
     })
     .catch((e) => {
       console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
+export const getWater = () => {
+  return api
+    .get('/users/me/water')
+    .then(({ data }) => {
+      return data
+    }).catch((e) => {
+      console.error()
+      alert('Falha ao buscar água')
+    })
+}
+
+export const fetchFood = (data) => {
+
+  return api
+    .get(`/foods?page=${data}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
       alert('falha ao fazer fetch Foods')
     })
 }
@@ -26,7 +66,8 @@ export const editMeal = (meal) => {
     })
     .catch((e) => {
       console.error(e)
-      alert('falha ao editar refeição')
+
+      alert('falha ao fazer fetch Foods')
     })
 }
 export const createMeal = (meal) => {
@@ -111,6 +152,7 @@ export const getDiary = () => {
       alert("falha ao requisitar Diary ")
     })
 }
+
 export const getUser = () => {
   return api
     .get('/users/me')
