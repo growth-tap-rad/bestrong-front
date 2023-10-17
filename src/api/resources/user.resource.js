@@ -1,35 +1,42 @@
 import api from '../apiAxios'
 
-export const addWater = (water) =>{
-   return api
-    .post('/users/me/water',{
+export const addWater = (water) => {
+  return api
+    .post('/users/me/water', {
       consumed_water: water,
       created_at: new Date()
     })
-    // then é a mesma coisa coisa que await, entao, ele vai bater na rota, vai esperar gravar o dado no
-    //banco e entao vai fazer alguma coisa, retornar por exemplo
-    .then(({data})=>{
-      
-      // console.log(data)
-      return data
 
+    .then(({ data }) => {
+      return data
     })
-    .catch((e)=>{
+    .catch((e) => {
       console.error(e)
       alert('Falha ao adicionar água')
     })
-
 }
 
-export const getWater = ()=>{
+
+export const deleteWater = (id) => {
   return api
-  .get('/users/me/water')
-  .then(({data}) =>{
-    return data
-  }).catch((e)=>{
-    console.error()
-    alert('Falha ao buscar água')
-  })
+    .delete(`/users/me/water/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e, 'erro ao deletar a água')
+    })
+}
+
+export const getWater = () => {
+  return api
+    .get('/users/me/water')
+    .then(({ data }) => {
+      return data
+    }).catch((e) => {
+      console.error()
+      alert('Falha ao buscar água')
+    })
 }
 
 export const createMeal = (meal) => {

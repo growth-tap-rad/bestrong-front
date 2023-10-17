@@ -11,7 +11,9 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-import AddFood from'../views/AddFood.vue'
+import AddFood from '../views/AddFood.vue'
+import AddMeal from '../views/AddMeal.vue'
+
 
 const ROUTES = [
   {
@@ -67,7 +69,7 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path:'/water',
+    path: '/water',
     name: 'water',
     component: Water
   },
@@ -83,24 +85,17 @@ const ROUTES = [
     name: 'AddFood',
     component: AddFood,
     meta: { requiresAuth: true }
-  }
-
+  },
+  {
+    path: '/meal',
+    name: 'AddMeal',
+    component: AddMeal
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: ROUTES
 })
-
-// router.beforeEach((to, from, next) => {
-//   const userStore = useUserStore()
-//   if (to.meta.requiresAuth) {
-//     if (!userStore?.token) {
-//       router.push('/'); // verify if its the better way
-
-//     }
-//   }
-//   next()
-// })
 
 export default router

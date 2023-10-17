@@ -10,7 +10,12 @@ const props = defineProps({
         created_at: {
             type: String,
             default: "00/00"
+        },
+        id: {
+            type: Number,
+            require: true
         }
+
 
     }
 
@@ -18,19 +23,17 @@ const props = defineProps({
 
 const horaFormatada = new Date(props.data.created_at);
 
-
-
 </script>
 
 <template>
     <div class="v-consume-water">
         <section class="primary">
             <p class="valor">{{ props.data.consumed_water }} ml</p>
-            <p class="valor">{{`${horaFormatada.getHours()} : ${horaFormatada.getMinutes()}` }}</p>
+            <p class="valor">{{ `${horaFormatada.getHours()} : ${horaFormatada.getMinutes()}` }}</p>
         </section>
-
         <section class="secundary">
-            <button class="button"><img src="../assets/imgs/lixeira.svg" alt="Imagem Lixeira"></button>
+            <button @click="$emit('deleteWater', props.data.id)" class="button"><img src="../assets/imgs/lixeira.svg"
+                    alt="Imagem Lixeira"></button>
         </section>
     </div>
 </template>
@@ -42,7 +45,6 @@ const horaFormatada = new Date(props.data.created_at);
     justify-content: center;
     align-items: center;
     gap: 10px;
-    /* margin-top: 100px; */
 
     .primary {
         background-color: var(--bg-color-dark);
@@ -51,7 +53,6 @@ const horaFormatada = new Date(props.data.created_at);
         align-items: center;
         justify-content: space-between;
         padding: 30px;
-        /* gap: 250px; */
         width: 350px;
         height: 60px;
         color: var(--text-color-light);
@@ -62,16 +63,12 @@ const horaFormatada = new Date(props.data.created_at);
             margin: 0;
 
         }
-
-
     }
 
 
 }
 
 
-
-.secundary {}
 
 .button {
     border: none;

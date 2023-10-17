@@ -10,7 +10,7 @@ export default {
   put: (path, body) => {
     return httpClient.put(path, body);
   },
-  delete: (path, body) => {
-    return httpClient.delete(path, body);
+  delete: (path, params) => {
+    return httpClient.delete(path, params);
   }
 }
