@@ -79,8 +79,7 @@ const ROUTES = [
     name: 'Profile',
     component: Profile,
     meta: { requiresAuth: true }
-  }
-  ,
+  },
   {
     path: '/food',
     name: 'AddFood',

@@ -14,8 +14,8 @@ export const useFoodStore = defineStore('food', {
 
   actions: {
 
-    async fetchFood() {
-      this.setFoods(await userResource.fetchFood())
+    async fetchFood(payload) {
+      this.setFoods(await userResource.fetchFood(payload))
       this.getFoods
    
     },

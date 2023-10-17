@@ -2,22 +2,33 @@
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router';
 import { useFoodStore } from '../stores/food.store'
-import VButton from '../components/VButton.vue';
 
 const foodStore = useFoodStore()
 const router = useRouter()
 const foods = reactive({})
+
+let pages = 0;
 const back = () => {
   router.back()
 }
+
+const getFoods = async () => {
+  await foodStore.fetchFood(pages);
+  foods.value = foodStore.getFoods;
+  pages += 20;
+}
+
+
 onMounted(async () => {
-  await foodStore.fetchFood()
-  foods.value = foodStore.getFoods
- 
+  getFoods()
+
 })
 </script>
 <template>
-<VButton v-for="food in foods.value" :text="food.id"/>
+  <div v-for="item in foods.value">
+    {{ item.description }}
+  </div>
+  <button @click="getFoods()">mais</button>
 </template>
 <style scoped>
 .main {

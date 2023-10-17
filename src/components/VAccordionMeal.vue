@@ -11,6 +11,7 @@ const props = defineProps({
   data: {
     type: Object,
     default: () => ({
+      id: 0,
       title: "",
       isWater: true,
       quantity: 0,
@@ -48,7 +49,7 @@ const unity = computed(() => {
             <div class="MealAndQuantity " v-for="item in data.items">
               <span>{{ item.name }} </span><span>{{ item.quantity }}</span>
             </div>
-            <button class="addQtdWater" @click="$emit('showAddFood')">+ Adicionar Alimento</button>
+            <button @click="$emit('showAddFood', data.id)" class="addQtdWater">+ Adicionar Alimento</button>
           </div>
         </div>
       </div>

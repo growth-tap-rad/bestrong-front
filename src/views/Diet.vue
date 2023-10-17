@@ -95,10 +95,12 @@ const addMeal = (e) => {
       })
   }
 }
-const showAddFood = () => {
-  alert("aqui vai adicionar comida")
+const showAddFood = (id) => {
+  router.push(`/meal/edit/${id}`);
 }
-
+const editMeal = (id) => {
+  router.push(`/meal/edit/${id}`);
+}
 const hideButtonBottomOptions = () => {
   ButtonBottomOptions.value = false
 }
@@ -132,9 +134,7 @@ const fetchDiaryData = async () => {
     meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
-const editMeal = (id) => {
-  router.push(`/meal/edit/${id}`);
-}
+
 
 </script>
 
@@ -148,7 +148,7 @@ const editMeal = (id) => {
 
       <div class="box-ingredients">
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal @showAddFood="() => showAddFood()" class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddFood="(e) =>   showAddFood(e) " class="meal" :data="meal" v-for="meal in meals" />
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
