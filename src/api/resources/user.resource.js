@@ -1,5 +1,44 @@
 import api from '../apiAxios'
 
+export const addWater = (water) => {
+  return api
+    .post('/users/me/water', {
+      consumed_water: water,
+      created_at: new Date()
+    })
+
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+      alert('Falha ao adicionar água')
+    })
+}
+
+
+export const deleteWater = (id) => {
+  return api
+    .delete(`/users/me/water/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e, 'erro ao deletar a água')
+    })
+}
+
+export const getWater = () => {
+  return api
+    .get('/users/me/water')
+    .then(({ data }) => {
+      return data
+    }).catch((e) => {
+      console.error()
+      alert('Falha ao buscar água')
+    })
+}
+
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {

@@ -4,14 +4,15 @@ import { useDietStore } from '../stores/diet.store';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
-import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VAddMeal from '../components/VAddMeal.vue';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
+import { useRouter} from 'vue-router'
 
+const router = useRouter();
 const dietStore = useDietStore()
 
-const showComponentAddWater = ref(false)
+
 const showComponentAddMeal = ref(false)
 
 const ButtonBottomOptions = ref(false)
@@ -19,13 +20,7 @@ let meals = ref([])
 
 
 
-const water = {
 
-  title: "Agua",
-  isWater: true,
-  quantity: ref(0),
-
-}
 const dashData = reactive({
   consumed: 0,
   burned: 0,
@@ -53,25 +48,7 @@ onMounted(async () => {
   fetchDiaryData()
 })
 
-const showAddWater = () => {
-  hideButtonBottomOptions()
-  showComponentAddWater.value = true
-}
 
-const addWater = (e) => {
-  hideButtonBottomOptions()
-  showComponentAddWater.value = false
-
-  if (e) {
-    dietStore.editDiary({
-      consumed_water: (e + water.quantity.value),
-      remaning_daily_goal_kcal: (dashData.goal - dashData.consumed)
-    }).then((data) => {
-      water.quantity.value = data.consumed_water
-
-    })
-  }
-}
 const showAddMeal = () => {
   hideButtonBottomOptions()
   showComponentAddMeal.value = true
@@ -96,6 +73,11 @@ const showAddFood = () => {
   alert("aqui vai adicionar comida")
 
 }
+
+const showAddWater = ()=> {
+  router.push('/water')
+}
+
 
 const hideButtonBottomOptions = () => {
   ButtonBottomOptions.value = false
@@ -147,7 +129,7 @@ const fetchDiaryData = async () => {
         <VAccordionMeal @showAddFood="() => showAddFood()" class="meal" :data="meal" v-for="meal in meals" />
       </div>
 
-      <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
+      
       <VAddMeal class="box-add-meal" :show="showComponentAddMeal" @showAddMeal="(e) => { addMeal(e) }" />
 
       <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
