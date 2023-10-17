@@ -1,41 +1,34 @@
 <script setup>
-import VButton from '../components/VButton.vue';
-import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
-import VtitlePage from '../components/VtitlePage.vue';
+import { onMounted, reactive } from 'vue'
+import { useRouter } from 'vue-router';
+import { useFoodStore } from '../stores/food.store'
 
+const foodStore = useFoodStore()
+const router = useRouter()
+const foods = reactive({})
+
+let pages = 0;
+const back = () => {
+  router.back()
+}
+
+const getFoods = async () => {
+  await foodStore.fetchFood(pages);
+  foods.value = foodStore.getFoods;
+  pages += 20;
+}
+
+
+onMounted(async () => {
+  getFoods()
+
+})
 </script>
 <template>
-  <section class="main">
-    <header class="header">
-      <nav class="nav">
-        <VButtonArrowLeft @click="backToLogin" />
-      </nav>
-      <VtitlePage class="title-page " title="Alimento" />
-      <nav class="nav"></nav>
-    </header>
-    <div class="food-selected">
-      <span class="food">Pão Integral</span>
-      <div class="inputs">
-        <input class="input" type="number">
-        <input class="input" type="text">
-        <span>80 gramas</span>
-
-      </div>
-
-      <div class="macros">
-        <span>100Kcal</span>
-        <span>30 Prot</span>
-        <span>65 Carb</span>
-        <span>9 Gord</span>
-        <span>30 Fibra</span>
-        <span>65 Sódio</span>
-
-
-      </div>
-      <VButton :text="'ADICIONAR'" />
-
-    </div>
-  </section>
+  <div v-for="item in foods.value">
+    {{ item.description }}
+  </div>
+  <button @click="getFoods()">mais</button>
 </template>
 <style scoped>
 .main {
@@ -45,6 +38,7 @@ import VtitlePage from '../components/VtitlePage.vue';
   height: 100vh;
   display: flex;
   flex-direction: column;
+
 
   .header {
 
@@ -69,7 +63,8 @@ import VtitlePage from '../components/VtitlePage.vue';
     display: flex;
     flex-direction: column;
     width: 95%;
-margin: 0 auto;
+
+
     .food {
       width: 100%;
       text-align: center;
@@ -78,8 +73,9 @@ margin: 0 auto;
     }
 
     .inputs {
-    display: flex;
-    gap: 20px;
+      display: flex;
+      gap: 20px;
+
       .input {
         background-color: transparent;
         border: none;

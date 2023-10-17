@@ -1,13 +1,15 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import VButton from './VButton.vue';
 import VtitlePage from './VtitlePage.vue';
 import { ref, defineEmits } from 'vue';
 
+const router = useRouter()
 const emit = defineEmits()
 const inputValue = ref('')
-const props = defineProps(
-  {
-    show: {
+const props = defineProps({
+  data: {
+    showComponentAddMeal: {
       type: Boolean,
       default: false
     },
@@ -16,25 +18,14 @@ const props = defineProps(
       type: Array, required: true, default: () => [
         {
           title: 'Cafe Da Manha',
-          value: 'Cafe Da Manha'
-        },
-        {
-          title: 'Almoço',
-          value: 'Almoço'
-        },
-        {
-          title: 'Lanche',
-          value: 'Lanche'
-        },
-        {
-          title: 'Janta',
-          value: 'Janta'
+          id: 0
         }
+
       ]
     }
-
-
   }
+}
+
 
 );
 
@@ -49,27 +40,30 @@ const sendValue = () => {
   emit('showAddMeal', inputValue.value)
   inputValue.value = ''
 }
-const changeValue = (e) => {
-  inputValue.value = e
+const emitId = (id) => {
+  emit('selectedMeal', id)
 }
-
+const goToAddMeal = (e) => {
+  router.push('/meal')
+}
 
 </script>
 
 <template>
-  <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
-  <div class="main" v-if="props.show">
+  <div class="bg" v-show="props.data.showComponentAddMeal" @click="handleClickOutside"></div>
+  <div class="main" v-if="props.data.showComponentAddMeal">
     <header class="title">
       <VtitlePage :title="'Adicionar elemento'" />
       <span>Escolha uma refeição para continuar</span>
     </header>
 
     <div class="meals">
-      <button v-for="meal in props.meals" :key="meal.value" class="meal" @click="changeValue(meal.value)">
+      <button v-for="meal in props.data.meals" class="meal" @click="emitId(meal.id)">
         {{ meal.title }}
       </button>
-    
-    <VButton class="add-meal" :text="'ADICIONAR ALIMENTO'" @click="sendValue" />
+      <button class="meal" @click="goToAddMeal">+ Adicionar Refeição</button>
+
+      <VButton class="add-meal" :text="'ADICIONAR ALIMENTO'" @click="sendValue" />
     </div>
   </div>
 </template>

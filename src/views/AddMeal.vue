@@ -1,108 +1,156 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
+import VtitlePage from '../components/VtitlePage.vue';
+import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
+import { useMealStore } from '../stores/meal.store'
+import {  useRouter } from 'vue-router';
+
+const router = useRouter()
+const mealStore = useMealStore()
+const meal = ref('')
+
+const back = () => {
+  router.back()
+}
+const updateMeal = (e) => {
+  meal.value = e
+}
+const addMeal = () => {
+  if (meal.value) {
+    mealStore.createMeal(meal.value)
+      .then(() => {
+        router.push('/diet')
+
+      })
+    return
+  }
+  alert("Digite uma refeição")
+  return
+}
+const addFood = () => {
+  router.push('/food')
+}
+const data = new Date()
+
 </script>
 
 <template>
-   <div class="meal">
-      <header>
-     
-      </header>
-      <main>
-         <VInput class="input" />
+  <div class="meal">
+    <header class="header">
+      <VButtonArrowLeft @click="back" />
+      <VtitlePage class="title" :title="'Refeição'" />
+      <spam class="spam">text</spam>
+    </header>
+    <main class="main">
+      <VInput :value="meal" @update="(e) => updateMeal(e)" class="input" />
 
-         <section class="macrosValue">
-            <p class="pragrafValue">0</p>
-            <p class="pragrafValue">0</p>
-            <p class="pragrafValue">0</p>
-            <p class="pragrafValue">0</p>
-         </section>
+      <section class="macrosValue">
+        <p class="paragraphValue">0</p>
+        <p class="paragraphValue">0</p>
+        <p class="paragraphValue">0</p>
+        <p class="paragraphValue">0</p>
+      </section>
 
-         <section class="macrosList">
-            <p class="pragrafMacros">Kcal</p>
-            <p class="pragrafMacros">Prot</p>
-            <p class="pragrafMacros">Carb</p>
-            <p class="pragrafMacros">Gord</p>
-         </section>
+      <section class="macrosList">
+        <p class="paragraphMacros">Kcal</p>
+        <p class="paragraphMacros">Prot</p>
+        <p class="paragraphMacros">Carb</p>
+        <p class="paragraphMacros">Gord</p>
+      </section>
 
-         <section class="time">
-            <p>Horario</p>
-            <p>8:00</p>
-         </section>
+      <section class="time">
+        <p>Horario</p>
+        <p>{{ data.getHours() }} : {{ data.getMinutes() }}</p>
+      </section>
 
-         <section class="mealsList">
-            <P class="valor">Pão</P>
-            <p class="valor">50g</p>
-         </section>
+      <section class="mealsList">
 
-         <VButton :text="`+ Adicionar Alimento`" class="button" />
-      </main>
 
-   </div>
+      </section>
+      <VButton @click="addFood" text="+ Alimento" class="add-food" />
+      <VButton @click="addMeal" text="Adicionar Refeição" class="button" />
+    </main>
+
+  </div>
 </template>
 
 
 <style scoped>
+p {
+  color: white;
+}
+
 .meal {
-   background-color: var(--bg-color-dark);
-   width: 100%;
-   min-height: 100vh;
-   height: 100%;
-   align-items: center;
+  background-color: var(--bg-color-dark);
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 
-   .input {
-      margin-bottom: 20px;
-   }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-   .macrosList {
-      display: flex;
-      color: var(--text-color-light);
-      background-color: var(--bg-color-grey);
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
+    .spam {
+      color: transparent;
+    }
+  }
 
-   }
+  .add-food {
+    background-color: transparent;
+    text-align: justify;
+  }
 
-   .macrosValue {
-      display: flex;
-      color: var(--text-color-light);
-      background-color: var(--bg-color-grey);
-      justify-content: center;
-      align-items: center;
-      gap: 55px;
-   }
 
-   .pragrafValue {
-      margin-top: 20px;
-   }
+  .input {
+    margin-bottom: 20px;
+  }
 
-   .time {
-      display: flex;
-      color: var(--text-color-light);
-      justify-content: center;
-      justify-content: space-between;
-      padding: 30px;
-      margin-top: 30px;
-   }
+  .title {
+    text-align: center;
+  }
 
-   .mealsList {
-      background-color: var(--bg-color-grey);
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 30px;
-      width: 100%;
-      height: 60px;
-      color: var(--text-color-light);
-      border-radius: 8px;
-      margin: auto;
-      margin-bottom: 20px;
+  .macrosList {
+    display: flex;
+    color: var(--text-color-light);
+    background-color: var(--bg-color-grey);
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
 
-      .valor {
-         margin: 0;
-      }
-   }
+  }
+
+  .macrosValue {
+    display: flex;
+    color: var(--text-color-light);
+    background-color: var(--bg-color-grey);
+    justify-content: center;
+    align-items: center;
+    gap: 55px;
+  }
+
+  .paragraphValue {
+    margin-top: 20px;
+  }
+
+  .paragraphMacros {
+    /* text-align: center; */
+
+  }
+
+  .time {
+    display: flex;
+    color: var(--text-color-light);
+    justify-content: center;
+    justify-content: space-between;
+    /* gap: 1000px; */
+    padding: 30px;
+    margin-top: 30px;
+  }
 }
 </style>

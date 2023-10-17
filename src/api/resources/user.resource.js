@@ -1,22 +1,5 @@
 import api from '../apiAxios'
 
-export const addWater = (water) => {
-  return api
-    .post('/users/me/water', {
-      consumed_water: water,
-      created_at: new Date()
-    })
-
-    .then(({ data }) => {
-      return data
-    })
-    .catch((e) => {
-      console.error(e)
-      alert('Falha ao adicionar água')
-    })
-}
-
-
 export const deleteWater = (id) => {
   return api
     .delete(`/users/me/water/${id}`)
@@ -24,10 +7,28 @@ export const deleteWater = (id) => {
       return data
     })
     .catch((e) => {
-      console.error(e, 'erro ao deletar a água')
+
+      console.error(e)
+      alert('falha ao editar refeição')
     })
 }
+export const addWater = (water) => {
+  return api
+    .post('/users/me/water', {
+      consumed_water: water,
+      created_at: new Date()
+    })
 
+
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
 export const getWater = () => {
   return api
     .get('/users/me/water')
@@ -39,6 +40,36 @@ export const getWater = () => {
     })
 }
 
+export const fetchFood = (data) => {
+
+  return api
+    .get(`/foods?page=${data}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
+
+export const editMeal = (meal) => {
+
+  return api
+
+    .put(`users/me/meal/${meal.id}`, {
+      name: meal.name
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
@@ -50,6 +81,17 @@ export const createMeal = (meal) => {
     .catch((e) => {
       console.error(e)
       alert('falha ao criar refeição')
+    })
+}
+export const findMeal = (id) => {
+  return api
+    .get(`users/me/meal/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+      alert('falha ao buscar refeição')
     })
 }
 
@@ -79,6 +121,7 @@ export const getProgress = () => {
       alert("falha ao requisitar Diary ")
     })
 }
+
 export const createDiary = () => {
   return api
     .post("/users/me/diary")
@@ -109,6 +152,7 @@ export const getDiary = () => {
       alert("falha ao requisitar Diary ")
     })
 }
+
 export const getUser = () => {
   return api
     .get('/users/me')

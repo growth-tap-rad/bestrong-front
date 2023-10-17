@@ -13,7 +13,7 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import AddFood from '../views/AddFood.vue'
 import AddMeal from '../views/AddMeal.vue'
-
+import EditMeal from '../views/EditMeal.vue'
 
 const ROUTES = [
   {
@@ -71,26 +71,36 @@ const ROUTES = [
   {
     path: '/water',
     name: 'water',
-    component: Water
+    component: Water,
+    meta: { requiresAuth: true }
   },
   {
     path: '/profile',
     name: 'Profile',
     component: Profile,
     meta: { requiresAuth: true }
-  }
-  ,
+  },
   {
     path: '/food',
     name: 'AddFood',
     component: AddFood,
     meta: { requiresAuth: true }
-  },
+  }
+  ,
   {
     path: '/meal',
     name: 'AddMeal',
-    component: AddMeal
-  },
+    component: AddMeal,
+    meta: { requiresAuth: true }
+  }
+  ,
+  {
+    path: '/meal/edit/:id',
+    name: 'EditMeal',
+    component: EditMeal,
+    meta: { requiresAuth: true }
+  }
+
 ]
 
 const router = createRouter({
