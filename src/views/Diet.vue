@@ -9,12 +9,9 @@ import VBottomMenu from '../components/VBottomMenu.vue'
 import VAddMeal from '../components/VAddMeal.vue';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
 
-
 const router = useRouter()
 const dietStore = useDietStore()
-
 const showComponentAddMeal = ref(false)
-
 const ButtonBottomOptions = ref(false)
 let meals = ref([])
 
@@ -36,7 +33,6 @@ const dashData = reactive({
   remaning: 0,
   daily: 0,
 })
-
 const macros = reactive({
   protein: {
     now: 0,
@@ -51,19 +47,12 @@ const macros = reactive({
     total: 0
   }
 })
-
 onMounted(async () => {
   fetchDiaryData()
 })
-
-
-
 const showAddWater = () => {
   router.push('/water')
 }
-
-
-
 const showAddMeal = () => {
   hideButtonBottomOptions()
   showComponentAddMeal.value = true
@@ -126,8 +115,6 @@ const fetchDiaryData = async () => {
     meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
-
-
 </script>
 
 <template>

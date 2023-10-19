@@ -17,11 +17,19 @@ export const useFoodStore = defineStore('food', {
     async fetchFood(payload) {
       this.setFoods(await userResource.fetchFood(payload))
       this.getFoods
-   
-    },
 
+    },
+    async getFood(payload) {
+      return await userResource.getFood(payload)
+    },
+    async getMeasure(payload) {
+      return await userResource.getMeasure(payload)
+    },
     setFoods(payload) {
       this.food = payload
+    },
+    async createMealFood(payload) {
+      return await userResource.createMealFood(payload)
     }
 
   }

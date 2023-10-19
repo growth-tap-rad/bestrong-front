@@ -9,7 +9,7 @@ import { useWaterStore } from '../stores/water.store'
 const showComponentAddWater = ref(false)
 const waterStore = useWaterStore();
 let ArrayWater = ref([])
-
+const water_goal = ref()
 const abreAba = () => {
     showComponentAddWater.value = true
 }
@@ -45,6 +45,8 @@ onMounted(() => {
 const fetchWater = async () => {
     await waterStore.fetchWater()
     ArrayWater.value = waterStore.getArrayWater
+    water_goal.value = waterStore.getWaterGoal
+
 }
 
 </script>
@@ -57,7 +59,7 @@ const fetchWater = async () => {
         <main>
 
             <div class="center">
-                <h1>2000ml </h1>
+                <h1>{{ water_goal }} ml</h1>
                 <p>Meta Diaria</p>
             </div>
 
@@ -75,7 +77,8 @@ const fetchWater = async () => {
 
 <style scoped>
 .consume-Water {
-    background-color: var(--bg-color-grey);
+
+    background-color: var(--bg-color-dark);
     width: 100%;
     min-height: 100vh;
     height: 100%;
@@ -83,7 +86,13 @@ const fetchWater = async () => {
 
     .agua-consumida {
         margin-top: 30px;
+        section {
+
+    
+            background-color: var(--bg-color-grey);
+        }
     }
+
 }
 
 h1 {
