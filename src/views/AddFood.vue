@@ -56,10 +56,15 @@ const addFood = (item) => {
 </script>
 <template>
   <div class="main">
-    <VButtonArrowLeft class="arrow-left" @click="back()" />
+    <nav class="nav">
+      <VButtonArrowLeft class="arrow-left" @click="back()" />
+      <span class="title">Alimentos</span>
+      <span></span>
+    </nav>
     <VInputIcon :disabled="true" :data="inputFood" :hasIcon="true" iconName="bi bi-search" v-model="inputFood.value" />
-    <span class="food"> {{ inputFood.value }} </span>
-    <VButton class="food" v-for="item in foods" :text="item.description" @click="addFood(item)" />
+    <section class="list-foods">
+      <VButton class="food" v-for="item in foods" :text="item.description" @click="addFood(item)" />
+    </section>
     <VButton class="food" @click="getFoods()" text="mais alimentos" />
   </div>
 </template>
@@ -70,7 +75,21 @@ const addFood = (item) => {
 
   display: flex;
   flex-direction: column;
-  padding: 3em;
+  padding: 20px;
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  .list-foods {
+    padding: 10px 25px;
+  }
 
   .arrow-left {
     display: flex;

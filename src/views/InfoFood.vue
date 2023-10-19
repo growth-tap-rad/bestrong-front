@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, computed } from 'vue'
 import { useFoodStore } from '../stores/food.store'
 import VButton from '../components/VButton.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -7,7 +7,7 @@ import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VtitlePage from '../components/VtitlePage.vue';
 import VInput from '../components/VInput.vue';
 
-const qtdMeal = ref(0)
+const qtdMeal = ref(1)
 const unity = ref('')
 const router = useRouter()
 const route = useRoute()
@@ -21,7 +21,7 @@ const back = () => {
 
 const addFoodToMeal = () => {
 
-  if (food.value.description && unity.value && qtdMeal.value && route.params.idfood &&route.params.id) {
+  if (food.value.description && unity.value && qtdMeal.value && route.params.idfood && route.params.id) {
     foodStore.createMealFood({
       name: food.value.description,
       unity: unity.value,
@@ -54,6 +54,25 @@ onMounted(async () => {
   });
 })
 
+
+const transformUnity = (unity) => {
+  if (unity == 'Unidade') {
+    return 'Unidade'
+  } else if (unity == 'Unidade Pequena') {
+    return 'Unidade'
+  }
+  else if (unity == 'Mililitro') {
+    return 'ML'
+  }
+  return 'Gramas'
+}
+
+const calcQuantity = computed(() => {
+  const qtd = parseInt(qtdMeal.value) || 1;
+  const unit = parseInt(unity.value) || 0;
+  return parseInt(qtd * unit)
+})
+
 </script>
 
 
@@ -71,7 +90,7 @@ onMounted(async () => {
         </div>
         <div class="body-food">
           <div class="inputs">
-            <input placeholder="0" class="input-number" v-model="qtdMeal" type:number />
+            <input placeholder="0" class="input-number" v-model="qtdMeal" type="number" />
             <!--     mudar o componente VDropdown para receber o option default como prop -->
             <select class="input-measure" v-model="unity">
               <option selected disabled class="option">Selecione uma medida</option>
@@ -81,8 +100,8 @@ onMounted(async () => {
             </select>
 
             <div class="quantity-information">
-              <h3 class="number-macros">80</h3>
-              <span>Gramas</span>
+              <span class="number-macros quantity">{{ calcQuantity }}</span>
+              <span>{{ transformUnity(food.unity) }}</span>
             </div>
 
           </div>
@@ -133,11 +152,16 @@ onMounted(async () => {
     background-color: var(--bg-color-dark5);
     text-align: center;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 10px 10px 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
 
+  }
+
+  .quantity {
+    font-size: 1.7em;
+    font-weight: bold;
   }
 
   .body-food {
@@ -147,8 +171,10 @@ onMounted(async () => {
 
     .inputs {
       display: flex;
-      padding: 30px;
-      gap: 20px;
+      padding: 15px;
+      gap: 10px;
+      background-color: var(--bg-color-dark2);
+      border-radius: 0 0 10px 10px;
 
       .input-number {
         width: 4em;

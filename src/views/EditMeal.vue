@@ -107,7 +107,7 @@ const transformUnity = (unity) => {
         </section>
 
       </section>
-      <VButton @click="addFood" text="+ Alimento" class="add-food" />
+      <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
       <VButton @click="editMeal" text="Adicionar Refeição" class="button" />
     </main>
 
@@ -142,6 +142,7 @@ p {
   .add-food {
     background-color: transparent;
     text-align: justify;
+    padding: 40px 0;
   }
 
 

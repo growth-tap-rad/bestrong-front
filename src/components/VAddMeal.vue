@@ -36,7 +36,6 @@ const handleClickOutside = () => {
   inputValue.value = ''
 };
 const sendValue = () => {
-
   emit('showAddMeal', inputValue.value)
   inputValue.value = ''
 }
@@ -61,9 +60,9 @@ const goToAddMeal = (e) => {
       <button v-for="meal in props.data.meals" class="meal" @click="emitId(meal.id)">
         {{ meal.title }}
       </button>
-      <button class="meal" @click="goToAddMeal">+ Adicionar Refeição</button>
+      <!-- <button class="meal" @click="goToAddMeal">+ Nova Refeição</button> -->
 
-      <VButton class="add-meal" :text="'ADICIONAR ALIMENTO'" @click="sendValue" />
+      <VButton class="add-meal" text="+ Nova Refeição"  @click="goToAddMeal"/>
     </div>
   </div>
 </template>

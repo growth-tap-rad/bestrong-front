@@ -52,25 +52,25 @@ const fetchWater = async () => {
     water_goal.value = waterStore.getWaterGoal
 }
 
-const back = () => {
-    router.back()
-}
+
+const actionsTitlePage = [
+    {
+        btIcon: 'bi bi-arrow-left-short',
+        goTo: 'back'
+    }
+]
 
 </script>
 
 <template>
     <div class="water">
         <header class="header">
-            <VTitleDatePage :title="`Água`" />
+            <VTitleDatePage :title="`Água`" :actions="actionsTitlePage"/>
         </header>
         <main>
 
-            <div>
-
-                <div class="center">
-                    <VButtonArrowLeft @click="back" />
-                </div>
-                <h1>{{ water_goal || 0 }} ml</h1>
+            <div class="center">
+                <h1 class="water-goal"><span>{{ water_goal || 0 }}</span> ml</h1>
                 <p>Meta Diária</p>
             </div>
 
@@ -100,10 +100,15 @@ const back = () => {
 
 }
 
-h1 {
+.water-goal {
     display: flex;
     justify-content: center;
-    color: var(--button-color-light)
+    align-items: baseline;
+    color: var(--text-color-highlighted2);
+    span {
+        font-size: 3em;
+        font-weight: bold;
+    }
 }
 
 p {
@@ -115,9 +120,6 @@ p {
 
 .center {
     margin-top: 20px;
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 30px;
 }
 
 .vButton {

@@ -8,6 +8,7 @@ import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VAddMeal from '../components/VAddMeal.vue';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
+import VAddWater from '../components/VAddWater.vue';
 
 const router = useRouter()
 const dietStore = useDietStore()
@@ -114,12 +115,25 @@ const fetchDiaryData = async () => {
     meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
+
+const actionsTitlePage = [
+  {
+    btIcon: "",
+    goTo: "" 
+  },
+  {
+    btIcon: "",
+    goTo: "" 
+  }
+]
+
+
 </script>
 
 <template>
   <section class="diet">
     <header class="header">
-      <VTitleDatePage />
+      <VTitleDatePage :actions="actionsTitlePage"/>
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
@@ -130,6 +144,7 @@ const fetchDiaryData = async () => {
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
+      
       <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
         @showAddMeal="(e) => { addMeal(e) }" />
 

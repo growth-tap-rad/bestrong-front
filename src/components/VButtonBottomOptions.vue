@@ -19,35 +19,37 @@ const showAddWater = () => {
 }
 </script>
 <template>
-  <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
-  <div v-show="props.show" class="buttons">
-    <div class="top-buttons">
-      <button class="button button-disable">
-        <i class="bi bi-arrow-clockwise"></i>
-        <span class="text">Adicionar peso</span>
-      </button>
-      <button class="button button-disable">
-        <i class="bi bi-universal-access"></i>
-        <span class="text">Adicionar treino</span>
-      </button>
-      <button class="button button-disable">
-        <i class="bi bi-person-up"></i>
-        <span class="text">Adicionar exercicio</span>
-      </button>
+  <div class="container-menu">
+    <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
+    <div v-show="props.show" class="buttons">
+      <div class="top-buttons">
+        <button class="button button-disable">
+          <i class="bi bi-arrow-clockwise"></i>
+          <span class="text">Adicionar peso</span>
+        </button>
+        <button class="button button-disable">
+          <i class="bi bi-universal-access"></i>
+          <span class="text">Adicionar treino</span>
+        </button>
+        <button class="button button-disable">
+          <i class="bi bi-person-up"></i>
+          <span class="text">Adicionar exercicio</span>
+        </button>
+      </div>
+      <div class="bottom-buttons">
+        <button @click="showAddMeal" class="button">
+          <i class="bi bi-cup-straw"></i>
+          <span class="text">Adicionar Alimento</span>
+        </button>
+        <button @click="showAddWater" class="button">
+          <i class="bi bi-droplet"></i>
+          <span class="text">Adicionar Agua</span>
+        </button>
+      </div>
+
+
+
     </div>
-    <div class="bottom-buttons">
-      <button @click="showAddMeal" class="button">
-        <i class="bi bi-cup-straw"></i>
-        <span class="text">Adicionar Alimento</span>
-      </button>
-      <button @click="showAddWater" class="button">
-        <i class="bi bi-droplet"></i>
-        <span class="text">Adicionar Agua</span>
-      </button>
-    </div>
-
-
-
   </div>
 </template>
 
@@ -64,13 +66,10 @@ const showAddWater = () => {
 }
 
 .buttons {
-  position: fixed;
+  position: absolute;
   z-index: 4;
   width: 100%;
-  bottom: 0;
-  height: 30vh;
-bottom: 110px;
-
+  bottom: 120px;
 
   .top-buttons,
   .bottom-buttons {
@@ -104,15 +103,15 @@ bottom: 110px;
 
 
 
-      .button-disable {
-        color: gray;
-        pointer-events: none;
-      }
+    .button-disable {
+      color: gray;
+      pointer-events: none;
     }
-
-    .top-buttons {
-      margin-bottom: 1em;
-    }
-
   }
+
+  .top-buttons {
+    margin-bottom: 1em;
+  }
+
+}
 </style>
