@@ -12,14 +12,18 @@ const props = defineProps({
 
 
 const handleClickOutside = () => {
-  
+
     emit('showAddWater', parseInt(0))
-      inputValue.value = ''
+    inputValue.value = ''
 };
 const sendValue = () => {
+    if (inputValue.value > 0) {
 
-    emit('showAddWater', parseInt(inputValue.value))
-    inputValue.value = ''
+        emit('showAddWater', parseInt(inputValue.value))
+        inputValue.value = ''
+        return
+    }
+    handleClickOutside()
 }
 
 const inputValue = ref('')
@@ -32,7 +36,7 @@ const inputValue = ref('')
     <div class="main" v-if="props.show">
         <h1 class="h1-add-water">Água</h1>
         <input v-model="inputValue" class="input-add-water" type="number" placeholder="200 ml">
-        <button  class="btn btn-primary button-add-water" @click="sendValue">Adicionar</button>
+        <button class="btn btn-primary button-add-water" @click="sendValue">Adicionar</button>
     </div>
 </template>
 

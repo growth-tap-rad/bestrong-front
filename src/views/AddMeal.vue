@@ -36,12 +36,26 @@ const addMeal = () => {
 }
 
 const addFood = () => {
-
+  if (!route.params.id) {
+    mealStore.createMeal(meal.value)
+      .then((data) => {
+        const meal = data[length]
+        console.log(meal)
+      //  router.push(`/meal/${data[length - 1].id}/foods`);
+        return
+      })
+  }
   router.push(`/meal/${route.params.id}/foods`);
 
 }
 const data = new Date()
 
+onMounted(() => {
+  mealStore.findMeal(route.params.id)
+    .then((data) => {
+      console.log(data)
+    })
+})
 </script>
 
 <template>

@@ -5,8 +5,7 @@ import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VBottomMenu from '../components/VBottomMenu.vue';
 
-
-
+const ButtonBottomOptions = ref(false)
 const profileStore = useProfileStore()
 let user = reactive({ name: 'name', weight: '00', height: '00' })
 
@@ -19,10 +18,6 @@ onMounted(() => {
         user.weight = data.progress[0].weight
     })
 })
-
-const esconderBotao =()=>{
-  
-}
 
 </script>
 <template >
@@ -63,11 +58,8 @@ const esconderBotao =()=>{
         <p>Histórico progresso</p>
 
       </section>
-
-      <section>
-        <VBottomMenu :show="{}"/>
-      </section>
-
+      <VBottomMenu class="footer"
+        actualRoute="/profile" />
     </main>
 
   </div>
@@ -83,7 +75,6 @@ const esconderBotao =()=>{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
     height: 60px;
     align-items: center;
     justify-content: space-between;
@@ -95,6 +86,12 @@ const esconderBotao =()=>{
       background-color: var(--bg-color-dark)
     }
   }
+  .footer {
+      position: fixed;
+      z-index: 3;
+      width: 100%;
+      bottom: 0;
+    }
 
   .main {
     .photo {

@@ -7,7 +7,7 @@ const defaultState = {
       id: '',
       name: "",
       meal_consumed_kcal: 0,
-      food:[]
+      food: []
     }
   ]
 
@@ -29,16 +29,19 @@ export const useMealStore = defineStore('meal', {
       this.meal.push(payload)
     },
     async findMeal(payload) {
-      this.setMeal( await userResource.findMeal(payload))
+      this.setMeal(await userResource.findMeal(payload))
       return await userResource.findMeal(payload)
     },
     async editMeal(payload) {
       return await userResource.editMeal(payload)
     },
-   async addFood(payload) {
+    async addFood(payload) {
       return await userResource.addFood(payload)
-      
+
     },
-   
+    async findMeal(payload){
+      return await userResource.findMeal(payload)
+    }
+
   }
 })
