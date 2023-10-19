@@ -88,7 +88,7 @@ const fetchDiaryData = async () => {
   await dietStore.fetchDiary()
   const data = dietStore.getDiary
 
-  console.log(data)
+
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
     burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
   const { daily_goal_kcal, protein, carb, fat } = data.progress
@@ -109,7 +109,7 @@ const fetchDiaryData = async () => {
   data.water.forEach(element => {
     water.quantity.value += element.consumed_water
   });
-  consumed_water
+ 
 
   data.meal.forEach(element => {
     meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
