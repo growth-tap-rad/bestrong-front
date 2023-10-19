@@ -15,6 +15,8 @@ import AddFood from '../views/AddFood.vue'
 import AddMeal from '../views/AddMeal.vue'
 import EditMeal from '../views/EditMeal.vue'
 import InfoFood from '../views/InfoFood.vue'
+import ListFood from '../views/ListFood.vue'
+
 
 const ROUTES = [
   {
@@ -106,6 +108,11 @@ const ROUTES = [
     name: 'EditMeal',
     component: EditMeal,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/food/list',
+    name: 'listaAlimentos',
+    component: ListFood
   }
 
 ]
