@@ -1,11 +1,17 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
-import { useRouter } from 'vue-router';
+import { onMounted, reactive, ref } from 'vue'
 import { useFoodStore } from '../stores/food.store'
+import VButton from '../components/VButton.vue';
+import VInputIcon from '../components/VInputIcon.vue'
+import { useRoute, useRouter } from 'vue-router';
+import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
+
+const route = useRoute()
+const router = useRouter()
 
 const foodStore = useFoodStore()
-const router = useRouter()
-const foods = reactive({})
+
+let foods = ref([])
 
 let pages = 0;
 const back = () => {
@@ -14,7 +20,8 @@ const back = () => {
 
 const getFoods = async () => {
   await foodStore.fetchFood(pages);
-  foods.value = foodStore.getFoods;
+  const bacate = foodStore.getFoods
+  foods.value = [...foods.value, ...bacate]
   pages += 20;
 }
 
@@ -23,68 +30,54 @@ onMounted(async () => {
   getFoods()
 
 })
+const data = {
+
+  placeholder: 'Busque por um alimento',
+  type: 'text',
+
+}
+const inputFood = reactive({
+
+  placeholder: "abacate",
+  type: 'text',
+  value: '',
+
+
+})
+const findFood = () => {
+  alert('')
+}
+const addFood = (item) => {
+
+  router.push(`/meal/${route.params.id}/food/${item.id}`);
+}
+
+
 </script>
 <template>
-  <div v-for="item in foods.value">
-    {{ item.description }}
+  <div class="main">
+    <VButtonArrowLeft class="arrow-left" @click="back()" />
+    <VInputIcon :disabled="true" :data="inputFood" :hasIcon="true" iconName="bi bi-search" v-model="inputFood.value" />
+    <span class="food"> {{ inputFood.value }} </span>
+    <VButton class="food" v-for="item in foods" :text="item.description" @click="addFood(item)" />
+    <VButton class="food" @click="getFoods()" text="mais alimentos" />
   </div>
-  <button @click="getFoods()">mais</button>
 </template>
 <style scoped>
 .main {
   color: white;
   background-color: var(--bg-color-dark);
-  width: 100%;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
+  padding: 3em;
 
-
-  .header {
-
+  .arrow-left {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-
-
-    .nav {
-      margin-bottom: 20px;
-    }
-
-    .title-page {
-      color: var(--text-color-light);
-      font-size: 20px;
-      text-align: center;
-    }
   }
 
-  .food-selected {
-    display: flex;
-    flex-direction: column;
-    width: 95%;
-
-
-    .food {
-      width: 100%;
-      text-align: center;
-      background-color: black;
-      height: 2em;
-    }
-
-    .inputs {
-      display: flex;
-      gap: 20px;
-
-      .input {
-        background-color: transparent;
-        border: none;
-        border-bottom: 1PX solid gray;
-      }
-
-    }
-
-
+  .food {
+    background-color: var(--bg-color-dark);
   }
 }
 </style>

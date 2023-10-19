@@ -14,6 +14,10 @@ defineProps({
   iconName: {
     type: String,
     default: "bi bi-envelope"
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -22,8 +26,8 @@ defineProps({
   <div class="inputs">
     <label :for="data.title" class="label">{{ data.title }}</label>
     <div v-if="hasIcon" class="box-input">
-      <i :class="[iconName, 'icon']"></i>
-      <input :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)"/>
+      <i :class="[iconName, 'icon',{ 'disabled' : disabled}]"></i>
+      <input :disabled="disabled" :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)" />
     </div>
   </div>
 </template>
@@ -45,12 +49,16 @@ defineProps({
     position: relative;
 
     .input {
+
       padding: 10px 10px 10px 45px;
       border-radius: 8px;
       background-color: var(--bg-color-grey);
       color: var(--text-color-light2);
       border: none;
       width: 100%;
+      &:disabled{
+        opacity: 0.2;
+      }
     }
 
     .icon {
@@ -60,6 +68,9 @@ defineProps({
       left: 15px;
       color: var(--text-color-light2);
       position: absolute;
+      &.disabled{
+        opacity: 0.2;
+      }
     }
   }
 }
