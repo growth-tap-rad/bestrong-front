@@ -1,94 +1,102 @@
 <script setup>
+import { onMounted, reactive, ref } from 'vue'
+import { useFoodStore } from '../stores/food.store'
 import VButton from '../components/VButton.vue';
+import VInputIcon from '../components/VInputIcon.vue'
+import { useRoute, useRouter } from 'vue-router';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
-import VtitlePage from '../components/VtitlePage.vue';
+
+const route = useRoute()
+const router = useRouter()
+
+const foodStore = useFoodStore()
+
+let foods = ref([])
+
+let pages = 0;
+const back = () => {
+  router.back()
+}
+
+const getFoods = async () => {
+  await foodStore.fetchFood(pages);
+  const bacate = foodStore.getFoods
+  foods.value = [...foods.value, ...bacate]
+  pages += 20;
+}
+
+
+onMounted(async () => {
+  getFoods()
+
+})
+const data = {
+
+  placeholder: 'Busque por um alimento',
+  type: 'text',
+
+}
+const inputFood = reactive({
+
+  placeholder: "abacate",
+  type: 'text',
+  value: '',
+
+
+})
+const findFood = () => {
+  alert('')
+}
+const addFood = (item) => {
+
+  router.push(`/meal/${route.params.id}/food/${item.id}`);
+}
+
 
 </script>
 <template>
-  <section class="main">
-    <header class="header">
-      <nav class="nav">
-        <VButtonArrowLeft @click="backToLogin" />
-      </nav>
-      <VtitlePage class="title-page " title="Alimento" />
-      <nav class="nav"></nav>
-    </header>
-    <div class="food-selected">
-      <span class="food">Pão Integral</span>
-      <div class="inputs">
-        <input class="input" type="number">
-        <input class="input" type="text">
-        <span>80 gramas</span>
-
-      </div>
-
-      <div class="macros">
-        <span>100Kcal</span>
-        <span>30 Prot</span>
-        <span>65 Carb</span>
-        <span>9 Gord</span>
-        <span>30 Fibra</span>
-        <span>65 Sódio</span>
-
-
-      </div>
-      <VButton :text="'ADICIONAR'" />
-
-    </div>
-  </section>
+  <div class="main">
+    <nav class="nav">
+      <VButtonArrowLeft class="arrow-left" @click="back()" />
+      <span class="title">Alimentos</span>
+      <span></span>
+    </nav>
+    <VInputIcon :disabled="true" :data="inputFood" :hasIcon="true" iconName="bi bi-search" v-model="inputFood.value" />
+    <section class="list-foods">
+      <VButton class="food" v-for="item in foods" :text="item.description" @click="addFood(item)" />
+    </section>
+    <VButton class="food" @click="getFoods()" text="mais alimentos" />
+  </div>
 </template>
 <style scoped>
 .main {
   color: white;
   background-color: var(--bg-color-dark);
-  width: 100%;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
+  padding: 20px;
 
-  .header {
-
+  .nav {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
-
-
-    .nav {
-      margin-bottom: 20px;
-    }
-
-    .title-page {
-      color: var(--text-color-light);
+    align-items: center;
+    .title {
       font-size: 20px;
-      text-align: center;
+      font-weight: bold;
     }
   }
 
-  .food-selected {
+  .list-foods {
+    padding: 10px 25px;
+  }
+
+  .arrow-left {
     display: flex;
-    flex-direction: column;
-    width: 95%;
-margin: 0 auto;
-    .food {
-      width: 100%;
-      text-align: center;
-      background-color: black;
-      height: 2em;
-    }
+  }
 
-    .inputs {
-    display: flex;
-    gap: 20px;
-      .input {
-        background-color: transparent;
-        border: none;
-        border-bottom: 1PX solid gray;
-      }
-
-    }
-
-
+  .food {
+    background-color: var(--bg-color-dark);
   }
 }
 </style>

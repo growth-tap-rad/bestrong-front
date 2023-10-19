@@ -6,7 +6,8 @@ defineProps({
     default: "Texto",
     required: true
   },
-  disabled: false
+  disabled: false,
+
 })
 </script>
 

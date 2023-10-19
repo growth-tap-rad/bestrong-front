@@ -1,5 +1,139 @@
 import api from '../apiAxios'
 
+
+export const getMeasure = (id) => {
+  return api
+    .get(`measures/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+
+      console.error(e)
+      alert('falha ao buscar measures')
+    })
+
+}
+
+
+export const deleteWater = (id) => {
+  return api
+    .delete(`/users/me/water/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+
+      console.error(e)
+      alert('falha ao editar refeição')
+    })
+}
+export const addWater = (water) => {
+  return api
+    .post('/users/me/water', {
+      consumed_water: water,
+      created_at: new Date()
+    })
+
+
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
+export const createMealFood = (data) => {
+
+  return api
+    .post('/meal_foods', {
+      name: data.name,
+      unity: data.unity,
+      quantity: data.quantity,
+      food_id: data.food_id,
+      meal_id: data.meal_id
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+
+      console.error(e)
+      alert('falha ao buscar measures')
+    })
+
+}
+export const getWater = () => {
+  return api
+    .get('/users/me/water')
+    .then(({ data }) => {
+      return data
+    }).catch((e) => {
+      console.error()
+      alert('Falha ao buscar água')
+    })
+}
+
+export const fetchFood = (data) => {
+
+  return api
+    .get(`/foods?page=${data}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
+export const getFood = (data => {
+  return api.get(`/foods/${data}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+})
+export const addFood = (data) => {
+
+  return api
+    .post('users/me/meal/food', {
+      meal: data.meal,
+      food: data.food
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
+
+
+export const editMeal = (meal) => {
+
+  return api
+
+    .put(`users/me/meal/${meal.id}`, {
+      name: meal.name
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+
+      alert('falha ao fazer fetch Foods')
+    })
+}
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
@@ -11,6 +145,17 @@ export const createMeal = (meal) => {
     .catch((e) => {
       console.error(e)
       alert('falha ao criar refeição')
+    })
+}
+export const findMeal = (id) => {
+  return api
+    .get(`users/me/meal/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+      alert('falha ao buscar refeição')
     })
 }
 
@@ -40,6 +185,7 @@ export const getProgress = () => {
       alert("falha ao requisitar Diary ")
     })
 }
+
 export const createDiary = () => {
   return api
     .post("/users/me/diary")
@@ -70,6 +216,7 @@ export const getDiary = () => {
       alert("falha ao requisitar Diary ")
     })
 }
+
 export const getUser = () => {
   return api
     .get('/users/me')

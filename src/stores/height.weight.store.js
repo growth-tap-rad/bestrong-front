@@ -19,6 +19,7 @@ export const useHeightWeightStore = defineStore('heightweight', {
     },
     async createDiary() {
       return await userResource.createDiary()
-    }
+    },
+  
   }
 })

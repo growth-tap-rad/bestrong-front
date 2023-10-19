@@ -70,9 +70,10 @@ const goToDiet = () => {
       }).then((dataProgress) => {
         if (dataProgress) {
           HeightWeightStore.createDiary()
-            .then(() => {
+          .then(() => {
               router.push('/diet')
-            }).catch(() => {
+            })
+            .catch(() => {
               console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
               return;
             })
