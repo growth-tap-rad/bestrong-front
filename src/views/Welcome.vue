@@ -25,7 +25,7 @@ const goToCreateRegistration = () => {
     <div class="box-img">
       <img src="@/assets/imgs/beStrongBetePng.png" alt="bestrong logo" class="logo">
     </div>
-    
+
     <div class="actions">
       <VButton text="Login" @click="goToWhatYourGoal" />
       <VButton text="Cadastrar-se" class="button2" @click="goToCreateRegistration" />
@@ -64,11 +64,16 @@ const goToCreateRegistration = () => {
     margin-top: 60px;
 
     .logo {
-      height: 200px;
+      height: 220px;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        height: 170px;
+      }
     }
   }
 
-}
 
-@media (max-width: 768px) {}
+}
 </style>

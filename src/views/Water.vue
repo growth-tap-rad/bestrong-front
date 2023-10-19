@@ -1,16 +1,20 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VConsumeWater from '../components/VConsumeWater.vue';
 import VAddWater from '../components/VAddWater.vue';
 import { useWaterStore } from '../stores/water.store'
+import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
+
+const router = useRouter()
 
 const showComponentAddWater = ref(false)
 const waterStore = useWaterStore();
 let ArrayWater = ref([])
-const water_goal = ref()
-const abreAba = () => {
+const water_goal = ref(0)
+const openInputWater = () => {
     showComponentAddWater.value = true
 }
 
@@ -46,28 +50,34 @@ const fetchWater = async () => {
     await waterStore.fetchWater()
     ArrayWater.value = waterStore.getArrayWater
     water_goal.value = waterStore.getWaterGoal
+}
 
+const back = () => {
+    router.back()
 }
 
 </script>
 
 <template>
-    <div class="consume-Water">
+    <div class="water">
         <header class="header">
             <VTitleDatePage :title="`Água`" />
         </header>
         <main>
 
-            <div class="center">
-                <h1>{{ water_goal }} ml</h1>
-                <p>Meta Diaria</p>
+            <div>
+
+                <div class="center">
+                    <VButtonArrowLeft @click="back" />
+                </div>
+                <h1>{{ water_goal || 0 }} ml</h1>
+                <p>Meta Diária</p>
             </div>
 
             <VConsumeWater @deleteWater="(e) => deleteWater(e)" :data="element" v-for="element in ArrayWater"
-                class="agua-consumida" />
-            <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }">
-            </VAddWater>
-            <VButton @click="abreAba" :text="`+ Adicionar`" class="vButton" />
+                class="water-consumed" />
+            <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }" />
+            <VButton @click="openInputWater" text="+ Adicionar" class="vButton" />
         </main>
 
 
@@ -76,7 +86,7 @@ const fetchWater = async () => {
 
 
 <style scoped>
-.consume-Water {
+.water {
 
     background-color: var(--bg-color-dark);
     width: 100%;
@@ -84,13 +94,8 @@ const fetchWater = async () => {
     height: 100%;
     align-items: center;
 
-    .agua-consumida {
-        margin-top: 30px;
-        section {
-
-    
-            background-color: var(--bg-color-grey);
-        }
+    .water-consumed {
+        padding-top: 30px;
     }
 
 }
@@ -106,6 +111,13 @@ p {
     justify-content: center;
     color: var(--bg-color-light);
 
+}
+
+.center {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 30px;
 }
 
 .vButton {
