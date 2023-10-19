@@ -14,6 +14,7 @@ import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import AddFood from '../views/AddFood.vue'
 import AddMeal from '../views/AddMeal.vue'
 import EditMeal from '../views/EditMeal.vue'
+import InfoFood from '../views/InfoFood.vue'
 
 const ROUTES = [
   {
@@ -81,9 +82,15 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/food',
+    path: '/meal/:id/foods',
     name: 'AddFood',
     component: AddFood,
+    meta: { requiresAuth: true }
+  }
+  ,  {
+    path: '/meal/:id/food/:idfood',
+    name: 'InfoFood',
+    component: InfoFood,
     meta: { requiresAuth: true }
   }
   ,

@@ -70,7 +70,7 @@ const unity = computed(() => {
 }
 
 .accordion-button {
-  background-color: #101112;
+  background-color: var(--bg-color-dark5);
   display: block;
   box-shadow: none;
   border-radius: 10px;

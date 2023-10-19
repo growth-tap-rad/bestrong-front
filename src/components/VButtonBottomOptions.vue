@@ -41,7 +41,7 @@ const showAddWater = () => {
         <i class="bi bi-cup-straw"></i>
         <span class="text">Adicionar Alimento</span>
       </button>
-      <button  @click="showAddWater" class="button">
+      <button @click="showAddWater" class="button">
         <i class="bi bi-droplet"></i>
         <span class="text">Adicionar Agua</span>
       </button>
@@ -70,39 +70,50 @@ const showAddWater = () => {
   width: 100%;
   bottom: 0;
   height: 30vh;
-  margin-bottom: 5em;
+bottom: 110px;
+
 
   .top-buttons,
   .bottom-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2em;
+    gap: 1em;
 
     .button {
       width: 5em;
       display: flex;
       flex-direction: column;
       align-items: center;
-
-      background-color: var(--bg-color-dark2);
+      background-color: var(--bg-color-dark5);
       border: none;
       color: var(--text-color-highlighted2);
+      padding: 10px 47px;
+      border-radius: 5px;
 
       .text {
         font-size: 1em;
+        line-height: normal;
+      }
+
+      .bi::before {
+        font-size: 30px;
+      }
+
+
+    }
+
+
+
+      .button-disable {
+        color: gray;
+        pointer-events: none;
       }
     }
 
-    .button-disable {
-      color: gray;
-      pointer-events: none;
+    .top-buttons {
+      margin-bottom: 1em;
     }
-  }
 
-  .top-buttons {
-    margin-bottom: 2em;
   }
-
-}
 </style>

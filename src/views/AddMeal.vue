@@ -1,13 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
 import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import { useMealStore } from '../stores/meal.store'
-import {  useRouter } from 'vue-router';
+
+
 
 const router = useRouter()
+const route = useRoute()
+
+
 const mealStore = useMealStore()
 const meal = ref('')
 
@@ -29,8 +34,11 @@ const addMeal = () => {
   alert("Digite uma refeição")
   return
 }
+
 const addFood = () => {
-  router.push('/food')
+
+  router.push(`/meal/${route.params.id}/foods`);
+
 }
 const data = new Date()
 
