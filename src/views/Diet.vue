@@ -16,11 +16,9 @@ const ButtonBottomOptions = ref(false)
 let meals = ref([])
 
 const water = {
-
   title: "Agua",
   isWater: true,
   quantity: ref(0),
-
 }
 const Meal = reactive({
   showComponentAddMeal,
@@ -112,7 +110,7 @@ const fetchDiaryData = async () => {
   consumed_water
 
   data.meal.forEach(element => {
-    meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
+    meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
 </script>

@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 import VButton from './VButton.vue';
 import VtitlePage from './VtitlePage.vue';
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
 
 const router = useRouter()
 const emit = defineEmits()

@@ -48,7 +48,7 @@ const data = new Date()
   <div class="meal">
     <header class="header">
       <VButtonArrowLeft @click="back" />
-      <VtitlePage class="title" :title="'Refeição'" />
+      <VtitlePage class="title" title="Refeição" />
       <spam class="spam">text</spam>
     </header>
     <main class="main">
