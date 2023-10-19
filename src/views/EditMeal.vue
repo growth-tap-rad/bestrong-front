@@ -8,7 +8,7 @@ import { useMealStore } from '../stores/meal.store'
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
 const route = useRoute()
-
+const data = ref(new Date());
 const mealStore = useMealStore()
 const meal = ref('')
 const findMeal = ref({})
@@ -18,7 +18,7 @@ onMounted(async () => {
 
     findMeal.value = await mealStore.findMeal(route.params.id)
     meal.value = findMeal.value
-
+    data.value = new Date(meal.value.created_at)
   }
 })
 
@@ -49,7 +49,7 @@ const editMeal = () => {
 const addFood = () => {
   router.push(`/meal/${route.params.id}/foods`);
 }
-const data = new Date()
+
 
 
 const transformUnity = (unity) => {

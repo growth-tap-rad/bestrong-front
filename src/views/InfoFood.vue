@@ -21,15 +21,26 @@ const back = () => {
 
 const addFoodToMeal = () => {
 
-  foodStore.createMealFood({
-    name: food.value.description,
-    unity: unity.value,
-    quantity: qtdMeal.value,
-    food_id: route.params.idfood,
-    meal_id: route.params.id
-  }).then((data) => {
-    console.log(data)
-  })
+  if (food.value.description && unity.value && qtdMeal.value && route.params.idfood &&route.params.id) {
+    foodStore.createMealFood({
+      name: food.value.description,
+      unity: unity.value,
+      quantity: qtdMeal.value,
+      food_id: route.params.idfood,
+      meal_id: route.params.id
+    }).then((data) => {
+      router.back()
+      return
+    }).catch((err) => {
+      console.log('erro', err)
+    })
+
+  }
+  else {
+    alert("preencha todas as informações")
+    return
+  }
+
 
 }
 onMounted(async () => {

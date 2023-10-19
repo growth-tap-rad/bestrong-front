@@ -85,6 +85,7 @@ const showButtonBottomOptions = () => {
 const fetchDiaryData = async () => {
   await dietStore.fetchDiary()
   const data = dietStore.getDiary
+  console.log(data)
 
 
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
