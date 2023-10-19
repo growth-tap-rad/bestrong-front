@@ -24,7 +24,7 @@ defineProps({
 
 <template>
   <div class="inputs">
-    <label :for="data.title" class="label">{{ data.title }}</label>
+    <label :for="data.title" class="label" v-if="data.title">{{ data.title }}</label>
     <div v-if="hasIcon" class="box-input">
       <i :class="[iconName, 'icon',{ 'disabled' : disabled}]"></i>
       <input :disabled="disabled" :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)" />

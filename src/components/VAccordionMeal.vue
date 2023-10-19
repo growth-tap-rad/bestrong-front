@@ -59,9 +59,6 @@ const transformUnity = (unity) => {
       </h2>
       <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
         data-bs-parent="#accordionExample">
-        <!-- TODO: RETIRAR <div class="accordion-body" v-if="props.data?.isWater">
-          <button class="addQtdWater" >+ Adicionar Água</button>
-        </div> -->
         <div>
           <div class="accordionMeals">
             <div class="MealAndQuantity " v-for="item in data.items">
@@ -105,6 +102,7 @@ const transformUnity = (unity) => {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   .unity {
     display: flex;
@@ -127,6 +125,7 @@ const transformUnity = (unity) => {
   color: var(--text-color-light);
   background: transparent;
   border: none;
+  margin-top: 20px;
 
 }
 

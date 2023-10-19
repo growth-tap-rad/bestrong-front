@@ -91,8 +91,8 @@ onMounted(() => {
 
 
       </section>
-      <VButton @click="addFood" text="+ Alimento" class="add-food" />
-      <VButton @click="addMeal" text="Adicionar Refeição" class="button" />
+      <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
+      <VButton @click="addMeal" text="Salvar Refeição" class="button" />
     </main>
 
   </div>
@@ -126,6 +126,7 @@ p {
   .add-food {
     background-color: transparent;
     text-align: justify;
+    padding: 30px 0 30px 10px;
   }
 
 
