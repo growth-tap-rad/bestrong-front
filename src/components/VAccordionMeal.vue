@@ -1,11 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-
-let openAccord = ref(false);
-
-const open = () => {
-  openAccord.value = !openAccord.value
-}
+const emit = defineEmits();
 
 const props = defineProps({
   data: {
@@ -21,9 +16,32 @@ const props = defineProps({
   }
 })
 
+let openAccord = ref(false);
+
+const open = () => {
+  console.log(props.data)
+  if (props.data.isWater) {
+    emit('showAddWater')
+    return
+  }
+  openAccord.value = !openAccord.value
+}
+
 const unity = computed(() => {
   return props.data.isWater ? "ml" : "kcal"
 })
+
+const transformUnity = (unity) => {
+  if (unity == 'Unidade') {
+    return 'U'
+  } else if (unity == 'Unidade Pequena') {
+    return 'u'
+  }
+  else if (unity == 'Mililitro') {
+    return 'ml'
+  }
+  return 'g'
+}
 </script>
 
 <template>
@@ -41,13 +59,14 @@ const unity = computed(() => {
       </h2>
       <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
         data-bs-parent="#accordionExample">
-        <div class="accordion-body" v-if="props.data?.isWater">
-          <button class="addQtdWater" @click="$emit('showAddWater')">+ Adicionar Água</button>
-        </div>
-        <div v-else>
+        <!-- TODO: RETIRAR <div class="accordion-body" v-if="props.data?.isWater">
+          <button class="addQtdWater" >+ Adicionar Água</button>
+        </div> -->
+        <div>
           <div class="accordionMeals">
             <div class="MealAndQuantity " v-for="item in data.items">
-              <span>{{ item.name }} </span><span>{{ item.quantity }}</span>
+              <span>{{ item.name }} </span>
+              <div class="unity"><span>{{ item.quantity }} </span><span>{{ transformUnity(item.unity) }}</span> </div>
             </div>
             <button @click="$emit('showAddFood', data.id)" class="addQtdWater">+ Adicionar Alimento</button>
           </div>
@@ -87,6 +106,10 @@ const unity = computed(() => {
   display: flex;
   justify-content: space-between;
 
+  .unity {
+    display: flex;
+    gap: 5px;
+  }
 }
 
 

@@ -1,6 +1,5 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { defineEmits } from 'vue';
 const router = useRouter()
 const emit = defineEmits()
 const props = defineProps({

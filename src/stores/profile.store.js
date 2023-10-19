@@ -12,6 +12,9 @@ export const useProfileStore = defineStore('profile', {
   actions: {
     getProgress() {
       return userResource.getProgress()
+    },
+    getUser(){
+      return userResource.getUser()
     }
   }
 })
