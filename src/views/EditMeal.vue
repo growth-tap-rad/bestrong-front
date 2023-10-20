@@ -23,11 +23,13 @@ onMounted(async () => {
 })
 
 const back = () => {
-  router.back()
+  router.push('/diet')
 }
+
 const updateMeal = (e) => {
   meal.value = e
 }
+
 const editMeal = () => {
   if (meal.value) {
     mealStore.editMeal({
@@ -39,18 +41,14 @@ const editMeal = () => {
         return
       })
   }
-  else {
-    alert('aqui vai apagar')
-    return
-  }
+
 
 
 }
+
 const addFood = () => {
   router.push(`/meal/${route.params.id}/foods`);
 }
-
-
 
 const transformUnity = (unity) => {
   if (unity == 'Unidade') {
@@ -94,7 +92,7 @@ const transformUnity = (unity) => {
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() }} : {{ data.getMinutes() }}</p>
+        <p>{{ data.getHours() > 10 ? data.getHours() : '0' + data.getHours() }} : {{data.getMinutes() > 10 ? data.getMinutes() : '0' + data.getMinutes() }}</p>
       </section>
 
       <section class="mealsList">

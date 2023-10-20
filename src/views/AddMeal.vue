@@ -7,26 +7,35 @@ import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import { useMealStore } from '../stores/meal.store'
 
-
-
 const router = useRouter()
 const route = useRoute()
-
-
 const mealStore = useMealStore()
 const meal = ref('')
+const data = new Date()
+const findMeal = ref({})
 
 const back = () => {
-  router.back()
+  router.push('/diet')
 }
 const updateMeal = (e) => {
   meal.value = e
 }
+
+onMounted(async () => {
+  if (route.params.id) {
+
+    findMeal.value = await mealStore.findMeal(route.params.id)
+    meal.value = findMeal.value
+    data.value = new Date(meal.value.created_at)
+  }
+})
+
 const addMeal = () => {
   if (meal.value) {
     mealStore.createMeal(meal.value)
-      .then(() => {
-        router.push('/diet')
+      .then((meal) => {
+        router.push(`/meal/${meal.id}/foods`);
+       
 
       })
     return
@@ -36,26 +45,15 @@ const addMeal = () => {
 }
 
 const addFood = () => {
-  if (!route.params.id) {
-    mealStore.createMeal(meal.value)
-      .then((data) => {
-        const meal = data[length]
-        console.log(meal)
-      //  router.push(`/meal/${data[length - 1].id}/foods`);
-        return
-      })
+
+  if (route.params.id) {
+    router.push(`/meal/${route.params.id}/foods`);
+  } else {
+    alert("você deve criar uma refeição primeiro")
   }
-  router.push(`/meal/${route.params.id}/foods`);
 
 }
-const data = new Date()
 
-onMounted(() => {
-  mealStore.findMeal(route.params.id)
-    .then((data) => {
-      console.log(data)
-    })
-})
 </script>
 
 <template>
@@ -84,11 +82,17 @@ onMounted(() => {
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() }} : {{ data.getMinutes() }}</p>
+        <p>{{ data.getHours() > 10 ? data.getHours() : '0' + data.getHours() }} : {{data.getMinutes() > 10 ? data.getMinutes() : '0' + data.getMinutes() }}</p>
       </section>
 
       <section class="mealsList">
 
+        <section class="foodItems">
+          <div v-for="food in meal.meal_food" class="foodItem">
+            <span class="oveflow">{{ food.name }}</span>
+            <div> <span>{{ food.quantity }}</span> <span>{{ transformUnity(food.unity) }}</span> </div>
+          </div>
+        </section>
 
       </section>
       <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
