@@ -10,7 +10,6 @@ export const getMeasure = (id) => {
     .catch((e) => {
 
       console.error(e)
-      alert('falha ao buscar measures')
     })
 
 }
@@ -25,7 +24,6 @@ export const deleteWater = (id) => {
     .catch((e) => {
 
       console.error(e)
-      alert('falha ao editar refeição')
     })
 }
 export const addWater = (water) => {
@@ -41,8 +39,6 @@ export const addWater = (water) => {
     })
     .catch((e) => {
       console.error(e)
-
-      alert('falha ao fazer fetch Foods')
     })
 }
 export const createMealFood = (data) => {
@@ -61,7 +57,6 @@ export const createMealFood = (data) => {
     .catch((e) => {
 
       console.error(e)
-      alert('falha ao buscar measures')
     })
 
 }
@@ -72,7 +67,6 @@ export const getWater = () => {
       return data
     }).catch((e) => {
       console.error()
-      alert('Falha ao buscar água')
     })
 }
 
@@ -85,8 +79,6 @@ export const fetchFood = (data) => {
     })
     .catch((e) => {
       console.error(e)
-
-      alert('falha ao fazer fetch Foods')
     })
 }
 export const getFood = (data => {
@@ -96,8 +88,6 @@ export const getFood = (data => {
     })
     .catch((e) => {
       console.error(e)
-
-      alert('falha ao fazer fetch Foods')
     })
 })
 export const addFood = (data) => {
@@ -112,26 +102,22 @@ export const addFood = (data) => {
     })
     .catch((e) => {
       console.error(e)
-
-      alert('falha ao fazer fetch Foods')
     })
 }
 
 
 export const editMeal = (meal) => {
-
+console.log("edit", meal)
   return api
-
     .put(`users/me/meal/${meal.id}`, {
-      name: meal.name
+      name: meal.name,
+      meal_consumed_kcal: meal.meal_consumed_kcal
     })
     .then(({ data }) => {
       return data
     })
     .catch((e) => {
       console.error(e)
-
-      alert('falha ao fazer fetch Foods')
     })
 }
 export const createMeal = (meal) => {
@@ -155,7 +141,6 @@ export const findMeal = (id) => {
     })
     .catch((e) => {
       console.error(e)
-      alert('falha ao buscar refeição')
     })
 }
 
