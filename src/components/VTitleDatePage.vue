@@ -1,4 +1,7 @@
 <script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 defineProps({
   title: {
@@ -6,9 +9,9 @@ defineProps({
     default: "Diário",
   },
   actions: {
-    type: Boolean,
-    default: true
-  }
+    type: Array,
+    default: () => []
+  },
 })
 
 const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
@@ -22,16 +25,29 @@ const month = months[currentDate.getMonth()];
 
 const formattedDate = `${dayOfWeek}, ${dayOfMonth} de ${month}`;
 
+const goTo = (route) => {
+  if (!route) {
+    return
+  }
+  if (route === 'back') {
+    router.back()
+    return
+  }
+  router.push(route)
+}
+
 </script>
 
 <template>
   <nav class="box-title-date">
-    <i class="bi bi-chevron-left icon" v-if="actions"></i>
+    <i class="icon" :class="actions[0].btIcon ? actions[0].btIcon : 'bi bi-chevron-left'" v-if="actions[0]"
+      @click="goTo(actions[0].goTo)"></i>
     <div class="center">
       <h3 class="title">{{ title }}</h3>
       <p class="date mb-0">{{ formattedDate.toUpperCase() }}</p>
     </div>
-    <i class="bi bi-chevron-right icon" v-if="actions"></i>
+    <i class="icon" :class="actions[1].btIcon ? actions[1].btIcon : 'bi bi-chevron-right'" v-if="actions[1]"
+      @click="goTo(actions[1].goTo)"></i>
   </nav>
 </template>
 
@@ -51,7 +67,8 @@ const formattedDate = `${dayOfWeek}, ${dayOfMonth} de ${month}`;
   }
 
   .icon {
-    padding: 15px;
+    padding: 10px;
+    font-size: 20px;
     color: var(--text-color-light2);
   }
 

@@ -1,21 +1,37 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useDietStore } from '../stores/diet.store';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
-import VAddWater from '../components/VAddWater.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import * as userService from '../api/resources/user.service';
+import VAddMeal from '../components/VAddMeal.vue';
+import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
+import VAddWater from '../components/VAddWater.vue';
 
-const showComponentAddWater = ref(false)
+const router = useRouter()
+const dietStore = useDietStore()
+const showComponentAddMeal = ref(false)
+const ButtonBottomOptions = ref(false)
+let meals = ref([])
+
+const water = {
+  title: "Agua",
+  isWater: true,
+  quantity: ref(0),
+}
+const Meal = reactive({
+  showComponentAddMeal,
+  meals
+})
 const dashData = reactive({
   consumed: 0,
   burned: 0,
   goal: 0,
   remaning: 0,
-  daily: 0
+  daily: 0,
 })
-
 const macros = reactive({
   protein: {
     now: 0,
@@ -30,91 +46,115 @@ const macros = reactive({
     total: 0
   }
 })
-
-const meals = {
-  /*   item1: {
-      title: "Café da tarde",
-      isWater: false,
-      quantity: "40",
-      items: [
-        { name: 'Abacate', quantity: '10g' },
-        { name: 'Iogurte', quantity: '400ml' }]
-    }, */
-  item: {
-    title: "Agua",
-    isWater: true,
-    quantity: ref(0),
-  }
-}
-
-onMounted(() => {
+onMounted(async () => {
   fetchDiaryData()
 })
-
 const showAddWater = () => {
-  showComponentAddWater.value = true
+  router.push('/water')
 }
+const showAddMeal = () => {
+  hideButtonBottomOptions()
+  showComponentAddMeal.value = true
 
-const addWater = (e) => {
-  showComponentAddWater.value = false
+}
+const addMeal = (e) => {
+  hideButtonBottomOptions()
+  showComponentAddMeal.value = false
 
   if (e) {
-    userService.editDiary({
-      consumed_water: (e + meals.item.quantity.value),
-      remaning_daily_goal_kcal: (dashData.goal - dashData.consumed)
-    })
+    dietStore.createMeal(e)
       .then((data) => {
-        meals.item.quantity.value = data.consumed_water
+        meals.value = []
+        data.meal.forEach(element => {
+          meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
+        });
       })
   }
 }
-
-const fetchDiaryData = () => {
-
-  userService.getDiary().then((data) => {
-    const { remaning_daily_goal_kcal, consumed_water, consumed_kcal, 
-      burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
-
-    const { daily_goal_kcal, protein, carb, fat } = data.progress
-
-    macros.protein.total = protein;
-    macros.carb.total = carb;
-    macros.fat.total = fat;
-
-    dashData.goal = Math.round(daily_goal_kcal);
-    dashData.consumed = consumed_kcal;
-    dashData.burned = burned_kcal;
-    dashData.remaning = remaning_daily_goal_kcal;
-
-    meals.item.quantity.value = consumed_water
-    macros.protein.now = consumed_protein;
-    macros.carb.now = consumed_carb;
-    macros.fat.now = consumed_fat;
-
-
-  })
+const showAddFood = (id) => {
+  router.push(`/meal/edit/${id}`);
 }
+const editMeal = (id) => {
+  router.push(`/meal/edit/${id}`);
+}
+const hideButtonBottomOptions = () => {
+  ButtonBottomOptions.value = false
+}
+const showButtonBottomOptions = () => {
+  ButtonBottomOptions.value = !ButtonBottomOptions.value
+}
+const fetchDiaryData = async () => {
+  await dietStore.fetchDiary()
+  const data = dietStore.getDiary
+  console.log(data)
+
+
+  const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
+    burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
+  const { daily_goal_kcal, protein, carb, fat } = data.progress
+
+  macros.protein.total = protein;
+  macros.carb.total = carb;
+  macros.fat.total = fat;
+
+  dashData.goal = Math.round(daily_goal_kcal);
+  dashData.consumed = consumed_kcal;
+  dashData.burned = burned_kcal;
+  dashData.remaning = remaning_daily_goal_kcal;
+
+  macros.protein.now = consumed_protein;
+  macros.carb.now = consumed_carb;
+  macros.fat.now = consumed_fat;
+
+  data.water.forEach(element => {
+    water.quantity.value += element.consumed_water
+  });
+ 
+
+  data.meal.forEach(element => {
+    meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
+  });
+}
+
+const actionsTitlePage = [
+  {
+    btIcon: "",
+    goTo: "" 
+  },
+  {
+    btIcon: "",
+    goTo: "" 
+  }
+]
+
 
 </script>
 
 <template>
   <section class="diet">
     <header class="header">
-      <VTitleDatePage />
+      <VTitleDatePage :actions="actionsTitlePage"/>
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
-        <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
+        <VAccordionMeal @showAddFood="(e) => showAddFood(e)" class="meal" :data="meal" v-for="meal in meals" />
       </div>
+
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
+      
+      <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
+        @showAddMeal="(e) => { addMeal(e) }" />
 
-      <VBottomMenu class="footer" actualRoute="/diet" />
-
+      <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
+        @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()"
+        @showAddWater="() => showAddWater()" />
+      <VBottomMenu :show="ButtonBottomOptions" @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer"
+        actualRoute="/diet" />
 
     </main>
-
   </section>
 </template>
 
@@ -122,33 +162,29 @@ const fetchDiaryData = () => {
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 
   .main {
     width: 100%;
 
-
-
     .footer {
       position: fixed;
       z-index: 3;
       width: 100%;
       bottom: 0;
-
     }
 
     .box-ingredients {
-      margin-top: 30px;
+      margin: 30px 0 100px 0;
 
       .meal {
         padding: 5px 20px;
         margin: 0 0 10px 0;
       }
     }
-
-
   }
 }
 </style>

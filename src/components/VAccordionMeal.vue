@@ -1,24 +1,47 @@
 <script setup>
-import {ref, computed } from 'vue';
-
-let openAccord = ref(false);
-
-const open=()=> {
-  openAccord.value = !openAccord.value
-}
+import { ref, computed } from 'vue';
+const emit = defineEmits();
 
 const props = defineProps({
   data: {
-    title: "",
-    isWater: true,
-    quantity: "",
-    items: []
+    type: Object,
+    default: () => ({
+      id: 0,
+      title: "",
+      isWater: true,
+      quantity: 0,
+      meal_consumed_kcal: 0,
+      items: [],
+    })
   }
 })
+
+let openAccord = ref(false);
+
+const open = () => {
+  console.log(props.data)
+  if (props.data.isWater) {
+    emit('showAddWater')
+    return
+  }
+  openAccord.value = !openAccord.value
+}
 
 const unity = computed(() => {
   return props.data.isWater ? "ml" : "kcal"
 })
+
+const transformUnity = (unity) => {
+  if (unity == 'Unidade') {
+    return 'U'
+  } else if (unity == 'Unidade Pequena') {
+    return 'u'
+  }
+  else if (unity == 'Mililitro') {
+    return 'ml'
+  }
+  return 'g'
+}
 </script>
 
 <template>
@@ -30,19 +53,19 @@ const unity = computed(() => {
           <div class="MealAndQuantity">
             <span class="meal">{{ props.data.title }}</span>
             <span class="quantity">Consumido {{ props.data.quantity }} {{ unity }}</span>
+
           </div>
         </button>
       </h2>
       <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
         data-bs-parent="#accordionExample">
-        <div class="accordion-body" v-if="props.data.isWater">
-          <button class="addQtdWater" @click= "$emit('showAddWater')">+ Adicionar Água</button>
-        </div>
-        <div v-else>
+        <div>
           <div class="accordionMeals">
-            <div class="MealAndQuantity " v-for="item in data.items"><span>{{ item.name }} </span><span>{{ item.quantity
-            }}</span>
+            <div class="MealAndQuantity " v-for="item in data.items">
+              <span>{{ item.name }} </span>
+              <div class="unity"><span>{{ item.quantity }} </span><span>{{ transformUnity(item.unity) }}</span> </div>
             </div>
+            <button @click="$emit('showAddFood', data.id)" class="addQtdWater">+ Adicionar Alimento</button>
           </div>
         </div>
       </div>
@@ -63,7 +86,7 @@ const unity = computed(() => {
 }
 
 .accordion-button {
-  background-color: #101112;
+  background-color: var(--bg-color-dark5);
   display: block;
   box-shadow: none;
   border-radius: 10px;
@@ -79,7 +102,12 @@ const unity = computed(() => {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
+  .unity {
+    display: flex;
+    gap: 5px;
+  }
 }
 
 
@@ -97,6 +125,7 @@ const unity = computed(() => {
   color: var(--text-color-light);
   background: transparent;
   border: none;
+  margin-top: 20px;
 
 }
 
