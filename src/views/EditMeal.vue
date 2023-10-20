@@ -214,7 +214,7 @@ p {
     background-color: var(--bg-color-dark3);
     justify-content: center;
     align-items: center;
-    gap: 55px;
+    gap: 20px;
     border-radius: 5px;
   }
 
