@@ -69,7 +69,7 @@ const transformUnity = (unity) => {
 
 const calcQuantity = computed(() => {
   const qtd = parseInt(qtdMeal.value) || 1;
-  const unit = parseInt(unity.value) || 0;
+  const unit = parseInt(unity.value) || 1;
   return parseInt(qtd * unit)
 })
 
@@ -80,7 +80,7 @@ const calcQuantity = computed(() => {
   <div class="main">
     <header class="header">
       <VButtonArrowLeft @click="back()" />
-      <VtitlePage class="title" :title="'Refeição'" />
+      <VtitlePage class="title" title="Alimento" />
       <span class="spam"></span>
     </header>
     <main class="food">
