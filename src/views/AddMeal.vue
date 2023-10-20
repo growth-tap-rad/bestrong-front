@@ -41,7 +41,7 @@ const addFood = () => {
       .then((data) => {
         const meal = data[length]
         console.log(meal)
-      //  router.push(`/meal/${data[length - 1].id}/foods`);
+        //  router.push(`/meal/${data[length - 1].id}/foods`);
         return
       })
   }
@@ -84,7 +84,8 @@ onMounted(() => {
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() }} : {{ data.getMinutes() }}</p>
+        <p>{{ data.getHours() <= 9 ? "0" + data.getHours() : data.getHours() }} : {{ data.getMinutes() < 9 ? "0" +
+          data.getMinutes() : data.getMinutes() }}</p>
       </section>
 
       <section class="mealsList">

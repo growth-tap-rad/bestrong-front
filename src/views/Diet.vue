@@ -86,8 +86,6 @@ const showButtonBottomOptions = () => {
 const fetchDiaryData = async () => {
   await dietStore.fetchDiary()
   const data = dietStore.getDiary
-  console.log(data)
-
 
   const { remaning_daily_goal_kcal, consumed_water, consumed_kcal,
     burned_kcal, consumed_carb, consumed_fat, consumed_protein } = data
@@ -109,9 +107,12 @@ const fetchDiaryData = async () => {
   data.water.forEach(element => {
     water.quantity.value += element.consumed_water
   });
- 
+
 
   data.meal.forEach(element => {
+
+    dashData.consumed += element.meal_consumed_kcal
+    
     meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
@@ -119,11 +120,11 @@ const fetchDiaryData = async () => {
 const actionsTitlePage = [
   {
     btIcon: "",
-    goTo: "" 
+    goTo: ""
   },
   {
     btIcon: "",
-    goTo: "" 
+    goTo: ""
   }
 ]
 
@@ -133,7 +134,7 @@ const actionsTitlePage = [
 <template>
   <section class="diet">
     <header class="header">
-      <VTitleDatePage :actions="actionsTitlePage"/>
+      <VTitleDatePage :actions="actionsTitlePage" />
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
@@ -144,7 +145,7 @@ const actionsTitlePage = [
       </div>
 
       <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
-      
+
       <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
         @showAddMeal="(e) => { addMeal(e) }" />
 
