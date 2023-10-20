@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDietStore } from '../stores/diet.store';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
@@ -8,13 +8,12 @@ import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VAddMeal from '../components/VAddMeal.vue';
 import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
-import VAddWater from '../components/VAddWater.vue';
 
 const router = useRouter()
 const dietStore = useDietStore()
 const showComponentAddMeal = ref(false)
 const ButtonBottomOptions = ref(false)
-let meals = ref([])
+const meals = ref([])
 
 const water = {
   title: "Agua",
@@ -46,7 +45,7 @@ const macros = reactive({
     total: 0
   }
 })
-onMounted(async () => {
+onMounted(() => {
   fetchDiaryData()
 })
 const showAddWater = () => {
@@ -61,10 +60,11 @@ const addMeal = (e) => {
   hideButtonBottomOptions()
   showComponentAddMeal.value = false
 
+  //TODO VERIFICAR PORQUE DISSO
   if (e) {
+    meals.value = []
     dietStore.createMeal(e)
       .then((data) => {
-        meals.value = []
         data.meal.forEach(element => {
           meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
         });
@@ -112,7 +112,7 @@ const fetchDiaryData = async () => {
   data.meal.forEach(element => {
 
     dashData.consumed += element.meal_consumed_kcal
-    
+
     meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
 }
@@ -141,10 +141,8 @@ const actionsTitlePage = [
 
       <div class="box-ingredients">
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal @showAddFood="(e) => showAddFood(e)" class="meal" :data="meal" v-for="meal in meals" />
+        <VAccordionMeal @showAddFood="(e) => showAddFood(e)" class="meal" v-for="meal in meals" :data="meal" />
       </div>
-
-      <VAddWater class="box-add-water" :show="showComponentAddWater" @showAddWater="(e) => { addWater(e) }"></VAddWater>
 
       <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
         @showAddMeal="(e) => { addMeal(e) }" />
