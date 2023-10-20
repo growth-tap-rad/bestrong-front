@@ -7,55 +7,73 @@ import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import { useMealStore } from '../stores/meal.store'
 
-
-
 const router = useRouter()
 const route = useRoute()
-
-
 const mealStore = useMealStore()
 const meal = ref('')
+const data = new Date()
+const findMeal = ref({})
+const mealMacros = ref({});
 
+const calcMacros = () => {
+  let kcal = 0;
+  let protein = 0;
+  let carb = 0;
+  let fat = 0;
+
+  meal.value?.meal_food.forEach(el => {
+    protein += el.food?.protein * el.quantity;
+    carb += el.food?.carb * el.quantity;
+    fat += el.food?.fat * el.quantity;
+    kcal += el.food?.energy * el.quantity;
+  });
+
+  mealMacros.value = {
+    kcal: kcal.toFixed(1),
+    protein: protein.toFixed(1),
+    carb: carb.toFixed(1),
+    fat: fat.toFixed(1)
+  }
+}
 const back = () => {
-  router.back()
+  router.push('/diet')
 }
 const updateMeal = (e) => {
   meal.value = e
 }
+
+onMounted(async () => {
+
+  data.value = new Date(meal.value.created_at)
+  if (meal.value && meal.value.meal_food) {
+    calcMacros();
+  }
+
+})
+
 const addMeal = () => {
   if (meal.value) {
-    mealStore.createMeal(meal.value)
-      .then(() => {
-        router.push('/diet')
-
-      })
+    mealStore.createMeal({
+      name: meal.value,
+    })
+    router.push('/diet')
     return
   }
-  alert("Digite uma refeição")
-  return
+  alert("Adicione um nome para a refeição")
 }
 
-const addFood = () => {
-  if (!route.params.id) {
-    mealStore.createMeal(meal.value)
-      .then((data) => {
-        const meal = data[length]
-        console.log(meal)
-      //  router.push(`/meal/${data[length - 1].id}/foods`);
-        return
-      })
-  }
-  router.push(`/meal/${route.params.id}/foods`);
-
-}
-const data = new Date()
-
-onMounted(() => {
-  mealStore.findMeal(route.params.id)
-    .then((data) => {
-      console.log(data)
+const addFood = async () => {
+  if (meal.value) {
+    const createdMeal = await mealStore.createMeal({
+      name: meal.value,
     })
-})
+    
+    router.push(`/meal/${createdMeal.id}/foods`);
+    return
+  }
+  alert("Adicione um nome para a refeição")
+}
+
 </script>
 
 <template>
@@ -84,11 +102,18 @@ onMounted(() => {
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() }} : {{ data.getMinutes() }}</p>
+        <p>{{ data.getHours() <= 9 ? "0" + data.getHours() : data.getHours() }} : {{ data.getMinutes() < 9 ? "0" +
+          data.getMinutes() : data.getMinutes() }}</p>
       </section>
 
       <section class="mealsList">
 
+        <section class="foodItems">
+          <div v-for="food in meal.meal_food" class="foodItem">
+            <span class="oveflow">{{ food.name }}</span>
+            <div> <span>{{ food.quantity }}</span> <span>{{ transformUnity(food.unity) }}</span> </div>
+          </div>
+        </section>
 
       </section>
       <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />

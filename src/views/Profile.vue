@@ -12,7 +12,6 @@ let user = reactive({ name: 'name', weight: '00', height: '00' })
 onMounted(() => {
   profileStore.getUser()
     .then((data) => {
-      console.log(data)
       user.name = data.name,
         user.height = data.progress[0].height,
         user.weight = data.progress[0].weight

@@ -8,14 +8,12 @@ import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 
 const route = useRoute()
 const router = useRouter()
-
 const foodStore = useFoodStore()
-
 let foods = ref([])
-
 let pages = 0;
+
 const back = () => {
-  router.back()
+  router.push(`/meal/edit/${route.params.id}`)
 }
 
 const getFoods = async () => {
