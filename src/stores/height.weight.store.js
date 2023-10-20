@@ -1,15 +1,11 @@
-import { defineStore } from "pinia";
-import * as authResource from '../api/resources/auth.resource';
-import * as userResource from '../api/resources/user.resource';
+import { defineStore } from 'pinia'
+import * as authResource from '../api/resources/auth.resource'
+import * as userResource from '../api/resources/user.resource'
 
-const defaultState = {
-
-}
+const defaultState = {}
 export const useHeightWeightStore = defineStore('heightweight', {
   state: () => ({ ...defaultState }),
-  getters: {
-
-  },
+  getters: {},
   actions: {
     async signUp(payload) {
       return await authResource.signUp(payload)
@@ -21,13 +17,11 @@ export const useHeightWeightStore = defineStore('heightweight', {
       return await userResource.createDiary()
     },
     async createMeals() {
-      await userResource.createMeal('café da manhã')
-      await userResource.createMeal('almoço')
-      await userResource.createMeal('jantar')
-      await userResource.createMeal('lanche')
+      await userResource.createMeal({ name: 'Café da manhã' })
+      await userResource.createMeal({ name: 'Almoço' })
+      await userResource.createMeal({ name: 'Lanche' })
+      await userResource.createMeal({ name: 'Jantar' })
       return
-
     }
-
   }
 })
