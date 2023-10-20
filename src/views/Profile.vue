@@ -31,8 +31,9 @@ onMounted(() => {
     </header>
 
     <main class="main">
+      <h2 class="text-center textoem">Em construção..</h2>
       <section class="photo">
-        <spam><img class="spam-photo" src="../assets/imgs/PerfilPhoto.jpeg" alt="Foto de Perfil" srcset=""></spam>
+        <span><img class="spam-photo" src="../assets/imgs/PerfilPhoto.jpeg" alt="Foto de Perfil" srcset=""></span>
       </section>
 
       <section class="perfil-name">
@@ -42,8 +43,8 @@ onMounted(() => {
       <section class="perfil-section">
 
         <section class="perfil-values">
-          <spam><strong>{{ user.weight }} </strong></spam>
-          <spam><strong>{{ user.height }} </strong></spam>
+          <span><strong>{{ user.weight }} </strong></span>
+          <span><strong>{{ user.height }} </strong></span>
         </section>
 
         <section class="perfil-data">
@@ -70,6 +71,9 @@ onMounted(() => {
   min-height: 100vh;
   height: 100%;
 
+  .textoem {
+    color: white;
+  }
   .header {
     display: flex;
     justify-content: center;

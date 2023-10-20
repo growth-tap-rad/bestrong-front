@@ -28,13 +28,14 @@ const back = () => {
 }
 
 const updateMeal = (e) => {
-  meal.value = e
+  meal.value.name = e
 }
 
 const editMeal = () => {
-  if (meal.value) {
+
+  if (meal.value.name) {
     mealStore.editMeal({
-      meal: meal.value,
+      name: meal.value.name,
       id: route.params.id,
       meal_consumed_kcal: mealMacros.value.kcal
     })
@@ -86,7 +87,7 @@ const calcMacros = () => {
   mealMacros.value = {
     kcal: kcal.toFixed(1),
     protein: protein.toFixed(1),
-    carb :carb.toFixed(1),
+    carb: carb.toFixed(1),
     fat: fat.toFixed(1)
   }
 }
@@ -99,7 +100,7 @@ const calcMacros = () => {
     <header class="header">
       <VButtonArrowLeft @click="back" />
       <VtitlePage class="title" :title="'Refeição'" />
-      <spam class="spam">text</spam>
+      <span class="spam">text</span>
     </header>
     <main class="main">
       <VInput :value="meal.name" @update="(e) => updateMeal(e)" class="input" />
@@ -137,7 +138,8 @@ const calcMacros = () => {
         <section class="foodItems">
           <div v-for="food in meal.meal_food" class="foodItem">
             <span class="oveflow">{{ food.name }}</span>
-            <div> <span>{{ calcQuantity(food.quantity, food.unity) }}</span> <span>{{ transformUnity(food.unity) }}</span> </div>
+            <div> <span>{{ calcQuantity(food.quantity, food.unity) }}</span> <span>{{ transformUnity(food.unity) }}</span>
+            </div>
           </div>
         </section>
 
@@ -236,15 +238,17 @@ p {
     gap: 10px;
     font-size: 20px;
     padding: 10px 0;
-    
+
 
     .value {
       font-weight: bold;
       font-size: 22px;
     }
+
     .text {
       color: var(--bg-color-grey2);
     }
+
     .kcal {
       color: var(--text-color-highlighted2);
     }
@@ -259,5 +263,4 @@ p {
     padding: 30px;
     margin-top: 30px;
   }
-}
-</style>
+}</style>

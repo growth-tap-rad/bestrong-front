@@ -81,7 +81,7 @@ const addFood = async () => {
     <header class="header">
       <VButtonArrowLeft @click="back" />
       <VtitlePage class="title" title="Refeição" />
-      <spam class="spam">text</spam>
+      <span class="spam">text</span>
     </header>
     <main class="main">
       <VInput :value="meal" @update="(e) => updateMeal(e)" class="input" />

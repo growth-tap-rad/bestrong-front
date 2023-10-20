@@ -107,7 +107,6 @@ export const addFood = (data) => {
 
 
 export const editMeal = (meal) => {
-
   return api
     .put(`users/me/meal/${meal.id}`, {
       name: meal.name,
@@ -130,7 +129,6 @@ export const createMeal = (meal) => {
     })
     .catch((e) => {
       console.error(e)
-      alert('falha ao criar refeição')
     })
 }
 export const findMeal = (id) => {
@@ -158,7 +156,6 @@ export const createProgress = (data) => {
     })
     .catch((e) => {
       console.error(e)
-      alert('falha ao criar progresso')
     })
 }
 export const getProgress = () => {
@@ -167,7 +164,6 @@ export const getProgress = () => {
     .then(({ data }) => {
       return data
     }).catch(() => {
-      alert("falha ao requisitar Diary ")
     })
 }
 
@@ -189,7 +185,6 @@ export const editDiary = (data) => {
     }).then(({ data }) => {
       return data
     }).catch((e) => {
-      alert("falha ao editar Diary")
     })
 }
 export const getDiary = () => {
@@ -208,6 +203,5 @@ export const getUser = () => {
     .then(({ data }) => {
       return data
     }).catch(() => {
-      alert("falha ao requisitar Diary ")
     })
 }
