@@ -86,18 +86,26 @@ const addFood = async () => {
     <main class="main">
       <VInput :value="meal" @update="(e) => updateMeal(e)" class="input" />
 
-      <section class="macrosValue">
-        <p class="paragraphValue">0</p>
-        <p class="paragraphValue">0</p>
-        <p class="paragraphValue">0</p>
-        <p class="paragraphValue">0</p>
-      </section>
 
-      <section class="macrosList">
-        <p class="paragraphMacros">Kcal</p>
-        <p class="paragraphMacros">Prot</p>
-        <p class="paragraphMacros">Carb</p>
-        <p class="paragraphMacros">Gord</p>
+      <section class="macrosValue">
+        <div class="paragraphMacros">
+          <span class="kcal value">0</span>
+          <span class="text">Kcal</span>
+        </div>
+        <div class="paragraphMacros">
+          <span class="value">0</span>
+          <span class="text">Prot</span>
+        </div>
+        <div class="paragraphMacros">
+          <span class="value">0</span>
+          <span class="text">Carb</span>
+        </div>
+        <div class="paragraphMacros">
+          <span class="value">0</span>
+          <span class="text">Gord</span>
+        </div>
+        <div>
+        </div>
       </section>
 
       <section class="time">
@@ -176,10 +184,11 @@ p {
   .macrosValue {
     display: flex;
     color: var(--text-color-light);
-    background-color: var(--bg-color-grey);
+    background-color: var(--bg-color-dark3);
     justify-content: center;
     align-items: center;
-    gap: 55px;
+    gap: 20px;
+    border-radius: 5px;
   }
 
   .paragraphValue {
@@ -187,8 +196,27 @@ p {
   }
 
   .paragraphMacros {
-    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    padding: 10px 0;
 
+
+    .value {
+      font-weight: bold;
+      font-size: 22px;
+    }
+
+    .text {
+      color: var(--bg-color-grey2);
+    }
+
+    .kcal {
+      color: var(--text-color-highlighted2);
+    }
   }
 
   .time {
