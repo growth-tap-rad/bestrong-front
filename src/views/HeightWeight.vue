@@ -62,23 +62,27 @@ const goToDiet = () => {
         activity_level,
         goal } = userStore.getLastProgress
 
-        HeightWeightStore.createProgress({
+      HeightWeightStore.createProgress({
         height,
         weight,
         activity_level,
         goal
-      }).then((dataProgress) => {
-        if (dataProgress) {
-          HeightWeightStore.createDiary()
-          .then(() => {
-              router.push('/diet')
-            })
-            .catch(() => {
-              console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
-              return;
-            })
-        }
       })
+        .then((dataProgress) => {
+          if (dataProgress) {
+            HeightWeightStore.createDiary()
+              .then(() => {
+                HeightWeightStore.createMeals()
+              })
+              .then(() => {
+                router.push('/diet')
+              })
+              .catch(() => {
+                console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
+                return;
+              })
+          }
+        })
     }
   })
 

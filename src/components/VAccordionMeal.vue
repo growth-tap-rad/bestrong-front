@@ -19,7 +19,7 @@ const props = defineProps({
 let openAccord = ref(false);
 
 const open = () => {
-  console.log(props.data)
+
   if (props.data.isWater) {
     emit('showAddWater')
     return
