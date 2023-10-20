@@ -13,7 +13,28 @@ const mealStore = useMealStore()
 const meal = ref('')
 const data = new Date()
 const findMeal = ref({})
+const mealMacros = ref({});
 
+const calcMacros = () => {
+  let kcal = 0;
+  let protein = 0;
+  let carb = 0;
+  let fat = 0;
+
+  meal.value?.meal_food.forEach(el => {
+    protein += el.food?.protein * el.quantity;
+    carb += el.food?.carb * el.quantity;
+    fat += el.food?.fat * el.quantity;
+    kcal += el.food?.energy * el.quantity;
+  });
+
+  mealMacros.value = {
+    kcal: kcal.toFixed(1),
+    protein: protein.toFixed(1),
+    carb: carb.toFixed(1),
+    fat: fat.toFixed(1)
+  }
+}
 const back = () => {
   router.push('/diet')
 }
@@ -22,36 +43,35 @@ const updateMeal = (e) => {
 }
 
 onMounted(async () => {
-  if (route.params.id) {
 
-    findMeal.value = await mealStore.findMeal(route.params.id)
-    meal.value = findMeal.value
-    data.value = new Date(meal.value.created_at)
+  data.value = new Date(meal.value.created_at)
+  if (meal.value && meal.value.meal_food) {
+    calcMacros();
   }
+
 })
 
 const addMeal = () => {
   if (meal.value) {
-    mealStore.createMeal(meal.value)
-      .then((meal) => {
-        router.push(`/meal/${meal.id}/foods`);
-       
-
-      })
+    mealStore.createMeal({
+      name: meal.value,
+    })
+    router.push('/diet')
     return
   }
-  alert("Digite uma refeição")
-  return
+  alert("Adicione um nome para a refeição")
 }
 
-const addFood = () => {
-
-  if (route.params.id) {
-    router.push(`/meal/${route.params.id}/foods`);
-  } else {
-    alert("você deve criar uma refeição primeiro")
+const addFood = async () => {
+  if (meal.value) {
+    const createdMeal = await mealStore.createMeal({
+      name: meal.value,
+    })
+    
+    router.push(`/meal/${createdMeal.id}/foods`);
+    return
   }
-
+  alert("Adicione um nome para a refeição")
 }
 
 </script>
@@ -82,7 +102,8 @@ const addFood = () => {
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() > 10 ? data.getHours() : '0' + data.getHours() }} : {{data.getMinutes() > 10 ? data.getMinutes() : '0' + data.getMinutes() }}</p>
+        <p>{{ data.getHours() <= 9 ? "0" + data.getHours() : data.getHours() }} : {{ data.getMinutes() < 9 ? "0" +
+          data.getMinutes() : data.getMinutes() }}</p>
       </section>
 
       <section class="mealsList">

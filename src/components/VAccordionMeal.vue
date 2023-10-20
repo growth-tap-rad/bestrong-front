@@ -19,7 +19,7 @@ const props = defineProps({
 let openAccord = ref(false);
 
 const open = () => {
-  console.log(props.data)
+
   if (props.data.isWater) {
     emit('showAddWater')
     return
@@ -42,6 +42,15 @@ const transformUnity = (unity) => {
   }
   return 'g'
 }
+
+
+const calcQuantity = (quantity, unity) => {
+  const qtd = parseInt(quantity) || 1;
+  const unit = parseInt(unity) || 1;
+  return parseInt(qtd * unit)
+}
+
+
 </script>
 
 <template>
@@ -63,7 +72,7 @@ const transformUnity = (unity) => {
           <div class="accordionMeals">
             <div class="MealAndQuantity " v-for="item in data.items">
               <span>{{ item.name }} </span>
-              <div class="unity"><span>{{ item.quantity }} </span><span>{{ transformUnity(item.unity) }}</span> </div>
+              <div class="unity"><span>{{ calcQuantity(item.quantity, item.unity) }} </span><span>{{ transformUnity(item.unity) }}</span> </div>
             </div>
             <button @click="$emit('showAddFood', data.id)" class="addQtdWater">+ Adicionar Alimento</button>
           </div>

@@ -10,15 +10,16 @@ const router = useRouter()
 const route = useRoute()
 const data = ref(new Date());
 const mealStore = useMealStore()
-const meal = ref('')
-const findMeal = ref({})
+const meal = ref({})
+const mealMacros = ref({});
 
 onMounted(async () => {
   if (route.params.id) {
 
-    findMeal.value = await mealStore.findMeal(route.params.id)
-    meal.value = findMeal.value
+    const foundMeal = await mealStore.findMeal(route.params.id)
+    meal.value = foundMeal
     data.value = new Date(meal.value.created_at)
+    calcMacros();
   }
 })
 
@@ -33,8 +34,9 @@ const updateMeal = (e) => {
 const editMeal = () => {
   if (meal.value) {
     mealStore.editMeal({
-      name: meal.value,
-      id: route.params.id
+      meal: meal.value,
+      id: route.params.id,
+      meal_consumed_kcal: mealMacros.value.kcal
     })
       .then(() => {
         router.push('/diet')
@@ -62,6 +64,34 @@ const transformUnity = (unity) => {
   return 'g'
 }
 
+const calcQuantity = (quantity, unity) => {
+  const qtd = parseInt(quantity) || 1;
+  const unit = parseInt(unity) || 1;
+  return parseInt(qtd * unit)
+}
+
+const calcMacros = () => {
+  let kcal = 0;
+  let protein = 0;
+  let carb = 0;
+  let fat = 0;
+
+  meal.value?.meal_food.forEach(el => {
+    protein += el.food?.protein * el.quantity;
+    carb += el.food?.carb * el.quantity;
+    fat += el.food?.fat * el.quantity;
+    kcal += el.food?.energy * el.quantity;
+  });
+
+  mealMacros.value = {
+    kcal: kcal.toFixed(1),
+    protein: protein.toFixed(1),
+    carb :carb.toFixed(1),
+    fat: fat.toFixed(1)
+  }
+}
+
+
 </script>
 
 <template>
@@ -75,24 +105,31 @@ const transformUnity = (unity) => {
       <VInput :value="meal.name" @update="(e) => updateMeal(e)" class="input" />
 
       <section class="macrosValue">
-        <p class="paragraphValue">0</p>
-        <p class="paragraphValue">0</p>
-        <p class="paragraphValue">0</p>
-        <p class="paragraphValue">0</p>
-        <!-- //FAZER ISSO DINAMICO REFLETIDO COM BASE NOS 'foodItem' abaixo -->
+        <div class="paragraphMacros">
+          <span class="kcal value">{{ mealMacros.kcal }}</span>
+          <span class="text">Kcal</span>
+        </div>
+        <div class="paragraphMacros">
+          <span class="value">{{ mealMacros.protein }}</span>
+          <span class="text">Prot</span>
+        </div>
+        <div class="paragraphMacros">
+          <span class="value">{{ mealMacros.carb }}</span>
+          <span class="text">Carb</span>
+        </div>
+        <div class="paragraphMacros">
+          <span class="value">{{ mealMacros.fat }}</span>
+          <span class="text">Gord</span>
+        </div>
+        <div>
+        </div>
       </section>
 
-      <section class="macrosList">
-        <p class="paragraphMacros">Kcal</p>
-        <p class="paragraphMacros">Prot</p>
-        <p class="paragraphMacros">Carb</p>
-        <p class="paragraphMacros">Gord</p>
-        <!-- //FAZER ISSO DINAMICO REFLETIDO COM BASE NOS 'foodItem' abaixo -->
-      </section>
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() > 10 ? data.getHours() : '0' + data.getHours() }} : {{data.getMinutes() > 10 ? data.getMinutes() : '0' + data.getMinutes() }}</p>
+        <p>{{ data.getHours() <= 9 ? "0" + data.getHours() : data.getHours() }} : {{ data.getMinutes() < 9 ? "0" +
+          data.getMinutes() : data.getMinutes() }}</p>
       </section>
 
       <section class="mealsList">
@@ -100,13 +137,13 @@ const transformUnity = (unity) => {
         <section class="foodItems">
           <div v-for="food in meal.meal_food" class="foodItem">
             <span class="oveflow">{{ food.name }}</span>
-            <div> <span>{{ food.quantity }}</span> <span>{{ transformUnity(food.unity) }}</span> </div>
+            <div> <span>{{ calcQuantity(food.quantity, food.unity) }}</span> <span>{{ transformUnity(food.unity) }}</span> </div>
           </div>
         </section>
 
       </section>
       <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
-      <VButton @click="editMeal" text="Adicionar Refeição" class="button" />
+      <VButton @click="editMeal" text="Salvar Refeição" class="button" />
     </main>
 
   </div>
@@ -152,15 +189,6 @@ p {
     text-align: center;
   }
 
-  .macrosList {
-    display: flex;
-    color: var(--text-color-light);
-    background-color: var(--bg-color-dark3);
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    border-radius: 5px;
-  }
 
   .foodItems {
     display: flex;
@@ -201,8 +229,25 @@ p {
   }
 
   .paragraphMacros {
-    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    padding: 10px 0;
+    
 
+    .value {
+      font-weight: bold;
+      font-size: 22px;
+    }
+    .text {
+      color: var(--bg-color-grey2);
+    }
+    .kcal {
+      color: var(--text-color-highlighted2);
+    }
   }
 
   .time {
