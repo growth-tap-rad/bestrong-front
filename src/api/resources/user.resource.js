@@ -66,7 +66,7 @@ export const getWater = () => {
     .then(({ data }) => {
       return data
     }).catch((e) => {
-      console.error()
+      console.error(e)
     })
 }
 
@@ -107,7 +107,7 @@ export const addFood = (data) => {
 
 
 export const editMeal = (meal) => {
-console.log("edit", meal)
+
   return api
     .put(`users/me/meal/${meal.id}`, {
       name: meal.name,
@@ -123,7 +123,7 @@ console.log("edit", meal)
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
-      name: meal
+      name:meal.name,
     })
     .then(({ data }) => {
       return data

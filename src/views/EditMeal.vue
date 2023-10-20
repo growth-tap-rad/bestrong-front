@@ -24,11 +24,13 @@ onMounted(async () => {
 })
 
 const back = () => {
-  router.back()
+  router.push('/diet')
 }
+
 const updateMeal = (e) => {
   meal.value = e
 }
+
 const editMeal = () => {
   if (meal.value) {
     mealStore.editMeal({
@@ -41,18 +43,14 @@ const editMeal = () => {
         return
       })
   }
-  else {
-    alert('aqui vai apagar')
-    return
-  }
+
 
 
 }
+
 const addFood = () => {
   router.push(`/meal/${route.params.id}/foods`);
 }
-
-
 
 const transformUnity = (unity) => {
   if (unity == 'Unidade') {

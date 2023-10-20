@@ -85,11 +85,12 @@ const ROUTES = [
   },
   {
     path: '/meal/:id/foods',
-    name: 'AddFood',
+    name: 'AddFoodEdit',
     component: AddFood,
     meta: { requiresAuth: true }
-  }
-  ,  {
+  },
+
+  {
     path: '/meal/:id/food/:idfood',
     name: 'InfoFood',
     component: InfoFood,
