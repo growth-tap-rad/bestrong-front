@@ -131,6 +131,7 @@ const editDiary = async () => {
     consumed_protein: macros.protein.now,
     consumed_water: water.quantity.value
   }
+
   dietStore.editDiary(Diary)
 }
 const actionsTitlePage = [

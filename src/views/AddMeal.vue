@@ -71,7 +71,7 @@ const addFood = async () => {
     const createdMeal = await mealStore.createMeal({
       name: meal.value,
     })
-    
+
     router.push(`/meal/${createdMeal.id}/foods`);
     return
   }

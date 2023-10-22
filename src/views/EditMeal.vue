@@ -34,14 +34,15 @@ const updateMeal = (e) => {
 const editMeal = () => {
 
   if (meal.value.name) {
+  
     mealStore.editMeal({
       id: route.params.id,
       
       name: meal.value.name,
-      consumed_kcal: mealMacros.value.kcal,
-      consumed_carb: mealMacros.value.carb,
-      consumed_fat: mealMacros.value.fat,
-      consumed_protein: mealMacros.value.protein,
+      meal_consumed_kcal: mealMacros.value.kcal,
+      meal_consumed_carb: mealMacros.value.carb,
+      meal_consumed_fat: mealMacros.value.fat,
+      meal_consumed_protein: mealMacros.value.protein,
 
 
     })
