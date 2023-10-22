@@ -58,6 +58,7 @@ const showAddMeal = () => {
 }
 const addMeal = (e) => {
   hideButtonBottomOptions()
+
   showComponentAddMeal.value = false
 
   //TODO VERIFICAR PORQUE DISSO
@@ -75,7 +76,6 @@ const showAddFood = (id) => {
   router.push(`/meal/edit/${id}`);
 }
 const editMeal = (id) => {
-  
   router.push(`/meal/edit/${id}`);
 }
 const hideButtonBottomOptions = () => {
@@ -112,14 +112,15 @@ const fetchDiaryData = async () => {
 
   data.meal.forEach(element => {
 
-     dashData.consumed += element.meal_consumed_kcal
+    dashData.consumed += element.meal_consumed_kcal
     macros.protein.now += element.meal_consumed_protein;
     macros.carb.now += element.meal_consumed_carb;
-    macros.fat.now += element.meal_consumed_fat; 
+    macros.fat.now += element.meal_consumed_fat;
 
     meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
-  editDiary()
+  /*   editDiary() */
+
 }
 const editDiary = async () => {
 

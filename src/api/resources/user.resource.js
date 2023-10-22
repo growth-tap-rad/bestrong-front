@@ -191,6 +191,7 @@ export const createDiary = () => {
     })
 }
 export const editDiary = (data) => {
+  console.log(data)
   const {
     name,
     consumed_water,

@@ -1,11 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useMealStore } from '../stores/meal.store'
+import { useDietStore } from '../stores/diet.store';
 import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
 import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
-import { useMealStore } from '../stores/meal.store'
-import { useRoute, useRouter } from 'vue-router';
+
+const dietStore = useDietStore()
 const router = useRouter()
 const route = useRoute()
 const data = ref(new Date());
@@ -31,19 +34,20 @@ const updateMeal = (e) => {
   meal.value.name = e
 }
 
-const editMeal = () => {
+
+
+const editMeal = async () => {
 
   if (meal.value.name) {
-  
+
     mealStore.editMeal({
       id: route.params.id,
-      
+
       name: meal.value.name,
       meal_consumed_kcal: mealMacros.value.kcal,
       meal_consumed_carb: mealMacros.value.carb,
       meal_consumed_fat: mealMacros.value.fat,
       meal_consumed_protein: mealMacros.value.protein,
-
 
     })
       .then(() => {
@@ -51,9 +55,6 @@ const editMeal = () => {
         return
       })
   }
-
-
-
 }
 
 const addFood = () => {
