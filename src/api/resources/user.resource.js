@@ -110,7 +110,10 @@ export const editMeal = (meal) => {
   return api
     .put(`users/me/meal/${meal.id}`, {
       name: meal.name,
-      meal_consumed_kcal: meal.meal_consumed_kcal
+      meal_consumed_kcal: meal.meal_consumed_kcal,
+      meal_consumed_carb: meal.meal_consumed_carb,
+      meal_consumed_fat: meal.meal_consumed_fat,
+      meal_consumed_protein: meal.meal_consumed_protein,
     })
     .then(({ data }) => {
       return data
@@ -122,7 +125,7 @@ export const editMeal = (meal) => {
 export const createMeal = (meal) => {
   return api
     .post('/users/me/meal', {
-      name:meal.name,
+      name: meal.name,
     })
     .then(({ data }) => {
       return data
@@ -177,12 +180,30 @@ export const createDiary = () => {
     })
 }
 export const editDiary = (data) => {
-  const { consumed_water, remaning_daily_goal_kcal } = data
+  const {
+    name,
+    consumed_water,
+    remaning_daily_goal_kcal,
+    consumed_kcal,
+    consumed_carb,
+    consumed_fat,
+    consumed_protein
+  } = data
+
   return api
     .put('/users/me/diary', {
+      name,
       consumed_water,
-      remaning_daily_goal_kcal
+      remaning_daily_goal_kcal,
+
+      consumed_kcal,
+      consumed_carb,
+      consumed_protein,
+      consumed_fat
+
+
     }).then(({ data }) => {
+      console.log(data)
       return data
     }).catch((e) => {
     })

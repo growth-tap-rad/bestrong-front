@@ -35,9 +35,15 @@ const editMeal = () => {
 
   if (meal.value.name) {
     mealStore.editMeal({
-      name: meal.value.name,
       id: route.params.id,
-      meal_consumed_kcal: mealMacros.value.kcal
+      
+      name: meal.value.name,
+      consumed_kcal: mealMacros.value.kcal,
+      consumed_carb: mealMacros.value.carb,
+      consumed_fat: mealMacros.value.fat,
+      consumed_protein: mealMacros.value.protein,
+
+
     })
       .then(() => {
         router.push('/diet')
@@ -263,4 +269,5 @@ p {
     padding: 30px;
     margin-top: 30px;
   }
-}</style>
+}
+</style>
