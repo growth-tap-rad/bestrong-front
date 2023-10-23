@@ -55,6 +55,10 @@ const addMeal = () => {
   if (meal.value) {
     mealStore.createMeal({
       name: meal.value,
+      meal_consumed_kcal: mealMacros.value.kcal,
+      meal_consumed_carb: mealMacros.value.carb,
+      meal_consumed_fat: mealMacros.value.fat,
+      meal_consumed_protein: mealMacros.value.protein,
     })
     router.push('/diet')
     return
@@ -67,7 +71,7 @@ const addFood = async () => {
     const createdMeal = await mealStore.createMeal({
       name: meal.value,
     })
-    
+
     router.push(`/meal/${createdMeal.id}/foods`);
     return
   }

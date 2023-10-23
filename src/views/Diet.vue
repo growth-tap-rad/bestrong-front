@@ -58,6 +58,7 @@ const showAddMeal = () => {
 }
 const addMeal = (e) => {
   hideButtonBottomOptions()
+
   showComponentAddMeal.value = false
 
   //TODO VERIFICAR PORQUE DISSO
@@ -112,11 +113,28 @@ const fetchDiaryData = async () => {
   data.meal.forEach(element => {
 
     dashData.consumed += element.meal_consumed_kcal
+    macros.protein.now += element.meal_consumed_protein;
+    macros.carb.now += element.meal_consumed_carb;
+    macros.fat.now += element.meal_consumed_fat;
 
     meals.value.push({ ...element, items: element.meal_food, title: element.name, quantity: element.meal_consumed_kcal, id: element.id })
   });
-}
+  /*   editDiary() */
 
+}
+const editDiary = async () => {
+
+  const Diary = {
+    burned_kcal: dashData.burned,
+    consumed_carb: macros.carb.now,
+    consumed_fat: macros.fat.now,
+    consumed_kcal: dashData.consumed,
+    consumed_protein: macros.protein.now,
+    consumed_water: water.quantity.value
+  }
+
+  dietStore.editDiary(Diary)
+}
 const actionsTitlePage = [
   {
     btIcon: "",
