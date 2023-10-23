@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: "https://bestrong-api.up.railway.app/api",
+    baseURL: "https://bestrong-api.up.railway.app/api", 
     timeout: 1000,
     headers: {'Content-Type': 'application/json'}
 });
