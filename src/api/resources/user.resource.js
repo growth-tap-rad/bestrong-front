@@ -1,5 +1,16 @@
 import api from '../apiAxios'
+import { useAppStore } from '../../stores/app.store'
 
+
+const showToast = (err) => {
+  console.error("erro ", err.message)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    description: err?.response?.data?.message || err?.response?.message || 'falha de comunicação',
+
+  })
+}
 
 export const getMeasure = (id) => {
   return api
@@ -7,9 +18,8 @@ export const getMeasure = (id) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 
 }
@@ -21,9 +31,8 @@ export const deleteWater = (id) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const addWater = (water) => {
@@ -32,13 +41,11 @@ export const addWater = (water) => {
       consumed_water: water,
       created_at: new Date()
     })
-
-
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const createMealFood = (data) => {
@@ -54,19 +61,18 @@ export const createMealFood = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
-
 }
 export const getWater = () => {
   return api
     .get('/users/me/water')
     .then(({ data }) => {
       return data
-    }).catch((e) => {
-      console.error(e)
+    })
+    .catch((err) => {
+      showToast(err)
     })
 }
 
@@ -77,8 +83,8 @@ export const fetchFood = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const getFood = (data => {
@@ -86,8 +92,8 @@ export const getFood = (data => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 })
 export const addFood = (data) => {
@@ -100,8 +106,8 @@ export const addFood = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 
@@ -118,8 +124,8 @@ export const editMeal = (meal) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const createMeal = (meal) => {
@@ -141,8 +147,8 @@ export const createMeal = (meal) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const findMeal = (id) => {
@@ -151,8 +157,8 @@ export const findMeal = (id) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 
@@ -168,8 +174,8 @@ export const createProgress = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const getProgress = () => {
@@ -177,7 +183,9 @@ export const getProgress = () => {
     .get('/users/me/progress')
     .then(({ data }) => {
       return data
-    }).catch(() => {
+    })
+    .catch((err) => {
+      showToast(err)
     })
 }
 
@@ -186,8 +194,9 @@ export const createDiary = () => {
     .post("/users/me/diary")
     .then((data) => {
       return data
-    }).catch((e) => {
-      alert('erro a criar Diary')
+    })
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const editDiary = (data) => {
@@ -217,7 +226,9 @@ export const editDiary = (data) => {
     }).then(({ data }) => {
       console.log(data)
       return data
-    }).catch((e) => {
+    })
+    .catch((err) => {
+      showToast(err)
     })
 }
 export const getDiary = () => {
@@ -225,8 +236,9 @@ export const getDiary = () => {
     .get('/users/me/diary')
     .then(({ data }) => {
       return data
-    }).catch(() => {
-      alert("falha ao requisitar Diary ")
+    })
+    .catch((err) => {
+      showToast(err)
     })
 }
 
@@ -235,6 +247,8 @@ export const getUser = () => {
     .get('/users/me')
     .then(({ data }) => {
       return data
-    }).catch(() => {
+    })
+    .catch((err) => {
+      showToast(err)
     })
 }

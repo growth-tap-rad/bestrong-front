@@ -114,6 +114,10 @@ const ROUTES = [
     path: '/food/list',
     name: 'listaAlimentos',
     component: ListFood
+  },{
+    path:'/:pathMatch(.*)*',
+    name:'notFound',
+    component:SignIn
   }
 
 ]
