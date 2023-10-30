@@ -51,7 +51,6 @@ onMounted(async () => {
   measures.value = measur.map((element, index) => {
 
     if (measur[index - 1]?.description && measur[index - 1]?.description == element.description) {
-      console.log(measur[index - 1]?.description)
       return null;
     }
     return {

@@ -71,9 +71,12 @@ const goToDiet = () => {
         .then((dataProgress) => {
           if (dataProgress) {
             HeightWeightStore.createDiary()
-              .then( async () => {
+              .then(async () => {
                 await HeightWeightStore.createMeals()
+              })
+              .then(() => {
                 router.push('/diet')
+                isFetching.value = false;
               })
               .catch(() => {
                 isFetching.value = false;
@@ -84,9 +87,6 @@ const goToDiet = () => {
         })
     }
   })
-    .finally(() => {
-      isFetching.value = false;
-    })
 }
 
 const actionsTitlePage = [

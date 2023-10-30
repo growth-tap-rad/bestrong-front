@@ -211,7 +211,7 @@ const toggleCalendar = () =>{
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <section class="input-icon-calendar">
       <i class="bi bi-calendar icon-calendar" @click="toggleCalendar"></i>
-      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change="event =>emitDateInputFormated(event.target.value)"
+      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change.prevent="event =>emitDateInputFormated(event.target.value)"
  v-mask="'XX/XX/XXXX'" v-model="dateInput" 
         :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
@@ -219,14 +219,14 @@ const toggleCalendar = () =>{
       <div class="calendar" v-if="openCalendar" :class="{ 'open': openCalendar }">
         <section class="calendar-actions">
           <div class="calendar-header">
-            <button @click="previousMonth" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
+            <button @click.prevent="previousMonth" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
             <h2>{{ currentMonth }}</h2>
-            <button @click="nextMonth" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
+            <button @click.prevent="nextMonth" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
           </div>
           <div class="calendar-header">
-            <button @click="previousYear" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
+            <button @click.prevent="previousYear" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
             <h2>{{ currentYear }}</h2>
-            <button @click="nextYear" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
+            <button @click.prevent="nextYear" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
           </div>
         </section>
         <table>

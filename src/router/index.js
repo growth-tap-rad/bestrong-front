@@ -11,11 +11,9 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-import AddFood from '../views/AddFood.vue'
+import ListFoods from '../views/ListFoods.vue'
 import CreateEditMeal from '../views/CreateEditMeal.vue'
 import InfoFood from '../views/InfoFood.vue'
-import ListFood from '../views/ListFood.vue'
-
 
 const ROUTES = [
   {
@@ -84,11 +82,10 @@ const ROUTES = [
   },
   {
     path: '/meal/:id/foods',
-    name: 'AddFoodEdit',
-    component: AddFood,
+    name: 'ListFoods',
+    component: ListFoods,
     meta: { requiresAuth: true }
   },
-
   {
     path: '/meal/:id/food/:idfood',
     name: 'InfoFood',
@@ -96,22 +93,35 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/meal/:edit(edit)?/:id?",
+    path: '/meal/:edit(edit)?/:id?',
     name: 'CreateEditMeal',
     component: CreateEditMeal,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/food/list',
-    name: 'listaAlimentos',
-    component: ListFood
   }
-
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: ROUTES
 })
+
+const isAuthenticated = () => {
+  const token = localStorage.getItem('accessToken')
+  return !!token
+}
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((route) => route.meta.requiresAuth)) {
+//     if (isAuthenticated()) {
+//       return next()
+//     } else {
+//       if (to.name !== '/') {
+//         return next('/')
+//       } 
+//       next();
+//     }
+//   } 
+//   next()
+// })
 
 export default router
