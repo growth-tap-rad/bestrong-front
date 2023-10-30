@@ -33,7 +33,7 @@ const UNITS = [
     multiple: false
   },
   {
-    text: 'capsulas',
+    text: 'capsula',
     value: 'Unidade',
     multiple: false
   }
