@@ -33,7 +33,7 @@ const UNITS = [
     multiple: false
   },
   {
-    text: 'capsulas',
+    text: 'capsula',
     value: 'Unidade',
     multiple: false
   }
@@ -46,9 +46,8 @@ export const useFoodStore = defineStore('food', {
   },
 
   actions: {
-    async fetchFood(payload) {
-      this.setFoods(await userResource.fetchFood(payload))
-      this.getFoods
+    async fetchFoods(payload) {
+      this.setFoods(await userResource.fetchFoods(payload))
     },
     async getFood(payload) {
       return await userResource.getFood(payload)

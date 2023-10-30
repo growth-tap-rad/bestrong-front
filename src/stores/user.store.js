@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import * as userResource from '../api/resources/user.resource'
 
 const defaultState = {
   token: '',
@@ -66,6 +67,9 @@ export const useUserStore = defineStore('user', {
     },
     setGoal(payload) {
       this.progress[this.getLastProgressPosition].goal = payload
+    },
+    async verifyEmail(payload) {
+      return await userResource.verifyEmail(payload)
     },
     resetStore() {
       Object.assign(this, defaultState);

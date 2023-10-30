@@ -1,6 +1,5 @@
 import api from '../apiAxios'
 
-
 export const getMeasure = (id) => {
   return api
     .get(`measures/${id}`)
@@ -8,12 +7,9 @@ export const getMeasure = (id) => {
       return data
     })
     .catch((e) => {
-
       console.error(e)
     })
-
 }
-
 
 export const deleteWater = (id) => {
   return api
@@ -22,7 +18,6 @@ export const deleteWater = (id) => {
       return data
     })
     .catch((e) => {
-
       console.error(e)
     })
 }
@@ -33,7 +28,6 @@ export const addWater = (water) => {
       created_at: new Date()
     })
 
-
     .then(({ data }) => {
       return data
     })
@@ -42,7 +36,6 @@ export const addWater = (water) => {
     })
 }
 export const createMealFood = (data) => {
-
   return api
     .post('/meal_foods', {
       name: data.name,
@@ -56,25 +49,29 @@ export const createMealFood = (data) => {
       return data
     })
     .catch((e) => {
-
       console.error(e)
     })
-
 }
 export const getWater = () => {
   return api
     .get('/users/me/water')
     .then(({ data }) => {
       return data
-    }).catch((e) => {
+    })
+    .catch((e) => {
       console.error(e)
     })
 }
 
-export const fetchFood = (data) => {
+export const fetchFoods = (data) => {
+  const query = Object.keys(data)
+    .filter((key) => data[key] !== undefined && data[key] !== '')
+    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+
+  const queryString = query.join('&')
 
   return api
-    .get(`/foods?page=${data}`)
+    .get(`/foods?${queryString}`)
     .then(({ data }) => {
       return data
     })
@@ -82,17 +79,18 @@ export const fetchFood = (data) => {
       console.error(e)
     })
 }
-export const getFood = (data => {
-  return api.get(`/foods/${data}`)
+
+export const getFood = (data) => {
+  return api
+    .get(`/foods/${data}`)
     .then(({ data }) => {
       return data
     })
     .catch((e) => {
       console.error(e)
     })
-})
+}
 export const addFood = (data) => {
-
   return api
     .post('users/me/meal/food', {
       meal: data.meal,
@@ -106,7 +104,6 @@ export const addFood = (data) => {
     })
 }
 
-
 export const editMeal = (meal) => {
   return api
     .put(`users/me/meal/${meal.id}`, {
@@ -114,7 +111,7 @@ export const editMeal = (meal) => {
       meal_consumed_kcal: meal.meal_consumed_kcal,
       meal_consumed_carb: meal.meal_consumed_carb,
       meal_consumed_fat: meal.meal_consumed_fat,
-      meal_consumed_protein: meal.meal_consumed_protein,
+      meal_consumed_protein: meal.meal_consumed_protein
     })
     .then(({ data }) => {
       return data
@@ -124,20 +121,15 @@ export const editMeal = (meal) => {
     })
 }
 export const createMeal = (meal) => {
-  const {
-    name,
-    meal_consumed_kcal,
-    meal_consumed_carb,
-    meal_consumed_fat,
-    meal_consumed_protein,
-  } = meal
+  const { name, meal_consumed_kcal, meal_consumed_carb, meal_consumed_fat, meal_consumed_protein } =
+    meal
   return api
     .post('/users/me/meal', {
       name,
       meal_consumed_kcal,
       meal_consumed_carb,
       meal_consumed_fat,
-      meal_consumed_protein,
+      meal_consumed_protein
     })
     .then(({ data }) => {
       return data
@@ -178,21 +170,24 @@ export const getProgress = () => {
     .get('/users/me/progress')
     .then(({ data }) => {
       return data
-    }).catch(() => {
+    })
+    .catch(() => {
+      console.error(e)
     })
 }
 
 export const createDiary = () => {
   return api
-    .post("/users/me/diary")
+    .post('/users/me/diary')
     .then((data) => {
       return data
-    }).catch((e) => {
+    })
+    .catch((e) => {
+      console.error(e)
       alert('erro a criar Diary')
     })
 }
 export const editDiary = (data) => {
-  console.log(data)
   const {
     name,
     consumed_water,
@@ -213,12 +208,12 @@ export const editDiary = (data) => {
       consumed_carb,
       consumed_protein,
       consumed_fat
-
-
-    }).then(({ data }) => {
-      console.log(data)
+    })
+    .then(({ data }) => {
       return data
-    }).catch((e) => {
+    })
+    .catch((e) => {
+      console.error(e)
     })
 }
 export const getDiary = () => {
@@ -226,8 +221,10 @@ export const getDiary = () => {
     .get('/users/me/diary')
     .then(({ data }) => {
       return data
-    }).catch(() => {
-      alert("falha ao requisitar Diary ")
+    })
+    .catch(() => {
+      console.error(e)
+      alert('falha ao requisitar Diary ')
     })
 }
 
@@ -236,6 +233,20 @@ export const getUser = () => {
     .get('/users/me')
     .then(({ data }) => {
       return data
-    }).catch(() => {
+    })
+    .catch(() => {
+      console.error(e)
+    })
+}
+
+export const verifyEmail = (email) => {
+  return api
+    .get(`/users/verify-email?email=${email}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((e) => {
+      console.error(e)
+      alert('Email inválido')
     })
 }

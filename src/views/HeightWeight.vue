@@ -33,7 +33,7 @@ const onSelectWeight = (e) => {
   userStore.setWeight(e)
 }
 
-const goToDiet = () => {
+const goToDiet = async () => {
 
   if (!userStore.getHeight || !userStore.getWeight) {
     return
@@ -41,52 +41,45 @@ const goToDiet = () => {
 
   isFetching.value = true;
 
-  const { name, email, password, username, birthday, gender } = userStore.getUser
+  try {
+    const { name, email, password, username, birthday, gender } = userStore.getUser
+    const [day, month, year] = birthday.split("/").map(String)
+    const birthdayFormatted = `${year}-${month}-${day}`
 
-  const [day, month, year] = birthday.split("/").map(String)
-  const birthdayFormated = `${year}-${month}-${day}`
+    const datasSignUp = await HeightWeightStore.signUp({
+      name,
+      email,
+      password,
+      username,
+      birthday: birthdayFormatted,
+      gender,
+    });
 
-  HeightWeightStore.signUp({
-    name,
-    email,
-    password,
-    username,
-    birthday: birthdayFormated,
-    gender
-  }).then((datasSignUp) => {
     if (datasSignUp && datasSignUp.accessToken) {
-      userStore.setToken(datasSignUp.accessToken)
+      userStore.setToken(datasSignUp.accessToken);
 
-      const { height,
-        weight,
-        activity_level,
-        goal } = userStore.getLastProgress
+      const { height, weight, activity_level, goal } = userStore.getLastProgress;
 
-      HeightWeightStore.createProgress({
+      const dataProgress = await HeightWeightStore.createProgress({
         height,
         weight,
         activity_level,
-        goal
-      })
-        .then((dataProgress) => {
-          if (dataProgress) {
-            HeightWeightStore.createDiary()
-              .then( async () => {
-                await HeightWeightStore.createMeals()
-                router.push('/diet')
-              })
-              .catch(() => {
-                isFetching.value = false;
-                console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
-                return;
-              })
-          }
-        })
+        goal,
+      });
+
+      if (dataProgress) {
+        await HeightWeightStore.createDiary();
+        await HeightWeightStore.createMeals();
+
+        router.push('/diet');
+        isFetching.value = false;
+      }
     }
-  })
-    .finally(() => {
-      isFetching.value = false;
-    })
+
+  } catch (error) {
+    isFetching.value = false;
+    console.error(error?.response?.data?.message || "Erro ao cadastrar usuário");
+  }
 }
 
 const actionsTitlePage = [
