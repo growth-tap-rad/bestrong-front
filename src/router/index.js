@@ -12,8 +12,7 @@ import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import AddFood from '../views/AddFood.vue'
-import AddMeal from '../views/AddMeal.vue'
-import EditMeal from '../views/EditMeal.vue'
+import CreateEditMeal from '../views/CreateEditMeal.vue'
 import InfoFood from '../views/InfoFood.vue'
 import ListFood from '../views/ListFood.vue'
 
@@ -95,19 +94,11 @@ const ROUTES = [
     name: 'InfoFood',
     component: InfoFood,
     meta: { requiresAuth: true }
-  }
-  ,
+  },
   {
-    path: '/meal',
-    name: 'AddMeal',
-    component: AddMeal,
-    meta: { requiresAuth: true }
-  }
-  ,
-  {
-    path: '/meal/edit/:id',
-    name: 'EditMeal',
-    component: EditMeal,
+    path: "/meal/:edit(edit)?/:id?",
+    name: 'CreateEditMeal',
+    component: CreateEditMeal,
     meta: { requiresAuth: true }
   },
   {

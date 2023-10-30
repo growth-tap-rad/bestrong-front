@@ -71,13 +71,12 @@ const goToDiet = () => {
         .then((dataProgress) => {
           if (dataProgress) {
             HeightWeightStore.createDiary()
-              .then(() => {
-                HeightWeightStore.createMeals()
-              })
-              .then(() => {
+              .then( async () => {
+                await HeightWeightStore.createMeals()
                 router.push('/diet')
               })
               .catch(() => {
+                isFetching.value = false;
                 console.error(error.response?.data?.message || "Erro ao cadastrar usuario")
                 return;
               })
@@ -85,18 +84,27 @@ const goToDiet = () => {
         })
     }
   })
-
-  isFetching.value = false;
+    .finally(() => {
+      isFetching.value = false;
+    })
 }
+
+const actionsTitlePage = [
+  {
+    btIcon: '',
+    goTo: 'back'
+  }
+]
+
 </script>
 
 <template>
-  <div class="bg-height-wheight">
-    <VtitlePage title="Altura e Peso" />
+  <form class="bg-height-wheight" @submit.prevent="goToDiet">
+    <VtitlePage title="Altura e Peso" class="title-nav" :actions="actionsTitlePage" />
     <VInput :data="inputHeight" @update="(e) => onSelectHeight(e)" :value="userStore.getHeight" />
     <VInput :data="inputWheight" @update="(e) => onSelectWeight(e)" :value="userStore.getWeight" />
-    <VButton @click="goToDiet" text="Altura e Peso" class="button" :disabled="isFetching" />
-  </div>
+    <VButton text="Finalizar cadastro" class="button" :disabled="isFetching" />
+  </form>
 </template>
 
 <style scoped>

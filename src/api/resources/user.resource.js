@@ -47,6 +47,7 @@ export const createMealFood = (data) => {
     .post('/meal_foods', {
       name: data.name,
       unity: data.unity,
+      amount: data.amount,
       quantity: data.quantity,
       food_id: data.food_id,
       meal_id: data.meal_id

@@ -59,15 +59,15 @@ const goForDiet = () => {
             </nav>
             <h1 class="title-page">Crie sua conta usando seu e-mail</h1>
         </header>
-        <main class="main">
+        <form class="main" @submit.prevent="goForDiet">
 
             <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="inputName.value" />
             <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputUserName.value" />
             <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
             <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
 
-            <VButton text="Continuar" @click="goForDiet" class="button" :defaultColor="true" />
-        </main>
+            <VButton text="Continuar" class="button" :defaultColor="true" />
+        </form>
     </section>
 </template>
 

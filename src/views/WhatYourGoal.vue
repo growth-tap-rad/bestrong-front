@@ -52,15 +52,22 @@ onMounted(() => {
   })
 })
 
+const actionsTitlePage = [
+    {
+        btIcon: '',
+        goTo: 'back'
+    }
+]
+
 </script>
 
 <template>
-  <section class="bg-goal">
-    <VTitlePage title="Qual o seu objetivo?" />
+  <form class="bg-goal" @submit.prevent="goToHeightWeight">
+    <VTitlePage title="Seu objetivo?"  class="title-nav" :actions="actionsTitlePage"/>
     <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" :selected="goal.selected"
       @update="(e) => selectGoal(e)" />
-    <VButton @click="goToHeightWeight" text="CONFIRMAR OBJETIVO" class="button" />
-  </section>
+    <VButton text="Continuar" class="button" />
+  </form>
 </template>
 
 <style scoped>
@@ -68,10 +75,13 @@ onMounted(() => {
   background-color: var(--bg-color-dark);
   width: 100%;
   height: 100%;
-  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .title-nav {
+    padding: 1em;
+  }
 
   .margin-y {
     margin: 10px 0;

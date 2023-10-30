@@ -39,11 +39,14 @@ const sendValue = () => {
   emit('showAddMeal', inputValue.value)
   inputValue.value = ''
 }
-const emitId = (id) => {
-  emit('selectedMeal', id)
-}
-const goToAddMeal = (e) => {
-  router.push('/meal')
+
+const createEditMeal = (create = false, id) => {
+
+  if (create) {
+    router.push(`/meal`);
+    return
+  }
+  return router.push(`/meal/edit/${id}`);
 }
 
 </script>
@@ -52,17 +55,17 @@ const goToAddMeal = (e) => {
   <div class="bg" v-show="props.data.showComponentAddMeal" @click="handleClickOutside"></div>
   <div class="main" v-if="props.data.showComponentAddMeal">
     <header class="title">
-      <VtitlePage :title="'Adicionar elemento'" />
+      <VtitlePage :title="'Adicionar Refeição'" />
       <span>Escolha uma refeição para continuar</span>
     </header>
 
     <div class="meals">
-      <button v-for="meal in props.data.meals" class="meal" @click="emitId(meal.id)">
+      <button v-for="meal in props.data.meals" class="meal" @click="createEditMeal(false, meal.id)">
         {{ meal.title }}
       </button>
       <!-- <button class="meal" @click="goToAddMeal">+ Nova Refeição</button> -->
 
-      <VButton class="add-meal" text="+ Nova Refeição"  @click="goToAddMeal"/>
+      <VButton class="add-meal" text="+ Nova Refeição" @click="createEditMeal(true)" />
     </div>
   </div>
 </template>
