@@ -46,16 +46,21 @@ const goForDiet = async () => {
         return
     }
 
-    const emailInUse = await userStore.verifyEmail(payload.email)
-    if (emailInUse) {
-        alert("Email inválido")
-        //TODO: Melhorar isso vizualmente, como campo invalido
-    }
-    else {
-        userStore.setUser(payload)
-        router.push('/gender-birthday')
-    }
+    try {
+        const emailInUse = await userStore.verifyEmail(payload.email);
+        if (emailInUse) {
+            alert("Email inválido");
+            //TODO: Melhorar isso vizualmente, como campo invalido
+        }
+        else {
+            userStore.setUser(payload);
+            router.push('/gender-birthday');
+        }
 
+    } catch (error) {
+        alert('Ops ocorreu um erro..');
+        console.error(e);
+    }
 
 
 } 
