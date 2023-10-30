@@ -65,7 +65,7 @@ const actionsTitlePage = [
 <template>
     <div class="water">
         <header class="header">
-            <VTitleDatePage :title="`Água`" :actions="actionsTitlePage"/>
+            <VTitleDatePage title="Água" class="title" :actions="actionsTitlePage"/>
         </header>
         <main>
 
@@ -98,6 +98,11 @@ const actionsTitlePage = [
         padding-top: 30px;
     }
 
+    .header {
+        .title {
+            padding-right: 50px;
+        }
+    }
 }
 
 .water-goal {

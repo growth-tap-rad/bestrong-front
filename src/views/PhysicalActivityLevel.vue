@@ -50,15 +50,22 @@ onMounted(() => {
         return activity
     })
 })
+
+const actionsTitlePage = [
+    {
+        btIcon: '',
+        goTo: 'back'
+    }
+]
 </script>
 
 <template>
-    <div class="bg-activity">
-        <VtitlePage title="Qual seu nivel de atividade Física?" />
+    <form class="bg-activity" @submit.prevent="goToYourGoal">
+        <VtitlePage class="title-nav" title="Nivel de atividade Física?" :actions="actionsTitlePage"/>
         <VBoxImgInfo v-for="activity in activitys" :data="activity" class="margin-y" :selected="activity.selected"
             @update="(e) => selectActivityLevel(e)" />
-        <VButton @click="goToYourGoal" text="CONFIRMAR OBJETIVO" class="button" />
-    </div>
+        <VButton text="Continuar" class="button" />
+    </form>
 </template> 
 
 <style scoped>
@@ -66,10 +73,13 @@ onMounted(() => {
     background-color: var(--bg-color-dark);
     width: 100%;
     height: 100%;
-    padding: 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .title-nav {
+        padding: 1em;
+    }
 
     .margin-y {
         margin: 10px 0;

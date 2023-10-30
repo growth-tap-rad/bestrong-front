@@ -63,7 +63,7 @@ const addFood = (item) => {
     <section class="list-foods">
       <VButton class="food" v-for="item in foods" :text="item.description" @click="addFood(item)" />
     </section>
-    <VButton class="food" @click="getFoods()" text="mais alimentos" />
+    <VButton class="more-food" @click="getFoods()" text="Mais alimentos" />
   </div>
 </template>
 <style scoped>
@@ -86,7 +86,7 @@ const addFood = (item) => {
   }
 
   .list-foods {
-    padding: 10px 25px;
+    padding: 10px 15px;
   }
 
   .arrow-left {
@@ -95,6 +95,17 @@ const addFood = (item) => {
 
   .food {
     background-color: var(--bg-color-dark);
+    margin:20px 0;
+    padding: 20px;
+    border-left: 2px solid var(--button-color-light);
+    border-radius: 0;
+  }
+
+  .more-food {
+    background-color: var(--bg-color-dark);
+    margin: 20px 0 0 13px;
+    border-left: 3px solid var(--button-color-light);
+    border-radius: 0;
   }
 }
 </style>
