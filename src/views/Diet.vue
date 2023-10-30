@@ -165,11 +165,8 @@ const actionsTitlePage = [
       <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
         @showAddMeal="(e) => { addMeal(e) }" />
 
-      <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
-        @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()"
-        @showAddWater="() => showAddWater()" />
-      <VBottomMenu :show="ButtonBottomOptions" @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer"
-        actualRoute="/diet" />
+
+      <VBottomMenu class="footer" actualRoute="/diet" />
 
     </main>
   </section>

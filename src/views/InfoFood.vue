@@ -52,6 +52,11 @@ onMounted(async () => {
       value: element.amount
     })
   });
+
+
+  if (measures.value.length > 0) {
+    unity.value = measures.value[0].value;
+  }
 })
 
 
@@ -92,9 +97,9 @@ const calcQuantity = computed(() => {
           <div class="inputs">
             <input placeholder="0" class="input-number" v-model="qtdMeal" type="number" />
             <!--     mudar o componente VDropdown para receber o option default como prop -->
-            <select class="input-measure" v-model="unity">
-              <option selected disabled class="option">Selecione uma medida</option>
-              <option v-for="(item, index) in  measures" class="option" :value="item.value" :selected="item.selected">
+            <select class="input-measure" v-model="unity" >
+
+              <option  v-for="(item,index)  in  measures" class="option"  :value="item.value" :selected="item.selected">
                 {{
                   item.text }} </option>
             </select>

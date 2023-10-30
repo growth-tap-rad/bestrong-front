@@ -2,17 +2,15 @@
 import { useRouter } from 'vue-router';
 import VButton from './VButton.vue';
 import VtitlePage from './VtitlePage.vue';
-import { ref } from 'vue';
+import { useDietStore } from '../stores/diet.store';
 
+const dietStore = useDietStore()
 const router = useRouter()
 const emit = defineEmits()
-const inputValue = ref('')
+
 const props = defineProps({
   data: {
-    showComponentAddMeal: {
-      type: Boolean,
-      default: false
-    },
+
     meals: {
 
       type: Array, required: true, default: () => [
@@ -32,41 +30,41 @@ const props = defineProps({
 
 const handleClickOutside = () => {
 
-  emit('showAddMeal')
-  inputValue.value = ''
+  dietStore.setShowComponentMeal(false)
 };
-const sendValue = () => {
-  emit('showAddMeal', inputValue.value)
-  inputValue.value = ''
-}
+
 const emitId = (id) => {
+  handleClickOutside()
   emit('selectedMeal', id)
 }
 const goToAddMeal = (e) => {
+  handleClickOutside()
   router.push('/meal')
 }
 
 </script>
 
 <template>
-  <div class="bg" v-show="props.data.showComponentAddMeal" @click="handleClickOutside"></div>
-  <div class="main" v-if="props.data.showComponentAddMeal">
-    <header class="title">
-      <VtitlePage :title="'Adicionar elemento'" />
-      <span>Escolha uma refeição para continuar</span>
-    </header>
+  <div>
 
-    <div class="meals">
-      <button v-for="meal in props.data.meals" class="meal" @click="emitId(meal.id)">
-        {{ meal.title }}
-      </button>
-      <!-- <button class="meal" @click="goToAddMeal">+ Nova Refeição</button> -->
+    <div class="bg" v-show="dietStore.getShowComponentMeal" @click="handleClickOutside"></div>
+    <div class="main" v-if="dietStore.getShowComponentMeal">
+      <header class="title">
+        <VtitlePage :title="'Adicionar elemento'" />
+        <span>Escolha uma refeição para continuar</span>
+      </header>
 
-      <VButton class="add-meal" text="+ Nova Refeição"  @click="goToAddMeal"/>
+      <div class="meals">
+        <button v-for="meal in props.data.meals" class="meal" @click="emitId(meal.id)">
+          {{ meal.title }}
+        </button>
+        <VButton class="add-meal" text="+ Nova Refeição" @click="goToAddMeal" />
+      </div>
     </div>
   </div>
 </template>
-<style scoped> .bg {
+<style scoped> 
+.bg {
    display: block;
    position: fixed;
    background-color: var(--bg-color-dark4);
@@ -74,7 +72,7 @@ const goToAddMeal = (e) => {
    left: 0;
    height: 100%;
    width: 100%;
-   z-index: 2;
+   z-index: 4;
  }
 
  .main {
