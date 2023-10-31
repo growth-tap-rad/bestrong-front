@@ -98,6 +98,19 @@ const ROUTES = [
     component: CreateEditMeal,
     meta: { requiresAuth: true }
   }
+  ,
+  {
+    path: '/food/list',
+    name: 'listaAlimentos',
+    component: ListFoods
+  },
+  {
+    path:'/:pathMatch(.*)*',
+    redirect:'/',
+    name:'notFound',
+    component:Welcome
+  }
+
 ]
 
 const router = createRouter({
@@ -105,10 +118,10 @@ const router = createRouter({
   routes: ROUTES
 })
 
-const isAuthenticated = () => {
-  const token = localStorage.getItem('accessToken')
-  return !!token
-}
+//  const isAuthenticated = () => {
+//   const token = localStorage.getItem('accessToken')
+//   return !!token
+// } 
 
 // router.beforeEach((to, from, next) => {
 //   if (to.matched.some((route) => route.meta.requiresAuth)) {

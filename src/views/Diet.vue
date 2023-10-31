@@ -1,13 +1,12 @@
 <script setup>
-import { reactive, ref, onMounted, watch } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDietStore } from '../stores/diet.store';
 import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
-import VAddMeal from '../components/VAddMeal.vue';
-import VButtonBottomOptions from '../components/VButtonBottomOptions.vue';
+
 
 const router = useRouter()
 const dietStore = useDietStore()
@@ -165,12 +164,7 @@ return router.push(`/meal/edit/${id}`);
       </div>
 
       <VAddMeal class="box-add-meal" :data="Meal" />
-        <!-- Arruma esse codigo ta um lixo -->
-      <VButtonBottomOptions class="button-bottom-bptions" :show="ButtonBottomOptions"
-        @hideButtonBottomOptions="() => showButtonBottomOptions()" @showAddMeal="() => showAddMeal()"
-        @showAddWater="() => showAddWater()" />
-      <VBottomMenu :show="ButtonBottomOptions" @showButtonBottomOptions="() => showButtonBottomOptions()" class="footer"
-        actualRoute="/diet" />
+      <VBottomMenu class="footer" actualRoute="/diet" />
 
     </main>
   </section>

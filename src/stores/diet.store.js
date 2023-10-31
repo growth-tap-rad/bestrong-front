@@ -36,7 +36,8 @@ const defaultState = {
       consumed_water: 0,
       created_at: Date
     }]
-  }
+  },
+  showComponentMeal: false,
 }
 
 export const useDietStore = defineStore('diet', {
@@ -44,6 +45,7 @@ export const useDietStore = defineStore('diet', {
   getters: {
     getDiary: (state) => state.diary,
     getMeals: (state) => state.diary.meal,
+    getShowComponentMeal: (state) => state.showComponentMeal
   },
 
   actions: {
@@ -61,6 +63,9 @@ export const useDietStore = defineStore('diet', {
     },
     setConsumedWater(payload) {
       this.diary.consumed_water = payload
+    },
+    setShowComponentMeal(payload) {
+      this.showComponentMeal = payload
     }
   },
 

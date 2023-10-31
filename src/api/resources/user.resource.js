@@ -1,4 +1,17 @@
 import api from '../apiAxios'
+import { useAppStore } from '../../stores/app.store'
+
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
+  })
+}
 
 export const getMeasure = (id) => {
   return api
@@ -6,8 +19,12 @@ export const getMeasure = (id) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -17,8 +34,12 @@ export const deleteWater = (id) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const addWater = (water) => {
@@ -27,12 +48,15 @@ export const addWater = (water) => {
       consumed_water: water,
       created_at: new Date()
     })
-
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const createMealFood = (data) => {
@@ -48,8 +72,12 @@ export const createMealFood = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const getWater = () => {
@@ -58,8 +86,12 @@ export const getWater = () => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -75,8 +107,12 @@ export const fetchFoods = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -86,8 +122,12 @@ export const getFood = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const addFood = (data) => {
@@ -99,8 +139,12 @@ export const addFood = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -116,8 +160,12 @@ export const editMeal = (meal) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const createMeal = (meal) => {
@@ -134,8 +182,12 @@ export const createMeal = (meal) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const findMeal = (id) => {
@@ -144,8 +196,12 @@ export const findMeal = (id) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -161,8 +217,12 @@ export const createProgress = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const getProgress = () => {
@@ -171,8 +231,12 @@ export const getProgress = () => {
     .then(({ data }) => {
       return data
     })
-    .catch(() => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -182,9 +246,12 @@ export const createDiary = () => {
     .then((data) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
-      alert('erro a criar Diary')
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const editDiary = (data) => {
@@ -212,8 +279,12 @@ export const editDiary = (data) => {
     .then(({ data }) => {
       return data
     })
-    .catch((e) => {
-      console.error(e)
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 export const getDiary = () => {
@@ -222,9 +293,12 @@ export const getDiary = () => {
     .then(({ data }) => {
       return data
     })
-    .catch(() => {
-      console.error(e)
-      alert('falha ao requisitar Diary ')
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }
 
@@ -234,19 +308,11 @@ export const getUser = () => {
     .then(({ data }) => {
       return data
     })
-    .catch(() => {
-      console.error(e)
-    })
-}
-
-export const verifyEmail = (email) => {
-  return api
-    .get(`/users/verify-email?email=${email}`)
-    .then(({ data }) => {
-      return data
-    })
-    .catch((e) => {
-      console.error(e)
-      alert('Email inválido')
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
     })
 }

@@ -59,7 +59,7 @@ const goForDiet = async () => {
 
     } catch (error) {
         alert('Ops ocorreu um erro..');
-        console.error(e);
+        console.error(error);
     }
 
 

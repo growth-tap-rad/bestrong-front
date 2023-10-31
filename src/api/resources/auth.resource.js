@@ -1,26 +1,41 @@
 import api from '../apiAxios'
-export const signIn =  (data) => {
+import { useAppStore } from '../../stores/app.store'
+
+const showToast = (err) => {
+  console.error('erro ', err.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: err.message,
+    description: err.description || 'Falha de comunicação'
+  })
+}
+
+export const signIn = (data) => {
   const { email, password } = data
-  return  api
+  return api
     .post('/auth/sign-in', {
       email: email.value,
       password: password.value
     })
     .then(({ data }) => {
-
       sessionStorage.setItem('accessToken', data.accessToken)
       return data
     })
-    .catch((e) => {
-      console.error(e)
-      alert('Email ou senha incorreto')
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Alerta',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 
-export const signUp =  (data) => {
+export const signUp = (data) => {
   const { name, email, password, username, birthday, gender } = data
 
-  return  api
+  return api
     .post('auth/sign-up', {
       name: name,
       email: email,
@@ -30,16 +45,15 @@ export const signUp =  (data) => {
       gender: gender
     })
     .then(({ data }) => {
-
-      if (data.accessToken) {
-        sessionStorage.setItem('accessToken', data.accessToken)
-        return data
-      } else {
-        console.error(e)
-        alert('Erro ao criar sua conta!')
-      }
+      sessionStorage.setItem('accessToken', data.accessToken)
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error:err,
+        message: 'Erro ao efetuar cadastro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
-
-
-
