@@ -1,14 +1,15 @@
 import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 
-
-const showToast = (err) => {
-  console.error('erro ', err.message)
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
-    message: err.message,
-    description: err.description || 'Falha de comunicação'
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
   })
 }
 
@@ -19,10 +20,10 @@ export const getMeasure = (id) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -34,10 +35,10 @@ export const deleteWater = (id) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -51,10 +52,10 @@ export const addWater = (water) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -72,10 +73,10 @@ export const createMealFood = (data) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -86,10 +87,10 @@ export const getWater = () => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -107,10 +108,10 @@ export const fetchFoods = (data) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -122,10 +123,10 @@ export const getFood = (data) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -139,10 +140,10 @@ export const addFood = (data) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -160,10 +161,10 @@ export const editMeal = (meal) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -182,10 +183,10 @@ export const createMeal = (meal) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -196,10 +197,10 @@ export const findMeal = (id) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -217,10 +218,10 @@ export const createProgress = (data) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -231,10 +232,10 @@ export const getProgress = () => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -246,10 +247,10 @@ export const createDiary = () => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -279,10 +280,10 @@ export const editDiary = (data) => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -293,10 +294,10 @@ export const getDiary = () => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -308,10 +309,10 @@ export const getUser = () => {
       return data
     })
     .catch((err) => {
-       showToast({
+      showToast({
+        error: err,
         message: 'Erro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }

@@ -2,7 +2,7 @@ import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 
 const showToast = (err) => {
-  console.error('erro ', err.message)
+  console.error('erro ', err.error)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -24,7 +24,8 @@ export const signIn = (data) => {
     })
     .catch((err) => {
       showToast({
-        message: 'Alerta!!!',
+        error: err,
+        message: 'Alerta',
         description:
           err?.response?.data?.message || err?.response?.message 
       })
@@ -49,6 +50,7 @@ export const signUp = (data) => {
     })
     .catch((err) => {
       showToast({
+        error:err,
         message: 'Erro ao efetuar cadastro',
         description:
           err?.response?.data?.message || err?.response?.message 
