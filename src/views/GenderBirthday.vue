@@ -58,16 +58,23 @@ const goForDiet = () => {
   alert("preencha todos os campos")
 
 }
+
+const actionsTitlePage = [
+    {
+        btIcon: '',
+        goTo: 'back'
+    }
+]
 </script>
 
 <template>
-  <div class="bg-age">
-    <VtitlePage title="Gênero e Data de nascimento:" />
+  <form class="bg-age" @submit.prevent="goForDiet">
+    <VtitlePage title="Gênero e Data de nascimento:" :actions="actionsTitlePage"/>
     <VInputDate title="Data nascimento:" @changeDate="(data) => selectBirthday(data)"
       @validDate="bool => validDate = bool" :value="birthday" />
     <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
-    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate" />
-  </div>
+    <VButton text="Continuar" class="button" :disabled="!validDate" />
+  </form>
 </template>
 
 

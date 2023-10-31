@@ -3,12 +3,12 @@ import { useAppStore } from '../../stores/app.store'
 
 
 const showToast = (err) => {
-  console.error("erro ", err.message)
+  console.error('erro ', err.message)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
-    description: err?.response?.data?.message || err?.response?.message || 'falha de comunicação',
-
+    message: err.message,
+    description: err.description || 'Falha de comunicação'
   })
 }
 
@@ -19,11 +19,13 @@ export const getMeasure = (id) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
-
 }
-
 
 export const deleteWater = (id) => {
   return api
@@ -32,7 +34,11 @@ export const deleteWater = (id) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const addWater = (water) => {
@@ -45,15 +51,19 @@ export const addWater = (water) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const createMealFood = (data) => {
-
   return api
     .post('/meal_foods', {
       name: data.name,
       unity: data.unity,
+      amount: data.amount,
       quantity: data.quantity,
       food_id: data.food_id,
       meal_id: data.meal_id
@@ -62,7 +72,11 @@ export const createMealFood = (data) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const getWater = () => {
@@ -72,32 +86,50 @@ export const getWater = () => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 
-export const fetchFood = (data) => {
+export const fetchFoods = (data) => {
+  const query = Object.keys(data)
+    .filter((key) => data[key] !== undefined && data[key] !== '')
+    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+
+  const queryString = query.join('&')
 
   return api
-    .get(`/foods?page=${data}`)
+    .get(`/foods?${queryString}`)
     .then(({ data }) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
-export const getFood = (data => {
-  return api.get(`/foods/${data}`)
+
+export const getFood = (data) => {
+  return api
+    .get(`/foods/${data}`)
     .then(({ data }) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
-})
+}
 export const addFood = (data) => {
-
   return api
     .post('users/me/meal/food', {
       meal: data.meal,
@@ -107,10 +139,13 @@ export const addFood = (data) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
-
 
 export const editMeal = (meal) => {
   return api
@@ -119,36 +154,39 @@ export const editMeal = (meal) => {
       meal_consumed_kcal: meal.meal_consumed_kcal,
       meal_consumed_carb: meal.meal_consumed_carb,
       meal_consumed_fat: meal.meal_consumed_fat,
-      meal_consumed_protein: meal.meal_consumed_protein,
+      meal_consumed_protein: meal.meal_consumed_protein
     })
     .then(({ data }) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const createMeal = (meal) => {
-  const {
-    name,
-    meal_consumed_kcal,
-    meal_consumed_carb,
-    meal_consumed_fat,
-    meal_consumed_protein,
-  } = meal
+  const { name, meal_consumed_kcal, meal_consumed_carb, meal_consumed_fat, meal_consumed_protein } =
+    meal
   return api
     .post('/users/me/meal', {
       name,
       meal_consumed_kcal,
       meal_consumed_carb,
       meal_consumed_fat,
-      meal_consumed_protein,
+      meal_consumed_protein
     })
     .then(({ data }) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const findMeal = (id) => {
@@ -158,7 +196,11 @@ export const findMeal = (id) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 
@@ -175,7 +217,11 @@ export const createProgress = (data) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const getProgress = () => {
@@ -185,22 +231,29 @@ export const getProgress = () => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 
 export const createDiary = () => {
   return api
-    .post("/users/me/diary")
+    .post('/users/me/diary')
     .then((data) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const editDiary = (data) => {
-  console.log(data)
   const {
     name,
     consumed_water,
@@ -221,14 +274,16 @@ export const editDiary = (data) => {
       consumed_carb,
       consumed_protein,
       consumed_fat
-
-
-    }).then(({ data }) => {
-      console.log(data)
+    })
+    .then(({ data }) => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 export const getDiary = () => {
@@ -238,7 +293,11 @@ export const getDiary = () => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }
 
@@ -249,6 +308,10 @@ export const getUser = () => {
       return data
     })
     .catch((err) => {
-      showToast(err)
+       showToast({
+        message: 'Erro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
+      })
     })
 }

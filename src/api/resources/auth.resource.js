@@ -1,6 +1,15 @@
 import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 
+const showToast = (err) => {
+  console.error('erro ', err.message)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: err.message,
+    description: err.description || 'Falha de comunicação'
+  })
+}
 
 export const signIn = (data) => {
   const { email, password } = data
@@ -10,16 +19,14 @@ export const signIn = (data) => {
       password: password.value
     })
     .then(({ data }) => {
-
       sessionStorage.setItem('accessToken', data.accessToken)
       return data
     })
     .catch((err) => {
-      console.error("erro ",err.message)
-      const appStore = useAppStore()
-      appStore.setToast({
-        show: true,
-        description: err?.response?.data?.message ||  err?.response?.message || 'falha de comunicação',
+      showToast({
+        message: 'Alerta!!!',
+        description:
+          err?.response?.data?.message || err?.response?.message 
       })
     })
 }
@@ -39,17 +46,12 @@ export const signUp = (data) => {
     .then(({ data }) => {
       sessionStorage.setItem('accessToken', data.accessToken)
       return data
-
     })
     .catch((err) => {
-      console.error("erro ",err.message)
-      const appStore = useAppStore()
-      appStore.setToast({
-        show: true,
-        description: err?.response?.data?.message ||  err?.response?.message || 'falha de comunicação',
+      showToast({
+        message: 'Erro ao efetuar cadastro',
+        description:
+          err?.response?.data?.message || err?.response?.message 
       })
     })
 }
-
-
-

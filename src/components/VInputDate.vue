@@ -140,7 +140,7 @@ const closeCalendar = () => {
 
 const handleClickOutside = (event) => {
   const calendar = document.querySelector('.calendar');
-  const iconCalendar = document.querySelector('.icon');
+  const iconCalendar = document.querySelector('.icon-calendar');
 
   if (calendar && iconCalendar && !calendar.contains(event.target) && !iconCalendar.contains(event.target)) {
     closeCalendar();
@@ -209,9 +209,9 @@ const toggleCalendar = () =>{
 <template>
   <div class="inputs" id="datepicker">
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
-    <section class="input-icon">
-      <i class="bi bi-calendar icon" @click="toggleCalendar"></i>
-      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change="event =>emitDateInputFormated(event.target.value)"
+    <section class="input-icon-calendar">
+      <i class="bi bi-calendar icon-calendar" @click="toggleCalendar"></i>
+      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change.prevent="event =>emitDateInputFormated(event.target.value)"
  v-mask="'XX/XX/XXXX'" v-model="dateInput" 
         :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
@@ -219,14 +219,14 @@ const toggleCalendar = () =>{
       <div class="calendar" v-if="openCalendar" :class="{ 'open': openCalendar }">
         <section class="calendar-actions">
           <div class="calendar-header">
-            <button @click="previousMonth" class="button left"><i class="bi bi-chevron-left icon"></i></button>
+            <button @click.prevent="previousMonth" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
             <h2>{{ currentMonth }}</h2>
-            <button @click="nextMonth" class="button right"> <i class="bi bi-chevron-right icon"></i></button>
+            <button @click.prevent="nextMonth" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
           </div>
           <div class="calendar-header">
-            <button @click="previousYear" class="button left"><i class="bi bi-chevron-left icon"></i></button>
+            <button @click.prevent="previousYear" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
             <h2>{{ currentYear }}</h2>
-            <button @click="nextYear" class="button right"> <i class="bi bi-chevron-right icon"></i></button>
+            <button @click.prevent="nextYear" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
           </div>
         </section>
         <table>
@@ -261,7 +261,7 @@ const toggleCalendar = () =>{
   }
 
 
-  .input-icon {
+  .input-icon-calendar {
     position: relative;
 
     .input {
@@ -273,7 +273,7 @@ const toggleCalendar = () =>{
       width: 100%;
     }
 
-    .icon {
+    .icon-calendar {
       padding: 0;
       font-size: 20px;
       top: calc(50% - 15px);

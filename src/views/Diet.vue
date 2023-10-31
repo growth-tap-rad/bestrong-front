@@ -54,30 +54,23 @@ const showAddWater = () => {
 const showAddMeal = () => {
   hideButtonBottomOptions()
   showComponentAddMeal.value = true
-
 }
 const addMeal = (e) => {
   hideButtonBottomOptions()
-
   showComponentAddMeal.value = false
 
-  //TODO VERIFICAR PORQUE DISSO
-  if (e) {
-    meals.value = []
-    dietStore.createMeal(e)
-      .then((data) => {
-        data.meal.forEach(element => {
-          meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
-        });
-      })
-  }
+  //TODO VERIFICAR PORQUE DISSO ??? matheus ?
+  // if (e) {
+  //   meals.value = []
+  //   dietStore.createMeal(e)
+  //     .then((data) => {
+  //       data.meal.forEach(element => {
+  //         meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
+  //       });
+  //     })
+  // }
 }
-const showAddFood = (id) => {
-  router.push(`/meal/edit/${id}`);
-}
-const editMeal = (id) => {
-  router.push(`/meal/edit/${id}`);
-}
+
 const hideButtonBottomOptions = () => {
   ButtonBottomOptions.value = false
 }
@@ -146,6 +139,15 @@ const actionsTitlePage = [
   }
 ]
 
+const createEditMeal = (create = false, id) => {
+
+if (create) {
+  router.push(`/meal`);
+  return
+}
+return router.push(`/meal/edit/${id}`);
+}
+
 
 </script>
 
@@ -159,13 +161,10 @@ const actionsTitlePage = [
 
       <div class="box-ingredients">
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal @showAddFood="(e) => showAddFood(e)" class="meal" v-for="meal in meals" :data="meal" />
+        <VAccordionMeal @showAddFood="(e) => createEditMeal(false, e)" class="meal" v-for="meal in meals" :data="meal" />
       </div>
 
-      <VAddMeal class="box-add-meal" :data="Meal" @selectedMeal="(e) => editMeal(e)"
-        @showAddMeal="(e) => { addMeal(e) }" />
-
-
+      <VAddMeal class="box-add-meal" :data="Meal" />
       <VBottomMenu class="footer" actualRoute="/diet" />
 
     </main>
