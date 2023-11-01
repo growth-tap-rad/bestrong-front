@@ -24,6 +24,10 @@ defineProps({
   color: var(--text-color-light);
   font-weight: bold;
   width: 100%;
+
+  &:disabled {
+    background-color: rgb(116, 113, 113)(128, 128, 128, 0.856);
+  }
 }
 
 .btn {

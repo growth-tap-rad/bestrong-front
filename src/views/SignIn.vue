@@ -50,13 +50,13 @@ onMounted(() => {
       </nav>
       <h1 class="title-page">Entre com seu e-mail</h1>
     </header>
-    <main class="main">
+    <form class="main" @submit.prevent="signin">
       <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
       <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
-      <VButton @click="signin" text="Continuar" class="button" />
+      <VButton text="Continuar" class="button" />
       <p class="text">Esqueceu sua senha? <router-link to="/forgot-password" class="cta-forgot-pass">Clique
           aqui!</router-link></p>
-    </main>
+    </form>
   </section>
 </template>
 

@@ -3,12 +3,14 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMealStore } from '../stores/meal.store'
 import { useDietStore } from '../stores/diet.store';
+import { useFoodStore } from '../stores/food.store'
 import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
 import VtitlePage from '../components/VtitlePage.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 
 const dietStore = useDietStore()
+const foodStore = useFoodStore()
 const router = useRouter()
 const route = useRoute()
 const data = ref(new Date());
@@ -18,7 +20,6 @@ const mealMacros = ref({});
 
 onMounted(async () => {
   if (route.params.id) {
-
     const foundMeal = await mealStore.findMeal(route.params.id)
     meal.value = foundMeal
     data.value = new Date(meal.value.created_at)
@@ -61,23 +62,6 @@ const addFood = () => {
   router.push(`/meal/${route.params.id}/foods`);
 }
 
-const transformUnity = (unity) => {
-  if (unity == 'Unidade') {
-    return 'U'
-  } else if (unity == 'Unidade Pequena') {
-    return 'u'
-  }
-  else if (unity == 'Mililitro') {
-    return 'ml'
-  }
-  return 'g'
-}
-
-const calcQuantity = (quantity, unity) => {
-  const qtd = parseInt(quantity) || 1;
-  const unit = parseInt(unity) || 1;
-  return parseInt(qtd * unit)
-}
 
 const calcMacros = () => {
   let kcal = 0;
@@ -86,6 +70,11 @@ const calcMacros = () => {
   let fat = 0;
 
   meal.value?.meal_food.forEach(el => {
+
+    //CALCULO AINDA NAO FUNCIONANDO COM GRAMAS, DE SUPLEMENTOS GROWTH, POIS OS MACROS
+    // E CALORIAS DELES SAO BASEADOS EM SCOOPS POR EXEMPLO 1 SCOOP, POSSUI 30 GRAMAS
+    // E O WHEY CALCULA A CALORIA BASEADO EM 1 SCOOP, E NAO EM 1 GRAMA
+
     protein += el.food?.protein * el.quantity;
     carb += el.food?.carb * el.quantity;
     fat += el.food?.fat * el.quantity;
@@ -100,6 +89,13 @@ const calcMacros = () => {
   }
 }
 
+const getUnity = (unityText) => {
+  return foodStore.transformUnity(unityText, true);
+}
+
+const calcQuantity = (qtd, amount, desc) => {
+  return foodStore.transformQuantity(qtd, amount, desc);
+}
 
 </script>
 
@@ -108,26 +104,25 @@ const calcMacros = () => {
     <header class="header">
       <VButtonArrowLeft @click="back" />
       <VtitlePage class="title" :title="'Refeição'" />
-      <span class="spam">text</span>
     </header>
     <main class="main">
       <VInput :value="meal.name" @update="(e) => updateMeal(e)" class="input" />
 
       <section class="macrosValue">
         <div class="paragraphMacros">
-          <span class="kcal value">{{ mealMacros.kcal }}</span>
+          <span class="kcal value">{{ mealMacros.kcal || "0.00" }}</span>
           <span class="text">Kcal</span>
         </div>
         <div class="paragraphMacros">
-          <span class="value">{{ mealMacros.protein }}</span>
+          <span class="value">{{ mealMacros.protein || "0.00" }}</span>
           <span class="text">Prot</span>
         </div>
         <div class="paragraphMacros">
-          <span class="value">{{ mealMacros.carb }}</span>
+          <span class="value">{{ mealMacros.carb || "0.00" }}</span>
           <span class="text">Carb</span>
         </div>
         <div class="paragraphMacros">
-          <span class="value">{{ mealMacros.fat }}</span>
+          <span class="value">{{ mealMacros.fat || "0.00" }}</span>
           <span class="text">Gord</span>
         </div>
         <div>
@@ -144,9 +139,10 @@ const calcMacros = () => {
       <section class="mealsList">
 
         <section class="foodItems">
-          <div v-for="food in meal.meal_food" class="foodItem">
-            <span class="oveflow">{{ food.name }}</span>
-            <div> <span>{{ calcQuantity(food.quantity, food.unity) }}</span> <span>{{ transformUnity(food.unity) }}</span>
+          <div v-for="mealFood in meal.meal_food" class="foodItem">
+            <span class="oveflow">{{ mealFood.name }}</span>
+            <div> <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span> <span>{{
+              getUnity(mealFood.unity) }}</span>
             </div>
           </div>
         </section>
@@ -177,7 +173,11 @@ p {
   .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
+    .title {
+      margin: 0 auto;
+      padding-right: 40px;
+    }
 
     .spam {
       color: transparent;

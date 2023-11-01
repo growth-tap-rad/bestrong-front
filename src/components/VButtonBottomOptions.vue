@@ -1,26 +1,27 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 const router = useRouter()
-const emit = defineEmits()
+
+import { useDietStore } from '../stores/diet.store'
+const dietStore = useDietStore()
+
 const props = defineProps({
-  show: true
+  show: {
+    type: Boolean,
+    default: true
+  }
 })
 
-
-const handleClickOutside = () => {
-  emit('hideButtonBottomOptions')
-};
-
 const showAddMeal = () => {
-  emit('showAddMeal')
+  dietStore.setShowComponentMeal(true)
 }
 const showAddWater = () => {
-  emit('showAddWater')
+  router.push('/water')
 }
 </script>
 <template>
   <div class="container-menu">
-    <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
+    <div class="bg" v-show="props.show"></div>
     <div v-show="props.show" class="buttons">
       <div class="top-buttons">
         <button class="button button-disable">
@@ -46,9 +47,6 @@ const showAddWater = () => {
           <span class="text">Adicionar Agua</span>
         </button>
       </div>
-
-
-
     </div>
   </div>
 </template>
@@ -62,7 +60,7 @@ const showAddWater = () => {
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 2;
+  z-index: 0;
 }
 
 .buttons {
@@ -97,11 +95,7 @@ const showAddWater = () => {
       .bi::before {
         font-size: 30px;
       }
-
-
     }
-
-
 
     .button-disable {
       color: gray;
@@ -112,6 +106,5 @@ const showAddWater = () => {
   .top-buttons {
     margin-bottom: 1em;
   }
-
 }
 </style>

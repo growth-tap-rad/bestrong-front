@@ -2,7 +2,6 @@
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
     default: () => ({
       title: '',
       placeholder: '',
@@ -10,7 +9,7 @@ const props = defineProps({
       mask: '',
     }),
   },
-  value: ""
+  value: ''
 });
 
 </script>
