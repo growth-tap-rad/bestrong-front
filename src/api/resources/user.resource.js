@@ -316,3 +316,19 @@ export const getUser = () => {
       })
     })
 }
+
+export const verifyEmail = (email) => {
+  return api
+    .get(`/users/verify-email?email=${email}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Alerta',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
