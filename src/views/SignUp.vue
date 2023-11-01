@@ -49,7 +49,7 @@ const goForDiet = async () => {
     try {
         const emailInUse = await userStore.verifyEmail(payload.email);
         if (emailInUse) {
-            alert("Email inválido");
+         console.log('')
             //TODO: Melhorar isso vizualmente, como campo invalido
         }
         else {

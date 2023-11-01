@@ -6,12 +6,12 @@ import VAccordionMeal from '../components/VAccordionMeal.vue';
 import VDashboardDiet from '../components/VDashboardDiet.vue';
 import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VBottomMenu from '../components/VBottomMenu.vue'
+import VAddMeal from '../components/VAddMeal.vue';
 
 
 const router = useRouter()
 const dietStore = useDietStore()
 const showComponentAddMeal = ref(false)
-const ButtonBottomOptions = ref(false)
 const meals = ref([])
 
 const water = {
@@ -50,32 +50,8 @@ onMounted(() => {
 const showAddWater = () => {
   router.push('/water')
 }
-const showAddMeal = () => {
-  hideButtonBottomOptions()
-  showComponentAddMeal.value = true
-}
-const addMeal = (e) => {
-  hideButtonBottomOptions()
-  showComponentAddMeal.value = false
 
-  //TODO VERIFICAR PORQUE DISSO ??? matheus ?
-  // if (e) {
-  //   meals.value = []
-  //   dietStore.createMeal(e)
-  //     .then((data) => {
-  //       data.meal.forEach(element => {
-  //         meals.value.push({ title: element.name, quantity: element.meal_consumed_kcal })
-  //       });
-  //     })
-  // }
-}
 
-const hideButtonBottomOptions = () => {
-  ButtonBottomOptions.value = false
-}
-const showButtonBottomOptions = () => {
-  ButtonBottomOptions.value = !ButtonBottomOptions.value
-}
 const fetchDiaryData = async () => {
   await dietStore.fetchDiary()
   const data = dietStore.getDiary

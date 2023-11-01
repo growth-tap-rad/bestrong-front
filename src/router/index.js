@@ -105,7 +105,7 @@ const ROUTES = [
     component: ListFoods
   },
   {
-    path:'/:pathMatch(.*)*',
+    path:'/:pathMatch(.)',
     redirect:'/',
     name:'notFound',
     component:Welcome

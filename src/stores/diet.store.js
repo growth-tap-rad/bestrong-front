@@ -38,6 +38,7 @@ const defaultState = {
     }]
   },
   showComponentMeal: false,
+  showComponentMenuOptions:false
 }
 
 export const useDietStore = defineStore('diet', {
@@ -45,7 +46,8 @@ export const useDietStore = defineStore('diet', {
   getters: {
     getDiary: (state) => state.diary,
     getMeals: (state) => state.diary.meal,
-    getShowComponentMeal: (state) => state.showComponentMeal
+    getShowComponentMeal: (state) => state.showComponentMeal,
+    getShowComponentMenuOptions: (state) =>state.showComponentMenuOptions
   },
 
   actions: {
@@ -66,6 +68,9 @@ export const useDietStore = defineStore('diet', {
     },
     setShowComponentMeal(payload) {
       this.showComponentMeal = payload
+    },
+    setShowComponentMenuOptions(payload){
+      this.showComponentMenuOptions = payload
     }
   },
 

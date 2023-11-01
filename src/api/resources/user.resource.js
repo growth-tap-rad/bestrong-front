@@ -318,17 +318,17 @@ export const getUser = () => {
 }
 
 export const verifyEmail = (email) => {
-  return api
-    .get(`/users/verify-email?email=${email}`)
-    .then(({ data }) => {
-      return data
-    })
-    .catch((err) => {
+  console.log('entrou na função')
+  return api.get(`/users/verify-email?email=${email}`).then(({ data }) => {
+    if (data) {
       showToast({
-        error: err,
-        message: 'Alerta',
-        description: err?.response?.data?.message || err?.response?.message
+        error: data,
+        message: 'Alerta ',
+        description: 'Email já em uso!'
       })
-    })
-}
+      return
+    }
 
+    return data
+  })
+}
