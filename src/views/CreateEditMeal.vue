@@ -33,14 +33,13 @@ const updateMeal = (e) => {
   meal.value.name = e
 }
 const createMeal = async () => {
-  return await mealStore
-    .createMeal({
-      name: meal.value.name,
-      meal_consumed_kcal: mealMacros.value.kcal,
-      meal_consumed_carb: mealMacros.value.carb,
-      meal_consumed_fat: mealMacros.value.fat,
-      meal_consumed_protein: mealMacros.value.protein
-    })
+  return await mealStore.createMeal({
+    name: meal.value.name,
+    meal_consumed_kcal: mealMacros.value.kcal,
+    meal_consumed_carb: mealMacros.value.carb,
+    meal_consumed_fat: mealMacros.value.fat,
+    meal_consumed_protein: mealMacros.value.protein
+  })
 }
 
 const addFood = async () => {
@@ -52,10 +51,10 @@ const addFood = async () => {
   if (route.params.id) {
     router.push(`/meal/${route.params.id}/foods`)
     return
-  }  
-    const data =  await createMeal()
-   
-    goToFoods(data.id)
+  }
+  const data = await createMeal()
+
+  goToFoods(data.id)
 }
 
 const goToFoods = (id) => {
@@ -160,7 +159,7 @@ const calcQuantity = (qtd, amount, desc) => {
 
       <section class="mealsList">
         <section class="foodItems">
-          <div v-for="mealFood in meal.meal_food" class="foodItem">
+          <div v-for="mealFood in meal.meal_food" :key="mealFood.id" class="foodItem">
             <span class="oveflow">{{ mealFood.name }}</span>
             <div>
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
