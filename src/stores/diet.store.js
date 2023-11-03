@@ -38,7 +38,8 @@ const defaultState = {
     }]
   },
   showComponentMeal: false,
-  showComponentMenuOptions:false
+  showComponentMenuOptions:false     
+
 }
 
 export const useDietStore = defineStore('diet', {

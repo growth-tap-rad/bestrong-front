@@ -116,23 +116,23 @@ const router = createRouter({
   routes: ROUTES
 })
 
-//  const isAuthenticated = () => {
-//   const token = localStorage.getItem('accessToken')
-//   return !!token
-// }
+ const isAuthenticated = () => {
+  const token = localStorage.getItem('accessToken')
+  return !!token
+} 
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((route) => route.meta.requiresAuth)) {
-//     if (isAuthenticated()) {
-//       return next()
-//     } else {
-//       if (to.name !== '/') {
-//         return next('/')
-//       }
-//       next();
-//     }
-//   }
-//   next()
-// })
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (isAuthenticated()) {
+      return next()
+    } else {
+      if (to.path !== '/') {
+        return next('/')
+      } 
+      next();
+    }
+  } 
+  next()
+})
 
 export default router
