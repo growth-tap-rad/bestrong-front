@@ -169,15 +169,13 @@ export const editMeal = (meal) => {
     })
 }
 export const createMeal = (meal) => {
-  const { name, meal_consumed_kcal, meal_consumed_carb, meal_consumed_fat, meal_consumed_protein } =
-    meal
   return api
     .post('/users/me/meal', {
-      name,
-      meal_consumed_kcal,
-      meal_consumed_carb,
-      meal_consumed_fat,
-      meal_consumed_protein
+      name: meal.name,
+      meal_consumed_kcal: meal.meal_consumed_kcal,
+      meal_consumed_carb: meal.meal_consumed_carb,
+      meal_consumed_fat: meal.meal_consumed_fat,
+      meal_consumed_protein: meal.meal_consumed_protein
     })
     .then(({ data }) => {
       return data
