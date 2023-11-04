@@ -1,8 +1,9 @@
 import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
+import { useUserStore } from '../../stores/user.store'
 
 const showToast = (err) => {
-  console.error('erro ', err.error)
+  console.error('erro ', err)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -19,6 +20,8 @@ export const signIn = (data) => {
       password: password.value
     })
     .then(({ data }) => {
+      const userStore = useUserStore()
+      userStore.setToken(data.accessToken)
       sessionStorage.setItem('accessToken', data.accessToken)
       return data
     })
@@ -26,8 +29,7 @@ export const signIn = (data) => {
       showToast({
         error: err,
         message: 'Alerta',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }
@@ -45,15 +47,16 @@ export const signUp = (data) => {
       gender: gender
     })
     .then(({ data }) => {
+      const userStore = useUserStore()
+      userStore.setToken(data.accessToken)
       sessionStorage.setItem('accessToken', data.accessToken)
       return data
     })
     .catch((err) => {
       showToast({
-        error:err,
+        error: err,
         message: 'Erro ao efetuar cadastro',
-        description:
-          err?.response?.data?.message || err?.response?.message 
+        description: err?.response?.data?.message || err?.response?.message
       })
     })
 }

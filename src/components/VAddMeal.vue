@@ -6,7 +6,7 @@ import { useDietStore } from '../stores/diet.store'
 
 const dietStore = useDietStore()
 const router = useRouter()
-const emit = defineEmits()
+
 
 const props = defineProps({
   data: {
@@ -26,10 +26,7 @@ const props = defineProps({
 const handleClickOutside = () => {
   dietStore.setShowComponentMeal(false)
 }
-const sendValue = () => {
-  emit('showAddMeal', inputValue.value)
-  inputValue.value = ''
-}
+
 
 const createEditMeal = (create = false, id) => {
   if (create) {
@@ -41,8 +38,8 @@ const createEditMeal = (create = false, id) => {
 </script>
 
 <template>
-  <div class="bg" v-show="props.data.showComponentAddMeal" @click="handleClickOutside"></div>
-  <div class="main" v-if="props.data.showComponentAddMeal">
+  <div class="bg" v-if="dietStore.getShowComponentMeal" @click="handleClickOutside"></div>
+  <div class="main" v-if="dietStore.getShowComponentMeal">
     <header class="title">
       <VtitlePage :title="'Adicionar Refeição'" />
       <span>Escolha uma refeição para continuar</span>

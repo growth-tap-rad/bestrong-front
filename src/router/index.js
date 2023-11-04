@@ -97,28 +97,26 @@ const ROUTES = [
     name: 'CreateEditMeal',
     component: CreateEditMeal,
     meta: { requiresAuth: true }
-  }
-  ,
+  },
   {
     path: '/food/list',
     name: 'listaAlimentos',
     component: ListFoods
   },
   {
-    path:'/:pathMatch(.*)*',
-    redirect:'/',
-    name:'notFound',
-    component:Welcome
+    path: '/:pathMatch(.)',
+    redirect: '/',
+    name: 'notFound',
+    component: Welcome
   }
-
 ]
 
-const router = createRouter({
+ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: ROUTES
 })
 
- const isAuthenticated = () => {
+/* const isAuthenticated = () => {
   const token = localStorage.getItem('accessToken')
   return !!token
 } 
@@ -135,6 +133,6 @@ router.beforeEach((to, from, next) => {
     }
   } 
   next()
-})
+}) */
 
 export default router

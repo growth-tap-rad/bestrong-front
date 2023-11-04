@@ -5,24 +5,21 @@ const router = useRouter()
 import { useDietStore } from '../stores/diet.store'
 const dietStore = useDietStore()
 
-const props = defineProps({
-  show: {
-    type: Boolean,
-    default: true
-  }
-})
+
 
 const showAddMeal = () => {
   dietStore.setShowComponentMeal(true)
 }
+
 const showAddWater = () => {
   router.push('/water')
 }
 </script>
 <template>
+
   <div class="container-menu">
-    <div class="bg" v-show="props.show"></div>
-    <div v-show="props.show" class="buttons">
+    <div class="bg" v-show="dietStore.getShowComponentMenuOptions"></div>
+    <div v-show="dietStore.getShowComponentMenuOptions" class="buttons">
       <div class="top-buttons">
         <button class="button button-disable">
           <i class="bi bi-arrow-clockwise"></i>

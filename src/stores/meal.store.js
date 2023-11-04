@@ -1,23 +1,20 @@
-import { defineStore } from "pinia";
-import * as userResource from '../api/resources/user.resource';
+import { defineStore } from 'pinia'
+import * as userResource from '../api/resources/user.resource'
 
 const defaultState = {
   meal: [
     {
       id: '',
-      name: "",
+      name: '',
       meal_consumed_kcal: 0,
       food: []
     }
   ]
-
-
 }
 export const useMealStore = defineStore('meal', {
-
   state: () => ({ ...defaultState }),
   getters: {
-    getMeals: (state) => state.meal,
+    getMeals: (state) => state.meal
   },
 
   actions: {
@@ -36,11 +33,6 @@ export const useMealStore = defineStore('meal', {
     },
     async addFood(payload) {
       return await userResource.addFood(payload)
-
-    },
-    async findMeal(payload){
-      return await userResource.findMeal(payload)
     }
-
   }
 })

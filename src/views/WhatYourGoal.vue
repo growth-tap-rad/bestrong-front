@@ -1,11 +1,12 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vue-router';
-import { useUserStore } from '../stores/user.store';
-import { useGoalStore } from '../stores/goal.store';
-import VButton from '../components/VButton.vue';
-import VTitlePage from '../components/VtitlePage.vue';
-import VBoxImgInfo from '../components/VBoxImgInfo.vue';
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user.store'
+import { useGoalStore } from '../stores/goal.store'
+import VButton from '../components/VButton.vue'
+import VTitlePage from '../components/VtitlePage.vue'
+import VBoxImgInfo from '../components/VBoxImgInfo.vue'
+import { useAppStore } from '../stores/app.store'
 
 const goals = useGoalStore()
 const userStore = useUserStore()
@@ -17,16 +18,27 @@ const goToHeightWeight = () => {
     router.push('/height-weight')
     return
   }
-  alert('Selecione o seu Objetivo')
 
+  showToast({
+    message: 'Alerta',
+    description: 'Selecione o seu Objetivo'
+  })
 }
-
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
+  })
+}
 const selectGoal = (e) => {
-
-  GOALS = GOALS.map(goal => {
+  GOALS = GOALS.map((goal) => {
     if (goal.value == e) {
       goal.selected = !goal.selected
-
 
       if (goal.selected) {
         userStore.setGoal(goal.value)
@@ -41,10 +53,9 @@ const selectGoal = (e) => {
 }
 
 onMounted(() => {
-
   const selectedInStore = userStore.getGoal
 
-  GOALS = GOALS.map(goal => {
+  GOALS = GOALS.map((goal) => {
     if (goal.value == selectedInStore) {
       goal.selected = !goal.selected
     }
@@ -53,19 +64,23 @@ onMounted(() => {
 })
 
 const actionsTitlePage = [
-    {
-        btIcon: '',
-        goTo: 'back'
-    }
+  {
+    btIcon: '',
+    goTo: 'back'
+  }
 ]
-
 </script>
 
 <template>
   <form class="bg-goal" @submit.prevent="goToHeightWeight">
-    <VTitlePage title="Seu objetivo?"  class="title-nav" :actions="actionsTitlePage"/>
-    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" :selected="goal.selected"
-      @update="(e) => selectGoal(e)" />
+    <VTitlePage title="Seu objetivo?" class="title-nav" :actions="actionsTitlePage" />
+    <VBoxImgInfo
+      v-for="goal in GOALS"
+      :data="goal"
+      class="margin-y"
+      :selected="goal.selected"
+      @update="(e) => selectGoal(e)"
+    />
     <VButton text="Continuar" class="button" />
   </form>
 </template>

@@ -1,11 +1,11 @@
 <script setup>
-import { onMounted, reactive, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useFoodStore } from '../stores/food.store'
 import VButton from '../components/VButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VtitlePage from '../components/VtitlePage.vue';
-import VInput from '../components/VInput.vue';
+import { useAppStore } from '../stores/app.store'
 
 const qtdMeal = ref(1)
 const unityValue = ref('')
@@ -19,7 +19,17 @@ const measures = ref([])
 const back = () => {
   router.back()
 }
-
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
+  })
+}
 const addFoodToMeal = () => {
 
   if (food.value.description && unityValue.value && qtdMeal.value && route.params.idfood && route.params.id) {
@@ -39,7 +49,11 @@ const addFoodToMeal = () => {
 
   }
   else {
-    alert("preencha todas as informações")
+  
+    showToast({
+        message: 'Alerta',
+        description:'Preencha todas as informações'
+      })
     return
   }
 
