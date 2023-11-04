@@ -2,7 +2,7 @@ import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 
 const showToast = (error) => {
-  console.error('Erro: ', error.error)
+  console.error('Erro: ', error)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -316,7 +316,6 @@ export const getUser = () => {
 }
 
 export const verifyEmail = (email) => {
-  console.log('entrou na função')
   return api.get(`/users/verify-email?email=${email}`).then(({ data }) => {
     if (data) {
       showToast({
@@ -326,7 +325,6 @@ export const verifyEmail = (email) => {
       })
       return
     }
-
     return data
   })
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-const emit = defineEmits();
+const emit = defineEmits()
 
 const props = defineProps({
   data: {
@@ -70,7 +70,7 @@ const calcQuantity = (quantity, unity) => {
         data-bs-parent="#accordionExample">
         <div>
           <div class="accordionMeals">
-            <div class="MealAndQuantity " v-for="item in data.items">
+            <div class="MealAndQuantity " v-for="item in data.items"  :id="item.id">
               <span>{{ item.name }} </span>
               <div class="unity"><span>{{ calcQuantity(item.quantity, item.unity) }} </span><span>{{ transformUnity(item.unity) }}</span> </div>
             </div>

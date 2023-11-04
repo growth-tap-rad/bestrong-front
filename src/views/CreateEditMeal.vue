@@ -7,6 +7,7 @@ import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
+import { useAppStore } from '../stores/app.store'
 
 const foodStore = useFoodStore()
 const router = useRouter()
@@ -24,7 +25,17 @@ onMounted(async () => {
     calcMacros()
   }
 })
-
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
+  })
+}
 const back = () => {
   router.push('/diet')
 }
@@ -44,12 +55,18 @@ const createMeal = async () => {
 
 const addFood = async () => {
   if (!meal.value.name) {
-    alert('digite um nome para a refeição')
+    showToast({
+      message: 'Alerta',
+      description: 'Digite um nome para a refeição'
+    })
     return
   }
 
   if (route.params.id) {
-    router.push(`/meal/${route.params.id}/foods`)
+    goToFoods(route.params.id)
+    return
+  } else if (meal.value.id) {
+    goToFoods(meal.value.id)
     return
   }
   const data = await createMeal()
@@ -81,8 +98,14 @@ const editMeal = async () => {
           })
       }
     } else {
-      createMeal()
+      meal.value = await createMeal()
     }
+  } else {
+    showToast({
+      message: 'Alerta',
+      description: 'Digite um nome para a refeição'
+    })
+    return
   }
 }
 

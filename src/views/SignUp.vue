@@ -4,6 +4,7 @@ import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
 import VInputIcon from '../components/VInputIcon.vue'
+import { useAppStore } from '../stores/app.store'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -35,7 +36,17 @@ const inputUserName = {
 const backToWelcome = () => {
   router.back()
 }
-
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
+  })
+}
 const goForDiet = async () => {
   const payload = {
     name: inputName.value,
@@ -44,7 +55,10 @@ const goForDiet = async () => {
     username: inputUserName.value
   }
   if (!payload.name || !payload.email || !payload.password || !payload.username) {
-    alert('Preencha todos os campos antes de continuar !')
+    showToast({
+        message: 'Alerta',
+        description:'Preencha todos os campos antes de continuar !'
+      })
     return
   }
 
@@ -56,7 +70,10 @@ const goForDiet = async () => {
       //TODO: Melhorar isso vizualmente, como campo invalido
     }
   } catch (error) {
-    alert('Ops ocorreu um erro..')
+    showToast({
+        message: 'Alerta',
+        description:'Ops ocorreu um erro..'
+      })
     console.error(error)
   }
 }
