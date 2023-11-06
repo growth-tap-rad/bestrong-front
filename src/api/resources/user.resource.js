@@ -13,10 +13,28 @@ const showToast = (error) => {
   })
 }
 
-export const fetcActivitys = (id) => {
+export const createTrain = (train) => {
   return api
-    .get(`measures/${id}`)
+    .post(`/users/me/trains`, {
+      name: train.name
+    })
     .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
+export const fetchActivitys = () => {
+  return api
+    .get(`/users/me/trains`)
+    .then(({ data }) => {
+      console.log('deu certo a request')
       return data
     })
     .catch((err) => {

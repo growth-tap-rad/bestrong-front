@@ -28,7 +28,7 @@ export const useMealStore = defineStore('meal', {
       this.setMeal(await userResource.findMeal(payload))
       return await userResource.findMeal(payload)
     },
-    async editMeal(payload) {
+    async editTrain(payload) {
       return await userResource.editMeal(payload)
     },
     async addFood(payload) {

@@ -27,8 +27,11 @@ export const useTrainStore = defineStore('train', {
     getActivitys: (state) => state.activitys
   },
   actions: {
-    async fetcActivitys() {
-      this.activitys = await userResource.fetcActivitys()
+    async fetchActivitys() {
+      this.activitys = await userResource.fetchActivitys()
+    },
+    async createTrain(payload) {
+      return await userResource.createTrain(payload)
     }
   }
 })
