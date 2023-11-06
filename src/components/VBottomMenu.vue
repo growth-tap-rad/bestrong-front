@@ -19,6 +19,7 @@ const goTo = (route) => {
   router.push(route)
 }
 const showButtonBottomOptions = () => {
+  router.push('/diet')
   dietStore.setShowComponentMenuOptions(!dietStore.getShowComponentMenuOptions)
 }
 const handleClickOutside = () => {

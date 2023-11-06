@@ -18,10 +18,7 @@ const toggleOption = (option) => {
     exercise.value = !exercise.value;
     train.value = false;
   }
-
 }
-
-
 
 </script>
 
@@ -37,7 +34,7 @@ const toggleOption = (option) => {
         <button class="button" @click="toggleOption('exercise')" :class="{ 'selected': exercise }">Exercícios</button>
       </section>
       <section class="box-selections">
-        <VTrainList v-if="train" v-for="activity in activitys" class="selection" :data="activity"
+        <VTrainList v-show="train" v-for="activity in activitys" :key="activity.id" class="selection" :data="activity"
           :selected="activity.selected" @update="(e) => selectActivityLevel(e)" />
       </section>
     </main>
@@ -52,15 +49,12 @@ const toggleOption = (option) => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-
-
   .footer {
     position: fixed;
     z-index: 3;
     width: 100%;
     bottom: 0;
   }
-
   .main {
     width: 100%;
     height: 100%;

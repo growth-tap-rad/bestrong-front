@@ -13,6 +13,21 @@ const showToast = (error) => {
   })
 }
 
+export const fetcActivitys = (id) => {
+  return api
+    .get(`measures/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 export const getMeasure = (id) => {
   return api
     .get(`measures/${id}`)
@@ -191,6 +206,20 @@ export const createMeal = (meal) => {
 export const findMeal = (id) => {
   return api
     .get(`users/me/meal/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const deleteMeal = (id) => {
+  return api
+    .delete(`users/me/meal/${id}`)
     .then(({ data }) => {
       return data
     })

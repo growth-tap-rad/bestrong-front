@@ -33,6 +33,9 @@ export const useMealStore = defineStore('meal', {
     },
     async addFood(payload) {
       return await userResource.addFood(payload)
+    },
+    async deleteMeal(payload) {
+      return await userResource.deleteMeal(payload)
     }
   }
 })
