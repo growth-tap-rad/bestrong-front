@@ -117,14 +117,7 @@ const createEditMeal = (create = false, id) => {
   }
   return router.push(`/meal/edit/${id}`)
 }
-const deleteMeal = (id) => {
-  mealStore.deleteMeal(id).then(() => {
-    meals.value = meals.value.filter((meal) => {
-      console.log(meal)
-      return meal.id != id
-    })
-  })
-}
+
 </script>
 
 <template>

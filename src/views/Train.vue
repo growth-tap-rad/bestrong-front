@@ -23,7 +23,6 @@ const toggleOption = (option) => {
 onMounted(async () => {
   await trainStore.fetchActivitys()
   activitys.value = trainStore.getActivitys
-  console.log(activitys)
 })
 </script>
 

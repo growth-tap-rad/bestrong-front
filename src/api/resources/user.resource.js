@@ -34,7 +34,6 @@ export const fetchActivitys = () => {
   return api
     .get(`/users/me/trains`)
     .then(({ data }) => {
-      console.log('deu certo a request')
       return data
     })
     .catch((err) => {
