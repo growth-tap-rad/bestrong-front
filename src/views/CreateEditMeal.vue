@@ -83,7 +83,7 @@ const editMeal = async () => {
     if (route.params.id) {
       {
         mealStore
-          .editMeal({
+          .editTrain({
             id: route.params.id,
 
             name: meal.value.name,
