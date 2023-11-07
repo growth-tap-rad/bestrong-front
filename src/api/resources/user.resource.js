@@ -2,7 +2,7 @@ import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 
 const showToast = (error) => {
-  console.error('Erro: ', error.error)
+  console.error('Erro: ', error)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -169,15 +169,13 @@ export const editMeal = (meal) => {
     })
 }
 export const createMeal = (meal) => {
-  const { name, meal_consumed_kcal, meal_consumed_carb, meal_consumed_fat, meal_consumed_protein } =
-    meal
   return api
     .post('/users/me/meal', {
-      name,
-      meal_consumed_kcal,
-      meal_consumed_carb,
-      meal_consumed_fat,
-      meal_consumed_protein
+      name: meal.name,
+      meal_consumed_kcal: meal.meal_consumed_kcal,
+      meal_consumed_carb: meal.meal_consumed_carb,
+      meal_consumed_fat: meal.meal_consumed_fat,
+      meal_consumed_protein: meal.meal_consumed_protein
     })
     .then(({ data }) => {
       return data
@@ -318,17 +316,15 @@ export const getUser = () => {
 }
 
 export const verifyEmail = (email) => {
-  return api
-    .get(`/users/verify-email?email=${email}`)
-    .then(({ data }) => {
-      return data
-    })
-    .catch((err) => {
+  return api.get(`/users/verify-email?email=${email}`).then(({ data }) => {
+    if (data) {
       showToast({
-        error: err,
-        message: 'Alerta',
-        description: err?.response?.data?.message || err?.response?.message
+        error: data,
+        message: 'Alerta ',
+        description: 'Email já em uso!'
       })
-    })
+      return
+    }
+    return data
+  })
 }
-

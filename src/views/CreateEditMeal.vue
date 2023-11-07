@@ -1,32 +1,41 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useMealStore } from '../stores/meal.store'
-import { useDietStore } from '../stores/diet.store';
 import { useFoodStore } from '../stores/food.store'
-import VButton from '../components/VButton.vue';
-import VInput from '../components/VInput.vue';
-import VtitlePage from '../components/VtitlePage.vue';
-import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
+import VButton from '../components/VButton.vue'
+import VInput from '../components/VInput.vue'
+import VtitlePage from '../components/VtitlePage.vue'
+import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
+import { useAppStore } from '../stores/app.store'
 
-const dietStore = useDietStore()
 const foodStore = useFoodStore()
 const router = useRouter()
 const route = useRoute()
-const data = ref(new Date());
+const data = ref(new Date())
 const mealStore = useMealStore()
 const meal = ref({})
-const mealMacros = ref({});
+const mealMacros = ref({})
 
 onMounted(async () => {
   if (route.params.id) {
     const foundMeal = await mealStore.findMeal(route.params.id)
     meal.value = foundMeal
     data.value = new Date(meal.value.created_at)
-    calcMacros();
+    calcMacros()
   }
 })
-
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error?.error?.response?.status
+      ? 'Não autorizado'
+      : error.description || 'Falha de comunicação'
+  })
+}
 const back = () => {
   router.push('/diet')
 }
@@ -34,52 +43,88 @@ const back = () => {
 const updateMeal = (e) => {
   meal.value.name = e
 }
+const createMeal = async () => {
+  return await mealStore.createMeal({
+    name: meal.value.name,
+    meal_consumed_kcal: mealMacros.value.kcal,
+    meal_consumed_carb: mealMacros.value.carb,
+    meal_consumed_fat: mealMacros.value.fat,
+    meal_consumed_protein: mealMacros.value.protein
+  })
+}
 
+const addFood = async () => {
+  if (!meal.value.name) {
+    showToast({
+      message: 'Alerta',
+      description: 'Digite um nome para a refeição'
+    })
+    return
+  }
 
+  if (route.params.id) {
+    goToFoods(route.params.id)
+    return
+  } else if (meal.value.id) {
+    goToFoods(meal.value.id)
+    return
+  }
+  const data = await createMeal()
+
+  goToFoods(data.id)
+}
+
+const goToFoods = (id) => {
+  router.push(`/meal/${id}/foods`)
+}
 
 const editMeal = async () => {
-
   if (meal.value.name) {
+    if (route.params.id) {
+      {
+        mealStore
+          .editMeal({
+            id: route.params.id,
 
-    mealStore.editMeal({
-      id: route.params.id,
-
-      name: meal.value.name,
-      meal_consumed_kcal: mealMacros.value.kcal,
-      meal_consumed_carb: mealMacros.value.carb,
-      meal_consumed_fat: mealMacros.value.fat,
-      meal_consumed_protein: mealMacros.value.protein,
-
+            name: meal.value.name,
+            meal_consumed_kcal: mealMacros.value.kcal,
+            meal_consumed_carb: mealMacros.value.carb,
+            meal_consumed_fat: mealMacros.value.fat,
+            meal_consumed_protein: mealMacros.value.protein
+          })
+          .then(() => {
+            router.push('/diet')
+            return
+          })
+      }
+    } else {
+      meal.value = await createMeal()
+    }
+  } else {
+    showToast({
+      message: 'Alerta',
+      description: 'Digite um nome para a refeição'
     })
-      .then(() => {
-        router.push('/diet')
-        return
-      })
+    return
   }
 }
 
-const addFood = () => {
-  router.push(`/meal/${route.params.id}/foods`);
-}
-
-
 const calcMacros = () => {
-  let kcal = 0;
-  let protein = 0;
-  let carb = 0;
-  let fat = 0;
+  let kcal = 0
+  let protein = 0
+  let carb = 0
+  let fat = 0
 
-  meal.value?.meal_food.forEach(el => {
-
+  meal.value?.meal_food.forEach((el) => {
     //CALCULO AINDA NAO FUNCIONANDO COM GRAMAS, DE SUPLEMENTOS GROWTH, POIS OS MACROS
     // E CALORIAS DELES SAO BASEADOS EM SCOOPS POR EXEMPLO 1 SCOOP, POSSUI 30 GRAMAS
     // E O WHEY CALCULA A CALORIA BASEADO EM 1 SCOOP, E NAO EM 1 GRAMA
 
-    protein += el.food?.protein * el.quantity;
-    carb += el.food?.carb * el.quantity;
-    fat += el.food?.fat * el.quantity;
-    kcal += el.food?.energy * el.quantity;
-  });
+    protein += el.food?.protein * el.quantity
+    carb += el.food?.carb * el.quantity
+    fat += el.food?.fat * el.quantity
+    kcal += el.food?.energy * el.quantity
+  })
 
   mealMacros.value = {
     kcal: kcal.toFixed(1),
@@ -90,13 +135,12 @@ const calcMacros = () => {
 }
 
 const getUnity = (unityText) => {
-  return foodStore.transformUnity(unityText, true);
+  return foodStore.transformUnity(unityText, true)
 }
 
 const calcQuantity = (qtd, amount, desc) => {
-  return foodStore.transformQuantity(qtd, amount, desc);
+  return foodStore.transformQuantity(qtd, amount, desc)
 }
-
 </script>
 
 <template>
@@ -110,51 +154,48 @@ const calcQuantity = (qtd, amount, desc) => {
 
       <section class="macrosValue">
         <div class="paragraphMacros">
-          <span class="kcal value">{{ mealMacros.kcal || "0.00" }}</span>
+          <span class="kcal value">{{ mealMacros.kcal || '0.00' }}</span>
           <span class="text">Kcal</span>
         </div>
         <div class="paragraphMacros">
-          <span class="value">{{ mealMacros.protein || "0.00" }}</span>
+          <span class="value">{{ mealMacros.protein || '0.00' }}</span>
           <span class="text">Prot</span>
         </div>
         <div class="paragraphMacros">
-          <span class="value">{{ mealMacros.carb || "0.00" }}</span>
+          <span class="value">{{ mealMacros.carb || '0.00' }}</span>
           <span class="text">Carb</span>
         </div>
         <div class="paragraphMacros">
-          <span class="value">{{ mealMacros.fat || "0.00" }}</span>
+          <span class="value">{{ mealMacros.fat || '0.00' }}</span>
           <span class="text">Gord</span>
         </div>
-        <div>
-        </div>
+        <div></div>
       </section>
-
 
       <section class="time">
         <p>Horario</p>
-        <p>{{ data.getHours() <= 9 ? "0" + data.getHours() : data.getHours() }} : {{ data.getMinutes() < 9 ? "0" +
-          data.getMinutes() : data.getMinutes() }}</p>
+        <p>
+          {{ data.getHours() <= 9 ? '0' + data.getHours() : data.getHours() }} :
+          {{ data.getMinutes() < 9 ? '0' + data.getMinutes() : data.getMinutes() }}
+        </p>
       </section>
 
       <section class="mealsList">
-
         <section class="foodItems">
-          <div v-for="mealFood in meal.meal_food" class="foodItem">
+          <div v-for="mealFood in meal.meal_food" :key="mealFood.id" class="foodItem">
             <span class="oveflow">{{ mealFood.name }}</span>
-            <div> <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span> <span>{{
-              getUnity(mealFood.unity) }}</span>
+            <div>
+              <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
+              <span>{{ getUnity(mealFood.unity) }}</span>
             </div>
           </div>
         </section>
-
       </section>
       <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
       <VButton @click="editMeal" text="Salvar Refeição" class="button" />
     </main>
-
   </div>
 </template>
-
 
 <style scoped>
 p {
@@ -190,7 +231,6 @@ p {
     padding: 40px 0;
   }
 
-
   .input {
     margin-bottom: 20px;
   }
@@ -198,7 +238,6 @@ p {
   .title {
     text-align: center;
   }
-
 
   .foodItems {
     display: flex;
@@ -246,7 +285,6 @@ p {
     gap: 10px;
     font-size: 20px;
     padding: 10px 0;
-
 
     .value {
       font-weight: bold;
