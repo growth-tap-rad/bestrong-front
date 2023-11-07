@@ -5,6 +5,7 @@ import VTitleDatePage from '../components/VTitleDatePage.vue'
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VTrainList from '../components/VTrainList.vue'
 import esteira from '@/assets/imgs/esteira.jpeg'
+import router from '../router'
 
 const trainStore = useTrainStore()
 const train = ref(true)
@@ -24,6 +25,9 @@ onMounted(async () => {
   await trainStore.fetchActivitys()
   activitys.value = trainStore.getActivitys
 })
+const infoExercice = (id) => {
+  router.push(`/train/${id}/exercises`)
+}
 </script>
 
 <template>
@@ -42,15 +46,9 @@ onMounted(async () => {
         </button>
       </section>
       <section class="box-selections">
-        <VTrainList
-          v-show="train"
-          v-for="activity in activitys"
-          :key="activity.id"
-          class="selection"
-          :data="{ title: activity.name, img: esteira }"
-          :selected="activity.selected"
-          @update="(e) => selectActivityLevel(e)"
-        />
+        <VTrainList @click="infoExercice(activity.id)" v-show="train" v-for="activity in activitys" :key="activity.id"
+          class="selection" :data="{ title: activity.name, img: esteira }" :selected="activity.selected"
+          @update="(e) => selectActivityLevel(e)" />
       </section>
     </main>
     <VBottomMenu class="footer" actualRoute="/train" />
@@ -65,12 +63,14 @@ onMounted(async () => {
   height: 100%;
   display: flex;
   flex-direction: column;
+
   .footer {
     position: fixed;
     z-index: 3;
     width: 100%;
     bottom: 0;
   }
+
   .main {
     width: 100%;
     height: 100%;

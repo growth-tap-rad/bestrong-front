@@ -11,7 +11,6 @@ import VAddMeal from '../components/VAddMeal.vue'
 
 const router = useRouter()
 const dietStore = useDietStore()
-const mealStore = useMealStore()
 const showComponentAddMeal = ref(false)
 const meals = ref([])
 

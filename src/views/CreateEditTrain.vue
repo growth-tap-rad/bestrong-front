@@ -69,7 +69,7 @@ const addTrain = async () => {
 }
 
 const goToExercices = (id) => {
-  router.push(`//${id}/`)
+  router.push(`/train/${id}/exercises`)
 }
 
 const editTrain = async () => {
@@ -122,13 +122,13 @@ const editTrain = async () => {
       </section>
 
       <section class="trainsList">
-        <section class="exerciceItems">
-          <div v-for="train_exercice in train.train_exercice" :key="train_exercice.id" class="exerciceItem">
-            <span class="oveflow">{{ train_exercice.name }}</span>
+        <section class="exerciseItems">
+          <div v-for="train_exercise in train.train_exersice" :key="train_exercise.id" class="exerciseItem">
+            <span class="oveflow">{{ train_exercise.name }}</span>
           </div>
         </section>
       </section>
-      <VButton @click="addTrain" text="+ Adicionar exercicio" class="add-exercice" />
+      <VButton @click="addTrain" text="+ Adicionar exercicio" class="add-exercise" />
       <VButton @click="editTrain" text="Salvar Treino" class="button" />
     </main>
   </div>
@@ -162,7 +162,7 @@ p {
     }
   }
 
-  .add-exercice {
+  .add-exercise {
     background-color: transparent;
     text-align: justify;
     padding: 40px 0;
@@ -176,12 +176,12 @@ p {
     text-align: center;
   }
 
-  .exerciceItems {
+  .exerciseItems {
     display: flex;
     flex-direction: column;
     gap: 20px;
 
-    .exerciceItem {
+    .exerciseItem {
       color: var(--text-color-light);
       background-color: var(--bg-color-dark3);
       display: flex;

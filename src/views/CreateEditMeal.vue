@@ -17,14 +17,17 @@ const mealStore = useMealStore()
 const meal = ref({})
 const mealMacros = ref({})
 
-onMounted(async () => {
+onMounted(() => {
+  fetchMeal()
+})
+const fetchMeal = async () => {
   if (route.params.id) {
     const foundMeal = await mealStore.findMeal(route.params.id)
     meal.value = foundMeal
     data.value = new Date(meal.value.created_at)
     calcMacros()
   }
-})
+}
 const showToast = (error) => {
   console.error('Erro: ', error.error)
   const appStore = useAppStore()
@@ -146,6 +149,12 @@ const deleteMeal = () => {
     router.push('/diet')
   })
 }
+const deleteMealFood = (id) => {
+
+  foodStore.deleteMealFood(id).then(() => {
+    fetchMeal()
+  })
+}
 </script>
 
 <template>
@@ -192,6 +201,7 @@ const deleteMeal = () => {
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
               <span>{{ getUnity(mealFood.unity) }}</span>
             </div>
+            <button @click="deleteMealFood(mealFood.id)">X</button>
           </div>
         </section>
       </section>
