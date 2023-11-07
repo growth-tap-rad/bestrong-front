@@ -1,28 +1,30 @@
 <script setup>
-import { ref } from 'vue';
-import{useTrainStore} from '../stores/train.store'
-import VTitleDatePage from '../components/VTitleDatePage.vue';
+import { onMounted, ref } from 'vue'
+import { useTrainStore } from '../stores/train.store'
+import VTitleDatePage from '../components/VTitleDatePage.vue'
 import VBottomMenu from '../components/VBottomMenu.vue'
-import VTrainList from '../components/VTrainList.vue';
+import VTrainList from '../components/VTrainList.vue'
+import esteira from '@/assets/imgs/esteira.jpeg'
 
 const trainStore = useTrainStore()
-const train = ref(true);
-const exercise = ref(false);
+const train = ref(true)
+const exercise = ref(false)
 
-let activitys = trainStore.getActivitys
+let activitys = ref({})
 const toggleOption = (option) => {
   if (option === 'train') {
-    train.value = !train.value;
-    exercise.value = false;
+    train.value = !train.value
+    exercise.value = false
   } else if (option === 'exercise') {
-    exercise.value = !exercise.value;
-    train.value = false;
+    exercise.value = !exercise.value
+    train.value = false
   }
-
 }
-
-
-
+onMounted(async () => {
+  await trainStore.fetchActivitys()
+  activitys.value = trainStore.getActivitys
+  console.log(activitys)
+})
 </script>
 
 <template>
@@ -33,12 +35,23 @@ const toggleOption = (option) => {
     <main class="main">
       <div class="box-img-overlay-train"></div>
       <section class="actions">
-        <button class="button" @click="toggleOption('train')" :class="{ 'selected': train }">Treino</button>
-        <button class="button" @click="toggleOption('exercise')" :class="{ 'selected': exercise }">Exercícios</button>
+        <button class="button" @click="toggleOption('train')" :class="{ selected: train }">
+          Treino
+        </button>
+        <button class="button" @click="toggleOption('exercise')" :class="{ selected: exercise }">
+          Exercícios
+        </button>
       </section>
       <section class="box-selections">
-        <VTrainList v-if="train" v-for="activity in activitys" class="selection" :data="activity"
-          :selected="activity.selected" @update="(e) => selectActivityLevel(e)" />
+        <VTrainList
+          v-show="train"
+          v-for="activity in activitys"
+          :key="activity.id"
+          class="selection"
+          :data="{ title: activity.name, img: esteira }"
+          :selected="activity.selected"
+          @update="(e) => selectActivityLevel(e)"
+        />
       </section>
     </main>
     <VBottomMenu class="footer" actualRoute="/train" />
@@ -49,18 +62,16 @@ const toggleOption = (option) => {
 .train {
   background-color: var(--bg-color-dark);
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
-
-
   .footer {
     position: fixed;
     z-index: 3;
     width: 100%;
     bottom: 0;
   }
-
   .main {
     width: 100%;
     height: 100%;
@@ -70,7 +81,7 @@ const toggleOption = (option) => {
       position: absolute;
       height: 100%;
       width: 100%;
-      background-image: url("../assets//imgs/treinando.jpg");
+      background-image: url('../assets//imgs/treinando.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -108,6 +119,5 @@ const toggleOption = (option) => {
       margin: 20px auto;
     }
   }
-
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 const emit = defineEmits()
 
 const props = defineProps({
@@ -7,19 +7,18 @@ const props = defineProps({
     type: Object,
     default: () => ({
       id: 0,
-      title: "",
+      title: '',
       isWater: true,
       quantity: 0,
       meal_consumed_kcal: 0,
-      items: [],
+      items: []
     })
   }
 })
 
-let openAccord = ref(false);
+let openAccord = ref(false)
 
 const open = () => {
-
   if (props.data.isWater) {
     emit('showAddWater')
     return
@@ -28,7 +27,7 @@ const open = () => {
 }
 
 const unity = computed(() => {
-  return props.data.isWater ? "ml" : "kcal"
+  return props.data.isWater ? 'ml' : 'kcal'
 })
 
 const transformUnity = (unity) => {
@@ -36,45 +35,58 @@ const transformUnity = (unity) => {
     return 'U'
   } else if (unity == 'Unidade Pequena') {
     return 'u'
-  }
-  else if (unity == 'Mililitro') {
+  } else if (unity == 'Mililitro') {
     return 'ml'
   }
   return 'g'
 }
 
-
 const calcQuantity = (quantity, unity) => {
-  const qtd = parseInt(quantity) || 1;
-  const unit = parseInt(unity) || 1;
+  const qtd = parseInt(quantity) || 1
+  const unit = parseInt(unity) || 1
   return parseInt(qtd * unit)
 }
-
-
 </script>
 
 <template>
   <section class="accordion box-meal" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button class="accordion-button" :class="{ 'show': openAccord }" type="button" data-bs-toggle="collapse"
-          data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" @click="open()">
+        <button
+          class="accordion-button"
+          :class="{ show: openAccord }"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseOne"
+          aria-expanded="true"
+          aria-controls="collapseOne"
+          @click="open()"
+        >
           <div class="MealAndQuantity">
-            <span class="meal">{{ props.data.title }}</span>
+            <span class="meal">{{ props.data.title }} </span>
             <span class="quantity">Consumido {{ props.data.quantity }} {{ unity }}</span>
-
           </div>
         </button>
       </h2>
-      <div id="collapseOne" :class="['accordion-collapse collapse', { 'show': openAccord }]"
-        data-bs-parent="#accordionExample">
+      <div
+        id="collapseOne"
+        :class="['accordion-collapse collapse', { show: openAccord }]"
+        data-bs-parent="#accordionExample"
+      >
         <div>
           <div class="accordionMeals">
-            <div class="MealAndQuantity " v-for="item in data.items"  :id="item.id">
+            <div class="MealAndQuantity" v-for="item in data.items" :key="item.id">
               <span>{{ item.name }} </span>
-              <div class="unity"><span>{{ calcQuantity(item.quantity, item.unity) }} </span><span>{{ transformUnity(item.unity) }}</span> </div>
+              <div class="unity">
+                <span>{{ calcQuantity(item.quantity, item.unity) }} </span
+                ><span>{{ transformUnity(item.unity) }}</span>
+              </div>
             </div>
-            <button @click="$emit('showAddFood', data.id)" class="addQtdWater">+ Adicionar Alimento</button>
+            <button @click="$emit('showAddFood', data.id)" class="addQtdWater">
+              + Adicionar Alimento
+            </button> <button @click="$emit('deleteMeal', data.id)" class="addQtdWater">
+              X Deletar refeição
+            </button>
           </div>
         </div>
       </div>
@@ -99,7 +111,6 @@ const calcQuantity = (quantity, unity) => {
   display: block;
   box-shadow: none;
   border-radius: 10px;
-
 }
 
 .accordionMeals {
@@ -119,8 +130,6 @@ const calcQuantity = (quantity, unity) => {
   }
 }
 
-
-
 .meal {
   color: var(--button-color-light);
   font-weight: 400;
@@ -135,12 +144,10 @@ const calcQuantity = (quantity, unity) => {
   background: transparent;
   border: none;
   margin-top: 20px;
-
 }
 
 .accordion-item:first-of-type .accordion-button {
   border-radius: 10px 10px;
-
 }
 
 .accordion-item:first-of-type .accordion-button.show {
