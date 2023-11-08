@@ -85,7 +85,7 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/train/:id/exercise/:idexercise',
+    path: '/train/:id?/exercise/:idexercise',
     name: 'InfoExercice',
     component: InfoExercice,
     meta: { InfoExercice: true }

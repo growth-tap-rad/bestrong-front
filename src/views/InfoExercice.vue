@@ -53,7 +53,7 @@ const addExerciceToTrain = () => {
 }
 onMounted(async () => {
   exercise.value = await exerciseStore.getExercise(route.params.idexercise)
-  console.log(exercise.value)
+
 })
 
 
@@ -84,7 +84,7 @@ const calcQuantity = (qtd, amount, desc) => {
         <h2 class="header-exercise"> Nível: {{ exercise.level }}</h2>
 
       </section>
-      <VButton @click="addExerciceToTrain()" text="Adicionar" class="button" />
+      <VButton v-if="route.params.id" @click="addExerciceToTrain()" text="Adicionar" class="button" />
     </main>
 
   </div>

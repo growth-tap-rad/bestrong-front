@@ -1,22 +1,26 @@
 <script setup>
 import { onMounted, ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useTrainStore } from '../stores/train.store'
 import { useExerciseStore } from '../stores/exercise.store'
 import VTitleDatePage from '../components/VTitleDatePage.vue'
 import VBottomMenu from '../components/VBottomMenu.vue'
 import VTrainList from '../components/VTrainList.vue'
 import esteira from '@/assets/imgs/esteira.jpeg'
-import router from '../router'
 import VButton from '../components/VButton.vue';
 import VInputIcon from '../components/VInputIcon.vue'
 
 const exerciseStore = useExerciseStore()
-let exercises = ref([])
 const trainStore = useTrainStore()
+const router = useRouter()
+const route = useRoute()
 const train = ref(true)
 const exercise = ref(false)
-let page = 0;
+const notFoundExercises = ref(false);
 let activitys = ref({})
+let exercises = ref([])
+let page = 0;
 
 const toggleOption = (option) => {
   if (option === 'train') {
@@ -42,8 +46,7 @@ const infoExercice = (id) => {
   router.push(`/train/${id}/exercises`)
 }
 const addExerciseToTrain = (item) => {
-  alert(item.id)
-  router.push(`/train/${route.params.id}/exercise/${item.id}`);
+  router.push(`/train/exercise/${item.id}`);
 }
 const setnotFoundExercises = () => {
   if (!exercises.value.length) {
@@ -128,11 +131,14 @@ const debounceFindExercise = debounce(findExercise, 600)
         <VInputIcon v-show="exercise" :data="inputSearchExercise" :hasIcon="true" iconName="bi bi-search"
           v-model="inputSearchExercise.value" @input="debounceFindExercise()" />
 
-        <VButton v-show="exercise" @click="addExerciseToTrain(item)" class="exercise" v-for="item in exercises"
-          :text="item.name" />
+        <VButton v-show="exercise && !notFoundExercises" @click="addExerciseToTrain(item)" class="exercise"
+          v-for="item in exercises" :text="item.name" />
+      </section>
+      <section class="not-found-foods" v-if="notFoundExercises">
+        <span>Nenhum Resultado para esta pesquisa, tente buscar por outro exercicio...</span>
       </section>
       <VButton v-show="exercise && !inputSearchExercise.value" class="more-exercise" @click="getExercises()"
-        text="+ exercicio" :disabled="notFoundExercses" />
+        text="+ exercicio" :disabled="notFoundExercises" />
     </main>
     <VBottomMenu class="footer" actualRoute="/trains" />
   </section>
@@ -152,12 +158,18 @@ const debounceFindExercise = debounce(findExercise, 600)
 }
 
 .train {
+  color: white;
   background-color: var(--bg-color-dark);
   width: 100%;
   min-height: 100vh;
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  .not-found-foods {
+    text-align: center;
+    padding: 50px 0;
+  }
 
   .footer {
     position: fixed;
