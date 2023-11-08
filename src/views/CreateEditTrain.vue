@@ -28,11 +28,22 @@ const showToast = (error) => {
   appStore.setToast({
     show: true,
     message: error.message,
-    description: error?.error?.response?.status
-      ? 'Não autorizado'
-      : error.description || 'Falha de comunicação'
+    description: chooseMessage(error)
   })
 }
+
+const chooseMessage = (error) => {
+  switch (error?.error?.response?.status) {
+    case 404:
+    return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
+}
+
+
 const back = () => {
   router.push('/diet')
 }
@@ -43,7 +54,7 @@ const updateTrain = (e) => {
 const createTrain = async () => {
   return await trainStore.createTrain({
     name: train.value.name,
-  
+
   })
 }
 
@@ -79,24 +90,25 @@ const editTrain = async () => {
         trainStore
           .editTrain({
             id: route.params.id,
-
+            name:train.value.name
           })
           .then(() => {
             router.push('/diet')
             return
           })
       }
-    } else {
-
-      train.value = await createTrain()
+      return
     }
-  } else {
-    showToast({
-      message: 'Alerta',
-      description: 'Digite um nome para a treino'
-    })
+    await createTrain()
+    router.back()
+    //train.value = await createTrain() q bosta é essa??
     return
   }
+  return showToast({
+    message: 'Alerta',
+    description: 'Digite um nome para a treino'
+  })
+
 }
 
 
@@ -195,8 +207,8 @@ p {
   }
 
 
-  
 
-  
+
+
 }
 </style>

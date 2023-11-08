@@ -42,7 +42,7 @@ const closeToast = () => {
     width: 350px;
     min-width: 300px;
     height: 120px;
-    background-color: var(--bg-color-dark3);
+    background-color: var(--bg-color-dark);
 
     .toast-header {
       justify-content: space-between;
