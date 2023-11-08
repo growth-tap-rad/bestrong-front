@@ -28,11 +28,14 @@ export const useMealStore = defineStore('meal', {
       this.setMeal(await userResource.findMeal(payload))
       return await userResource.findMeal(payload)
     },
-    async editMeal(payload) {
+    async editTrain(payload) {
       return await userResource.editMeal(payload)
     },
     async addFood(payload) {
       return await userResource.addFood(payload)
-    }
+    },
+    async deleteMeal(payload) {
+      return await userResource.deleteMeal(payload)
+    },
   }
 })

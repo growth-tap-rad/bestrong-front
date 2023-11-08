@@ -1,11 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router'
-const router = useRouter()
-
 import { useDietStore } from '../stores/diet.store'
+
+const router = useRouter()
 const dietStore = useDietStore()
-
-
 
 const showAddMeal = () => {
   dietStore.setShowComponentMeal(true)
@@ -13,6 +11,9 @@ const showAddMeal = () => {
 
 const showAddWater = () => {
   router.push('/water')
+}
+const showAddTrain=()=>{
+  router.push("/train/add")
 }
 </script>
 <template>
@@ -25,7 +26,7 @@ const showAddWater = () => {
           <i class="bi bi-arrow-clockwise"></i>
           <span class="text">Adicionar peso</span>
         </button>
-        <button class="button button-disable">
+        <button @click="showAddTrain" class="button">
           <i class="bi bi-universal-access"></i>
           <span class="text">Adicionar treino</span>
         </button>

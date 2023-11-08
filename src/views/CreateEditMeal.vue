@@ -17,14 +17,17 @@ const mealStore = useMealStore()
 const meal = ref({})
 const mealMacros = ref({})
 
-onMounted(async () => {
+onMounted(() => {
+  fetchMeal()
+})
+const fetchMeal = async () => {
   if (route.params.id) {
     const foundMeal = await mealStore.findMeal(route.params.id)
     meal.value = foundMeal
     data.value = new Date(meal.value.created_at)
     calcMacros()
   }
-})
+}
 const showToast = (error) => {
   console.error('Erro: ', error.error)
   const appStore = useAppStore()
@@ -83,7 +86,7 @@ const editMeal = async () => {
     if (route.params.id) {
       {
         mealStore
-          .editMeal({
+          .editTrain({
             id: route.params.id,
 
             name: meal.value.name,
@@ -141,6 +144,17 @@ const getUnity = (unityText) => {
 const calcQuantity = (qtd, amount, desc) => {
   return foodStore.transformQuantity(qtd, amount, desc)
 }
+const deleteMeal = () => {
+  mealStore.deleteMeal(route.params.id).then(() => {
+    router.push('/diet')
+  })
+}
+const deleteMealFood = (id) => {
+
+  foodStore.deleteMealFood(id).then(() => {
+    fetchMeal()
+  })
+}
 </script>
 
 <template>
@@ -175,9 +189,8 @@ const calcQuantity = (qtd, amount, desc) => {
       <section class="time">
         <p>Horario</p>
         <p>
-          {{ data.getHours() <= 9 ? '0' + data.getHours() : data.getHours() }} :
-          {{ data.getMinutes() < 9 ? '0' + data.getMinutes() : data.getMinutes() }}
-        </p>
+          {{ data.getHours() <= 9 ? '0' + data.getHours() : data.getHours() }} : {{ data.getMinutes() < 9 ? '0' +
+            data.getMinutes() : data.getMinutes() }} </p>
       </section>
 
       <section class="mealsList">
@@ -188,11 +201,15 @@ const calcQuantity = (qtd, amount, desc) => {
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
               <span>{{ getUnity(mealFood.unity) }}</span>
             </div>
+            <button @click="deleteMealFood(mealFood.id)">X</button>
           </div>
         </section>
       </section>
       <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
       <VButton @click="editMeal" text="Salvar Refeição" class="button" />
+      <VButton v-show="route.params.id" @click="deleteMeal" text=" Excluir refeição " class="delete-food" />
+
+
     </main>
   </div>
 </template>
@@ -228,6 +245,12 @@ p {
   .add-food {
     background-color: transparent;
     text-align: justify;
+    padding: 40px 0;
+  }
+
+  .delete-food {
+    background-color: transparent;
+    text-align: center;
     padding: 40px 0;
   }
 

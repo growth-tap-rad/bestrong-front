@@ -12,8 +12,12 @@ import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
 import ListFoods from '../views/ListFoods.vue'
+
 import CreateEditMeal from '../views/CreateEditMeal.vue'
 import InfoFood from '../views/InfoFood.vue'
+import CreateEditTrain from '../views/CreateEditTrain.vue'
+import InfoExercice from '../views/InfoExercice.vue'
+import ListExercises from '../views/ListExercices.vue'
 
 const ROUTES = [
   {
@@ -63,9 +67,33 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/train',
-    name: 'Train',
+    path: '/trains',
+    name: 'Trains',
     component: Train,
+    meta: { requiresAuth: true }
+  }, {
+    path: '/train/add',
+    name: 'TrainAdd',
+    component: CreateEditTrain,
+    meta: { requiresAuth: true }
+  },
+
+  {
+    path: '/train/:id/exercises',
+    name: 'ListExercices',
+    component: ListExercises,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/train/:id?/exercise/:idexercise',
+    name: 'InfoExercice',
+    component: InfoExercice,
+    meta: { InfoExercice: true }
+  },
+  {
+    path: '/train/:edit(edit)?/:id?',
+    name: 'CreateEditTrain',
+    component: CreateEditTrain,
     meta: { requiresAuth: true }
   },
   {
@@ -111,7 +139,7 @@ const ROUTES = [
   }
 ]
 
- const router = createRouter({
+const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: ROUTES
 })

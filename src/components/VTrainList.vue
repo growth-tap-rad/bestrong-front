@@ -1,18 +1,16 @@
 <script setup>
-
 defineProps({
   data: {
     type: Object,
     default: () => ({
-      title: "CARDIO",
+      title: 'CARDIO',
       minutes: 0,
       exercisesQty: 0,
       img: '',
       exercises: []
     })
   }
-});
-
+})
 </script>
 
 <template>
@@ -23,10 +21,12 @@ defineProps({
         <p class="minutes">{{ data.minutes }} minutos</p>
         <p class="qtd">{{ data.exercisesQty }} exercícios</p>
         <div class="box-exercises">
-          <p class="exercise" v-for="exercise in data.exercises">{{ exercise }}</p>
+          <p class="exercise" v-for="exercise in data.exercises" :key="exercise.id">
+            {{ exercise }}
+          </p>
         </div>
       </div>
-      <img :src="data.img" class="card-exercise-img" :alt="`card img of ${data.title}`">
+      <img :src="data.img" class="card-exercise-img" :alt="`card img of ${data.title}`" />
       <div class="card-exercise-img-overlay"></div>
     </div>
   </div>
@@ -76,7 +76,7 @@ defineProps({
     left: 90px;
     width: 45%;
     height: 115%;
-    z-index: 5;
+    z-index: 3;
     background: linear-gradient(to right, var(--bg-color-dark-full), rgb(0, 0, 0));
     filter: blur(9px);
   }

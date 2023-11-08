@@ -2,6 +2,7 @@
 import { reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDietStore } from '../stores/diet.store'
+import { useMealStore } from '../stores/meal.store'
 import VAccordionMeal from '../components/VAccordionMeal.vue'
 import VDashboardDiet from '../components/VDashboardDiet.vue'
 import VTitleDatePage from '../components/VTitleDatePage.vue'
@@ -115,6 +116,7 @@ const createEditMeal = (create = false, id) => {
   }
   return router.push(`/meal/edit/${id}`)
 }
+
 </script>
 
 <template>
@@ -129,6 +131,7 @@ const createEditMeal = (create = false, id) => {
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
         <VAccordionMeal
           @showAddFood="(e) => createEditMeal(false, e)"
+          @deleteMeal="(e) => deleteMeal(e)"
           class="meal"
           v-for="meal in meals"
           :data="meal"
