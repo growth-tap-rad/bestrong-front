@@ -24,11 +24,21 @@ const showToast = (error) => {
   appStore.setToast({
     show: true,
     message: error.message,
-    description: error?.error?.response?.status
-      ? 'Não autorizado'
-      : error.description || 'Falha de comunicação'
+    description: chooseMessage(error)
   })
 }
+
+const chooseMessage = (error) => {
+  switch(error?.error?.response?.status) {
+    case 404:
+    return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
+} 
+
 const addExerciceToTrain = () => {
 
 
@@ -72,7 +82,7 @@ const calcQuantity = (qtd, amount, desc) => {
   <div class="main">
     <header class="header">
       <VButtonArrowLeft @click="back()" />
-      <VtitlePage class="title" title="Alimento" />
+      <VtitlePage class="title" title="Exercício" />
       <span class="spam"></span>
     </header>
     <main class="exercise">
@@ -81,7 +91,7 @@ const calcQuantity = (qtd, amount, desc) => {
           <h2>{{ exercise.name }}</h2>
 
         </div>
-        <h2 class="header-exercise"> Nível: {{ exercise.level }}</h2>
+        <h2 class="header-exercise-level"> Nível: {{ exercise.level }}</h2>
 
       </section>
       <VButton v-if="route.params.id" @click="addExerciceToTrain()" text="Adicionar" class="button" />
@@ -116,6 +126,17 @@ const calcQuantity = (qtd, amount, desc) => {
     text-align: center;
     padding: 10px;
     border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .header-exercise-level {
+    background-color: var(--bg-color-dark5);
+    text-align: center;
+    padding: 10px;
+    border-radius: 0 0 0 0;
     display: flex;
     align-items: center;
     justify-content: center;

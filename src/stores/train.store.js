@@ -32,9 +32,12 @@ export const useTrainStore = defineStore('train', {
     },
     async createTrain(payload) {
       return await userResource.createTrain(payload)
-    }
-    , async findTrain(payload) {
+    },
+    async findTrain(payload) {
       return await userResource.findTrain(payload)
+    },
+    async editTrain(payload) {
+      return await userResource.editTrain(payload)
     }
   }
 })

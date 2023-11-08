@@ -18,16 +18,18 @@ defineProps({
     <div class="card-exercise-infos">
       <div class="infos">
         <h6 class="title">{{ data.title }}</h6>
-        <p class="minutes">{{ data.minutes }} minutos</p>
-        <p class="qtd">{{ data.exercisesQty }} exercícios</p>
+        <p class="minutes">{{ `${data.minutes ? data.minutes + 'minutos' : ''}` }}</p>
+        <p class="qtd">{{ `${data.exercisesQty ? data.exercisesQty + 'exercícios' : ''}` }}</p>
+
         <div class="box-exercises">
           <p class="exercise" v-for="exercise in data.exercises" :key="exercise.id">
             {{ exercise }}
           </p>
         </div>
       </div>
-      <img :src="data.img" class="card-exercise-img" :alt="`card img of ${data.title}`" />
-      <div class="card-exercise-img-overlay"></div>
+      <!--TODO fazer fotos referente a exercicios
+         <img :src="data.img" class="card-exercise-img" :alt="`card img of ${data.title}`" /> -->
+      <!-- <div class="card-exercise-img-overlay"></div> -->
     </div>
   </div>
 </template>

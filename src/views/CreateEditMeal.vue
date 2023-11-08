@@ -28,17 +28,28 @@ const fetchMeal = async () => {
     calcMacros()
   }
 }
+
 const showToast = (error) => {
   console.error('Erro: ', error.error)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
     message: error.message,
-    description: error?.error?.response?.status
-      ? 'Não autorizado'
-      : error.description || 'Falha de comunicação'
+    description: chooseMessage(error)
   })
 }
+
+const chooseMessage = (error) => {
+  switch(error?.error?.response?.status) {
+    case 404:
+    return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
+}
+
 const back = () => {
   router.push('/diet')
 }

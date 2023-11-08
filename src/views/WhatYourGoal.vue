@@ -30,11 +30,21 @@ const showToast = (error) => {
   appStore.setToast({
     show: true,
     message: error.message,
-    description: error?.error?.response?.status
-      ? 'Não autorizado'
-      : error.description || 'Falha de comunicação'
+    description: chooseMessage(error)
   })
 }
+
+const chooseMessage = (error) => {
+  switch (error?.error?.response?.status) {
+    case 404:
+      return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
+}
+
 const selectGoal = (e) => {
   GOALS = GOALS.map((goal) => {
     if (goal.value == e) {
@@ -74,13 +84,8 @@ const actionsTitlePage = [
 <template>
   <form class="bg-goal" @submit.prevent="goToHeightWeight">
     <VTitlePage title="Seu objetivo?" class="title-nav" :actions="actionsTitlePage" />
-    <VBoxImgInfo
-      v-for="goal in GOALS"
-      :data="goal"
-      class="margin-y"
-      :selected="goal.selected"
-      @update="(e) => selectGoal(e)"
-    />
+    <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" :selected="goal.selected"
+      @update="(e) => selectGoal(e)" />
     <VButton text="Continuar" class="button" />
   </form>
 </template>

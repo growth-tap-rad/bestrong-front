@@ -8,8 +8,19 @@ const showToast = (err) => {
   appStore.setToast({
     show: true,
     message: err.message,
-    description: err.description || 'Falha de comunicação'
+    description: chooseMessage(err)
   })
+}
+
+const chooseMessage = (error) => {
+  switch(error?.error?.response?.status) {
+    case 404:
+      return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
 }
 
 export const signIn = (data) => {

@@ -42,8 +42,9 @@ onMounted(async () => {
   await exerciseStore.fetchExercises(query)
   exercises.value = exerciseStore.getExercises
 })
-const infoExercice = (id) => {
-  router.push(`/train/${id}/exercises`)
+const editTrain = (id) => {
+  // router.push(`/train/${id}/exercises`) // ??????????????
+  router.push(`/train/edit/${id}`)
 }
 const addExerciseToTrain = (item) => {
   router.push(`/train/exercise/${item.id}`);
@@ -125,9 +126,9 @@ const debounceFindExercise = debounce(findExercise, 600)
         </button>
       </section>
       <section class="box-selections">
-        <VTrainList @click="infoExercice(activity.id)" v-show="train" v-for="activity in activitys" :key="activity.id"
+        <VTrainList @click="editTrain(activity.id)" v-show="train" v-for="activity in activitys" :key="activity.id"
           class="selection" :data="{ title: activity.name, exercises: activity.exercises, img: esteira }"
-          :selected="activity.selected" @update="(e) => selectActivityLevel(e)" />
+          :selected="activity.selected" />
         <VInputIcon v-show="exercise" :data="inputSearchExercise" :hasIcon="true" iconName="bi bi-search"
           v-model="inputSearchExercise.value" @input="debounceFindExercise()" />
 
@@ -187,7 +188,7 @@ const debounceFindExercise = debounce(findExercise, 600)
       position: absolute;
       height: 100%;
       width: 100%;
-      background-image: url('../assets//imgs/treinando.jpg');
+      background-image: url('../assets/imgs/treinando.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;

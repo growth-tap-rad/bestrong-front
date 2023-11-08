@@ -7,10 +7,19 @@ const showToast = (error) => {
   appStore.setToast({
     show: true,
     message: error.message,
-    description: error?.error?.response?.status
-      ? 'Não autorizado'
-      : error.description || 'Falha de comunicação'
+    description: chooseMessage(error)
   })
+}
+
+const chooseMessage = (error) => {
+  switch(error?.error?.response?.status) {
+    case 404:
+      return 'Não autorizado'
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
 }
 
 export const createTrain = (train) => {
@@ -29,9 +38,27 @@ export const createTrain = (train) => {
       })
     })
 }
+
+export const editTrain = (train) => {
+  return api
+    .put(`/users/me/trains/${train.id}`, {
+      name: train.name
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 export const findTrain = (id) => {
   return api
-    .get(`/exercises/${id}`)
+    .get(`/users/me/trains/${id}`)
     .then(({ data }) => {
       return data
     })
