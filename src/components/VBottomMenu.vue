@@ -30,7 +30,7 @@ const handleClickOutside = () => {
 <template>
   <div class="footer">
     <div class="bg" v-if="dietStore.getShowComponentMenuOptions" @click="handleClickOutside"></div>
-    <VButtonBottomOptions  :class="{ 'button-bottom-bptions': show }" />
+    <VButtonBottomOptions  :class="{ 'button-bottom-bptions': dietStore.getShowComponentMenuOptions }" />
 
     <div class="buttons-options">
       <div class="buttons-options-children">
@@ -50,8 +50,8 @@ const handleClickOutside = () => {
         </button>
         <button
           class="botoesBarraInferior"
-          :class="{ active: actualRoute === '/train' }"
-          @click="goTo('/train')"
+          :class="{ active: actualRoute === '/trains' }"
+          @click="goTo('/trains')"
         >
           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
             <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -60,7 +60,7 @@ const handleClickOutside = () => {
               fill="#626463"
             />
           </svg>
-          <span class="text" v-show="actualRoute === '/train'">Treino</span>
+          <span class="text" v-show="actualRoute === '/trains'">Treino</span>
         </button>
       </div>
       <div class="buttons-options-children">
@@ -95,7 +95,7 @@ const handleClickOutside = () => {
     <button
       @click="showButtonBottomOptions"
       class="botoesBarraInferior botaoMais"
-      :class="{ deitado: show }"
+      :class="{ deitado: dietStore.getShowComponentMenuOptions }"
     >
       +
     </button>
@@ -107,6 +107,7 @@ const handleClickOutside = () => {
   display: flex;
   justify-content: space-around;
   background-color: var(--bg-color-dark3);
+  
 }
 
 .button-bottom-bptions {
@@ -147,6 +148,7 @@ const handleClickOutside = () => {
 .botoesBarraInferior svg {
   width: 25px;
   height: 25px;
+  
 }
 
 .botoesBarraInferior.active svg path {
@@ -167,6 +169,7 @@ const handleClickOutside = () => {
   font-size: 60px;
   color: var(--text-color-light);
   box-shadow: 0px 0px 0px 10px var(--bg-color-dark);
+  z-index: 2;
 }
 
 .deitado {

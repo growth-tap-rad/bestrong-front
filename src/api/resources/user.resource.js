@@ -29,9 +29,28 @@ export const createTrain = (train) => {
       })
     })
 }
-export const fetchExercises = () => {
+export const findTrain = (id) => {
   return api
-    .get(`/exercises`)
+    .get(`/exercises/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const fetchExercises = (data) => {
+  const query = Object.keys(data)
+    .filter((key) => data[key] !== undefined && data[key] !== '')
+    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+
+  const queryString = query.join('&')
+  return api
+    .get(`/exercises?${queryString}`)
     .then(({ data }) => {
       return data
     })

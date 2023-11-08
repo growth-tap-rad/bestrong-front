@@ -113,13 +113,6 @@ const editTrain = async () => {
     <main class="main">
       <VInput :value="train.name" @update="(e) => updateTrain(e)" class="input" />
 
-      <section class="time">
-        <p>Horario</p>
-        <p>
-          {{ data.getHours() <= 9 ? '0' + data.getHours() : data.getHours() }} :
-          {{ data.getMinutes() < 9 ? '0' + data.getMinutes() : data.getMinutes() }}
-        </p>
-      </section>
 
       <section class="trainsList">
         <section class="exerciseItems">
@@ -201,41 +194,9 @@ p {
     display: inline-block;
   }
 
-  .paragraphValue {
-    margin-top: 20px;
-  }
 
-  .paragraphMacros {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 20px;
-    padding: 10px 0;
+  
 
-    .value {
-      font-weight: bold;
-      font-size: 22px;
-    }
-
-    .text {
-      color: var(--bg-color-grey2);
-    }
-
-    .kcal {
-      color: var(--text-color-highlighted2);
-    }
-  }
-
-  .time {
-    display: flex;
-    color: var(--text-color-light);
-    justify-content: center;
-    justify-content: space-between;
-    /* gap: 1000px; */
-    padding: 30px;
-    margin-top: 30px;
-  }
+  
 }
 </style>

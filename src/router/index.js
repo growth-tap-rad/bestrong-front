@@ -67,8 +67,8 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/train',
-    name: 'Train',
+    path: '/trains',
+    name: 'Trains',
     component: Train,
     meta: { requiresAuth: true }
   }, {
@@ -89,6 +89,12 @@ const ROUTES = [
     name: 'InfoExercice',
     component: InfoExercice,
     meta: { InfoExercice: true }
+  },
+  {
+    path: '/train/:edit(edit)?/:id?',
+    name: 'CreateEditTrain',
+    component: CreateEditTrain,
+    meta: { requiresAuth: true }
   },
   {
     path: '/water',
