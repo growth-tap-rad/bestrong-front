@@ -29,12 +29,79 @@ export const createTrain = (train) => {
       })
     })
 }
+export const findTrain = (id) => {
+  return api
+    .get(`/exercises/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const fetchExercises = (data) => {
+  const query = Object.keys(data)
+    .filter((key) => data[key] !== undefined && data[key] !== '')
+    .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+
+  const queryString = query.join('&')
+  return api
+    .get(`/exercises?${queryString}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const getExercise = (id) => {
+  return api
+    .get(`/exercises/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const createExerciceToTrain = (data) => {
+  return api
+    .post('/trains_exercises', {
+      name: data.name,
+      exercisesQuantity: 0,
+      duration: 0,
+      train_id: data.train_id,
+      exercise_id: data.exercise_id,
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 
 export const fetchActivitys = () => {
   return api
     .get(`/users/me/trains`)
     .then(({ data }) => {
-      console.log('deu certo a request')
       return data
     })
     .catch((err) => {
@@ -94,7 +161,7 @@ export const addWater = (water) => {
 }
 export const createMealFood = (data) => {
   return api
-    .post('/meal_foods', {
+    .post('/meal_food', {
       name: data.name,
       unity: data.unity,
       amount: data.amount,
@@ -113,6 +180,22 @@ export const createMealFood = (data) => {
       })
     })
 }
+export const deleteMealFood = (id) => {
+
+  return api
+    .delete(`/meal_food/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 export const getWater = () => {
   return api
     .get('/users/me/water')

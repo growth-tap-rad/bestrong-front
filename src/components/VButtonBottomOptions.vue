@@ -1,11 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router'
-const router = useRouter()
-
 import { useDietStore } from '../stores/diet.store'
+
+const router = useRouter()
 const dietStore = useDietStore()
-
-
 
 const showAddMeal = () => {
   dietStore.setShowComponentMeal(true)
