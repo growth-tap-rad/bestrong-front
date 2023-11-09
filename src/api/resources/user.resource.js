@@ -42,7 +42,6 @@ export const createTrain = (train) => {
 }
 
 export const editTrain = (train) => {
-  console.log(train)
   return api
     .put(`/users/me/trains/${train.id}`, {
       name: train.name,
