@@ -40,7 +40,6 @@ onMounted(async () => {
     search: inputSearchExercise.value || ''
   }
 
-  console.log(activitys.value)
   await exerciseStore.fetchExercises(query)
   exercises.value = exerciseStore.getExercises
 })

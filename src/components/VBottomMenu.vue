@@ -16,12 +16,15 @@ defineProps({
 })
 
 const goTo = (route) => {
+
+
   router.push(route)
 }
 const showButtonBottomOptions = () => {
   dietStore.setShowComponentMenuOptions(!dietStore.getShowComponentMenuOptions)
 }
 const handleClickOutside = () => {
+  dietStore.setShowComponentMeal(false)
   dietStore.setShowComponentMenuOptions(false)
 }
 </script>

@@ -161,13 +161,13 @@ const updateExerciseRestDuration = (e) => {
         <h2 class="header-exercise-level"> Nível: {{ exercise.level }}</h2>
 
       </section>
-      <VInput :value="exercise.series" :data="{ placeholder: 'Quantidade de series', type: 'number' }"
+      <VInput v-if="route.params.id" :value="exercise.series" :data="{ placeholder: 'Quantidade de series', type: 'number' }"
         @update="(e) => updateExerciseSeries(e)" class="input" />
-      <VInput :value="exercise.wheight" :data="{ placeholder: 'Peso', type: 'number' }"
+      <VInput v-if="route.params.id" :value="exercise.wheight" :data="{ placeholder: 'Peso', type: 'number' }"
         @update="(e) => updateExerciseWheight(e)" class="input" />
-      <VInput :value="exercise.reps" :data="{ placeholder: 'Repetições', type: 'number' }"
+      <VInput v-if="route.params.id" :value="exercise.reps" :data="{ placeholder: 'Repetições', type: 'number' }"
         @update="(e) => updateExerciseReps(e)" class="input" />
-      <VInput :value="exercise.rest_duration" :data="{ placeholder: 'Tempo de descanso', type: 'number' }"
+      <VInput v-if="route.params.id" :value="exercise.rest_duration" :data="{ placeholder: 'Tempo de descanso', type: 'number' }"
         @update="(e) => updateExerciseRestDuration(e)" class="input" />
 
 
