@@ -38,6 +38,12 @@ export const useTrainStore = defineStore('train', {
     },
     async editTrain(payload) {
       return await userResource.editTrain(payload)
+    },
+    async deleteTrain(payload) {
+      return await userResource.deleteTrain(payload)
+    },
+    async deleteTrainExercise(payload) {
+      return await userResource.deleteTrainExercise(payload)
     }
   }
 })

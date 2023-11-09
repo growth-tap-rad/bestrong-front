@@ -40,9 +40,9 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
+  switch (error?.error?.response?.status) {
     case 404:
-    return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:

@@ -39,11 +39,12 @@ onMounted(async () => {
     page: page,
     search: inputSearchExercise.value || ''
   }
+
+  console.log(activitys.value)
   await exerciseStore.fetchExercises(query)
   exercises.value = exerciseStore.getExercises
 })
 const editTrain = (id) => {
-  // router.push(`/train/${id}/exercises`) // ??????????????
   router.push(`/train/edit/${id}`)
 }
 const addExerciseToTrain = (item) => {
@@ -127,7 +128,7 @@ const debounceFindExercise = debounce(findExercise, 600)
       </section>
       <section class="box-selections">
         <VTrainList @click="editTrain(activity.id)" v-show="train" v-for="activity in activitys" :key="activity.id"
-          class="selection" :data="{ title: activity.name, exercises: activity.exercises, img: esteira }"
+          class="selection" :data="{ title: activity.name, exercises: activity.trains_exercises, img: esteira }"
           :selected="activity.selected" />
         <VInputIcon v-show="exercise" :data="inputSearchExercise" :hasIcon="true" iconName="bi bi-search"
           v-model="inputSearchExercise.value" @input="debounceFindExercise()" />
@@ -225,7 +226,7 @@ const debounceFindExercise = debounce(findExercise, 600)
 
   .box-selections {
     margin-top: 100px;
-    padding: 0 20px;
+    padding: 0 20px 100px 20px ;
 
     .selection {
       margin: 20px auto;
