@@ -40,9 +40,9 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
+  switch (error?.error?.response?.status) {
     case 404:
-    return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
@@ -155,7 +155,12 @@ const getUnity = (unityText) => {
 const calcQuantity = (qtd, amount, desc) => {
   return foodStore.transformQuantity(qtd, amount, desc)
 }
-const deleteMeal = () => {
+const deleteMeal = async () => {
+  const foodToDelete = meal.value.meal_food.map(async food => {
+    return await foodStore.deleteMealFood(food.id)
+  });
+  await Promise.all(foodToDelete)
+
   mealStore.deleteMeal(route.params.id).then(() => {
     router.push('/diet')
   })

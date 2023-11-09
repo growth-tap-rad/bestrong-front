@@ -146,6 +146,7 @@ const createEditMeal = (create = false, id) => {
 </template>
 
 <style scoped>
+
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;

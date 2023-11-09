@@ -23,7 +23,7 @@ defineProps({
 
         <div class="box-exercises">
           <p class="exercise" v-for="exercise in data.exercises" :key="exercise.id">
-            {{ exercise }}
+            {{ exercise.name }} 
           </p>
         </div>
       </div>
@@ -40,9 +40,11 @@ defineProps({
   width: 100%;
   max-width: 500px;
   cursor: pointer;
-  height: 180px;
+  padding: 20px;
+  height: 100%;
+  min-height: 180px;
   background-color: var(--bg-color-dark-full);
-  overflow: hidden;
+
   font-size: 15px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 8px;
@@ -52,9 +54,7 @@ defineProps({
     height: 100%;
 
     .infos {
-      position: absolute;
-      left: 30px;
-      top: 20px;
+   
       z-index: 10;
 
       .title {
@@ -103,6 +103,7 @@ defineProps({
 
   .box-exercises {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 
     .exercise {

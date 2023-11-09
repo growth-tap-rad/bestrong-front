@@ -1,19 +1,20 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-
 import VButton from '../components/VButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VtitlePage from '../components/VtitlePage.vue';
 import { useAppStore } from '../stores/app.store'
 import { useExerciseStore } from '../stores/exercise.store';
+import VInput from '../components/VInput.vue';
 
 
 const exerciseStore = useExerciseStore()
 
 const router = useRouter()
 const route = useRoute()
-const exercise = ref('')
+const exercise = ref({})
+const isEditing = ref(false)
 
 const back = () => {
   router.back()
@@ -29,51 +30,117 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
+  switch (error?.error?.response?.status) {
     case 404:
-    return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
       return error.description || 'Falha de comunicação';
   }
-} 
+}
 
 const addExerciceToTrain = () => {
-
-
-  exerciseStore.createExerciceToTrain({
-    name: exercise.value.name,
-    train_id: route.params.id,
-    exercise_id: route.params.idexercise,
-
-  }).then((data) => {
-    router.back()
-    return
-  }).catch((err) => {
+  if (!exercise.value.name ||
+    !exercise.value.series ||
+    !exercise.value.wheight ||
+    !exercise.value.reps ||
+    !exercise.value.rest_duration
+  ) {
     showToast({
-      error: err,
       message: 'Alerta',
       description: 'Preencha todas as informações'
     })
+    return
+  }
+  if (isEditing.value) {
+    exerciseStore.editExerciceToTrain({
+      id: route.params.idexercise,
+      series: parseInt(exercise.value.series),
+      wheight: parseInt(exercise.value.wheight),
+      reps: parseInt(exercise.value.reps),
+      rest_duration: parseInt(exercise.value.rest_duration),
 
-  })
+    }).then((data) => {
+      router.back()
+      return
+    }).catch((err) => {
+      showToast({
+        error: err,
+        message: 'Alerta',
+        description: 'Preencha todas as informações'
+      })
+
+    })
+  } else {
+    exerciseStore.createExerciceToTrain({
+      name: exercise.value.name,
+      train_id: parseInt(route.params.id),
+      exercise_id: parseInt(route.params.idexercise),
+      series: parseInt(exercise.value.series),
+      wheight: parseInt(exercise.value.wheight),
+      reps: parseInt(exercise.value.reps),
+      rest_duration: parseInt(exercise.value.rest_duration),
+
+    }).then((data) => {
+      router.back()
+      return
+    }).catch((err) => {
+      showToast({
+        error: err,
+        message: 'Alerta',
+        description: 'Preencha todas as informações'
+      })
+
+    })
+
+  }
 
 
 }
 onMounted(async () => {
-  exercise.value = await exerciseStore.getExercise(route.params.idexercise)
+  exercise.value = await exerciseStore.getTrainExercise(route.params.idexercise)
+  if (exercise.value) {
+    isEditing.value = true
+  }
+  else {
+    exercise.value = await exerciseStore.getExercise(route.params.idexercise)
+  }
+
+
 
 })
-
-
-const getUnity = (unityText) => {
-  return foodStore.transformUnity(unityText);
+const updateExerciseSeries = (e) => {
+  if (e < 1) {
+    exercise.value.series = 1
+    return
+  }
+  exercise.value.series = e
+}
+const updateExerciseWheight = (e) => {
+  if (e < 1) {
+    exercise.value.wheight = 1
+    return
+  }
+  exercise.value.wheight = e
+}
+const updateExerciseReps = (e) => {
+  if (e < 1) {
+    exercise.value.reps = 1
+    return
+  }
+  exercise.value.reps = e
+}
+const updateExerciseRestDuration = (e) => {
+  if (e < 1) {
+    exercise.value.rest_duration = 1
+    return
+  }
+  exercise.value.rest_duration = e
 }
 
-const calcQuantity = (qtd, amount, desc) => {
-  return foodStore.transformQuantity(qtd, amount, desc);
-}
+
+
 
 </script>
 
@@ -94,6 +161,16 @@ const calcQuantity = (qtd, amount, desc) => {
         <h2 class="header-exercise-level"> Nível: {{ exercise.level }}</h2>
 
       </section>
+      <VInput v-if="route.params.id" :value="exercise.series" :data="{ placeholder: 'Quantidade de series', type: 'number' }"
+        @update="(e) => updateExerciseSeries(e)" class="input" />
+      <VInput v-if="route.params.id" :value="exercise.wheight" :data="{ placeholder: 'Peso', type: 'number' }"
+        @update="(e) => updateExerciseWheight(e)" class="input" />
+      <VInput v-if="route.params.id" :value="exercise.reps" :data="{ placeholder: 'Repetições', type: 'number' }"
+        @update="(e) => updateExerciseReps(e)" class="input" />
+      <VInput v-if="route.params.id" :value="exercise.rest_duration" :data="{ placeholder: 'Tempo de descanso', type: 'number' }"
+        @update="(e) => updateExerciseRestDuration(e)" class="input" />
+
+
       <VButton v-if="route.params.id" @click="addExerciceToTrain()" text="Adicionar" class="button" />
     </main>
 
@@ -110,6 +187,10 @@ const calcQuantity = (qtd, amount, desc) => {
   display: flex;
   flex-direction: column;
   padding: 20px;
+
+  .input {
+    margin: 10px 0;
+  }
 
   .header {
     display: flex;

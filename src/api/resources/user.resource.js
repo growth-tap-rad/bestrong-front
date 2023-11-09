@@ -12,7 +12,7 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
+  switch (error?.error?.response?.status) {
     case 404:
       return 'Não autorizado'
     case 500:
@@ -25,7 +25,9 @@ const chooseMessage = (error) => {
 export const createTrain = (train) => {
   return api
     .post(`/users/me/trains`, {
-      name: train.name
+      name: train.name,
+      goal: train.goal,
+      level: train.level,
     })
     .then(({ data }) => {
       return data
@@ -40,9 +42,12 @@ export const createTrain = (train) => {
 }
 
 export const editTrain = (train) => {
+  console.log(train)
   return api
     .put(`/users/me/trains/${train.id}`, {
-      name: train.name
+      name: train.name,
+      goal: train.goal,
+      level: train.level,
     })
     .then(({ data }) => {
       return data
@@ -103,15 +108,81 @@ export const getExercise = (id) => {
       })
     })
 }
+export const getTrainExercise = (id) => {
+  return api
+    .get(`/trains_exercises/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
 export const createExerciceToTrain = (data) => {
   return api
     .post('/trains_exercises', {
       name: data.name,
-      exercisesQuantity: 0,
-      duration: 0,
+
       train_id: data.train_id,
       exercise_id: data.exercise_id,
+      series: data.series,
+      wheight: data.wheight,
+      reps: data.reps,
+      rest_duration: data.rest_duration,
     })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
+export const editExerciceToTrain = (data) => {
+  return api
+    .put(`/trains_exercises/${data.id}`, {
+
+      series: data.series,
+      wheight: data.wheight,
+      reps: data.reps,
+      rest_duration: data.rest_duration,
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const deleteTrain = (id) => {
+  return api
+    .delete(`/users/me/trains/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const deleteTrainExercise = (id) => {
+  return api
+    .delete(`/trains_exercises/${id}`)
     .then(({ data }) => {
       return data
     })

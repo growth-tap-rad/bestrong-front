@@ -101,7 +101,7 @@ const debounceFindExercise = debounce(findExercise, 600)
     <section class="not-found-exercises" v-if="notFoundExercises">
       <span>Nenhum Resultado para esta pesquisa, tente buscar por outro exercicio...</span>
     </section>
-    <VButton class="more-exercise" @click="getExercises()" text="+ exercicio" :disabled="notFoundExercses" />
+    <VButton class="more-exercise" @click="getExercises()" text="+ exercicio" :disabled="notFoundExercises" />
   </div>
 </template>
 <style scoped>

@@ -19,8 +19,14 @@ export const useExerciseStore = defineStore('exercise', {
     async getExercise(payload) {
       return await userResource.getExercise(payload)
     },
+    async getTrainExercise(payload) {
+      return await userResource.getTrainExercise(payload)
+    },
     async createExerciceToTrain(payload) {
       return await userResource.createExerciceToTrain(payload)
+    },
+    async editExerciceToTrain(payload) {
+      return await userResource.editExerciceToTrain(payload)
     }
 
   }
