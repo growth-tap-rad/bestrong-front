@@ -57,8 +57,8 @@ const debounce = (func, delay) => {
   };
 
 }
-const addExerciseToTrain = (item) => {
-  router.push(`/train/${route.params.id}/exercise/${item.id}`);
+const addExerciseToTrain = (id) => {
+  router.push(`/train/${route.params.id}/exercise/${id}`);
 }
 const findExercise = async () => {
 
@@ -96,7 +96,7 @@ const debounceFindExercise = debounce(findExercise, 600)
         @input="debounceFindExercise()" />
     </section>
     <section class="list-exercises" v-if="!notFoundExercises">
-      <VButton class="exercise" v-for="item in exercises" :text="item.name" @click="addExerciseToTrain(item)" />
+      <VButton class="exercise" v-for="item in exercises" :text="item.name" @click="addExerciseToTrain(item.id)" />
     </section>
     <section class="not-found-exercises" v-if="notFoundExercises">
       <span>Nenhum Resultado para esta pesquisa, tente buscar por outro exercicio...</span>
