@@ -26,8 +26,6 @@ export const createTrain = (train) => {
   return api
     .post(`/users/me/trains`, {
       name: train.name,
-      goal: train.goal,
-      level: train.level,
     })
     .then(({ data }) => {
       return data
@@ -45,8 +43,6 @@ export const editTrain = (train) => {
   return api
     .put(`/users/me/trains/${train.id}`, {
       name: train.name,
-      goal: train.goal,
-      level: train.level,
     })
     .then(({ data }) => {
       return data
