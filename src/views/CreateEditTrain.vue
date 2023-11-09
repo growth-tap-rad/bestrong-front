@@ -53,8 +53,6 @@ const back = () => {
 const createTrain = async () => {
   return await trainStore.createTrain({
     name: train.value.name,
-    goal: train.value.goal,
-    level: train.value.level,
   })
 }
 
@@ -91,9 +89,7 @@ const editTrain = async () => {
           .editTrain({
             id: route.params.id,
             name: train.value.name,
-            goal: train.value.goal,
-            level: train.value.level,
-
+        
           })
           .then(() => {
             router.push('/trains')
@@ -134,14 +130,6 @@ const editTrainExercise = (id) => {
 const updateTrainName = (e) => {
   train.value.name = e
 }
-const updateTrainGoal = (e) => {
-  train.value.goal = e
-}
-const updateTrainLevel = (e) => {
-  train.value.level = e
-}
-
-
 
 </script>
 
@@ -154,11 +142,6 @@ const updateTrainLevel = (e) => {
     <main class="main">
       <VInput :value="train.name" :data="{ placeholder: 'Nome do treino' }" @update="(e) => updateTrainName(e)"
         class="input" />
-      <VInput :value="train.goal" :data="{ placeholder: 'goal' }" @update="(e) => updateTrainGoal(e)" class="input" />
-      <VInput :value="train.level" :data="{ placeholder: 'level' }" @update="(e) => updateTrainLevel(e)" class="input" />
-
-
-
       <section class="trainsList">
         <section class="exerciseItems">
           <div class="exercise" v-for="train_exercise in train.trains_exercises">
