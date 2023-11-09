@@ -91,12 +91,8 @@ const addExerciceToTrain = () => {
         message: 'Alerta',
         description: 'Preencha todas as informações'
       })
-
     })
-
   }
-
-
 }
 onMounted(async () => {
   exercise.value = await exerciseStore.getTrainExercise(route.params.idexercise)
@@ -106,9 +102,6 @@ onMounted(async () => {
   else {
     exercise.value = await exerciseStore.getExercise(route.params.idexercise)
   }
-
-
-
 })
 const updateExerciseSeries = (e) => {
   if (e < 1) {
@@ -161,14 +154,16 @@ const updateExerciseRestDuration = (e) => {
         <h2 class="header-exercise-level"> Nível: {{ exercise.level }}</h2>
 
       </section>
-      <VInput v-if="route.params.id" :value="exercise.series" :data="{ placeholder: 'Quantidade de series', type: 'number' }"
-        @update="(e) => updateExerciseSeries(e)" class="input" />
+      <VInput v-if="route.params.id" :value="exercise.series"
+        :data="{ placeholder: 'Quantidade de series', type: 'number' }" @update="(e) => updateExerciseSeries(e)"
+        class="input" />
       <VInput v-if="route.params.id" :value="exercise.wheight" :data="{ placeholder: 'Peso', type: 'number' }"
         @update="(e) => updateExerciseWheight(e)" class="input" />
       <VInput v-if="route.params.id" :value="exercise.reps" :data="{ placeholder: 'Repetições', type: 'number' }"
         @update="(e) => updateExerciseReps(e)" class="input" />
-      <VInput v-if="route.params.id" :value="exercise.rest_duration" :data="{ placeholder: 'Tempo de descanso', type: 'number' }"
-        @update="(e) => updateExerciseRestDuration(e)" class="input" />
+      <VInput v-if="route.params.id" :value="exercise.rest_duration"
+        :data="{ placeholder: 'Tempo de descanso', type: 'number' }" @update="(e) => updateExerciseRestDuration(e)"
+        class="input" />
 
 
       <VButton v-if="route.params.id" @click="addExerciceToTrain()" text="Adicionar" class="button" />

@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useFoodStore } from '../stores/food.store'
-import VButton from '../components/VButton.vue';
+import { useAppStore } from '../stores/app.store'
 import { useRoute, useRouter } from 'vue-router';
+import VButton from '../components/VButton.vue';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VtitlePage from '../components/VtitlePage.vue';
-import { useAppStore } from '../stores/app.store'
 
 const qtdMeal = ref(1)
 const unityValue = ref('')
@@ -30,16 +30,15 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
+  switch (error?.error?.response?.status) {
     case 404:
-    return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
       return error.description || 'Falha de comunicação';
   }
-} 
-
+}
 
 const addFoodToMeal = () => {
 
@@ -60,15 +59,13 @@ const addFoodToMeal = () => {
 
   }
   else {
-  
+
     showToast({
-        message: 'Alerta',
-        description:'Preencha todas as informações'
-      })
+      message: 'Alerta',
+      description: 'Preencha todas as informações'
+    })
     return
   }
-
-
 }
 onMounted(async () => {
   food.value = await foodStore.getFood(route.params.idfood)
