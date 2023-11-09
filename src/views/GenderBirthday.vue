@@ -1,52 +1,68 @@
 <script setup>
-
-import { ref, reactive, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useUserStore } from '../stores/user.store';
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue'
 import VInputDate from '../components/VInputDate.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 import VDropdown from '../components/VDropdown.vue'
+import { useAppStore } from '../stores/app.store'
 
 const userStore = useUserStore()
 const router = useRouter()
 
-let birthday = ref(userStore.getBirthday);
-let validDate = ref(false);
-
+let birthday = ref(userStore.getBirthday)
+let validDate = ref(false)
 
 let inputGender = reactive([
   { text: 'homem', value: 'man', selected: false },
-  { text: 'mulher', value: 'woman', selected: false }])
-
+  { text: 'mulher', value: 'woman', selected: false }
+])
 
 const selectBirthday = (dataString) => {
   userStore.setBirthday(dataString)
 }
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: chooseMessage(error)
+  })
+}
+
+const chooseMessage = (error) => {
+  switch(error?.error?.response?.status) {
+    case 404:
+    return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
+} 
+
 
 const selectGender = (e) => {
-
-  inputGender = inputGender.map(opt => {
+  inputGender = inputGender.map((opt) => {
     if (opt.value == e) {
       opt.selected = !opt.selected
       userStore.setGender(opt.value)
-    }
-    else {
+    } else {
       opt.selected = false
     }
-    return opt;
+    return opt
   })
-
 }
 
 onMounted(() => {
-
   const selectedGenderInStore = userStore.getGender
-  inputGender = inputGender.map(opt => {
+  inputGender = inputGender.map((opt) => {
     if (opt.value == selectedGenderInStore) {
       opt.selected = !opt.selected
     }
-    return opt;
+    return opt
   })
 })
 
@@ -55,21 +71,34 @@ const goForDiet = () => {
     router.push('/physical-activity-level')
     return
   }
-  alert("preencha todos os campos")
 
+  showToast({
+    message: 'Alerta',
+    description: 'Preencha todos os campos'
+  })
 }
+
+const actionsTitlePage = [
+  {
+    btIcon: '',
+    goTo: 'back'
+  }
+]
 </script>
 
 <template>
-  <div class="bg-age">
-    <VtitlePage title="Gênero e Data de nascimento:" />
-    <VInputDate title="Data nascimento:" @changeDate="(data) => selectBirthday(data)"
-      @validDate="bool => validDate = bool" :value="birthday" />
+  <form class="bg-age" @submit.prevent="goForDiet">
+    <VtitlePage title="Gênero e Data de nascimento:" :actions="actionsTitlePage" />
+    <VInputDate
+      title="Data nascimento:"
+      @changeDate="(data) => selectBirthday(data)"
+      @validDate="(bool) => (validDate = bool)"
+      :value="birthday"
+    />
     <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
-    <VButton @click="goForDiet" text="Confirme a sua idade" class="button" :disabled="!validDate" />
-  </div>
+    <VButton text="Continuar" class="button" :disabled="!validDate" />
+  </form>
 </template>
-
 
 <style scoped>
 .bg-age {

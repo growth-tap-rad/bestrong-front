@@ -1,25 +1,25 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user.store'
-import { useSignInStore } from '../stores/sign.in.store';
-import VButton from '../components/VButton.vue';
-import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
-import VInputIcon from '../components/VInputIcon.vue';
-const signInStore= useSignInStore()
+import { useSignInStore } from '../stores/sign.in.store'
+import VButton from '../components/VButton.vue'
+import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
+import VInputIcon from '../components/VInputIcon.vue'
 
-const userStore = useUserStore();
-const router = useRouter();
+const signInStore = useSignInStore()
+const userStore = useUserStore()
+const router = useRouter()
 
 const inputEmail = {
-  title: "E-mail",
-  placeholder: "Ex: joao@gmail.com",
+  title: 'E-mail',
+  placeholder: 'Ex: joao@gmail.com',
   type: 'text',
   value: userStore.getEmail
 }
 const inputPassword = {
-  title: "Senha",
-  placeholder: "**********",
+  title: 'Senha',
+  placeholder: '**********',
   type: 'password',
   value: userStore.getPassword
 }
@@ -29,13 +29,13 @@ const backToLogin = () => {
 
 const signin = () => {
   signInStore.signIn({ email: inputEmail, password: inputPassword })
-    .then(data => {
-      if (data) {
-        router.push('/diet')
-        return
-      }
-    })
-};
+  .then((data) => {
+    if (data) {
+      router.push('/diet')
+      return
+    }
+  })
+}
 
 onMounted(() => {
   sessionStorage.clear()
@@ -50,13 +50,25 @@ onMounted(() => {
       </nav>
       <h1 class="title-page">Entre com seu e-mail</h1>
     </header>
-    <main class="main">
-      <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
-      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
-      <VButton @click="signin" text="Continuar" class="button" />
-      <p class="text">Esqueceu sua senha? <router-link to="/forgot-password" class="cta-forgot-pass">Clique
-          aqui!</router-link></p>
-    </main>
+    <form class="main" @submit.prevent="signin">
+      <VInputIcon
+        :data="inputEmail"
+        :hasIcon="true"
+        iconName="bi bi-envelope"
+        v-model="inputEmail.value"
+      />
+      <VInputIcon
+        :data="inputPassword"
+        :hasIcon="true"
+        iconName="bi bi-key-fill"
+        v-model="inputPassword.value"
+      />
+      <VButton text="Continuar" class="button" />
+      <p class="text">
+        Esqueceu sua senha?
+        <router-link to="/forgot-password" class="cta-forgot-pass">Clique aqui!</router-link>
+      </p>
+    </form>
   </section>
 </template>
 

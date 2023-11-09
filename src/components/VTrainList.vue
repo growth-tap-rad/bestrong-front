@@ -1,18 +1,16 @@
 <script setup>
-
 defineProps({
   data: {
     type: Object,
     default: () => ({
-      title: "CARDIO",
+      title: 'CARDIO',
       minutes: 0,
       exercisesQty: 0,
       img: '',
       exercises: []
     })
   }
-});
-
+})
 </script>
 
 <template>
@@ -20,14 +18,18 @@ defineProps({
     <div class="card-exercise-infos">
       <div class="infos">
         <h6 class="title">{{ data.title }}</h6>
-        <p class="minutes">{{ data.minutes }} minutos</p>
-        <p class="qtd">{{ data.exercisesQty }} exercícios</p>
+        <p class="minutes">{{ `${data.minutes ? data.minutes + 'minutos' : ''}` }}</p>
+        <p class="qtd">{{ `${data.exercisesQty ? data.exercisesQty + 'exercícios' : ''}` }}</p>
+
         <div class="box-exercises">
-          <p class="exercise" v-for="exercise in data.exercises">{{ exercise }}</p>
+          <p class="exercise" v-for="exercise in data.exercises" :key="exercise.id">
+            {{ exercise.name }} 
+          </p>
         </div>
       </div>
-      <img :src="data.img" class="card-exercise-img" :alt="`card img of ${data.title}`">
-      <div class="card-exercise-img-overlay"></div>
+      <!--TODO fazer fotos referente a exercicios
+         <img :src="data.img" class="card-exercise-img" :alt="`card img of ${data.title}`" /> -->
+      <!-- <div class="card-exercise-img-overlay"></div> -->
     </div>
   </div>
 </template>
@@ -38,9 +40,11 @@ defineProps({
   width: 100%;
   max-width: 500px;
   cursor: pointer;
-  height: 180px;
+  padding: 20px;
+  height: 100%;
+  min-height: 180px;
   background-color: var(--bg-color-dark-full);
-  overflow: hidden;
+
   font-size: 15px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 8px;
@@ -50,9 +54,7 @@ defineProps({
     height: 100%;
 
     .infos {
-      position: absolute;
-      left: 30px;
-      top: 20px;
+   
       z-index: 10;
 
       .title {
@@ -76,7 +78,7 @@ defineProps({
     left: 90px;
     width: 45%;
     height: 115%;
-    z-index: 5;
+    z-index: 3;
     background: linear-gradient(to right, var(--bg-color-dark-full), rgb(0, 0, 0));
     filter: blur(9px);
   }
@@ -101,6 +103,7 @@ defineProps({
 
   .box-exercises {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 
     .exercise {

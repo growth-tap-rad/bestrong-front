@@ -1,33 +1,30 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+import { useDietStore } from '../stores/diet.store'
+
 const router = useRouter()
-const emit = defineEmits()
-const props = defineProps({
-  show: true
-})
+const dietStore = useDietStore()
 
-
-const handleClickOutside = () => {
-  emit('hideButtonBottomOptions')
-};
-
-const showAddMeal = () => {
-  emit('showAddMeal')
+const goTo = (route) => {
+  dietStore.setShowComponentMeal(false)
+  dietStore.setShowComponentMenuOptions(false)
+  if(route==='/diet'){
+    dietStore.setShowComponentMeal(true)
+  }
+  router.push(route)
 }
-const showAddWater = () => {
-  emit('showAddWater')
-}
+
 </script>
 <template>
   <div class="container-menu">
-    <div class="bg" v-show="props.show" @click="handleClickOutside"></div>
-    <div v-show="props.show" class="buttons">
+    <div class="bg" v-show="dietStore.getShowComponentMenuOptions"></div>
+    <div v-show="dietStore.getShowComponentMenuOptions" class="buttons">
       <div class="top-buttons">
         <button class="button button-disable">
           <i class="bi bi-arrow-clockwise"></i>
           <span class="text">Adicionar peso</span>
         </button>
-        <button class="button button-disable">
+        <button @click="goTo('/train/add')" class="button">
           <i class="bi bi-universal-access"></i>
           <span class="text">Adicionar treino</span>
         </button>
@@ -37,18 +34,15 @@ const showAddWater = () => {
         </button>
       </div>
       <div class="bottom-buttons">
-        <button @click="showAddMeal" class="button">
+        <button @click="goTo('/diet')" class="button">
           <i class="bi bi-cup-straw"></i>
           <span class="text">Adicionar Alimento</span>
         </button>
-        <button @click="showAddWater" class="button">
+        <button @click="goTo('/water')" class="button">
           <i class="bi bi-droplet"></i>
           <span class="text">Adicionar Agua</span>
         </button>
       </div>
-
-
-
     </div>
   </div>
 </template>
@@ -62,7 +56,7 @@ const showAddWater = () => {
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 2;
+  z-index: 0;
 }
 
 .buttons {
@@ -97,11 +91,7 @@ const showAddWater = () => {
       .bi::before {
         font-size: 30px;
       }
-
-
     }
-
-
 
     .button-disable {
       color: gray;
@@ -112,6 +102,5 @@ const showAddWater = () => {
   .top-buttons {
     margin-bottom: 1em;
   }
-
 }
 </style>

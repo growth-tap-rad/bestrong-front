@@ -1,14 +1,15 @@
 <script setup>
-import { onMounted, reactive, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useFoodStore } from '../stores/food.store'
 import VButton from '../components/VButton.vue';
 import { useRoute, useRouter } from 'vue-router';
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VtitlePage from '../components/VtitlePage.vue';
-import VInput from '../components/VInput.vue';
+import { useAppStore } from '../stores/app.store'
 
 const qtdMeal = ref(1)
-const unity = ref('')
+const unityValue = ref('')
+const unityText = ref('')
 const router = useRouter()
 const route = useRoute()
 const foodStore = useFoodStore()
@@ -18,13 +19,35 @@ const measures = ref([])
 const back = () => {
   router.back()
 }
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: chooseMessage(error)
+  })
+}
+
+const chooseMessage = (error) => {
+  switch(error?.error?.response?.status) {
+    case 404:
+    return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
+} 
+
 
 const addFoodToMeal = () => {
 
-  if (food.value.description && unity.value && qtdMeal.value && route.params.idfood && route.params.id) {
+  if (food.value.description && unityValue.value && qtdMeal.value && route.params.idfood && route.params.id) {
     foodStore.createMealFood({
       name: food.value.description,
-      unity: unity.value,
+      unity: unityText.value,
+      amount: parseFloat(unityValue.value),
       quantity: qtdMeal.value,
       food_id: route.params.idfood,
       meal_id: route.params.id
@@ -37,7 +60,11 @@ const addFoodToMeal = () => {
 
   }
   else {
-    alert("preencha todas as informações")
+  
+    showToast({
+        message: 'Alerta',
+        description:'Preencha todas as informações'
+      })
     return
   }
 
@@ -46,32 +73,30 @@ const addFoodToMeal = () => {
 onMounted(async () => {
   food.value = await foodStore.getFood(route.params.idfood)
   const measur = await foodStore.getMeasure(route.params.idfood)
-  measur.forEach(element => {
-    measures.value.push({
+  measures.value = measur.map((element, index) => {
+
+    if (measur[index - 1]?.description && measur[index - 1]?.description == element.description) {
+      return null;
+    }
+    return {
       text: element.description,
       value: element.amount
-    })
-  });
+    }
+  }).filter((item) => item);
+
+
+  unityValue.value = measures.value.length > 0 ? measures.value[0].value : ''
+  unityText.value = measures.value.length > 0 ? measures.value[0].text : ''
 })
 
 
-const transformUnity = (unity) => {
-  if (unity == 'Unidade') {
-    return 'Unidade'
-  } else if (unity == 'Unidade Pequena') {
-    return 'Unidade'
-  }
-  else if (unity == 'Mililitro') {
-    return 'ML'
-  }
-  return 'Gramas'
+const getUnity = (unityText) => {
+  return foodStore.transformUnity(unityText);
 }
 
-const calcQuantity = computed(() => {
-  const qtd = parseInt(qtdMeal.value) || 1;
-  const unit = parseInt(unity.value) || 1;
-  return parseInt(qtd * unit)
-})
+const calcQuantity = (qtd, amount, desc) => {
+  return foodStore.transformQuantity(qtd, amount, desc);
+}
 
 </script>
 
@@ -90,18 +115,19 @@ const calcQuantity = computed(() => {
         </div>
         <div class="body-food">
           <div class="inputs">
-            <input placeholder="0" class="input-number" v-model="qtdMeal" type="number" />
+            <input placeholder="0" class="input-number" v-model="qtdMeal" type="number" min="1" maxlength="8000" />
             <!--     mudar o componente VDropdown para receber o option default como prop -->
-            <select class="input-measure" v-model="unity">
-              <option selected disabled class="option">Selecione uma medida</option>
-              <option v-for="(item, index) in  measures" class="option" :value="item.value" :selected="item.selected">
+            <select class="input-measure" v-model="unityValue">
+              <option disabled class="option">Selecione</option>
+              <option v-for="(item, index) in  measures" class="option" :value="item.value"
+                :selected="item.value === unityValue">
                 {{
                   item.text }} </option>
             </select>
 
             <div class="quantity-information">
-              <span class="number-macros quantity">{{ calcQuantity }}</span>
-              <span>{{ transformUnity(food.unity) }}</span>
+              <span class="number-macros quantity">{{ calcQuantity(qtdMeal, unityValue, unityText) }}</span>
+              <span>{{ getUnity(unityText) }}</span>
             </div>
 
           </div>

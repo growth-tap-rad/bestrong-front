@@ -11,12 +11,13 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import PhysicalActivityLevel from '../views/PhysicalActivityLevel.vue'
-import AddFood from '../views/AddFood.vue'
-import AddMeal from '../views/AddMeal.vue'
-import EditMeal from '../views/EditMeal.vue'
-import InfoFood from '../views/InfoFood.vue'
-import ListFood from '../views/ListFood.vue'
+import ListFoods from '../views/ListFoods.vue'
 
+import CreateEditMeal from '../views/CreateEditMeal.vue'
+import InfoFood from '../views/InfoFood.vue'
+import CreateEditTrain from '../views/CreateEditTrain.vue'
+import InfoExercice from '../views/InfoExercice.vue'
+import ListExercises from '../views/ListExercices.vue'
 
 const ROUTES = [
   {
@@ -66,9 +67,33 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/train',
-    name: 'Train',
+    path: '/trains',
+    name: 'Trains',
     component: Train,
+    meta: { requiresAuth: true }
+  }, {
+    path: '/train/add',
+    name: 'TrainAdd',
+    component: CreateEditTrain,
+    meta: { requiresAuth: true }
+  },
+
+  {
+    path: '/train/:id/exercises',
+    name: 'ListExercices',
+    component: ListExercises,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/train/:id?/exercise/:idexercise',
+    name: 'InfoExercice',
+    component: InfoExercice,
+    meta: { InfoExercice: true }
+  },
+  {
+    path: '/train/:edit(edit)?/:id?',
+    name: 'CreateEditTrain',
+    component: CreateEditTrain,
     meta: { requiresAuth: true }
   },
   {
@@ -85,42 +110,57 @@ const ROUTES = [
   },
   {
     path: '/meal/:id/foods',
-    name: 'AddFoodEdit',
-    component: AddFood,
+    name: 'ListFoods',
+    component: ListFoods,
     meta: { requiresAuth: true }
   },
-
   {
     path: '/meal/:id/food/:idfood',
     name: 'InfoFood',
     component: InfoFood,
     meta: { requiresAuth: true }
-  }
-  ,
+  },
   {
-    path: '/meal',
-    name: 'AddMeal',
-    component: AddMeal,
-    meta: { requiresAuth: true }
-  }
-  ,
-  {
-    path: '/meal/edit/:id',
-    name: 'EditMeal',
-    component: EditMeal,
+    path: '/meal/:edit(edit)?/:id?',
+    name: 'CreateEditMeal',
+    component: CreateEditMeal,
     meta: { requiresAuth: true }
   },
   {
     path: '/food/list',
     name: 'listaAlimentos',
-    component: ListFood
+    component: ListFoods
+  },
+  {
+    path: '/:pathMatch(.)',
+    redirect: '/',
+    name: 'notFound',
+    component: Welcome
   }
-
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: ROUTES
 })
+
+/* const isAuthenticated = () => {
+  const token = localStorage.getItem('accessToken')
+  return !!token
+} 
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (isAuthenticated()) {
+      return next()
+    } else {
+      if (to.path !== '/') {
+        return next('/')
+      } 
+      next();
+    }
+  } 
+  next()
+}) */
 
 export default router

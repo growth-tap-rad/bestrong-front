@@ -1,11 +1,12 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vue-router';
-import { useUserStore } from '../stores/user.store';
-import { useGoalStore } from '../stores/goal.store';
-import VButton from '../components/VButton.vue';
-import VTitlePage from '../components/VtitlePage.vue';
-import VBoxImgInfo from '../components/VBoxImgInfo.vue';
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user.store'
+import { useGoalStore } from '../stores/goal.store'
+import VButton from '../components/VButton.vue'
+import VTitlePage from '../components/VtitlePage.vue'
+import VBoxImgInfo from '../components/VBoxImgInfo.vue'
+import { useAppStore } from '../stores/app.store'
 
 const goals = useGoalStore()
 const userStore = useUserStore()
@@ -17,16 +18,37 @@ const goToHeightWeight = () => {
     router.push('/height-weight')
     return
   }
-  alert('Selecione o seu Objetivo')
 
+  showToast({
+    message: 'Alerta',
+    description: 'Selecione o seu Objetivo'
+  })
+}
+const showToast = (error) => {
+  console.error('Erro: ', error.error)
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: chooseMessage(error)
+  })
+}
+
+const chooseMessage = (error) => {
+  switch (error?.error?.response?.status) {
+    case 404:
+      return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
 }
 
 const selectGoal = (e) => {
-
-  GOALS = GOALS.map(goal => {
+  GOALS = GOALS.map((goal) => {
     if (goal.value == e) {
       goal.selected = !goal.selected
-
 
       if (goal.selected) {
         userStore.setGoal(goal.value)
@@ -41,10 +63,9 @@ const selectGoal = (e) => {
 }
 
 onMounted(() => {
-
   const selectedInStore = userStore.getGoal
 
-  GOALS = GOALS.map(goal => {
+  GOALS = GOALS.map((goal) => {
     if (goal.value == selectedInStore) {
       goal.selected = !goal.selected
     }
@@ -52,15 +73,21 @@ onMounted(() => {
   })
 })
 
+const actionsTitlePage = [
+  {
+    btIcon: '',
+    goTo: 'back'
+  }
+]
 </script>
 
 <template>
-  <section class="bg-goal">
-    <VTitlePage title="Qual o seu objetivo?" />
+  <form class="bg-goal" @submit.prevent="goToHeightWeight">
+    <VTitlePage title="Seu objetivo?" class="title-nav" :actions="actionsTitlePage" />
     <VBoxImgInfo v-for="goal in GOALS" :data="goal" class="margin-y" :selected="goal.selected"
       @update="(e) => selectGoal(e)" />
-    <VButton @click="goToHeightWeight" text="CONFIRMAR OBJETIVO" class="button" />
-  </section>
+    <VButton text="Continuar" class="button" />
+  </form>
 </template>
 
 <style scoped>
@@ -68,10 +95,13 @@ onMounted(() => {
   background-color: var(--bg-color-dark);
   width: 100%;
   height: 100%;
-  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .title-nav {
+    padding: 1em;
+  }
 
   .margin-y {
     margin: 10px 0;
