@@ -46,12 +46,7 @@ const createEditMeal = (create = false, id) => {
     </header>
 
     <div class="meals">
-      <button
-        v-for="meal in props.data.meals"
-        :key="meal.id"
-        class="meal"
-        @click="createEditMeal(false, meal.id)"
-      >
+      <button v-for="meal in props.data.meals" :key="meal.id" class="meal" @click="createEditMeal(false, meal.id)">
         {{ meal.title }}
       </button>
       <!-- <button class="meal" @click="goToAddMeal">+ Nova Refeição</button> -->
@@ -71,7 +66,13 @@ const createEditMeal = (create = false, id) => {
   width: 100%;
   z-index: 4;
 }
-
+.meals {
+    height: 80%;
+    display: flex;
+    gap: 50px;
+    overflow: scroll;
+    
+  }
 .main {
   z-index: 5;
   position: fixed;
@@ -83,6 +84,8 @@ const createEditMeal = (create = false, id) => {
   height: 80%;
 
   background-color: var(--bg-color-dark);
+
+
 
   .title {
     padding: 10px 0;
