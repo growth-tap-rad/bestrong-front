@@ -154,11 +154,6 @@ const updateTrainLevel = (e) => {
     <main class="main">
       <VInput :value="train.name" :data="{ placeholder: 'Nome do treino' }" @update="(e) => updateTrainName(e)"
         class="input" />
-      <VInput :value="train.goal" :data="{ placeholder: 'goal' }" @update="(e) => updateTrainGoal(e)" class="input" />
-      <VInput :value="train.level" :data="{ placeholder: 'level' }" @update="(e) => updateTrainLevel(e)" class="input" />
-
-
-
       <section class="trainsList">
         <section class="exerciseItems">
           <div class="exercise" v-for="train_exercise in train.trains_exercises">
