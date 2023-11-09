@@ -1,25 +1,21 @@
 <script setup>
 import { useRouter } from 'vue-router'
-const router = useRouter()
-
 import { useDietStore } from '../stores/diet.store'
+
+const router = useRouter()
 const dietStore = useDietStore()
 
-
-
-const showAddMeal = () => {
-  dietStore.setShowComponentMeal(true)
+const goTo = (route) => {
+  dietStore.setShowComponentMeal(false)
+  dietStore.setShowComponentMenuOptions(false)
+  if(route==='/diet'){
+    dietStore.setShowComponentMeal(true)
+  }
+  router.push(route)
 }
 
-const showAddWater = () => {
-  router.push('/water')
-}
-const showAddTrain=()=>{
-  router.push("/train/add")
-}
 </script>
 <template>
-
   <div class="container-menu">
     <div class="bg" v-show="dietStore.getShowComponentMenuOptions"></div>
     <div v-show="dietStore.getShowComponentMenuOptions" class="buttons">
@@ -28,7 +24,7 @@ const showAddTrain=()=>{
           <i class="bi bi-arrow-clockwise"></i>
           <span class="text">Adicionar peso</span>
         </button>
-        <button @click="showAddTrain" class="button">
+        <button @click="goTo('/train/add')" class="button">
           <i class="bi bi-universal-access"></i>
           <span class="text">Adicionar treino</span>
         </button>
@@ -38,11 +34,11 @@ const showAddTrain=()=>{
         </button>
       </div>
       <div class="bottom-buttons">
-        <button @click="showAddMeal" class="button">
+        <button @click="goTo('/diet')" class="button">
           <i class="bi bi-cup-straw"></i>
           <span class="text">Adicionar Alimento</span>
         </button>
-        <button @click="showAddWater" class="button">
+        <button @click="goTo('/water')" class="button">
           <i class="bi bi-droplet"></i>
           <span class="text">Adicionar Agua</span>
         </button>

@@ -36,6 +36,6 @@ export const useMealStore = defineStore('meal', {
     },
     async deleteMeal(payload) {
       return await userResource.deleteMeal(payload)
-    }
+    },
   }
 })

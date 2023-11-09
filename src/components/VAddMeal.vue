@@ -25,6 +25,7 @@ const props = defineProps({
 
 const handleClickOutside = () => {
   dietStore.setShowComponentMeal(false)
+  dietStore.setShowComponentMenuOptions(false)
 }
 
 
@@ -41,22 +42,19 @@ const createEditMeal = (create = false, id) => {
   <div class="bg" v-if="dietStore.getShowComponentMeal" @click="handleClickOutside"></div>
   <div class="main" v-if="dietStore.getShowComponentMeal">
     <header class="title">
-      <VtitlePage :title="'Adicionar Refeição'" />
+      <h1>Adicionar Refeição</h1>
       <span>Escolha uma refeição para continuar</span>
     </header>
 
     <div class="meals">
-      <button
-        v-for="meal in props.data.meals"
-        :key="meal.id"
-        class="meal"
-        @click="createEditMeal(false, meal.id)"
-      >
+      <button v-for="meal in props.data.meals" :key="meal.id" class="meal" @click="createEditMeal(false, meal.id)">
         {{ meal.title }}
       </button>
       <!-- <button class="meal" @click="goToAddMeal">+ Nova Refeição</button> -->
+      <div class="add-meal">
 
-      <VButton class="add-meal" text="+ Nova Refeição" @click="createEditMeal(true)" />
+        <VButton text="+ Nova Refeição" @click="createEditMeal(true)" />
+      </div>
     </div>
   </div>
 </template>
@@ -72,6 +70,21 @@ const createEditMeal = (create = false, id) => {
   z-index: 4;
 }
 
+.title {
+
+  padding: 10px 0;
+  text-align: center;
+  color: var(--text-color-light);
+}
+
+.meals {
+  height: 80%;
+  display: flex;
+  gap: 50px;
+  overflow: scroll;
+
+}
+
 .main {
   z-index: 5;
   position: fixed;
@@ -84,11 +97,9 @@ const createEditMeal = (create = false, id) => {
 
   background-color: var(--bg-color-dark);
 
-  .title {
-    padding: 10px 0;
-    text-align: center;
-    color: var(--text-color-light);
-  }
+
+
+
 
   .meals {
     display: flex;
@@ -112,8 +123,15 @@ const createEditMeal = (create = false, id) => {
     }
 
     .add-meal {
-      width: auto;
-      margin: 30px 10px;
+
+
+      position: fixed;
+      width: 80%;
+      margin: auto;
+      align-items: center;
+      justify-content: center;
+      bottom: 15px;
+      left: 10%;
     }
   }
 }

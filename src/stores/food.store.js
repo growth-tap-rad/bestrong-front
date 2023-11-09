@@ -52,6 +52,9 @@ export const useFoodStore = defineStore('food', {
     async getFood(payload) {
       return await userResource.getFood(payload)
     },
+    async deleteMealFood(payload) {
+      return await userResource.deleteMealFood(payload)
+    },
     async getMeasure(payload) {
       return await userResource.getMeasure(payload)
     },
@@ -70,7 +73,7 @@ export const useFoodStore = defineStore('food', {
           measure = el.value
         }
       })
-      if(resumed){
+      if (resumed) {
         const measureArray = measure.split("");
         return measureArray[0].toLowerCase() || 'g'
       }
@@ -87,7 +90,7 @@ export const useFoodStore = defineStore('food', {
           }
         }
       })
-  
+
       return quantity
     }
   }

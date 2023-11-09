@@ -84,8 +84,6 @@ const calcQuantity = (quantity, unity) => {
             </div>
             <button @click="$emit('showAddFood', data.id)" class="addQtdWater">
               + Adicionar Alimento
-            </button> <button @click="$emit('deleteMeal', data.id)" class="addQtdWater">
-              X Deletar refeição
             </button>
           </div>
         </div>

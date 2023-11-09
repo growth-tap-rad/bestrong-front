@@ -15,35 +15,46 @@ const trainStore = useTrainStore()
 const train = ref({})
 
 onMounted(async () => {
+  fetchMeal()
+})
+const fetchMeal = async () => {
   if (route.params.id) {
     const foundTrain = await trainStore.findTrain(route.params.id)
     train.value = foundTrain
     data.value = new Date(train.value.created_at)
-
   }
-})
+}
+
 const showToast = (error) => {
   console.error('Erro: ', error.error)
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
     message: error.message,
-    description: error?.error?.response?.status
-      ? 'Não autorizado'
-      : error.description || 'Falha de comunicação'
+    description: chooseMessage(error)
   })
 }
-const back = () => {
-  router.push('/diet')
+
+const chooseMessage = (error) => {
+  switch (error?.error?.response?.status) {
+    case 404:
+      return 'Não autorizado';
+    case 500:
+      return 'Ops, Ocorreu um erro';
+    default:
+      return error.description || 'Falha de comunicação';
+  }
 }
 
-const updateTrain = (e) => {
-  train.value.name = e
+const back = () => {
+  router.push('/trains')
 }
+
 const createTrain = async () => {
   return await trainStore.createTrain({
     name: train.value.name,
-  
+    goal: train.value.goal,
+    level: train.value.level,
   })
 }
 
@@ -69,7 +80,7 @@ const addTrain = async () => {
 }
 
 const goToExercices = (id) => {
-  router.push(`//${id}/`)
+  router.push(`/train/${id}/exercises`)
 }
 
 const editTrain = async () => {
@@ -79,26 +90,56 @@ const editTrain = async () => {
         trainStore
           .editTrain({
             id: route.params.id,
+            name: train.value.name,
+            goal: train.value.goal,
+            level: train.value.level,
 
           })
           .then(() => {
-            router.push('/diet')
+            router.push('/trains')
             return
           })
       }
-    } else {
-
-      train.value = await createTrain()
+      return
     }
-  } else {
-    showToast({
-      message: 'Alerta',
-      description: 'Digite um nome para a treino'
-    })
+    await createTrain()
+    router.back()
     return
   }
+  return showToast({
+    message: 'Alerta',
+    description: 'Digite um nome para a treino'
+  })
 }
 
+const deleteTrainExercise = (id) => {
+  trainStore.deleteTrainExercise(id).then(() => {
+    fetchMeal()
+  })
+}
+const deleteTrain = async () => {
+
+  const exercisesToDelete = train.value.trains_exercises.map(async exercise => {
+    return await trainStore.deleteTrainExercise(exercise.id)
+  });
+  await Promise.all(exercisesToDelete)
+
+  trainStore.deleteTrain(route.params.id).then(() => {
+    router.push('/trains')
+  })
+}
+const editTrainExercise = (id) => {
+  router.push(`/train/${route.params.id}/exercise/${id}`)
+}
+const updateTrainName = (e) => {
+  train.value.name = e
+}
+const updateTrainGoal = (e) => {
+  train.value.goal = e
+}
+const updateTrainLevel = (e) => {
+  train.value.level = e
+}
 
 
 
@@ -111,25 +152,28 @@ const editTrain = async () => {
       <VtitlePage class="title" :title="'Treino'" />
     </header>
     <main class="main">
-      <VInput :value="train.name" @update="(e) => updateTrain(e)" class="input" />
+      <VInput :value="train.name" :data="{ placeholder: 'Nome do treino' }" @update="(e) => updateTrainName(e)"
+        class="input" />
+      <VInput :value="train.goal" :data="{ placeholder: 'goal' }" @update="(e) => updateTrainGoal(e)" class="input" />
+      <VInput :value="train.level" :data="{ placeholder: 'level' }" @update="(e) => updateTrainLevel(e)" class="input" />
 
-      <section class="time">
-        <p>Horario</p>
-        <p>
-          {{ data.getHours() <= 9 ? '0' + data.getHours() : data.getHours() }} :
-          {{ data.getMinutes() < 9 ? '0' + data.getMinutes() : data.getMinutes() }}
-        </p>
-      </section>
+
 
       <section class="trainsList">
-        <section class="exerciceItems">
-          <div v-for="train_exercice in train.train_exercice" :key="train_exercice.id" class="exerciceItem">
-            <span class="oveflow">{{ train_exercice.name }}</span>
+        <section class="exerciseItems">
+          <div class="exercise" v-for="train_exercise in train.trains_exercises">
+            <div @click="editTrainExercise(train_exercise.id)" :key="train_exercise.id" class="exerciseItem">
+              <span class="oveflow">{{ train_exercise.name }} </span>
+
+            </div> <button class="delete" @click="deleteTrainExercise(train_exercise.id)">X</button>
           </div>
+
+
         </section>
       </section>
-      <VButton @click="addTrain" text="+ Adicionar exercicio" class="add-exercice" />
+      <VButton @click="addTrain" text="+ Adicionar exercicio" class="add-exercise" />
       <VButton @click="editTrain" text="Salvar Treino" class="button" />
+      <VButton v-show="route.params.id" @click="deleteTrain" text=" Excluir Treino " class="delete-train" />
     </main>
   </div>
 </template>
@@ -148,6 +192,12 @@ p {
   flex-direction: column;
   padding: 20px;
 
+  .delete-train {
+    background-color: transparent;
+    text-align: center;
+    padding: 40px 0;
+  }
+
   .header {
     display: flex;
     align-items: center;
@@ -162,7 +212,7 @@ p {
     }
   }
 
-  .add-exercice {
+  .add-exercise {
     background-color: transparent;
     text-align: justify;
     padding: 40px 0;
@@ -176,12 +226,16 @@ p {
     text-align: center;
   }
 
-  .exerciceItems {
+  .exercise {
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
     gap: 20px;
+    margin: 10px 0;
 
-    .exerciceItem {
+    .exerciseItem {
+      cursor: pointer;
+      width: 100%;
       color: var(--text-color-light);
       background-color: var(--bg-color-dark3);
       display: flex;
@@ -189,8 +243,22 @@ p {
       justify-content: space-between;
       padding: 10px 20px;
       border-radius: 5px;
+      flex-direction: column;
+      ;
+
+
+    }
+
+    .delete {
+      width: 50px;
+
+      border: none;
+      border-radius: 5px;
+      background-color: var(--bg-color-light);
     }
   }
+
+  .exerciseItems {}
 
 
   .oveflow {
@@ -201,41 +269,9 @@ p {
     display: inline-block;
   }
 
-  .paragraphValue {
-    margin-top: 20px;
-  }
 
-  .paragraphMacros {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 20px;
-    padding: 10px 0;
 
-    .value {
-      font-weight: bold;
-      font-size: 22px;
-    }
 
-    .text {
-      color: var(--bg-color-grey2);
-    }
 
-    .kcal {
-      color: var(--text-color-highlighted2);
-    }
-  }
-
-  .time {
-    display: flex;
-    color: var(--text-color-light);
-    justify-content: center;
-    justify-content: space-between;
-    /* gap: 1000px; */
-    padding: 30px;
-    margin-top: 30px;
-  }
 }
 </style>
