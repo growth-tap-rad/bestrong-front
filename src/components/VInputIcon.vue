@@ -18,6 +18,10 @@ defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  isValid: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -26,8 +30,9 @@ defineProps({
   <div class="inputs">
     <label :for="data.title" class="label" v-if="data.title">{{ data.title }}</label>
     <div v-if="hasIcon" class="box-input">
-      <i :class="[iconName, 'icon',{ 'disabled' : disabled}]"></i>
-      <input :disabled="disabled" :type="data.type" :id="data.title" class="input" :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)" />
+      <i :class="[iconName, 'icon', { 'disabled': disabled }]"></i>
+      <input :disabled="disabled" :type="data.type" :id="data.title" class="input" :class="{ isValid: isValid }"
+        :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)" />
     </div>
   </div>
 </template>
@@ -56,8 +61,13 @@ defineProps({
       color: var(--text-color-light2);
       border: none;
       width: 100%;
-      &:disabled{
+
+      &:disabled {
         opacity: 0.2;
+      }
+
+      &.isValid {
+        border: 1px solid var(--text-color-red);
       }
     }
 
@@ -68,10 +78,10 @@ defineProps({
       left: 15px;
       color: var(--text-color-light2);
       position: absolute;
-      &.disabled{
+
+      &.disabled {
         opacity: 0.2;
       }
     }
   }
-}
-</style>
+}</style>

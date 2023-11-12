@@ -55,12 +55,12 @@ export const useDietStore = defineStore('diet', {
 
     async editDiary(payload) {
       this.setDiary(await userResource.editDiary(payload))
-      return this.getDiary
+      return this.getDiary // q poura é essa???
     },
-    async fetchDiary() {
-      this.setDiary(await userResource.getDiary())
+    async fetchDiary(searchDate) {
+      this.setDiary(await userResource.getDiary(searchDate)) // ??? pq um fetch ta setando??????? 
+      // tem uma funcao chamado fetch q ta setando numa store, uma requisicao q faz get???????????
     },
-
     setDiary(payload) {
       this.diary = payload
     },

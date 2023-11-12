@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { onMounted , watch, ref } from 'vue'
 import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
@@ -33,11 +34,17 @@ const inputUserName = {
   type: 'text',
   value: userStore.getUsername
 }
+
+const emailIsValid = ref(false); //TODO APLICAR WATCHER
+// PARA CASO isValidEmail, TORNAR ESSA VARIVAEL emailIsValid TRUE, assim ficando com border vermelha
+
 const backToWelcome = () => {
   router.back()
 }
 const showToast = (error) => {
-  console.error('Erro: ', error.error)
+  if (error) {
+    console.error('Erro: ', error?.error || error)
+  }
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -47,16 +54,24 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
-    case 404:
-    return 'Não autorizado';
+  switch (error?.error?.response?.status) {
+    case 401:
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
       return error.description || 'Falha de comunicação';
   }
-} 
+}
 
+onMounted(() => {
+  sessionStorage.clear()
+})
+
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
 const goForDiet = async () => {
   const payload = {
@@ -67,10 +82,18 @@ const goForDiet = async () => {
   }
   if (!payload.name || !payload.email || !payload.password || !payload.username) {
     showToast({
-        message: 'Alerta',
-        description:'Preencha todos os campos antes de continuar !'
-      })
+      message: 'Alerta',
+      description: 'Preencha todos os campos antes de continuar !'
+    })
     return
+  }
+
+  if (!isValidEmail(payload.email)) {
+    showToast({
+      message: 'Alerta',
+      description: 'Endereço de e-mail inválido.'
+    });
+    return;
   }
 
   try {
@@ -82,12 +105,13 @@ const goForDiet = async () => {
     }
   } catch (error) {
     showToast({
-        message: 'Alerta',
-        description:'Ops ocorreu um erro..'
-      })
+      message: 'Alerta',
+      description: 'Ops ocorreu um erro..'
+    })
     console.error(error)
   }
 }
+
 </script>
 
 <template>
@@ -99,30 +123,11 @@ const goForDiet = async () => {
       <h1 class="title-page">Crie sua conta usando seu e-mail</h1>
     </header>
     <form class="main" @submit.prevent="goForDiet">
-      <VInputIcon
-        :data="inputName"
-        :hasIcon="true"
-        iconName="bi bi-person-fill"
-        v-model="inputName.value"
-      />
-      <VInputIcon
-        :data="inputUserName"
-        :hasIcon="true"
-        iconName="bi bi-key-fill"
-        v-model="inputUserName.value"
-      />
-      <VInputIcon
-        :data="inputEmail"
-        :hasIcon="true"
-        iconName="bi bi-envelope"
-        v-model="inputEmail.value"
-      />
-      <VInputIcon
-        :data="inputPassword"
-        :hasIcon="true"
-        iconName="bi bi-key-fill"
-        v-model="inputPassword.value"
-      />
+      <VInputIcon :data="inputName" :hasIcon="true" iconName="bi bi-person-fill" v-model="inputName.value" />
+      <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputUserName.value" />
+      <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value"
+        :isValid="emailIsValid" />
+      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
 
       <VButton text="Continuar" class="button" :defaultColor="true" />
     </form>

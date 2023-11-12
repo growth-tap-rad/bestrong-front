@@ -1,7 +1,8 @@
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDietStore } from '../stores/diet.store'
+import { useAppStore } from '../stores/app.store'
 import { useMealStore } from '../stores/meal.store'
 import VAccordionMeal from '../components/VAccordionMeal.vue'
 import VDashboardDiet from '../components/VDashboardDiet.vue'
@@ -11,6 +12,7 @@ import VAddMeal from '../components/VAddMeal.vue'
 
 const router = useRouter()
 const dietStore = useDietStore()
+const appStore = useAppStore()
 const showComponentAddMeal = ref(false)
 const meals = ref([])
 
@@ -44,16 +46,30 @@ const macros = reactive({
     total: 0
   }
 })
+
 onMounted(() => {
   fetchDiaryData()
+
+  if (!appStore.getCurrentQueryDate) {
+    appStore.setCurrentDayToDateSearch()
+    router.push({ name: 'Diet', params: { date: appStore.getCurrentQueryDate } })
+  }
 })
+
+
 const showAddWater = () => {
   router.push('/water')
 }
 
 const fetchDiaryData = async () => {
-  await dietStore.fetchDiary()
+
+  await dietStore.fetchDiary(appStore.getCurrentQueryDate)
+
   const data = dietStore.getDiary
+
+  if (!data) {
+    return
+  }
 
   const {
     remaning_daily_goal_kcal,
@@ -101,11 +117,11 @@ const fetchDiaryData = async () => {
 const actionsTitlePage = [
   {
     btIcon: '',
-    goTo: ''
+    goTo: '/diet'
   },
   {
     btIcon: '',
-    goTo: ''
+    goTo: '/diet'
   }
 ]
 
@@ -122,21 +138,15 @@ const createEditMeal = (create = false, id) => {
 <template>
   <section class="diet">
     <header class="header">
-      <VTitleDatePage :actions="actionsTitlePage" />
+      <VTitleDatePage :actions="actionsTitlePage" :isDateDiet="true" />
     </header>
     <main class="main">
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
         <VAccordionMeal @showAddWater="() => showAddWater()" class="meal" :data="water" />
-        <VAccordionMeal
-          @showAddFood="(e) => createEditMeal(false, e)"
-          @deleteMeal="(e) => deleteMeal(e)"
-          class="meal"
-          v-for="meal in meals"
-          :data="meal"
-          :key="meal.id"
-        />
+        <VAccordionMeal @showAddFood="(e) => createEditMeal(false, e)" @deleteMeal="(e) => deleteMeal(e)" class="meal"
+          v-for="meal in meals" :data="meal" :key="meal.id" />
       </div>
 
       <VAddMeal class="box-add-meal" :data="Meal" />
@@ -146,7 +156,6 @@ const createEditMeal = (create = false, id) => {
 </template>
 
 <style scoped>
-
 .diet {
   background-color: var(--bg-color-dark);
   width: 100%;
