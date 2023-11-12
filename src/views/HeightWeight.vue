@@ -1,13 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user.store'
 import { useHeightWeightStore } from '../stores/height.weight.store';
+import { useAppStore } from '../stores/app.store'
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 
-
+const appStore = useAppStore()
 const HeightWeightStore = useHeightWeightStore()
 
 const router = useRouter()
@@ -32,6 +33,11 @@ const onSelectHeight = (e) => {
 const onSelectWeight = (e) => {
   userStore.setWeight(e)
 }
+
+onBeforeUnmount(() => {
+  appStore.setCurrentDayToDateSearch()
+})
+
 
 const goToDiet = async () => {
 
@@ -69,7 +75,6 @@ const goToDiet = async () => {
 
       if (dataProgress) {
         await HeightWeightStore.createDiary();
-        await HeightWeightStore.createMeals();
 
         router.push('/diet');
         isFetching.value = false;
