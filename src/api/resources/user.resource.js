@@ -2,7 +2,9 @@ import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 
 const showToast = (error) => {
-  console.error('Erro: ', error)
+  if (error) {
+    console.error('Erro: ', error)
+  }
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -13,19 +15,19 @@ const showToast = (error) => {
 
 const chooseMessage = (error) => {
   switch (error?.error?.response?.status) {
-    case 404:
+    case 401:
       return 'Não autorizado'
     case 500:
-      return 'Ops, Ocorreu um erro';
+      return 'Ops, Ocorreu um erro'
     default:
-      return error.description || 'Falha de comunicação';
+      return error.description || 'Falha de comunicação'
   }
 }
 
 export const createTrain = (train) => {
   return api
     .post(`/users/me/trains`, {
-      name: train.name,
+      name: train.name
     })
     .then(({ data }) => {
       return data
@@ -42,7 +44,7 @@ export const createTrain = (train) => {
 export const editTrain = (train) => {
   return api
     .put(`/users/me/trains/${train.id}`, {
-      name: train.name,
+      name: train.name
     })
     .then(({ data }) => {
       return data
@@ -127,7 +129,7 @@ export const createExerciceToTrain = (data) => {
       series: data.series,
       wheight: data.wheight,
       reps: data.reps,
-      rest_duration: data.rest_duration,
+      rest_duration: data.rest_duration
     })
     .then(({ data }) => {
       return data
@@ -144,11 +146,10 @@ export const createExerciceToTrain = (data) => {
 export const editExerciceToTrain = (data) => {
   return api
     .put(`/trains_exercises/${data.id}`, {
-
       series: data.series,
       wheight: data.wheight,
       reps: data.reps,
-      rest_duration: data.rest_duration,
+      rest_duration: data.rest_duration
     })
     .then(({ data }) => {
       return data
@@ -189,7 +190,6 @@ export const deleteTrainExercise = (id) => {
       })
     })
 }
-
 
 export const fetchActivitys = () => {
   return api
@@ -235,11 +235,11 @@ export const deleteWater = (id) => {
       })
     })
 }
-export const addWater = (water) => {
+export const addWater = (data) => {
   return api
     .post('/users/me/water', {
-      consumed_water: water,
-      created_at: new Date()
+      consumed_water: data.consumed_water,
+      date: data.date
     })
     .then(({ data }) => {
       return data
@@ -274,7 +274,6 @@ export const createMealFood = (data) => {
     })
 }
 export const deleteMealFood = (id) => {
-
   return api
     .delete(`/meal_food/${id}`)
     .then(({ data }) => {
@@ -289,9 +288,9 @@ export const deleteMealFood = (id) => {
     })
 }
 
-export const getWater = () => {
+export const getWater = (date) => {
   return api
-    .get('/users/me/water')
+    .get(`/users/me/water?date=${date}`)
     .then(({ data }) => {
       return data
     })
@@ -508,9 +507,20 @@ export const editDiary = (data) => {
       })
     })
 }
-export const getDiary = () => {
+export const getDiary = (searchDate) => {
+  const currentDate = searchDate ? new Date(searchDate) : new Date()
+  currentDate.setHours(0, 0, 0, 0)
+
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
+
+  const formattedDate = searchDate
+    ? searchDate
+    : `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+
   return api
-    .get('/users/me/diary')
+    .get(`/users/me/diary?date=${formattedDate}`)
     .then(({ data }) => {
       return data
     })
@@ -544,7 +554,7 @@ export const verifyEmail = (email) => {
       showToast({
         error: data,
         message: 'Alerta ',
-        description: 'Email já em uso!'
+        description: 'Endereço de e-mail inválido para usuário.'
       })
       return
     }

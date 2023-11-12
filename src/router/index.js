@@ -61,7 +61,7 @@ const ROUTES = [
     component: GenderBirthday
   },
   {
-    path: '/diet',
+    path: '/diet/:date?',
     name: 'Diet',
     component: Diet,
     meta: { requiresAuth: true }
@@ -71,7 +71,8 @@ const ROUTES = [
     name: 'Trains',
     component: Train,
     meta: { requiresAuth: true }
-  }, {
+  },
+  {
     path: '/train/add',
     name: 'TrainAdd',
     component: CreateEditTrain,
@@ -144,23 +145,16 @@ const router = createRouter({
   routes: ROUTES
 })
 
-/* const isAuthenticated = () => {
-  const token = localStorage.getItem('accessToken')
+const isAuthenticated = () => {
+  const token = sessionStorage.getItem('accessToken')
   return !!token
-} 
+}
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    if (isAuthenticated()) {
-      return next()
-    } else {
-      if (to.path !== '/') {
-        return next('/')
-      } 
-      next();
-    }
-  } 
+  if (to.meta.requiresAuth && !isAuthenticated() && to.path !== '/') {
+    return next('/')
+  }
   next()
-}) */
+})
 
 export default router

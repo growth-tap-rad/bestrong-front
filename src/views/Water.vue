@@ -6,24 +6,29 @@ import VTitleDatePage from '../components/VTitleDatePage.vue';
 import VConsumeWater from '../components/VConsumeWater.vue';
 import VAddWater from '../components/VAddWater.vue';
 import { useWaterStore } from '../stores/water.store'
+import { useAppStore } from '../stores/app.store'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 
 const router = useRouter()
 
 const showComponentAddWater = ref(false)
 const waterStore = useWaterStore();
+const appStore = useAppStore();
 let ArrayWater = ref([])
 const water_goal = ref(0)
 const openInputWater = () => {
     showComponentAddWater.value = true
 }
 
-const addWater = (e) => {
+const addWater = (value) => {
 
     showComponentAddWater.value = false
 
-    if (e) {
-        waterStore.addWater(e).then((data) => {
+    if (value) {
+        waterStore.addWater({
+            consumed_water: value,
+            date: appStore.getCurrentQueryDate,
+        }).then((data) => {
             ArrayWater.value.push({
                 id: data.id,
                 consumed_water: data.consumed_water,
@@ -47,7 +52,7 @@ onMounted(() => {
 })
 
 const fetchWater = async () => {
-    await waterStore.fetchWater()
+    await waterStore.fetchWater(appStore.getCurrentQueryDate)
     ArrayWater.value = waterStore.getArrayWater
     water_goal.value = waterStore.getWaterGoal
 }
@@ -65,7 +70,7 @@ const actionsTitlePage = [
 <template>
     <div class="water">
         <header class="header">
-            <VTitleDatePage title="Água" class="title" :actions="actionsTitlePage"/>
+            <VTitleDatePage title="Água" class="title" :actions="actionsTitlePage" />
         </header>
         <main>
 
@@ -110,6 +115,7 @@ const actionsTitlePage = [
     justify-content: center;
     align-items: baseline;
     color: var(--text-color-highlighted2);
+
     span {
         font-size: 3em;
         font-weight: bold;
