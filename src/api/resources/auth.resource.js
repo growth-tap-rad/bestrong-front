@@ -3,7 +3,9 @@ import { useAppStore } from '../../stores/app.store'
 import { useUserStore } from '../../stores/user.store'
 
 const showToast = (err) => {
-  console.error('erro ', err)
+  if (error) {
+    console.error('Erro: ', err)
+  }
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -14,8 +16,8 @@ const showToast = (err) => {
 
 const chooseMessage = (error) => {
   switch(error?.error?.response?.status) {
-    case 404:
-      return 'Não autorizado';
+    case 401:
+        return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:

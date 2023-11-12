@@ -2,9 +2,7 @@ import { defineStore } from "pinia";
 import * as userResource from '../api/resources/user.resource';
 
 const defaultState = {
-  water: [
-    { consumed_water: 0 }
-  ],
+  waterList: [],
   water_goal: 0
 }
 
@@ -13,7 +11,7 @@ export const useWaterStore = defineStore('water', {
   state: () => ({ ...defaultState }),
 
   getters: {
-    getArrayWater: (state) => state.water,
+    getArrayWater: (state) => state.waterList,
     getWaterGoal: (state) =>state.water_goal
   },
   actions: {
@@ -29,14 +27,14 @@ export const useWaterStore = defineStore('water', {
     getWater() {
       return userResource.getWater()
     },
-    async fetchWater() {
-      this.setWater(await userResource.getWater())
+    async fetchWater(date) {
+      this.setWaterList(await userResource.getWater(date))
       const goal = await userResource.getDiary()
       this.water_goal = (goal.progress.weight)* 35
     },
 
-    setWater(payload) {
-      this.water = payload
+    setWaterList(payload) {
+      this.waterList = payload
     },
   }
 

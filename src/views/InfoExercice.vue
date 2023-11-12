@@ -20,7 +20,9 @@ const back = () => {
   router.back()
 }
 const showToast = (error) => {
-  console.error('Erro: ', error.error)
+  if (error) {
+    console.error('Erro: ', error?.error || error)
+  }
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
@@ -31,8 +33,8 @@ const showToast = (error) => {
 
 const chooseMessage = (error) => {
   switch (error?.error?.response?.status) {
-    case 404:
-      return 'Não autorizado';
+    case 401:
+        return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
