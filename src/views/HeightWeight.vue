@@ -61,6 +61,9 @@ const goToDiet = async () => {
       gender,
     });
 
+    // ficar de olho aqui as vezes da certo o cadastro
+    // mas nao devolve nada, ai ao logar da pau pois este usuario nao tem diario nem progresso
+    // verificar, talvez uma abordagem no login, caso o usuario nao teha dieta nem progresso criar pra ele
     if (datasSignUp && datasSignUp.accessToken) {
       userStore.setToken(datasSignUp.accessToken);
 
@@ -76,7 +79,7 @@ const goToDiet = async () => {
       if (dataProgress) {
         await HeightWeightStore.createDiary();
 
-        router.push('/diet');
+        await router.push('/diet');
         isFetching.value = false;
       }
     }

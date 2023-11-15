@@ -77,7 +77,7 @@ export const useFoodStore = defineStore('food', {
         const measureArray = measure.split("");
         return measureArray[0].toLowerCase() || 'g'
       }
-      return measure || 'Gramas'
+      return measure || 'Medida'
     },
     transformQuantity(qtd, amount, desc) {
       const DESC = desc.toLowerCase()
