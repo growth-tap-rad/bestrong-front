@@ -1,8 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useAppStore } from '../stores/app.store'
-import { useDietStore } from '../stores/diet.store'
 
 const router = useRouter()
 

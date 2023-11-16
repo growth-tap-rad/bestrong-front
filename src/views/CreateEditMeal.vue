@@ -3,15 +3,21 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMealStore } from '../stores/meal.store'
 import { useFoodStore } from '../stores/food.store'
+import { useAppStore } from '../stores/app.store'
+import { useDietStore } from '../stores/diet.store'
 import VButton from '../components/VButton.vue'
 import VInput from '../components/VInput.vue'
 import VtitlePage from '../components/VtitlePage.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
-import { useAppStore } from '../stores/app.store'
 
-const foodStore = useFoodStore()
+
 const router = useRouter()
 const route = useRoute()
+
+const dietStore = useDietStore()
+const foodStore = useFoodStore()
+const appStore = useAppStore()
+
 const data = ref(new Date())
 const mealStore = useMealStore()
 const meal = ref({})
@@ -33,7 +39,7 @@ const showToast = (error) => {
   if (error) {
     console.error('Erro: ', error?.error || error)
   }
-  const appStore = useAppStore()
+
   appStore.setToast({
     show: true,
     message: error.message,
@@ -44,7 +50,7 @@ const showToast = (error) => {
 const chooseMessage = (error) => {
   switch (error?.error?.response?.status) {
     case 401:
-        return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
@@ -53,7 +59,7 @@ const chooseMessage = (error) => {
 }
 
 const back = () => {
-  router.push('/diet')
+  router.push({ name: 'Diet', params: { date: appStore.getCurrentQueryDate } })
 }
 
 const updateMeal = (e) => {
@@ -95,34 +101,35 @@ const goToFoods = (id) => {
 }
 
 const editMeal = async () => {
-  if (meal.value.name) {
-    if (route.params.id) {
-      {
-        mealStore
-          .editTrain({
-            id: route.params.id,
-
-            name: meal.value.name,
-            meal_consumed_kcal: mealMacros.value.kcal,
-            meal_consumed_carb: mealMacros.value.carb,
-            meal_consumed_fat: mealMacros.value.fat,
-            meal_consumed_protein: mealMacros.value.protein
-          })
-          .then(() => {
-            router.push('/diet')
-            return
-          })
-      }
-    } else {
-      meal.value = await createMeal()
-    }
-  } else {
+  if (!meal.value.name) {
     showToast({
       message: 'Alerta',
       description: 'Digite um nome para a refeição'
     })
-    return
   }
+  if (route.params.id) {
+    await mealStore
+      .editTrain({
+        id: route.params.id,
+
+        name: meal.value.name,
+        meal_consumed_kcal: mealMacros.value.kcal,
+        meal_consumed_carb: mealMacros.value.carb,
+        meal_consumed_fat: mealMacros.value.fat,
+        meal_consumed_protein: mealMacros.value.protein
+      })
+    await router.push({ name: 'Diet', params: { date: appStore.getCurrentQueryDate } })
+  } else {
+    await createMeal()
+    await router.push({ name: 'Diet', params: { date: appStore.getCurrentQueryDate } })
+    closeMenusMeals()
+  }
+
+}
+
+const closeMenusMeals = () => {
+  dietStore.setShowComponentMeal(false)
+  dietStore.setShowComponentMenuOptions(false)
 }
 
 const calcMacros = () => {
@@ -164,7 +171,7 @@ const deleteMeal = async () => {
   await Promise.all(foodToDelete)
 
   mealStore.deleteMeal(route.params.id).then(() => {
-    router.push('/diet')
+    router.push({ name: 'Diet', params: { date: appStore.getCurrentQueryDate } })
   })
 }
 const deleteMealFood = (id) => {
@@ -225,9 +232,7 @@ const deleteMealFood = (id) => {
       </section>
       <VButton @click="addFood" text="+ Adicionar Alimento" class="add-food" />
       <VButton @click="editMeal" text="Salvar Refeição" class="button" />
-      <VButton v-show="route.params.id" @click="deleteMeal" text=" Excluir refeição " class="delete-food" />
-
-
+      <VButton v-if="route.params.id" @click="deleteMeal" text=" Excluir refeição " class="delete-food" />
     </main>
   </div>
 </template>

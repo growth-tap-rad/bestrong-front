@@ -3,7 +3,6 @@ import { reactive, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDietStore } from '../stores/diet.store'
 import { useAppStore } from '../stores/app.store'
-import { useMealStore } from '../stores/meal.store'
 import VAccordionMeal from '../components/VAccordionMeal.vue'
 import VDashboardDiet from '../components/VDashboardDiet.vue'
 import VTitleDatePage from '../components/VTitleDatePage.vue'
@@ -13,7 +12,6 @@ import VAddMeal from '../components/VAddMeal.vue'
 const router = useRouter()
 const dietStore = useDietStore()
 const appStore = useAppStore()
-const showComponentAddMeal = ref(false)
 const meals = ref([])
 
 const water = {
@@ -21,10 +19,7 @@ const water = {
   isWater: true,
   quantity: ref(0)
 }
-const Meal = reactive({
-  showComponentAddMeal,
-  meals
-})
+
 const dashData = reactive({
   consumed: 0,
   burned: 0,
@@ -140,7 +135,7 @@ const createEditMeal = (create = false, id) => {
     <header class="header">
       <VTitleDatePage :actions="actionsTitlePage" :isDateDiet="true" />
     </header>
-    <main class="main">
+    <main class="main" :class="{ 'open-show-meal': dietStore.getShowComponentMeal }">
       <VDashboardDiet :dashInfo="dashData" :macros="macros" />
 
       <div class="box-ingredients">
@@ -149,7 +144,7 @@ const createEditMeal = (create = false, id) => {
           v-for="meal in meals" :data="meal" :key="meal.id" />
       </div>
 
-      <VAddMeal class="box-add-meal" :data="Meal" />
+      <VAddMeal class="box-add-meal" :data="{ meals: meals }" />
       <VBottomMenu class="footer" actualRoute="/diet" />
     </main>
   </section>
@@ -166,6 +161,11 @@ const createEditMeal = (create = false, id) => {
 
   .main {
     width: 100%;
+    
+    &.open-show-meal{
+      overflow: hidden;
+      height: 500px;
+    }
 
     .footer {
       position: fixed;

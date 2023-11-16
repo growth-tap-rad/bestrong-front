@@ -1,7 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import VButton from './VButton.vue'
-import VtitlePage from './VtitlePage.vue'
 import { useDietStore } from '../stores/diet.store'
 
 const dietStore = useDietStore()
@@ -47,12 +46,12 @@ const createEditMeal = (create = false, id) => {
     </header>
 
     <div class="meals">
-      <button v-for="meal in props.data.meals" :key="meal.id" class="meal" @click="createEditMeal(false, meal.id)">
+      <button v-for="(meal, index) in props.data.meals" :key="meal.id" class="meal"
+        :class="{ 'last': (index === props.data.meals.length - 1) }" @click="createEditMeal(false, meal.id)">
         {{ meal.title }}
       </button>
-      <!-- <button class="meal" @click="goToAddMeal">+ Nova Refeição</button> -->
-      <div class="add-meal">
 
+      <div class="add-meal">
         <VButton text="+ Nova Refeição" @click="createEditMeal(true)" />
       </div>
     </div>
@@ -77,14 +76,6 @@ const createEditMeal = (create = false, id) => {
   color: var(--text-color-light);
 }
 
-.meals {
-  height: 80%;
-  display: flex;
-  gap: 50px;
-  overflow: scroll;
-
-}
-
 .main {
   z-index: 5;
   position: fixed;
@@ -93,46 +84,45 @@ const createEditMeal = (create = false, id) => {
 
   bottom: 0;
   width: 100%;
-  height: 80%;
+  height: 85%;
 
   background-color: var(--bg-color-dark);
 
-
-
-
-
   .meals {
+    height: 80%;
     display: flex;
     flex-direction: column;
     position: absolute;
     bottom: 0;
     width: 100%;
+    overflow-y: auto;
 
     .meal {
       width: 100%;
-      height: 4em;
+      min-height: 80px;
       border: none;
       background-color: var(--bg-color-dark);
       color: var(--text-color-light);
       text-align: start;
       padding: 0 30px;
+      border-bottom: 1px solid var(--button-color-light-hover);
+
+      &.last {
+        margin-bottom: 50px;
+      }
+
+      &:hover {
+        background-color: var(--button-color-dark);
+      }
     }
 
-    .meal:hover {
-      background-color: var(--button-color-dark);
-    }
 
-    .add-meal {
+  }
 
+  .add-meal {
 
-      position: fixed;
-      width: 80%;
-      margin: auto;
-      align-items: center;
-      justify-content: center;
-      bottom: 15px;
-      left: 10%;
-    }
+    width: 80%;
+    margin: 0 auto 40px auto;
   }
 }
 </style>

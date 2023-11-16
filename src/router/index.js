@@ -149,6 +149,10 @@ const isAuthenticated = () => {
   const token = sessionStorage.getItem('accessToken')
   return !!token
 }
+// Verificar pq ele nao verifica o token, entao mantem o cara logado,
+// mesmo o back retornando erro, como nao autorizado
+// o front como verifica somente o token no session, em nennum momento este se apaga
+// mesmo vencendo o token do back, verificar como fazer isso de uma maneira viavel
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated() && to.path !== '/') {
