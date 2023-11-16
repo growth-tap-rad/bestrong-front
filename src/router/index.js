@@ -64,10 +64,11 @@ const ROUTES = [
     path: '/diet/:date?',
     name: 'Diet',
     component: Diet,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
+   
   },
   {
-    path: '/trains',
+    path: '/trains/:date?',
     name: 'Trains',
     component: Train,
     meta: { requiresAuth: true }

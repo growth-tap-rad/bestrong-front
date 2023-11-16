@@ -53,8 +53,12 @@ const back = () => {
 }
 
 const createTrain = async () => {
+  const appStore = useAppStore()
+
+  console.log("aaaaaaaaaaaaaaaaaaaaa" ,appStore)
   return await trainStore.createTrain({
     name: train.value.name,
+    date: appStore.getCurrentQueryDate,
   })
 }
 
