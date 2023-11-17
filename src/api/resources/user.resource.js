@@ -114,11 +114,7 @@ export const getTrainExercise = (id) => {
       return data
     })
     .catch((err) => {
-      /*  showToast({
-         error: err,
-         message: 'Erro',
-         description: err?.response?.data?.message || err?.response?.message
-       }) */
+      console.error(err)
     })
 }
 export const createExerciceToTrain = (data) => {
@@ -401,7 +397,7 @@ export const createMeal = (meal) => {
       meal_consumed_carb: meal.meal_consumed_carb,
       meal_consumed_fat: meal.meal_consumed_fat,
       meal_consumed_protein: meal.meal_consumed_protein,
-      date:meal.date
+      date: meal.date
     })
     .then(({ data }) => {
       return data
