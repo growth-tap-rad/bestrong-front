@@ -38,7 +38,7 @@ const signin = () => {
 }
 
 onMounted(() => {
-  sessionStorage.clear()
+  sessionStorage.removeItem('accessToken');
 })
 </script>
 

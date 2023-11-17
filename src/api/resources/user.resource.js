@@ -25,9 +25,11 @@ const chooseMessage = (error) => {
 }
 
 export const createTrain = (train) => {
+
   return api
     .post(`/users/me/trains`, {
-      name: train.name
+      name: train.name,
+      date: train.date
     })
     .then(({ data }) => {
       return data
@@ -107,21 +109,17 @@ export const getExercise = (id) => {
 }
 export const getTrainExercise = (id) => {
   return api
-    .get(`/trains_exercises/${id}`)
+    .get(`me/trains_exercises/${id}`)
     .then(({ data }) => {
       return data
     })
     .catch((err) => {
-      showToast({
-        error: err,
-        message: 'Erro',
-        description: err?.response?.data?.message || err?.response?.message
-      })
+      console.error(err)
     })
 }
 export const createExerciceToTrain = (data) => {
   return api
-    .post('/trains_exercises', {
+    .post('me/trains_exercises', {
       name: data.name,
 
       train_id: data.train_id,
@@ -145,7 +143,7 @@ export const createExerciceToTrain = (data) => {
 
 export const editExerciceToTrain = (data) => {
   return api
-    .put(`/trains_exercises/${data.id}`, {
+    .put(`me/trains_exercises/${data.id}`, {
       series: data.series,
       wheight: data.wheight,
       reps: data.reps,
@@ -162,6 +160,22 @@ export const editExerciceToTrain = (data) => {
       })
     })
 }
+
+export const deleteTrainExercise = (id) => {
+  return api
+    .delete(`me/trains_exercises/${id}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 export const deleteTrain = (id) => {
   return api
     .delete(`/users/me/trains/${id}`)
@@ -176,24 +190,23 @@ export const deleteTrain = (id) => {
       })
     })
 }
-export const deleteTrainExercise = (id) => {
-  return api
-    .delete(`/trains_exercises/${id}`)
-    .then(({ data }) => {
-      return data
-    })
-    .catch((err) => {
-      showToast({
-        error: err,
-        message: 'Erro',
-        description: err?.response?.data?.message || err?.response?.message
-      })
-    })
-}
 
-export const fetchActivitys = () => {
+export const fetchActivitys = (searchDate) => {
+
+  const currentDate = searchDate ? new Date(searchDate) : new Date()
+  currentDate.setHours(0, 0, 0, 0)
+
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
+
+  const formattedDate = searchDate
+    ? searchDate
+    : `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+
+
   return api
-    .get(`/users/me/trains`)
+    .get(`/users/me/trains/?date=${formattedDate}`)
     .then(({ data }) => {
       return data
     })
@@ -383,7 +396,8 @@ export const createMeal = (meal) => {
       meal_consumed_kcal: meal.meal_consumed_kcal,
       meal_consumed_carb: meal.meal_consumed_carb,
       meal_consumed_fat: meal.meal_consumed_fat,
-      meal_consumed_protein: meal.meal_consumed_protein
+      meal_consumed_protein: meal.meal_consumed_protein,
+      date: meal.date
     })
     .then(({ data }) => {
       return data

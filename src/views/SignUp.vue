@@ -65,7 +65,7 @@ const chooseMessage = (error) => {
 }
 
 onMounted(() => {
-  sessionStorage.clear()
+  sessionStorage.removeItem('accessToken');
 })
 
 const isValidEmail = (email) => {

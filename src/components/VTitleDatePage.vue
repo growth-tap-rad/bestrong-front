@@ -112,6 +112,7 @@ const debounceGoTO = debounce(goTo, 600)
   }
 
   .icon {
+    cursor: pointer;
     padding: 10px;
     font-size: 20px;
     color: var(--text-color-light2);

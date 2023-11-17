@@ -47,7 +47,6 @@ const goTo = (route) => {
     color: var(--text-color-light);
     display: flex;
     margin: 0 auto;
-    padding-right: 40px;
   }
 
   .icon {

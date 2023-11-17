@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useRoute } from 'vue-router'
 import { useTrainStore } from '../stores/train.store'
+import { useAppStore } from '../stores/app.store'
 import { useExerciseStore } from '../stores/exercise.store'
 import VTitleDatePage from '../components/VTitleDatePage.vue'
 import VBottomMenu from '../components/VBottomMenu.vue'
@@ -10,14 +10,16 @@ import VTrainList from '../components/VTrainList.vue'
 import esteira from '@/assets/imgs/esteira.jpeg'
 import VButton from '../components/VButton.vue';
 import VInputIcon from '../components/VInputIcon.vue'
+import { fetchActivitys } from '../api/resources/user.resource'
 
 const exerciseStore = useExerciseStore()
 const trainStore = useTrainStore()
 const router = useRouter()
-const route = useRoute()
 const train = ref(true)
 const exercise = ref(false)
 const notFoundExercises = ref(false);
+
+const appStore = useAppStore()
 let activitys = ref({})
 let exercises = ref([])
 let page = 0;
@@ -32,8 +34,11 @@ const toggleOption = (option) => {
 
   }
 }
-onMounted(async () => {
-  await trainStore.fetchActivitys()
+
+
+const fetchTrains = async () => {
+  
+  await trainStore.fetchActivitys(appStore.getCurrentQueryDate)
   activitys.value = trainStore.getActivitys
   const query = {
     page: page,
@@ -42,6 +47,16 @@ onMounted(async () => {
 
   await exerciseStore.fetchExercises(query)
   exercises.value = exerciseStore.getExercises
+}
+onMounted(async () => {
+  fetchTrains()
+
+  if (!appStore.getCurrentQueryDate) {
+    appStore.setCurrentDayToDateSearch()
+    router.push({ name: 'Trains', params: { date: appStore.getCurrentQueryDate } })
+  }
+
+
 })
 const editTrain = (id) => {
   router.push(`/train/edit/${id}`)
@@ -111,7 +126,7 @@ const debounceFindExercise = debounce(findExercise, 600)
 <template>
   <section class="train">
     <header class="header">
-      <VTitleDatePage title="Treino" :actions="false" />
+      <VTitleDatePage title="Treino"/>
     </header>
     <main class="main">
 
@@ -225,7 +240,7 @@ const debounceFindExercise = debounce(findExercise, 600)
 
   .box-selections {
     margin-top: 100px;
-    padding: 0 20px 100px 20px ;
+    padding: 0 20px 100px 20px;
 
     .selection {
       margin: 20px auto;
