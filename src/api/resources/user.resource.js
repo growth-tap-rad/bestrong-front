@@ -25,7 +25,7 @@ const chooseMessage = (error) => {
 }
 
 export const createTrain = (train) => {
-  console.log(train)
+
   return api
     .post(`/users/me/trains`, {
       name: train.name,

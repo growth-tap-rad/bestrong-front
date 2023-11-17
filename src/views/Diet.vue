@@ -98,7 +98,7 @@ const fetchDiaryData = async () => {
     macros.protein.now += element.meal_consumed_protein
     macros.carb.now += element.meal_consumed_carb
     macros.fat.now += element.meal_consumed_fat
-console.log(element)
+
     meals.value.push({
       ...element,
       items: element.meal_food,
