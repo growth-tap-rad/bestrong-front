@@ -34,16 +34,7 @@ const toggleOption = (option) => {
 
   }
 }
-const actionsTitlePage = [
-  {
-    btIcon: '',
-    goTo: '/trains'
-  },
-  {
-    btIcon: '',
-    goTo: '/trains'
-  }
-]
+
 
 const fetchTrains = async () => {
   
@@ -135,7 +126,7 @@ const debounceFindExercise = debounce(findExercise, 600)
 <template>
   <section class="train">
     <header class="header">
-      <VTitleDatePage title="Treino" :actions="actionsTitlePage"  />
+      <VTitleDatePage title="Treino"/>
     </header>
     <main class="main">
 
