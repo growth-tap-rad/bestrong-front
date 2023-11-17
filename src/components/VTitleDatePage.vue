@@ -1,8 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useAppStore } from '../stores/app.store'
-import { useDietStore } from '../stores/diet.store'
 
 const router = useRouter()
 
@@ -113,6 +112,7 @@ const debounceGoTO = debounce(goTo, 600)
   }
 
   .icon {
+    cursor: pointer;
     padding: 10px;
     font-size: 20px;
     color: var(--text-color-light2);

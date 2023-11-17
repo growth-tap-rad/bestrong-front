@@ -64,10 +64,11 @@ const ROUTES = [
     path: '/diet/:date?',
     name: 'Diet',
     component: Diet,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
+   
   },
   {
-    path: '/trains',
+    path: '/trains/:date?',
     name: 'Trains',
     component: Train,
     meta: { requiresAuth: true }
@@ -130,7 +131,8 @@ const ROUTES = [
   {
     path: '/food/list',
     name: 'listaAlimentos',
-    component: ListFoods
+    component: ListFoods,
+    meta: { requiresAuth: true }
   },
   {
     path: '/:pathMatch(.)',
@@ -156,5 +158,7 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
+
+window.router = router
 
 export default router

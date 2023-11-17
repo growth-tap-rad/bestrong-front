@@ -15,8 +15,8 @@ let birthday = ref(userStore.getBirthday)
 let validDate = ref(false)
 
 let inputGender = reactive([
-  { text: 'homem', value: 'man', selected: false },
-  { text: 'mulher', value: 'woman', selected: false }
+  { text: 'Masculino', value: 'man', selected: false },
+  { text: 'Feminino', value: 'woman', selected: false }
 ])
 
 const selectBirthday = (dataString) => {
@@ -35,15 +35,15 @@ const showToast = (error) => {
 }
 
 const chooseMessage = (error) => {
-  switch(error?.error?.response?.status) {
+  switch (error?.error?.response?.status) {
     case 401:
-        return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
       return error.description || 'Falha de comunicação';
   }
-} 
+}
 
 
 const selectGender = (e) => {
@@ -91,12 +91,8 @@ const actionsTitlePage = [
 <template>
   <form class="bg-age" @submit.prevent="goForDiet">
     <VtitlePage title="Gênero e Data de nascimento:" :actions="actionsTitlePage" />
-    <VInputDate
-      title="Data nascimento:"
-      @changeDate="(data) => selectBirthday(data)"
-      @validDate="(bool) => (validDate = bool)"
-      :value="birthday"
-    />
+    <VInputDate title="Data nascimento:" @changeDate="(data) => selectBirthday(data)"
+      @validDate="(bool) => (validDate = bool)" :value="birthday" />
     <VDropdown title="Gênero" :options="inputGender" @update="(e) => selectGender(e)" />
     <VButton text="Continuar" class="button" :disabled="!validDate" />
   </form>

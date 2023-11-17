@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { onMounted , watch, ref } from 'vue'
+import { onMounted, watch, ref } from 'vue'
 import { useUserStore } from '../stores/user.store'
 import VButton from '../components/VButton.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
@@ -12,25 +12,25 @@ const router = useRouter()
 
 const inputName = {
   title: 'Nome',
-  placeholder: 'Digite seu nome',
+  placeholder: 'Ex: Joao Silva',
   type: 'text',
   value: userStore.getName
 }
 const inputEmail = {
   title: 'E-mail',
-  placeholder: 'Digite seu e-mail',
+  placeholder: 'Ex: joao@gmail.com',
   type: 'text',
   value: userStore.getEmail
 }
 const inputPassword = {
   title: 'Senha',
-  placeholder: 'Digite uma senha',
+  placeholder: '*********',
   type: 'password',
   value: userStore.getPassword
 }
 const inputUserName = {
   title: 'Nome de Usuario',
-  placeholder: 'Digite um nome de usuario',
+  placeholder: 'Ex: JoaoRZA',
   type: 'text',
   value: userStore.getUsername
 }
@@ -65,7 +65,7 @@ const chooseMessage = (error) => {
 }
 
 onMounted(() => {
-  sessionStorage.clear()
+  sessionStorage.removeItem('accessToken');
 })
 
 const isValidEmail = (email) => {
@@ -91,7 +91,7 @@ const goForDiet = async () => {
   if (!isValidEmail(payload.email)) {
     showToast({
       message: 'Alerta',
-      description: 'Endereço de e-mail inválido.'
+      description: 'Endereço de e-mail inválido. use algo como joao@gmail.com'
     });
     return;
   }
