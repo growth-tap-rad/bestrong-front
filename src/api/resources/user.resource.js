@@ -400,7 +400,8 @@ export const createMeal = (meal) => {
       meal_consumed_kcal: meal.meal_consumed_kcal,
       meal_consumed_carb: meal.meal_consumed_carb,
       meal_consumed_fat: meal.meal_consumed_fat,
-      meal_consumed_protein: meal.meal_consumed_protein
+      meal_consumed_protein: meal.meal_consumed_protein,
+      date:meal.date
     })
     .then(({ data }) => {
       return data

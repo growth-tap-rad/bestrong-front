@@ -66,12 +66,15 @@ const updateMeal = (e) => {
   meal.value.name = e
 }
 const createMeal = async () => {
+  const appStore = useAppStore()
+
   return await mealStore.createMeal({
     name: meal.value.name,
     meal_consumed_kcal: mealMacros.value.kcal,
     meal_consumed_carb: mealMacros.value.carb,
     meal_consumed_fat: mealMacros.value.fat,
-    meal_consumed_protein: mealMacros.value.protein
+    meal_consumed_protein: mealMacros.value.protein,
+    date: appStore.getCurrentQueryDate,
   })
 }
 
@@ -226,7 +229,7 @@ const deleteMealFood = (id) => {
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
               <span>{{ getUnity(mealFood.unity) }}</span>
             </div>
-            <button @click="deleteMealFood(mealFood.id)">X</button>
+            <button class="delete" @click="deleteMealFood(mealFood.id)">X</button>
           </div>
         </section>
       </section>
@@ -298,6 +301,16 @@ p {
       justify-content: space-between;
       padding: 10px 20px;
       border-radius: 5px;
+
+      .delete {
+        background-color: var(--bg-color-dark);
+        color: var(--text-color-light);
+        border: 2px solid black;
+        border-radius: 5px;
+        width: 30px;
+        height: 30px;
+
+      }
     }
   }
 

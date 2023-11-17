@@ -55,7 +55,6 @@ const back = () => {
 const createTrain = async () => {
   const appStore = useAppStore()
 
-  console.log("aaaaaaaaaaaaaaaaaaaaa" ,appStore)
   return await trainStore.createTrain({
     name: train.value.name,
     date: appStore.getCurrentQueryDate,
@@ -233,22 +232,21 @@ p {
       padding: 10px 20px;
       border-radius: 5px;
       flex-direction: column;
-      ;
-
 
     }
 
     .delete {
-      width: 50px;
-
-      border: none;
+      border: 2px solid black;
       border-radius: 5px;
-      background-color: var(--bg-color-light);
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      margin: auto;
+      border-radius: 5px;
+      background-color: var(--bg-color-dark);
+      color: var(--text-color-light);
     }
   }
-
-  .exerciseItems {}
-
 
   .oveflow {
     max-width: 250px;
@@ -257,10 +255,6 @@ p {
     text-overflow: ellipsis;
     display: inline-block;
   }
-
-
-
-
 
 }
 </style>
