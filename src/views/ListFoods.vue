@@ -23,6 +23,7 @@ const back = () => {
 
 
 const setNotFoundFoods = () => {
+  console.log(foods.value)
   if (!foods.value.length) {
     notFoundFoods.value = true
   } else {
@@ -38,9 +39,11 @@ const getFoods = async () => {
   }
 
   await foodStore.fetchFoods(query);
+
   const storeFoods = foodStore.getFoods
   foods.value = storeFoods ? [...foods.value, ...storeFoods] : []
   page += 20;
+
   setNotFoundFoods()
 }
 
