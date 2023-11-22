@@ -23,7 +23,6 @@ const back = () => {
 
 
 const setNotFoundFoods = () => {
-  console.log(foods.value)
   if (!foods.value.length) {
     notFoundFoods.value = true
   } else {
