@@ -62,8 +62,8 @@ const actionsTitlePage = [
 
         <section class="perfil-data">
 
-          <span class="highlight">{{ user.height }}</span>
-          <span>Centímetros</span>
+          <span class="highlight">{{ user.height /100 }}</span>
+          <span>Metros</span>
         </section>
 
       </section>
@@ -103,12 +103,12 @@ const actionsTitlePage = [
     }
   }
 
-  .footer {
-    position: fixed;
-    z-index: 3;
-    width: 100%;
-    bottom: 0;
-  }
+   .footer {
+      position: fixed;
+      z-index: 3;
+      width: 100%;
+      bottom: 0;
+    }
 
   .main {
     .photo {

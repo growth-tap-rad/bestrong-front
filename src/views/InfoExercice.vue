@@ -34,7 +34,7 @@ const showToast = (error) => {
 const chooseMessage = (error) => {
   switch (error?.error?.response?.status) {
     case 401:
-        return 'Não autorizado';
+      return 'Não autorizado';
     case 500:
       return 'Ops, Ocorreu um erro';
     default:
@@ -156,16 +156,23 @@ const updateExerciseRestDuration = (e) => {
         <h2 class="header-exercise-level"> Nível: {{ exercise.level }}</h2>
 
       </section>
-      <VInput v-if="route.params.id" :value="exercise.series"
-        :data="{ placeholder: 'Quantidade de series', type: 'number' }" @update="(e) => updateExerciseSeries(e)"
-        class="input" />
-      <VInput v-if="route.params.id" :value="exercise.wheight" :data="{ placeholder: 'Peso', type: 'number' }"
-        @update="(e) => updateExerciseWheight(e)" class="input" />
-      <VInput v-if="route.params.id" :value="exercise.reps" :data="{ placeholder: 'Repetições', type: 'number' }"
-        @update="(e) => updateExerciseReps(e)" class="input" />
-      <VInput v-if="route.params.id" :value="exercise.rest_duration"
-        :data="{ placeholder: 'Tempo de descanso', type: 'number' }" @update="(e) => updateExerciseRestDuration(e)"
-        class="input" />
+      <section class="inputs">
+        <VInput v-if="route.params.id" :value="exercise.series"
+          :data="{ placeholder: 'Quantidade de series', type: 'number' }" @update="(e) => updateExerciseSeries(e)"
+          class="input" />
+        <div class=" wgt-and-reps">
+          <VInput v-if="route.params.id" :value="exercise.wheight" :data="{ placeholder: 'Peso', type: 'number' }"
+            @update="(e) => updateExerciseWheight(e)" class="input wgt" />
+          <VInput v-if="route.params.id" :value="exercise.reps" :data="{ placeholder: 'Repetições', type: 'number' }"
+            @update="(e) => updateExerciseReps(e)" class="input reps" />
+        </div>
+
+        <VInput v-if="route.params.id" :value="exercise.rest_duration"
+          :data="{ placeholder: 'Tempo de descanso', type: 'number' }" @update="(e) => updateExerciseRestDuration(e)"
+          class="input" />
+
+
+      </section>
 
 
       <VButton v-if="route.params.id" @click="addExerciceToTrain()" text="Adicionar" class="button" />
@@ -175,6 +182,26 @@ const updateExerciseRestDuration = (e) => {
 </template>
 
 <style scoped>
+.inputs {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+  background-color: var(--bg-color-dark2);
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 50px;
+
+}
+
+.wgt-and-reps {
+  display: flex;
+}
+
+.wgt,
+.reps {
+  width: 50%;
+}
+
 .main {
   background-color: var(--bg-color-dark);
   color: var(--text-color-light);
@@ -231,41 +258,7 @@ const updateExerciseRestDuration = (e) => {
       color: var(--button-color-light);
     }
 
-    .inputs {
-      display: flex;
-      padding: 15px;
-      gap: 10px;
-      background-color: var(--bg-color-dark2);
-      border-radius: 0 0 10px 10px;
 
-      .input-number {
-        width: 4em;
-        padding: 10px;
-        border-radius: 8px;
-        background-color: var(--bg-color-grey);
-        color: var(--text-color-light2);
-        border: none;
-      }
-
-      .input-measure {
-        padding: 10px;
-        border-radius: 8px;
-        background-color: var(--bg-color-grey);
-        color: var(--text-color-light2);
-        border: none;
-        width: 100%;
-        padding: 10px;
-
-      }
-
-      .quantity-information {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-
-
-      }
-    }
   }
 
   .macros {

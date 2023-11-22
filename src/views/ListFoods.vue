@@ -39,6 +39,7 @@ const getFoods = async () => {
   }
 
   await foodStore.fetchFoods(query);
+
   const storeFoods = foodStore.getFoods
   if (!storeFoods.length > 0) {
     hasNotMore.value = true
@@ -48,6 +49,7 @@ const getFoods = async () => {
   }
   foods.value = storeFoods ? [...foods.value, ...storeFoods] : []
   page += 20;
+
   setNotFoundFoods()
 }
 
