@@ -12,6 +12,7 @@ const exerciseStore = useExerciseStore()
 let exercises = ref([])
 let page = 0;
 let notFoundExercises = ref(false);
+const hasNotMore = ref(false);
 
 onMounted(async () => {
   getExercises()
@@ -35,6 +36,12 @@ const getExercises = async () => {
   await exerciseStore.fetchExercises(query)
 
   const storeExercise = exerciseStore.getExercises
+  if (!storeExercise.length > 0) {
+    hasNotMore.value = true
+  }
+  else {
+    hasNotMore.value = false
+  }
   exercises.value = storeExercise ? [...exercises.value, ...storeExercise] : []
   page += 20;
   setnotFoundExercises()
@@ -68,6 +75,9 @@ const findExercise = async () => {
     getExercises()
     return
   }
+  if (page) {
+    page = 0
+  }
 
   const query = {
     page: page,
@@ -75,6 +85,12 @@ const findExercise = async () => {
   }
   await exerciseStore.fetchExercises(query)
   const storeExercise = exerciseStore.getExercises
+  if (!storeExercise.length > 0) {
+    hasNotMore.value = true
+  }
+  else {
+    hasNotMore.value = false
+  }
   exercises.value = storeExercise ? [...storeExercise] : []
 
   setnotFoundExercises()
@@ -101,7 +117,8 @@ const debounceFindExercise = debounce(findExercise, 600)
     <section class="not-found-exercises" v-if="notFoundExercises">
       <span>Nenhum Resultado para esta pesquisa, tente buscar por outro exercicio...</span>
     </section>
-    <VButton class="more-exercise" @click="getExercises()" text="+ exercicio" :disabled="notFoundExercises" />
+    <VButton class="more-exercise" @click="getExercises()" text="+ exercicio"
+      :disabled="notFoundExercises || hasNotMore" />
   </div>
 </template>
 <style scoped>
