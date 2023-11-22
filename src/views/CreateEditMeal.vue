@@ -229,7 +229,9 @@ const deleteMealFood = (id) => {
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
               <span>{{ getUnity(mealFood.unity) }}</span>
             </div>
-            <button class="delete" @click="deleteMealFood(mealFood.id)">X</button>
+            <button class="delete" @click="deleteMealFood(mealFood.id)">
+              <i class="bi bi-trash3 delete"></i>
+            </button>
           </div>
         </section>
       </section>
@@ -303,13 +305,12 @@ p {
       border-radius: 5px;
 
       .delete {
-        background-color: var(--bg-color-dark);
+        border: none;
         color: var(--text-color-light);
-        border: 2px solid black;
-        border-radius: 5px;
+        background: transparent;
         width: 30px;
         height: 30px;
-
+        font-size: 20px;
       }
     }
   }
