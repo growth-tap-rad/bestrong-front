@@ -12,6 +12,7 @@ const foodStore = useFoodStore()
 let foods = ref([])
 let page = 0;
 let notFoundFoods = ref(false);
+const hasNotMore = ref(false);
 
 onMounted(async () => {
   getFoods()
@@ -39,6 +40,12 @@ const getFoods = async () => {
 
   await foodStore.fetchFoods(query);
   const storeFoods = foodStore.getFoods
+  if (!storeFoods.length > 0) {
+    hasNotMore.value = true
+  }
+  else {
+    hasNotMore.value = false
+  }
   foods.value = storeFoods ? [...foods.value, ...storeFoods] : []
   page += 20;
   setNotFoundFoods()
@@ -75,6 +82,10 @@ const findFood = async () => {
     return
   }
 
+  if (page) {
+    page = 0
+  }
+
   const query = {
     page: page,
     search: inputSearchFood.value || ''
@@ -82,8 +93,14 @@ const findFood = async () => {
 
   await foodStore.fetchFoods(query);
   const storeFoods = foodStore.getFoods
+  if (!storeFoods.length > 0) {
+    hasNotMore.value = true
+  }
+  else {
+    hasNotMore.value = false
+  }
   foods.value = storeFoods ? [...storeFoods] : []
-
+  page += 20;
   setNotFoundFoods()
 }
 
@@ -111,7 +128,7 @@ const debounceFindFood = debounce(findFood, 600)
     <section class="not-found-foods" v-if="notFoundFoods">
       <span>Nenhum Resultado para esta pesquisa, tente buscar por outro alimento...</span>
     </section>
-    <VButton class="more-food" @click="getFoods()" text="+ Alimentos" :disabled="notFoundFoods" />
+    <VButton class="more-food" @click="getFoods()" text="+ Alimentos" :disabled="notFoundFoods || hasNotMore" />
   </div>
 </template>
 <style scoped>
