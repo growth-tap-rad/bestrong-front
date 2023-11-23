@@ -2,15 +2,15 @@ import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 import { useUserStore } from '../../stores/user.store'
 
-const showToast = (err) => {
+const showToast = (error) => {
   if (error) {
-    console.error('Erro: ', err)
+    console.error('Erro: ', error)
   }
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
-    message: err.message,
-    description: chooseMessage(err)
+    message: error.message,
+    description: chooseMessage(error)
   })
 }
 

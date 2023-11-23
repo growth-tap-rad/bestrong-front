@@ -6,6 +6,7 @@ import { useSignInStore } from '../stores/sign.in.store'
 import VButton from '../components/VButton.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
 import VInputIcon from '../components/VInputIcon.vue'
+import { useAppStore } from '../stores/app.store'
 
 const signInStore = useSignInStore()
 const userStore = useUserStore()
@@ -26,8 +27,20 @@ const inputPassword = {
 const backToLogin = () => {
   router.back()
 }
+const showToast = (error) => {
+  if (error) {
+    console.error('Erro: ', error)
+  }
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error.description
+  })
+}
 
 const signin = () => {
+
   signInStore.signIn({
     email: inputEmail,
     password: inputPassword

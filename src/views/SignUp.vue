@@ -72,6 +72,10 @@ const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+const isValidPassword = (password) => {
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d.]{8,}$/;
+  return regex.test(password);
+};
 
 const goForDiet = async () => {
   const payload = {
@@ -91,9 +95,17 @@ const goForDiet = async () => {
   if (!isValidEmail(payload.email)) {
     showToast({
       message: 'Alerta',
-      description: 'Endereço de e-mail inválido. use algo como joao@gmail.com'
+      description: 'Endereço de e-mail inválido.Use algo como joao@gmail.com'
     });
+
     return;
+  }
+  if (!isValidPassword(payload.password)) {
+    showToast({
+      message: 'Alerta',
+      description: 'Senha inválida.Use algo como Senha.Segura123'
+    });
+    return
   }
 
   try {
