@@ -6,6 +6,7 @@ import { useSignInStore } from '../stores/sign.in.store'
 import VButton from '../components/VButton.vue'
 import VButtonArrowLeft from '../components/VButtonArrowLeft.vue'
 import VInputIcon from '../components/VInputIcon.vue'
+import { useAppStore } from '../stores/app.store'
 
 const signInStore = useSignInStore()
 const userStore = useUserStore()
@@ -26,15 +27,30 @@ const inputPassword = {
 const backToLogin = () => {
   router.back()
 }
+const showToast = (error) => {
+  if (error) {
+    console.error('Erro: ', error)
+  }
+  const appStore = useAppStore()
+  appStore.setToast({
+    show: true,
+    message: error.message,
+    description: error.description
+  })
+}
 
 const signin = () => {
-  signInStore.signIn({ email: inputEmail, password: inputPassword })
-  .then((data) => {
-    if (data) {
-      router.push('/diet')
-      return
-    }
+
+  signInStore.signIn({
+    email: inputEmail,
+    password: inputPassword
   })
+    .then((data) => {
+      if (data) {
+        router.push('/diet')
+        return
+      }
+    })
 }
 
 onMounted(() => {
@@ -51,18 +67,8 @@ onMounted(() => {
       <h1 class="title-page">Entre com seu e-mail</h1>
     </header>
     <form class="main" @submit.prevent="signin">
-      <VInputIcon
-        :data="inputEmail"
-        :hasIcon="true"
-        iconName="bi bi-envelope"
-        v-model="inputEmail.value"
-      />
-      <VInputIcon
-        :data="inputPassword"
-        :hasIcon="true"
-        iconName="bi bi-key-fill"
-        v-model="inputPassword.value"
-      />
+      <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
+      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
       <VButton text="Continuar" class="button" />
       <p class="text">
         Esqueceu sua senha?
