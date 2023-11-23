@@ -2,21 +2,32 @@
 import { onMounted, reactive, ref } from 'vue';
 import { useProfileStore } from '../stores/profile.store';
 import VtitlePage from '../components/VtitlePage.vue';
-import VButtonArrowLeft from '../components/VButtonArrowLeft.vue';
 import VBottomMenu from '../components/VBottomMenu.vue';
+import VButton from '../components/VButton.vue';
+import VInput from '../components/VInput.vue';
+import VDropdown from '../components/VDropdown.vue';
 
-const ButtonBottomOptions = ref(false)
+const isEditing = ref(false)
 const profileStore = useProfileStore()
-let user = reactive({ name: 'name', weight: '00', height: '00' })
+let user = reactive({ name: '', weight: '00.00', height: '00', activityLevel: '', goal: '' })
 
 onMounted(() => {
+  getUserProfile()
+})
+
+const getUserProfile = () => {
   profileStore.getUser()
     .then((data) => {
+      const progresses = data.progress
+      const lastProgress = progresses[progresses.length - 1]
+
       user.name = data.name,
-        user.height = data.progress[0].height,
-        user.weight = data.progress[0].weight
+        user.height = lastProgress.height,
+        user.weight = lastProgress.weight
+      user.activityLevel = profileStore.getActivityLevelPt(lastProgress.activity_level)
+      user.goal = profileStore.getGoalPt(lastProgress.goal)
     })
-})
+}
 
 const actionsTitlePage = [
   {
@@ -29,9 +40,73 @@ const actionsTitlePage = [
   }
 ]
 
+
+const updateProfile = () => {
+  // Request to update profile..!
+
+  //getUserProfile()
+}
+
+const updateValue = (value, newValue) => {
+  user[value] = newValue
+}
+
+let inputSelectActivityLevel = ref([
+  { text: 'Baixa', value: 'low', selected: user.activityLevel == 'Baixa' },
+  { text: 'Moderada', value: 'moderate', selected: user.activityLevel == 'Moderada' },
+  { text: 'Intensa', value: 'intense', selected: user.activityLevel == 'Intensa' }
+])
+
+let inputSelectGoal = ref([
+  { text: 'Manter peso', value: 'maintain', selected: user.goal == 'Manter peso' },
+  { text: 'Perder peso', value: 'lose', selected: user.goal == 'Perder peso' },
+  { text: 'Ganhar peso', value: 'gain', selected: user.goal == 'Ganhar peso' }
+])
+
+const toggleEditValues = () => {
+
+  inputSelectActivityLevel.value = [
+    { text: 'Baixa', value: 'low', selected: user.activityLevel == 'Baixa' },
+    { text: 'Moderada', value: 'moderate', selected: user.activityLevel == 'Moderada' },
+    { text: 'Intensa', value: 'intense', selected: user.activityLevel == 'Intensa' }
+  ]
+
+  inputSelectGoal.value = [
+    { text: 'Manter peso', value: 'maintain', selected: user.goal == 'Manter peso' },
+    { text: 'Perder peso', value: 'lose', selected: user.goal == 'Perder peso' },
+    { text: 'Ganhar peso', value: 'gain', selected: user.goal == 'Ganhar peso' }
+  ]
+
+  isEditing.value = !isEditing.value
+  getUserProfile()
+}
+
+const selectActivity = (e) => {
+  inputSelectActivityLevel.value = inputSelectActivityLevel.value.map((opt) => {
+    if (opt.value == e) {
+      opt.selected = !opt.selected
+    } else {
+      opt.selected = false
+    }
+    return opt
+  })
+}
+
+const selectGoal = (e) => {
+  inputSelectGoal.value = inputSelectGoal.value.map((opt) => {
+    if (opt.value == e) {
+      opt.selected = !opt.selected
+    } else {
+      opt.selected = false
+    }
+    return opt
+  })
+}
+
+
 </script>
 <template >
-  <div class="Primary">
+  <div class="profile">
     <header class="header">
       <VtitlePage title="Perfil" class="titlepage" :actions="actionsTitlePage" />
       <button class="buttonIcon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#626463"
@@ -50,37 +125,66 @@ const actionsTitlePage = [
       </section>
 
       <section class="perfil-name">
-        <h2>{{ user.name || "Usuário" }}</h2>
+        <h2 v-if="!isEditing">{{ user.name || "Usuário" }}</h2>
+        <VInput v-else :value="user.name" @update="(e) => updateValue('name', e)" class="input" />
       </section>
 
       <section class="perfil-section">
 
         <section class="perfil-values">
-          <span class="highlight">{{ user.weight }}</span>
-          <span>kilogramas</span>
+          <span v-if="!isEditing" class="highlight">{{ user.weight }} kg</span>
+          <VInput v-else :value="user.weight" :data="{ value: user.weight, mask: ['##.##', '###.##'] }"
+            @update="(e) => updateValue('weight', e)" class="input minor" />
+          <span>Peso atual</span>
         </section>
 
         <section class="perfil-data">
 
-          <span class="highlight">{{ user.height /100 }}</span>
-          <span>Metros</span>
+          <span v-if="!isEditing" class="highlight">{{ user.height }} cm</span>
+          <VInput v-else :value="user.height" :data="{ value: user.height, mask: '#.##' }"
+            @update="(e) => updateValue('height', e)" class="input minor" />
+          <span>Altura</span>
         </section>
 
       </section>
+
+      <section class="perfil-section">
+
+        <section class="perfil-values">
+          <span v-if="!isEditing" class="highlight">{{ user.activityLevel }}</span>
+          <VDropdown v-else :options="inputSelectActivityLevel" firstOpt="Selecione" @update="(e) => selectActivity(e)"
+            class="input minor" />
+          <span>Nível de atividade</span>
+        </section>
+
+        <section class="perfil-data">
+
+          <span v-if="!isEditing" class="highlight">{{ user.goal }}</span>
+          <VDropdown v-else :options="inputSelectGoal" firstOpt="Selecione" @update="(e) => selectGoal(e)"
+            class="input minor" />
+          <span>Objetivo</span>
+        </section>
+
+      </section>
+
+
+      <VButton :text="!isEditing ? 'Editar' : 'Cancelar'" class="button" :defaultColor="true"
+        @click="toggleEditValues()" />
+      <VButton v-if="isEditing" text="Salvar" class="button" :defaultColor="true" @click="updateProfile()" />
 
       <section class="Progress">
         <!-- <p>Histórico progresso</p> -->
 
       </section>
-      <VBottomMenu class="footer" actualRoute="/profile" />
     </main>
+    <VBottomMenu class="footer" actualRoute="/profile" />
 
   </div>
 </template>
 
 
 <style scoped>
-.Primary {
+.profile {
   background-color: var(--bg-color-dark2);
   width: 100%;
   min-height: 100vh;
@@ -103,14 +207,28 @@ const actionsTitlePage = [
     }
   }
 
-   .footer {
-      position: fixed;
-      z-index: 3;
-      width: 100%;
-      bottom: 0;
+  .input {
+    max-width: 240px;
+
+    &.minor {
+      max-width: 120px;
     }
+  }
+
+  .button {
+    margin-top: 30px;
+  }
+
+  .footer {
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    bottom: 0;
+  }
 
   .main {
+    padding: 0 20px;
+
     .photo {
       display: flex;
       align-items: center;
@@ -131,15 +249,15 @@ const actionsTitlePage = [
       text-align: center;
       justify-content: center;
       align-items: center;
-      margin: 20px 0;
+      padding: 24px 0;
     }
   }
 
   .perfil-section {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
+    justify-content: space-around;
+    padding: 40px 0;
 
     .perfil-data {
       display: flex;
@@ -159,6 +277,7 @@ const actionsTitlePage = [
 
     .highlight {
       color: var(--text-color-highlighted2);
+      font-size: 18px;
     }
   }
 
