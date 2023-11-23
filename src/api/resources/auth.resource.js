@@ -2,15 +2,15 @@ import api from '../apiAxios'
 import { useAppStore } from '../../stores/app.store'
 import { useUserStore } from '../../stores/user.store'
 
-const showToast = (err) => {
+const showToast = (error) => {
   if (error) {
-    console.error('Erro: ', err)
+    console.error('Erro: ', error)
   }
   const appStore = useAppStore()
   appStore.setToast({
     show: true,
-    message: err.message,
-    description: chooseMessage(err)
+    message: error.message,
+    description: chooseMessage(error)
   })
 }
 
@@ -29,7 +29,7 @@ export const signIn = (data) => {
   const { email, password } = data
   return api
     .post('/auth/sign-in', {
-      email: email.value,
+      email: email.value.toLowerCase(),
       password: password.value
     })
     .then(({ data }) => {
@@ -53,7 +53,7 @@ export const signUp = (data) => {
   return api
     .post('auth/sign-up', {
       name: name,
-      email: email,
+      email: email.toLowerCase(),
       password: password,
       username: username,
       birthday: birthday,
