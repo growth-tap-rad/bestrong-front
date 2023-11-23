@@ -73,8 +73,8 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 const isValidPassword = (password) => {
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d.]{8,}$/;
-  return regex.test(password);
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d.]{8,}$/;
+  return passwordRegex.test(password);
 };
 
 const goForDiet = async () => {
