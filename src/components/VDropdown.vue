@@ -9,6 +9,10 @@ const props = defineProps({
   title: {
     type: String,
     default: ''
+  },
+  firstOpt: {
+    type: String,
+    default: 'Selecione seu gênero'
   }
 })
 
@@ -18,7 +22,7 @@ const props = defineProps({
   <div class="inputs">
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <select class="form-select input" aria-label="Gender" @input="$emit('update', $event.target.value)">
-      <option selected disabled class="option">Selecione seu gênero</option>
+      <option selected disabled class="option"> {{ props.firstOpt }}</option>
       <option v-for="(item, index) in props.options" class="option" :value="item.value" :selected="item.selected">{{
         item.text }} </option>
     </select>
