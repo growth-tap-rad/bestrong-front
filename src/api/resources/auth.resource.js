@@ -29,7 +29,7 @@ export const signIn = (data) => {
   const { email, password } = data
   return api
     .post('/auth/sign-in', {
-      email: email.value,
+      email: email.value.toLowerCase(),
       password: password.value
     })
     .then(({ data }) => {
@@ -53,7 +53,7 @@ export const signUp = (data) => {
   return api
     .post('auth/sign-up', {
       name: name,
-      email: email,
+      email: email.toLowerCase(),
       password: password,
       username: username,
       birthday: birthday,

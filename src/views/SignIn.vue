@@ -28,13 +28,16 @@ const backToLogin = () => {
 }
 
 const signin = () => {
-  signInStore.signIn({ email: inputEmail, password: inputPassword })
-  .then((data) => {
-    if (data) {
-      router.push('/diet')
-      return
-    }
+  signInStore.signIn({
+    email: inputEmail,
+    password: inputPassword
   })
+    .then((data) => {
+      if (data) {
+        router.push('/diet')
+        return
+      }
+    })
 }
 
 onMounted(() => {
@@ -51,18 +54,8 @@ onMounted(() => {
       <h1 class="title-page">Entre com seu e-mail</h1>
     </header>
     <form class="main" @submit.prevent="signin">
-      <VInputIcon
-        :data="inputEmail"
-        :hasIcon="true"
-        iconName="bi bi-envelope"
-        v-model="inputEmail.value"
-      />
-      <VInputIcon
-        :data="inputPassword"
-        :hasIcon="true"
-        iconName="bi bi-key-fill"
-        v-model="inputPassword.value"
-      />
+      <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value" />
+      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
       <VButton text="Continuar" class="button" />
       <p class="text">
         Esqueceu sua senha?
