@@ -8,8 +8,10 @@ import VInput from '../components/VInput.vue';
 import VDropdown from '../components/VDropdown.vue';
 
 const isEditing = ref(false)
+let atualWeight = 0;
+let atualName = '';
 const profileStore = useProfileStore()
-let user = reactive({ name: '', weight: '00.00', height: '00', activityLevel: '', goal: '' })
+let user = reactive({ id: '', name: '', weight: '00.00', height: '0.00', activityLevel: '', goal: '' })
 
 onMounted(() => {
   getUserProfile()
@@ -21,11 +23,15 @@ const getUserProfile = () => {
       const progresses = data.progress
       const lastProgress = progresses[progresses.length - 1]
 
-      user.name = data.name,
-        user.height = lastProgress.height,
-        user.weight = lastProgress.weight
-      user.activityLevel = profileStore.getActivityLevelPt(lastProgress.activity_level)
-      user.goal = profileStore.getGoalPt(lastProgress.goal)
+      user.name = data.name;
+      atualName = data.name;
+      user.id = lastProgress.id;
+      user.height = lastProgress.height;
+      user.weight = lastProgress.weight;
+      atualWeight = lastProgress.weight
+      user.activityLevel = profileStore.getActivityLevelPt(lastProgress.activity_level);
+      user.goal = profileStore.getGoalPt(lastProgress.goal);
+      console.log(user)
     })
 }
 
@@ -40,11 +46,31 @@ const actionsTitlePage = [
   }
 ]
 
+const updateProfile = async () => {
 
-const updateProfile = () => {
-  // Request to update profile..!
+  const selectedActivity = inputSelectActivityLevel.value.find((activity) => (activity.selected))
+  const selectedGoal = inputSelectGoal.value.find((goal) => (goal.selected))
 
-  //getUserProfile()
+  if (atualWeight != user['weight']) {
+    await profileStore.createProgress({
+      weight: parseFloat(user['weight']),
+      height: parseFloat(user['height']),
+      activity_level: selectedActivity.value,
+      goal: selectedGoal.value
+    })
+
+  } else {
+    await profileStore.editProgress({
+      id: user.id,
+      height: parseFloat(user.height),
+      activity_level: selectedActivity.value,
+      goal: selectedGoal.value
+    })
+  }
+  if (atualName != user.name) {
+    await profileStore.editUser({ name: user.name })
+  }
+  getUserProfile()
 }
 
 const updateValue = (value, newValue) => {
@@ -141,7 +167,7 @@ const selectGoal = (e) => {
         <section class="perfil-data">
 
           <span v-if="!isEditing" class="highlight">{{ user.height }} cm</span>
-          <VInput v-else :value="user.height" :data="{ value: user.height, mask: '#.##' }"
+          <VInput v-else :value="user.height" :data="{ value: user.height, mask: '###' }"
             @update="(e) => updateValue('height', e)" class="input minor" />
           <span>Altura</span>
         </section>

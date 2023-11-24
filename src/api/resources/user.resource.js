@@ -441,6 +441,7 @@ export const deleteMeal = (id) => {
 
 export const createProgress = (data) => {
   const { height, weight, activity_level, goal } = data
+  console.log({ height, weight, activity_level, goal })
   return api
     .post('/users/me/progress', {
       height,
@@ -462,6 +463,26 @@ export const createProgress = (data) => {
 export const getProgress = () => {
   return api
     .get('/users/me/progress')
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const editProgress = (data) => {
+  const { height, activity_level, goal, id } = data
+
+  return api
+    .put(`/users/me/progress/${id}`, {
+      height,
+      activity_level,
+      goal
+    })
     .then(({ data }) => {
       return data
     })
@@ -550,6 +571,22 @@ export const getDiary = (searchDate) => {
 export const getUser = () => {
   return api
     .get('/users/me')
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const editUser = (data) => {
+  return api
+    .put('/users/me', {
+      name: data.name
+    })
     .then(({ data }) => {
       return data
     })

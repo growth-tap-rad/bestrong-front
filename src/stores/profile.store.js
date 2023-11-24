@@ -25,11 +25,20 @@ export const useProfileStore = defineStore('profile', {
     getUser() {
       return userResource.getUser()
     },
-    getActivityLevelPt(level){
+    getActivityLevelPt(level) {
       return this.activity_values[level]
     },
-    getGoalPt(goal){
+    getGoalPt(goal) {
       return this.goal_values[goal]
+    },
+    createProgress(payload) {
+      return userResource.createProgress(payload)
+    },
+    editProgress(payload) {
+      return userResource.editProgress(payload)
+    },
+    editUser(payload) {
+      return userResource.editUser(payload)
     }
   }
 })
