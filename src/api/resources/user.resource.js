@@ -554,6 +554,7 @@ export const getDiary = (searchDate) => {
     ? searchDate
     : `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
 
+
   return api
     .get(`/users/me/diary?date=${formattedDate}`)
     .then(({ data }) => {
@@ -568,9 +569,21 @@ export const getDiary = (searchDate) => {
     })
 }
 
-export const getUser = () => {
+export const getUser = (searchDate) => {
+  const currentDate = searchDate ? new Date(searchDate) : new Date()
+  currentDate.setHours(0, 0, 0, 0)
+
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
+
+  const formattedDate = searchDate
+    ? searchDate
+    : `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+
+
   return api
-    .get('/users/me')
+    .get(`/users/me/?date=${formattedDate}`)
     .then(({ data }) => {
       return data
     })

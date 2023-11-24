@@ -7,6 +7,7 @@ import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
 import VDropdown from '../components/VDropdown.vue';
 import defaultAvatar from '@/assets/imgs/avatarDefault.png';
+import { useAppStore } from '../stores/app.store';
 
 const isEditing = ref(false);
 const isFetchingPhoto = ref(false);
@@ -15,6 +16,7 @@ const form = ref < HTMLFormElement > (null);
 let currentWeight = 0;
 let currentName = '';
 const profileStore = useProfileStore()
+const appStore = useAppStore()
 let user = reactive({ id: '', name: 'name', weight: '00', height: '0.00', avatar: defaultAvatar, activityLevel: '', goal: '' })
 
 onMounted(() => {
@@ -23,7 +25,7 @@ onMounted(() => {
 
 const getUserProfile = async () => {
 
-  profileStore.getUser()
+  profileStore.getUser(appStore.getCurrentQueryDate)
     .then((data) => {
       const progresses = data.progress
       const lastProgress = progresses[progresses.length - 1]
@@ -71,22 +73,9 @@ async function saveImage() {
   }
 };
 
-
-
 const handlePreviewClick = () => {
   inputFile.value.click();
 }
-
-const previewImage = () => {
-  if (inputFile.value.files) {
-    var reader = new FileReader();
-    reader.onload = (e) => {
-      user.value.avatar = e.target.result;
-    }
-    reader.readAsDataURL(inputFile.value.files[0]);
-  }
-}
-
 
 const actionsTitlePage = [
   {
@@ -186,7 +175,7 @@ const selectGoal = (e) => {
     return opt
   })
 }
-
+const podeEditar = true //aqui faz a logica para mostrar ou não o botão editar
 
 </script>
 <template >
@@ -262,7 +251,7 @@ const selectGoal = (e) => {
       </section>
 
 
-      <VButton :text="!isEditing ? 'Editar' : 'Cancelar'" class="button" :defaultColor="true"
+      <VButton v-if="podeEditar" :text="!isEditing ? 'Editar' : 'Cancelar'" class="button" :defaultColor="true"
         @click="toggleEditValues()" />
       <VButton v-if="isEditing" text="Salvar" class="button" :defaultColor="true" @click="updateProfile()" />
 

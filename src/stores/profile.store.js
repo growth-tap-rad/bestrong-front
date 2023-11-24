@@ -22,8 +22,8 @@ export const useProfileStore = defineStore('profile', {
     getProgress() {
       return userResource.getProgress()
     },
-    getUser() {
-      return userResource.getUser()
+    getUser(payload) {
+      return userResource.getUser(payload)
     },
     getActivityLevelPt(level) {
       return this.activity_values[level]
