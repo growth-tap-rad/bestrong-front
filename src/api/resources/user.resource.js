@@ -441,7 +441,6 @@ export const deleteMeal = (id) => {
 
 export const createProgress = (data) => {
   const { height, weight, activity_level, goal } = data
-  console.log({ height, weight, activity_level, goal })
   return api
     .post('/users/me/progress', {
       height,
@@ -601,17 +600,17 @@ export const editUser = (data) => {
 }
 
 export const verifyEmail = (email) => {
-  return api.get(`/users/verify-email?email=${email}`).then(({ data }) => {
-    if (data) {
-      showToast({
-        error: data,
-        message: 'Alerta ',
-        description: 'Endereço de e-mail inválido para usuário.'
-      })
-      return
-    }
-    return data
-  })
+  return api.get(`/users/verify-email?email=${email}`)
+    .then(({ data }) => {
+      if (data) {
+        showToast({
+          error: data,
+          message: 'Alerta ',
+          description: 'Endereço de e-mail inválido para usuário.'
+        })
+      }
+      return data
+    })
 }
 
 export const putUploadImageProfile = (file) => {

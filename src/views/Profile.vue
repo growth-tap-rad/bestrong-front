@@ -21,13 +21,13 @@ onMounted(() => {
   getUserProfile()
 })
 
-const getUserProfile = () => {
+const getUserProfile = async () => {
 
   profileStore.getUser()
     .then((data) => {
       const progresses = data.progress
       const lastProgress = progresses[progresses.length - 1]
-      console.log(lastProgress)
+
       user.name = data.name;
       user.height = lastProgress.height;
       user.weight = lastProgress.weight;

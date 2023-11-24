@@ -112,6 +112,7 @@ const goForDiet = async () => {
 
   try {
     const emailInUse = await userStore.verifyEmail(payload.email)
+ 
     if (!emailInUse) {
       userStore.setUser(payload)
       router.push('/gender-birthday')

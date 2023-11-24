@@ -61,7 +61,6 @@ const fetchDiaryData = async () => {
   await dietStore.fetchDiary(appStore.getCurrentQueryDate)
 
   const data = dietStore.getDiary
-
   if (!data) {
     return
   }
@@ -75,7 +74,7 @@ const fetchDiaryData = async () => {
     consumed_protein
   } = data
   const { daily_goal_kcal, protein, carb, fat } = data.user.progress[data.user.progress?.length-1 || 0]
-console.log(data.user.progress[data.user.progress?.length])
+
   macros.protein.total = protein
   macros.carb.total = carb
   macros.fat.total = fat
