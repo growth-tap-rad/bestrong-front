@@ -39,6 +39,9 @@ export const useProfileStore = defineStore('profile', {
     },
     editUser(payload) {
       return userResource.editUser(payload)
+    },
+    putUploadImageProfile(file){
+        return userResource.putUploadImageProfile(file)
     }
   }
 })

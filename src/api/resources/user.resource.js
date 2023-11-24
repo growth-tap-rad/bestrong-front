@@ -475,11 +475,12 @@ export const getProgress = () => {
     })
 }
 export const editProgress = (data) => {
-  const { height, activity_level, goal, id } = data
+  const { height, activity_level, goal, weight, id } = data
 
   return api
     .put(`/users/me/progress/${id}`, {
       height,
+      weight,
       activity_level,
       goal
     })
@@ -611,4 +612,25 @@ export const verifyEmail = (email) => {
     }
     return data
   })
+}
+
+export const putUploadImageProfile = (file) => {
+
+  const configFile = {
+    timeout: 5000,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  };
+
+  let formData = new FormData();
+  formData.append('file', file)
+
+  return api.put('/users/upload', formData, configFile)
+    .then(data => {
+      if (data)
+        return data.data
+
+      return null;
+    });
 }

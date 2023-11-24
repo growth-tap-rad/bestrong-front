@@ -22,7 +22,7 @@ const inputEmail = {
   type: 'text',
   value: userStore.getEmail
 }
-const inputPassword =ref ({
+const inputPassword = ref({
   title: 'Senha',
   placeholder: '*********',
   type: 'password',
@@ -73,8 +73,10 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 const isValidPassword = (password) => {
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])$/
-  return passwordRegex.test(password);
+  if (password.length >= 8) {
+    return true
+  }
+  return false
 };
 
 const goForDiet = async () => {
@@ -125,7 +127,7 @@ const goForDiet = async () => {
 }
 
 const changeTypePassword = () => {
-  if(inputPassword.value.type == "password"){
+  if (inputPassword.value.type == "password") {
     inputPassword.value.type = 'text'
     return
   }
@@ -146,7 +148,8 @@ const changeTypePassword = () => {
       <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputUserName.value" />
       <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value"
         :isValid="emailIsValid" />
-      <VInputIcon  :data="inputPassword" :hasIcon="true" :isPassword="true"  @changeTypePassword="changeTypePassword()" iconName="bi bi-key-fill" v-model="inputPassword.value" />
+      <VInputIcon :data="inputPassword" :hasIcon="true" :isPassword="true" @changeTypePassword="changeTypePassword()"
+        iconName="bi bi-key-fill" v-model="inputPassword.value" />
 
       <VButton text="Continuar" class="button" :defaultColor="true" />
     </form>
