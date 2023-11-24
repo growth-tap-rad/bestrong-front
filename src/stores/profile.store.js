@@ -30,6 +30,9 @@ export const useProfileStore = defineStore('profile', {
     },
     getGoalPt(goal){
       return this.goal_values[goal]
+    },
+    putUploadImageProfile(file){
+        return userResource.putUploadImageProfile(file)
     }
   }
 })

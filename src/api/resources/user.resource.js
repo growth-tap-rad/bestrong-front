@@ -575,3 +575,24 @@ export const verifyEmail = (email) => {
     return data
   })
 }
+
+export const putUploadImageProfile = (file)=>{
+  
+  const configFile = {
+    timeout: 5000,
+    headers: {
+    'Content-Type': 'multipart/form-data'
+    }
+  };
+
+  let formData = new FormData();
+  formData.append('file', file)
+
+   return api.put('/users/upload', formData, configFile)
+    .then(data => {
+      if(data)
+        return data.data
+
+        return null;
+    });
+}

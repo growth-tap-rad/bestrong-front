@@ -7,9 +7,13 @@ import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
 import VDropdown from '../components/VDropdown.vue';
 
-const isEditing = ref(false)
+
+const isEditing = ref(false);
+const isFetchingPhoto = ref(false);
+const inputFile = ref(null);
+const form = ref < HTMLFormElement > (null);
 const profileStore = useProfileStore()
-let user = reactive({ name: '', weight: '00.00', height: '00', activityLevel: '', goal: '' })
+let user = reactive({ name: 'name', weight: '00', height: '00', avatar: '@/assets/imgs/avatarDefault.png' })
 
 onMounted(() => {
   getUserProfile()
@@ -21,13 +25,62 @@ const getUserProfile = () => {
       const progresses = data.progress
       const lastProgress = progresses[progresses.length - 1]
 
-      user.name = data.name,
-        user.height = lastProgress.height,
-        user.weight = lastProgress.weight
+      user.name = data.name;
+      user.height = lastProgress.height;
+      user.weight = lastProgress.weight;
+      user.avatar = data.avatar;
       user.activityLevel = profileStore.getActivityLevelPt(lastProgress.activity_level)
       user.goal = profileStore.getGoalPt(lastProgress.goal)
     })
 }
+
+const onFileChanged = ($event) => {
+  const target = $event.target;
+  if (target && target.files) {
+    inputFile.value = target.files[0];
+  }
+  saveImage()
+}
+
+async function saveImage() {
+
+  isFetchingPhoto.value = true
+
+  if (inputFile.value) {
+
+    profileStore.putUploadImageProfile(inputFile.value).then(data => {
+      if (data) {
+        user.avatar = data
+      }
+    }).catch((error) => {
+
+      console.error(error);
+      form.value?.reset();
+      inputFile.value = null;
+    }).finally(() => {
+      isFetchingPhoto.value = false
+
+    })
+
+  }
+};
+
+
+
+const handlePreviewClick = () => {
+  inputFile.value.click();
+}
+
+const previewImage = () => {
+  if (inputFile.value.files) {
+    var reader = new FileReader();
+    reader.onload = (e) => {
+      user.value.avatar = e.target.result;
+    }
+    reader.readAsDataURL(inputFile.value.files[0]);
+  }
+}
+
 
 const actionsTitlePage = [
   {
@@ -118,14 +171,23 @@ const selectGoal = (e) => {
     </header>
 
     <main class="main">
+      <div>
+        <input ref="inputFile" v-show="false" class="InputUpload" type="file" @change="onFileChanged($event)"
+          accept="image/*" capture />
+
+      </div>
+
       <section class="photo">
-        <span>
-          <!-- <img class="spam-photo" src="../assets/imgs/PerfilPhoto.jpeg" alt="Foto de Perfil" srcset=""> -->
+        <div v-if="isFetchingPhoto" class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <span v-else>
+          <img @click="handlePreviewClick" :src="user.avatar" class="spam-photo" alt="Foto de Perfil">
         </span>
       </section>
 
       <section class="perfil-name">
-        <h2 v-if="!isEditing">{{ user.name || "Usuário" }}</h2>
+        <h1 v-if="!isEditing">{{ user.name || "Usuário" }}</h1>
         <VInput v-else :value="user.name" @update="(e) => updateValue('name', e)" class="input" />
       </section>
 
@@ -173,7 +235,6 @@ const selectGoal = (e) => {
       <VButton v-if="isEditing" text="Salvar" class="button" :defaultColor="true" @click="updateProfile()" />
 
       <section class="Progress">
-        <!-- <p>Histórico progresso</p> -->
 
       </section>
     </main>
@@ -240,6 +301,7 @@ const selectGoal = (e) => {
       border-radius: 8px;
       width: 120px;
       height: 120px;
+      cursor: pointer;
     }
 
     .perfil-name {
