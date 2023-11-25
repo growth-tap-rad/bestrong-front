@@ -74,7 +74,7 @@ const fetchDiaryData = async () => {
     consumed_fat,
     consumed_protein
   } = data
-  const { daily_goal_kcal, protein, carb, fat } = data.progress
+  const { daily_goal_kcal, protein, carb, fat } = data.user.progress[data.user.progress?.length-1 || 0]
 
   macros.protein.total = protein
   macros.carb.total = carb
