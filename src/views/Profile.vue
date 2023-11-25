@@ -6,27 +6,101 @@ import VBottomMenu from '../components/VBottomMenu.vue';
 import VButton from '../components/VButton.vue';
 import VInput from '../components/VInput.vue';
 import VDropdown from '../components/VDropdown.vue';
+import defaultAvatar from '@/assets/imgs/avatarDefault.png';
+import { useAppStore } from '../stores/app.store';
+import VSparkline from '../components/VSparkline.vue'
 
-const isEditing = ref(false)
+const isEditing = ref(false);
+const isFetchingPhoto = ref(false);
+const inputFile = ref(null);
+const form = ref < HTMLFormElement > (null);
+let currentWeight = 0;
+let currentName = '';
+let weightHistoric = []
+let inputWeights = []
+let progresses = null
+const windowWidth = ref('200')
+
 const profileStore = useProfileStore()
-let user = reactive({ name: '', weight: '00.00', height: '00', activityLevel: '', goal: '' })
+const appStore = useAppStore()
+let user = reactive({ id: '', name: 'name', weight: '00', height: '0.00', avatar: defaultAvatar, activityLevel: '', goal: '' })
 
 onMounted(() => {
   getUserProfile()
-})
+  windowWidth.value = window.innerWidth;
 
-const getUserProfile = () => {
-  profileStore.getUser()
+
+  window.addEventListener('resize', handleResize);
+})
+const handleResize = () => {
+
+  windowWidth.value = window.innerWidth;
+}
+const getUserProfile = async () => {
+
+  profileStore.getUser(appStore.getCurrentQueryDate)
     .then((data) => {
-      const progresses = data.progress
+      progresses = data.progress
+
+      weightHistoric = progresses.map(progress => parseFloat(progress.weight))
+
+      inputWeights = progresses.map(progress => {
+        const year = progress.year.toString().substring(2, 4)
+        return {
+          text: `${progress.weight} kg - ${progress.day}/${progress.month}/${year}`,
+          value: progress.weight,
+          selected: false,
+          disabled: true
+        }
+      })
+
       const lastProgress = progresses[progresses.length - 1]
 
-      user.name = data.name,
-        user.height = lastProgress.height,
-        user.weight = lastProgress.weight
+      user.name = data.name;
+      user.height = lastProgress.height;
+      user.weight = lastProgress.weight;
+      currentWeight = lastProgress.weight;
+      user.avatar = data.avatar || defaultAvatar;
+      currentName = data.name;
+      user.id = lastProgress.id;
       user.activityLevel = profileStore.getActivityLevelPt(lastProgress.activity_level)
       user.goal = profileStore.getGoalPt(lastProgress.goal)
     })
+}
+
+const onFileChanged = ($event) => {
+  const target = $event.target;
+  if (target && target.files) {
+    inputFile.value = target.files[0];
+  }
+  saveImage()
+}
+
+async function saveImage() {
+
+  isFetchingPhoto.value = true
+
+  if (inputFile.value) {
+
+    profileStore.putUploadImageProfile(inputFile.value).then(data => {
+      if (data) {
+        user.avatar = data
+      }
+    }).catch((error) => {
+
+      console.error(error);
+      form.value?.reset();
+      inputFile.value = null;
+    }).finally(() => {
+      isFetchingPhoto.value = false
+
+    })
+
+  }
+};
+
+const handlePreviewClick = () => {
+  inputFile.value.click();
 }
 
 const actionsTitlePage = [
@@ -40,11 +114,36 @@ const actionsTitlePage = [
   }
 ]
 
+const updateProfile = async () => {
 
-const updateProfile = () => {
-  // Request to update profile..!
+  const selectedActivity = inputSelectActivityLevel.value.find((activity) => (activity.selected))
+  const selectedGoal = inputSelectGoal.value.find((goal) => (goal.selected))
 
-  //getUserProfile()
+  if (currentName != user.name) {
+    await profileStore.editUser({ name: user.name })
+  }
+
+  if (currentWeight != user['weight']) {
+    await profileStore.createProgress({
+      weight: parseFloat(user['weight']),
+      height: parseFloat(user['height']),
+      activity_level: selectedActivity.value,
+      goal: selectedGoal.value
+    })
+
+  } else {
+    await profileStore.editProgress({
+      id: user.id,
+      weight: parseFloat(user['weight']),
+      height: parseFloat(user['height']),
+      activity_level: selectedActivity.value,
+      goal: selectedGoal.value
+    })
+  }
+
+
+  isEditing.value = false
+  getUserProfile()
 }
 
 const updateValue = (value, newValue) => {
@@ -62,6 +161,9 @@ let inputSelectGoal = ref([
   { text: 'Perder peso', value: 'lose', selected: user.goal == 'Perder peso' },
   { text: 'Ganhar peso', value: 'gain', selected: user.goal == 'Ganhar peso' }
 ])
+
+
+
 
 const toggleEditValues = () => {
 
@@ -103,13 +205,13 @@ const selectGoal = (e) => {
   })
 }
 
-
 </script>
 <template >
   <div class="profile">
     <header class="header">
       <VtitlePage title="Perfil" class="titlepage" :actions="actionsTitlePage" />
-      <button class="buttonIcon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#626463"
+      <button disabled class="buttonIcon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#e50000"
           class="bi bi-gear-fill" viewBox="0 0 16 16">
           <path
             d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
@@ -118,14 +220,24 @@ const selectGoal = (e) => {
     </header>
 
     <main class="main">
+      <div>
+        <input ref="inputFile" v-show="false" class="InputUpload" type="file" @change="onFileChanged($event)"
+          accept="image/*" capture />
+
+      </div>
+
       <section class="photo">
-        <span>
-          <!-- <img class="spam-photo" src="../assets/imgs/PerfilPhoto.jpeg" alt="Foto de Perfil" srcset=""> -->
+        <div v-if="isFetchingPhoto" class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <span v-else>
+
+          <img @click="handlePreviewClick" :src="user.avatar" class="spam-photo" alt="Foto de Perfil">
         </span>
       </section>
 
       <section class="perfil-name">
-        <h2 v-if="!isEditing">{{ user.name || "Usuário" }}</h2>
+        <h1 v-if="!isEditing">{{ user.name || "Usuário" }}</h1>
         <VInput v-else :value="user.name" @update="(e) => updateValue('name', e)" class="input" />
       </section>
 
@@ -141,7 +253,7 @@ const selectGoal = (e) => {
         <section class="perfil-data">
 
           <span v-if="!isEditing" class="highlight">{{ user.height }} cm</span>
-          <VInput v-else :value="user.height" :data="{ value: user.height, mask: '#.##' }"
+          <VInput v-else :value="user.height" :data="{ value: user.height, mask: '###' }"
             @update="(e) => updateValue('height', e)" class="input minor" />
           <span>Altura</span>
         </section>
@@ -164,18 +276,20 @@ const selectGoal = (e) => {
             class="input minor" />
           <span>Objetivo</span>
         </section>
-
+      </section>
+      <section v-if="!isEditing" class="Progress">
+        <VSparkline v-bind:data="weightHistoric" :width="windowWidth - 110" height="150" />
+        <div class="weight-historic-numbers">
+          <VDropdown firstOpt="Vizualizar Progressos" :options="inputWeights" :listDisabled="true" />
+        </div>
       </section>
 
+      <VButton :text="!isEditing ? 'Editar' : 'Cancelar'" class="button" :class="{ 'mb': !isEditing }"
+        :defaultColor="true" @click="toggleEditValues()" />
+      <VButton v-if="isEditing" text="Salvar" class="button" :class="{ 'mb': isEditing }" :defaultColor="true"
+        @click="updateProfile()" />
 
-      <VButton :text="!isEditing ? 'Editar' : 'Cancelar'" class="button" :defaultColor="true"
-        @click="toggleEditValues()" />
-      <VButton v-if="isEditing" text="Salvar" class="button" :defaultColor="true" @click="updateProfile()" />
 
-      <section class="Progress">
-        <!-- <p>Histórico progresso</p> -->
-
-      </section>
     </main>
     <VBottomMenu class="footer" actualRoute="/profile" />
 
@@ -203,9 +317,12 @@ const selectGoal = (e) => {
     .buttonIcon {
       border: none;
       appearance: transparent;
-      background-color: var(--bg-color-dark2)
+      background-color: var(--bg-color-dark2);
+
+
     }
   }
+
 
   .input {
     max-width: 240px;
@@ -217,6 +334,10 @@ const selectGoal = (e) => {
 
   .button {
     margin-top: 30px;
+  }
+
+  .mb {
+    margin-bottom: 150px;
   }
 
   .footer {
@@ -240,6 +361,7 @@ const selectGoal = (e) => {
       border-radius: 8px;
       width: 120px;
       height: 120px;
+      cursor: pointer;
     }
 
     .perfil-name {
@@ -283,10 +405,21 @@ const selectGoal = (e) => {
 
   .Progress {
     text-align: center;
-    margin-top: 20px;
-    height: 190px;
+    margin: 20px 0;
     color: var(--bg-color-light);
+
   }
 
+  .weight-historic-numbers {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .option:disabled {
+    color: red;
+  }
 }
 </style>

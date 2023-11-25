@@ -22,14 +22,26 @@ export const useProfileStore = defineStore('profile', {
     getProgress() {
       return userResource.getProgress()
     },
-    getUser() {
-      return userResource.getUser()
+    getUser(payload) {
+      return userResource.getUser(payload)
     },
-    getActivityLevelPt(level){
+    getActivityLevelPt(level) {
       return this.activity_values[level]
     },
-    getGoalPt(goal){
+    getGoalPt(goal) {
       return this.goal_values[goal]
+    },
+    createProgress(payload) {
+      return userResource.createProgress(payload)
+    },
+    editProgress(payload) {
+      return userResource.editProgress(payload)
+    },
+    editUser(payload) {
+      return userResource.editUser(payload)
+    },
+    putUploadImageProfile(file){
+        return userResource.putUploadImageProfile(file)
     }
   }
 })

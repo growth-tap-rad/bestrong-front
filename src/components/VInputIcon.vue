@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+const emit = defineEmits()
+
+const props = defineProps({
   data: {
     type: Object,
     required: true,
@@ -22,15 +24,24 @@ defineProps({
   isValid: {
     type: Boolean,
     default: false
-  }
+  },
+  isPassword: {
+    type: Boolean,
+    default: false
+  },
 })
+
+const changeToText = () => {
+  if(!props.isPassword) return
+  emit('changeTypePassword')
+}
 </script>
 
 <template>
   <div class="inputs">
     <label :for="data.title" class="label" v-if="data.title">{{ data.title }}</label>
     <div v-if="hasIcon" class="box-input">
-      <i :class="[iconName, 'icon', { 'disabled': disabled }]"></i>
+      <i :class="[iconName, 'icon', { 'disabled': disabled }]" @click="changeToText"></i>
       <input :disabled="disabled" :type="data.type" :id="data.title" class="input" :class="{ isValid: isValid }"
         :placeholder="data.placeholder" :value="data.value" @input="$emit('update:modelValue', $event.target.value)" />
     </div>

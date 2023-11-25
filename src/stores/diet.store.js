@@ -38,7 +38,7 @@ const defaultState = {
     }]
   },
   showComponentMeal: false,
-  showComponentMenuOptions:false     
+  showComponentMenuOptions: false
 
 }
 
@@ -48,18 +48,17 @@ export const useDietStore = defineStore('diet', {
     getDiary: (state) => state.diary,
     getMeals: (state) => state.diary.meal,
     getShowComponentMeal: (state) => state.showComponentMeal,
-    getShowComponentMenuOptions: (state) =>state.showComponentMenuOptions
+    getShowComponentMenuOptions: (state) => state.showComponentMenuOptions
   },
 
   actions: {
 
     async editDiary(payload) {
-      this.setDiary(await userResource.editDiary(payload))
-      return this.getDiary // q poura é essa???
+      this.diary = await userResource.editDiary(payload)
+      return this.getDiary
     },
     async fetchDiary(searchDate) {
-      this.setDiary(await userResource.getDiary(searchDate)) // ??? pq um fetch ta setando??????? 
-      // tem uma funcao chamado fetch q ta setando numa store, uma requisicao q faz get???????????
+      this.diary = await userResource.getDiary(searchDate)
     },
     setDiary(payload) {
       this.diary = payload
@@ -70,7 +69,7 @@ export const useDietStore = defineStore('diet', {
     setShowComponentMeal(payload) {
       this.showComponentMeal = payload
     },
-    setShowComponentMenuOptions(payload){
+    setShowComponentMenuOptions(payload) {
       this.showComponentMenuOptions = payload
     }
   },

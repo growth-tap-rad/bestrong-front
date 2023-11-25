@@ -473,6 +473,27 @@ export const getProgress = () => {
       })
     })
 }
+export const editProgress = (data) => {
+  const { height, activity_level, goal, weight, id } = data
+
+  return api
+    .put(`/users/me/progress/${id}`, {
+      height,
+      weight,
+      activity_level,
+      goal
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
 
 export const createDiary = () => {
   return api
@@ -533,6 +554,7 @@ export const getDiary = (searchDate) => {
     ? searchDate
     : `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
 
+
   return api
     .get(`/users/me/diary?date=${formattedDate}`)
     .then(({ data }) => {
@@ -547,9 +569,37 @@ export const getDiary = (searchDate) => {
     })
 }
 
-export const getUser = () => {
+export const getUser = (searchDate) => {
+  const currentDate = searchDate ? new Date(searchDate) : new Date()
+  currentDate.setHours(0, 0, 0, 0)
+
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
+
+  const formattedDate = searchDate
+    ? searchDate
+    : `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+
+
   return api
-    .get('/users/me')
+    .get(`/users/me/?date=${formattedDate}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+export const editUser = (data) => {
+  return api
+    .put('/users/me', {
+      name: data.name
+    })
     .then(({ data }) => {
       return data
     })
@@ -563,15 +613,36 @@ export const getUser = () => {
 }
 
 export const verifyEmail = (email) => {
-  return api.get(`/users/verify-email?email=${email}`).then(({ data }) => {
-    if (data) {
-      showToast({
-        error: data,
-        message: 'Alerta ',
-        description: 'Endereço de e-mail inválido para usuário.'
-      })
-      return
+  return api.get(`/users/verify-email?email=${email.toLowerCase()}`)
+    .then(({ data }) => {
+      if (data) {
+        showToast({
+          error: data,
+          message: 'Alerta ',
+          description: 'Endereço de e-mail inválido para usuário.'
+        })
+      }
+      return data
+    })
+}
+
+export const putUploadImageProfile = (file) => {
+
+  const configFile = {
+    timeout: 5000,
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
-    return data
-  })
+  };
+
+  let formData = new FormData();
+  formData.append('file', file)
+
+  return api.put('/users/upload', formData, configFile)
+    .then(data => {
+      if (data)
+        return data.data
+
+      return null;
+    });
 }

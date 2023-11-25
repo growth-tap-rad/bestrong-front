@@ -7,8 +7,8 @@ export default {
   post: (path, body) => {
     return httpClient.post(path, body);
   },
-  put: (path, body) => {
-    return httpClient.put(path, body);
+  put: (path, body, config) => {
+    return httpClient.put(path, body, config);
   },
   delete: (path, params) => {
     return httpClient.delete(path, params);

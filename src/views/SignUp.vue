@@ -22,12 +22,12 @@ const inputEmail = {
   type: 'text',
   value: userStore.getEmail
 }
-const inputPassword = {
+const inputPassword = ref({
   title: 'Senha',
   placeholder: '*********',
   type: 'password',
   value: userStore.getPassword
-}
+})
 const inputUserName = {
   title: 'Nome de Usuario',
   placeholder: 'Ex: JoaoRZA',
@@ -73,15 +73,17 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 const isValidPassword = (password) => {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d.]{8,}$/;
-  return passwordRegex.test(password);
+  if (password.length >= 6) {
+    return true
+  }
+  return false
 };
 
 const goForDiet = async () => {
   const payload = {
     name: inputName.value,
     email: inputEmail.value,
-    password: inputPassword.value,
+    password: inputPassword.value.value,
     username: inputUserName.value
   }
   if (!payload.name || !payload.email || !payload.password || !payload.username) {
@@ -103,13 +105,14 @@ const goForDiet = async () => {
   if (!isValidPassword(payload.password)) {
     showToast({
       message: 'Alerta',
-      description: 'Senha inválida.Use algo como Senha.Segura123'
+      description: 'Senha inválida.Use pelo menos 6 caracteres'
     });
     return
   }
 
   try {
-    const emailInUse = await userStore.verifyEmail(payload.email)
+    const emailInUse = await userStore.verifyEmail( payload.email)
+ 
     if (!emailInUse) {
       userStore.setUser(payload)
       router.push('/gender-birthday')
@@ -124,6 +127,13 @@ const goForDiet = async () => {
   }
 }
 
+const changeTypePassword = () => {
+  if (inputPassword.value.type == "password") {
+    inputPassword.value.type = 'text'
+    return
+  }
+  inputPassword.value.type = 'password'
+}
 </script>
 
 <template>
@@ -139,7 +149,8 @@ const goForDiet = async () => {
       <VInputIcon :data="inputUserName" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputUserName.value" />
       <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value"
         :isValid="emailIsValid" />
-      <VInputIcon :data="inputPassword" :hasIcon="true" iconName="bi bi-key-fill" v-model="inputPassword.value" />
+      <VInputIcon :data="inputPassword" :hasIcon="true" :isPassword="true" @changeTypePassword="changeTypePassword()"
+        iconName="bi bi-key-fill" v-model="inputPassword.value" />
 
       <VButton text="Continuar" class="button" :defaultColor="true" />
     </form>

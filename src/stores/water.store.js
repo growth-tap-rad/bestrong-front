@@ -12,7 +12,7 @@ export const useWaterStore = defineStore('water', {
 
   getters: {
     getArrayWater: (state) => state.waterList,
-    getWaterGoal: (state) =>state.water_goal
+    getWaterGoal: (state) => state.water_goal
   },
   actions: {
 
@@ -30,7 +30,8 @@ export const useWaterStore = defineStore('water', {
     async fetchWater(date) {
       this.setWaterList(await userResource.getWater(date))
       const goal = await userResource.getDiary()
-      this.water_goal = (goal.progress.weight)* 35
+      
+      this.water_goal = (goal.user.progress[goal.user.progress.length - 1 || 0].weight) * 35
     },
 
     setWaterList(payload) {

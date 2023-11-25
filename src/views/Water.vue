@@ -55,6 +55,7 @@ const fetchWater = async () => {
     await waterStore.fetchWater(appStore.getCurrentQueryDate)
     ArrayWater.value = waterStore.getArrayWater
     water_goal.value = waterStore.getWaterGoal
+
 }
 
 
