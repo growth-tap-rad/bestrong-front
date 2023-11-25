@@ -16,12 +16,12 @@ const inputName = {
   type: 'text',
   value: userStore.getName
 }
-const inputEmail = {
+const inputEmail = ref({
   title: 'E-mail',
   placeholder: 'Ex: joao@gmail.com',
   type: 'text',
   value: userStore.getEmail
-}
+})
 const inputPassword = ref({
   title: 'Senha',
   placeholder: '*********',
@@ -35,8 +35,28 @@ const inputUserName = {
   value: userStore.getUsername
 }
 
-const emailIsValid = ref(false); //TODO APLICAR WATCHER
-// PARA CASO isValidEmail, TORNAR ESSA VARIVAEL emailIsValid TRUE, assim ficando com border vermelha
+const emailIsValid = ref(false);
+const passIsValid = ref(false);
+
+watch(inputEmail.value, (newValue) => {
+
+  if (isValidEmail(newValue.value)) {
+    emailIsValid.value = false
+    return
+  }
+
+  emailIsValid.value = true
+});
+
+watch(inputPassword.value, (newValue) => {
+
+  if (isValidPassword(newValue.value)) {
+    passIsValid.value = false
+    return
+  }
+
+  passIsValid.value = true
+});
 
 const backToWelcome = () => {
   router.back()
@@ -72,17 +92,15 @@ const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+
 const isValidPassword = (password) => {
-  if (password.length >= 6) {
-    return true
-  }
-  return false
+  return password.length >= 6
 };
 
 const goForDiet = async () => {
   const payload = {
     name: inputName.value,
-    email: inputEmail.value,
+    email: inputEmail.value.value,
     password: inputPassword.value.value,
     username: inputUserName.value
   }
@@ -111,12 +129,12 @@ const goForDiet = async () => {
   }
 
   try {
-    const emailInUse = await userStore.verifyEmail( payload.email)
- 
+    const emailInUse = await userStore.verifyEmail(payload.email)
+
     if (!emailInUse) {
       userStore.setUser(payload)
       router.push('/gender-birthday')
-      //TODO: Melhorar isso vizualmente, como campo invalido
+
     }
   } catch (error) {
     showToast({
@@ -150,7 +168,7 @@ const changeTypePassword = () => {
       <VInputIcon :data="inputEmail" :hasIcon="true" iconName="bi bi-envelope" v-model="inputEmail.value"
         :isValid="emailIsValid" />
       <VInputIcon :data="inputPassword" :hasIcon="true" :isPassword="true" @changeTypePassword="changeTypePassword()"
-        iconName="bi bi-key-fill" v-model="inputPassword.value" />
+        iconName="bi bi-key-fill" v-model="inputPassword.value" :isValid="passIsValid" />
 
       <VButton text="Continuar" class="button" :defaultColor="true" />
     </form>
