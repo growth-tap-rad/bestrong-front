@@ -113,7 +113,6 @@ const calcQuantity = (qtd, amount, desc) => {
         <div class="body-food">
           <div class="inputs">
             <input placeholder="0" class="input-number" v-model="qtdMeal" type="number" min="1" maxlength="8000" />
-            <!--     mudar o componente VDropdown para receber o option default como prop -->
             <select class="input-measure" v-model="unityValue">
               <option disabled class="option">Selecione</option>
               <option v-for="(item, index) in  measures" class="option" :value="item.value"

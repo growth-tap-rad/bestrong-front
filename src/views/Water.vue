@@ -104,11 +104,6 @@ const actionsTitlePage = [
         padding-top: 30px;
     }
 
-    .header {
-        .title {
-            padding-right: 50px;
-        }
-    }
 }
 
 .water-goal {
