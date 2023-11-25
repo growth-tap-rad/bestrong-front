@@ -73,7 +73,7 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 const isValidPassword = (password) => {
-  if (password.length >= 8) {
+  if (password.length >= 6) {
     return true
   }
   return false
@@ -105,13 +105,13 @@ const goForDiet = async () => {
   if (!isValidPassword(payload.password)) {
     showToast({
       message: 'Alerta',
-      description: 'Senha inválida.Use algo como Senha.Segura123'
+      description: 'Senha inválida.Use pelo menos 6 caracteres'
     });
     return
   }
 
   try {
-    const emailInUse = await userStore.verifyEmail(payload.email)
+    const emailInUse = await userStore.verifyEmail( payload.email)
  
     if (!emailInUse) {
       userStore.setUser(payload)

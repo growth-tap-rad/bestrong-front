@@ -2,8 +2,8 @@
 const props = defineProps({
   options: {
     type: Array, required: true, default: () => [
-      { text: 'homem', value: 'man', selected: false },
-      { text: 'mulher', value: 'woman', selected: false }
+      { text: 'homem', value: 'man', selected: false, disabled: false },
+      { text: 'mulher', value: 'woman', selected: false, disabled: false }
     ]
   },
   title: {
@@ -13,8 +13,13 @@ const props = defineProps({
   firstOpt: {
     type: String,
     default: 'Selecione seu gênero'
+  },
+  listDisabled: {
+    type: Boolean,
+    default: false
   }
 })
+
 
 </script>
  
@@ -23,8 +28,9 @@ const props = defineProps({
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <select class="form-select input" aria-label="Gender" @input="$emit('update', $event.target.value)">
       <option selected disabled class="option"> {{ props.firstOpt }}</option>
-      <option v-for="(item, index) in props.options" class="option" :value="item.value" :selected="item.selected">{{
-        item.text }} </option>
+      <option v-for="(item, index) in props.options" class="option" :class="{ 'list-disabled': listDisabled }"
+        :value="item.value" :selected="item.selected" :disabled="item.disabled || false">{{
+          item.text }} </option>
     </select>
   </div>
 </template>
@@ -50,8 +56,13 @@ const props = defineProps({
     width: 100%;
     cursor: pointer;
 
-    option {
+    .option {
       border-radius: 8px;
+
+      &.list-disabled {
+        color: rgb(194, 194, 194);
+      }
+
     }
 
   }

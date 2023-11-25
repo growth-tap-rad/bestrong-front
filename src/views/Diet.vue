@@ -61,6 +61,7 @@ const fetchDiaryData = async () => {
   await dietStore.fetchDiary(appStore.getCurrentQueryDate)
 
   const data = dietStore.getDiary
+
   if (!data) {
     return
   }

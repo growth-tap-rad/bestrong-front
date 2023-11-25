@@ -613,7 +613,7 @@ export const editUser = (data) => {
 }
 
 export const verifyEmail = (email) => {
-  return api.get(`/users/verify-email?email=${email}`)
+  return api.get(`/users/verify-email?email=${email.toLowerCase()}`)
     .then(({ data }) => {
       if (data) {
         showToast({
