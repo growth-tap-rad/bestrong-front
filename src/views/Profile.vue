@@ -370,6 +370,5 @@ const podeEditar = true //aqui faz a logica para mostrar ou não o botão editar
     height: 190px;
     color: var(--bg-color-light);
   }
-
 }
 </style>

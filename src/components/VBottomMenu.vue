@@ -64,7 +64,7 @@ const handleClickOutside = () => {
               fill="#626463" />
           </svg>
 
-          <span class="text" v-show="false">Dieta</span>
+          <span class="text" v-show="actualRoute === '/profile'">Perfil</span>
         </button>
         <button class="botoesBarraInferior">
           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
