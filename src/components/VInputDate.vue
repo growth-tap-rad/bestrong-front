@@ -152,6 +152,15 @@ const emitDateInputFormated = (date) => {
   emit('changeDate', date);
 }
 
+const setCalendarDate = (inputDate) => {
+  const [day, month, year] = inputDate.split('/').map(Number);
+  if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+    currentYear.value = year;
+    currentMonthIndex.value = month - 1;
+    selectedDay.value = new Date(year, month - 1, day);
+  }
+};
+
 const updateDateModel = (day) => {
   if (!day) {
     dateInput.value = ""
@@ -181,7 +190,8 @@ const  checkDate=(value)=> {
 
 watch(dateInput, (newValue) => {
   isInputDateInvalid.value = !isDateValid(newValue);
-  checkDate(newValue)
+  checkDate(newValue);
+  setCalendarDate(newValue);
 });
 
 
@@ -212,7 +222,7 @@ const toggleCalendar = () =>{
     <section class="input-icon-calendar">
       <i class="bi bi-calendar icon-calendar" @click="toggleCalendar"></i>
       <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change.prevent="event =>emitDateInputFormated(event.target.value)"
- v-mask="'XX/XX/XXXX'" v-model="dateInput" 
+ v-mask="'##/##/####'" v-model="dateInput" 
         :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
     <transition name="fade">
