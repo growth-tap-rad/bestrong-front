@@ -142,10 +142,6 @@ const calcMacros = () => {
   let fat = 0
 
   meal.value?.meal_food.forEach((el) => {
-    //CALCULO AINDA NAO FUNCIONANDO COM GRAMAS, DE SUPLEMENTOS GROWTH, POIS OS MACROS
-    // E CALORIAS DELES SAO BASEADOS EM SCOOPS POR EXEMPLO 1 SCOOP, POSSUI 30 GRAMAS
-    // E O WHEY CALCULA A CALORIA BASEADO EM 1 SCOOP, E NAO EM 1 GRAMA
-
     protein += el.food?.protein * el.quantity
     carb += el.food?.carb * el.quantity
     fat += el.food?.fat * el.quantity

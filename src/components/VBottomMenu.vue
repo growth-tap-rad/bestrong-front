@@ -8,19 +8,28 @@ const dietStore = useDietStore()
 const router = useRouter()
 
 
-defineProps({
+const props = defineProps({
   actualRoute: {
     type: String,
     default: '/diet'
+  },
+  hasntActions: {
+    type: Boolean,
+    default: false
   }
 })
 
 const goTo = (route) => {
 
-
+  if (props.hasntActions) {
+    return
+  }
   router.push(route)
 }
 const showButtonBottomOptions = () => {
+  if (props.hasntActions) {
+    return
+  }
   dietStore.setShowComponentMenuOptions(!dietStore.getShowComponentMenuOptions)
 }
 const handleClickOutside = () => {

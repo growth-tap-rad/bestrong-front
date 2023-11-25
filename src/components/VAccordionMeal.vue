@@ -30,21 +30,12 @@ const unity = computed(() => {
   return props.data.isWater ? 'ml' : 'kcal'
 })
 
-const transformUnity = (unity) => {
-  if (unity == 'Unidade') {
-    return 'U'
-  } else if (unity == 'Unidade Pequena') {
-    return 'u'
-  } else if (unity == 'Mililitro') {
-    return 'ml'
-  }
-  return 'g'
+const getUnity = (unityText) => {
+  return foodStore.transformUnity(unityText, true)
 }
 
-const calcQuantity = (quantity, unity) => {
-  const qtd = parseInt(quantity) || 1
-  const unit = parseInt(unity) || 1
-  return parseInt(qtd * unit)
+const calcQuantity = (qtd, amount, desc) => {
+  return foodStore.transformQuantity(qtd, amount, desc)
 }
 </script>
 
@@ -78,8 +69,8 @@ const calcQuantity = (quantity, unity) => {
             <div class="MealAndQuantity" v-for="item in data.items" :key="item.id">
               <span>{{ item.name }} </span>
               <div class="unity">
-                <span>{{ calcQuantity(item.quantity, item.unity) }} </span
-                ><span>{{ transformUnity(item.unity) }}</span>
+                <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }} </span
+                ><span>{{ getUnity(mealFood.unity) }}</span>
               </div>
             </div>
             <button @click="$emit('showAddFood', data.id)" class="addQtdWater">

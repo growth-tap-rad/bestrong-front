@@ -13,6 +13,7 @@ const router = useRouter()
 const dietStore = useDietStore()
 const appStore = useAppStore()
 const meals = ref([])
+const hasNoDiary = ref(false)
 
 const water = {
   title: 'Agua',
@@ -53,6 +54,9 @@ onMounted(() => {
 
 
 const showAddWater = () => {
+  if (hasNoDiary.value) {
+    return
+  }
   router.push('/water')
 }
 
@@ -63,6 +67,7 @@ const fetchDiaryData = async () => {
   const data = dietStore.getDiary
 
   if (!data) {
+    hasNoDiary.value = true
     return
   }
 
@@ -74,7 +79,7 @@ const fetchDiaryData = async () => {
     consumed_fat,
     consumed_protein
   } = data
-  const { daily_goal_kcal, protein, carb, fat } = data.user.progress[data.user.progress?.length-1 || 0]
+  const { daily_goal_kcal, protein, carb, fat } = data.user.progress[data.user.progress?.length - 1 || 0]
 
   macros.protein.total = protein
   macros.carb.total = carb
@@ -145,7 +150,7 @@ const createEditMeal = (create = false, id) => {
       </div>
 
       <VAddMeal class="box-add-meal" :data="{ meals: meals }" />
-      <VBottomMenu class="footer" actualRoute="/diet" />
+      <VBottomMenu class="footer" actualRoute="/diet" :hasntActions="hasNoDiary" />
     </main>
   </section>
 </template>
@@ -161,8 +166,8 @@ const createEditMeal = (create = false, id) => {
 
   .main {
     width: 100%;
-    
-    &.open-show-meal{
+
+    &.open-show-meal {
       overflow: hidden;
       height: 500px;
     }

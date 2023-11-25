@@ -10,6 +10,8 @@ const props = defineProps({
     }
 });
 
+const inputValue = ref('')
+
 
 const handleClickOutside = () => {
 
@@ -25,8 +27,6 @@ const sendValue = () => {
     }
     handleClickOutside()
 }
-
-const inputValue = ref('')
 
 
 </script>
