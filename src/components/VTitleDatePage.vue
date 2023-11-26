@@ -137,19 +137,17 @@ const currentMonth = computed(() => {
 
 const isToday = (day) => {
   const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-
   return (
-    day.getDate() === today.getUTCDate() &&
-    day.getMonth() === today.getUTCMonth() &&
-    day.getFullYear() === today.getUTCFullYear()
+    day.getDate() === today.getDate() &&
+    day.getMonth() === today.getMonth() &&
+    day.getFullYear() === today.getFullYear()
   );
 };
 
 const sixBySevenWeeks = computed(() => {
   const firstDayOfMonth = new Date(currentYear.value, currentMonthIndex.value, 1)
   const startDate = new Date(firstDayOfMonth)
-  startDate.setDate(1 - firstDayOfMonth.getUTCDay())
+  startDate.setDate(1 - firstDayOfMonth.getDay())
 
   const sixBySevenWeeksArray = []
 
@@ -157,7 +155,7 @@ const sixBySevenWeeks = computed(() => {
     const week = []
     for (let j = 0; j < 7; j++) {
       week.push(new Date(startDate))
-      startDate.setDate(startDate.getUTCDate() + 1)
+      startDate.setDate(startDate.getDate() + 1)
     }
     sixBySevenWeeksArray.push(week)
   }
