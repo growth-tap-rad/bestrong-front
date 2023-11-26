@@ -23,8 +23,8 @@ const WEEK_DAYS = ["D", "S", "T", "Q", "Q", "S", "S"]
 const dateInput = ref(props.value);
 
 const currentDate = new Date(1998, 0, 1);
-const currentYear = ref(currentDate.getFullYear());
-const currentMonthIndex = ref(currentDate.getMonth());
+const currentYear = ref(currentDate.getUTCFullYear());
+const currentMonthIndex = ref(currentDate.getUTCMonth());
 const selectedDay = ref(null);
 
 const previousMonth = () => {
@@ -71,17 +71,19 @@ const currentMonth = computed(() => {
 
 const isToday = (day) => {
   const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
   return (
-    day.getDate() === today.getDate() &&
-    day.getMonth() === today.getMonth() &&
-    day.getFullYear() === today.getFullYear()
+    day.getDate() === today.getUTCDate() &&
+    day.getMonth() === today.getUTCMonth() &&
+    day.getFullYear() === today.getUTCFullYear()
   );
 };
 
 const sixBySevenWeeks = computed(() => {
   const firstDayOfMonth = new Date(currentYear.value, currentMonthIndex.value, 1)
   const startDate = new Date(firstDayOfMonth)
-  startDate.setDate(1 - firstDayOfMonth.getDay())
+  startDate.setDate(1 - firstDayOfMonth.getUTCDay())
 
   const sixBySevenWeeksArray = []
 
@@ -89,7 +91,7 @@ const sixBySevenWeeks = computed(() => {
     const week = []
     for (let j = 0; j < 7; j++) {
       week.push(new Date(startDate))
-      startDate.setDate(startDate.getDate() + 1)
+      startDate.setDate(startDate.getUTCDate() + 1)
     }
     sixBySevenWeeksArray.push(week)
   }
@@ -98,11 +100,11 @@ const sixBySevenWeeks = computed(() => {
 })
 
 
-const resetSelectedDay =()=> {
+const resetSelectedDay = () => {
   selectedDay.value = null
 }
 
-const  handleClickDay =(day)=> {
+const handleClickDay = (day) => {
   if (day === selectedDay.value) {
     resetSelectedDay()
     updateDateModel("")
@@ -177,7 +179,7 @@ const updateDateModel = (day) => {
 
 const isInputDateInvalid = ref(false);
 
-const  checkDate=(value)=> {
+const checkDate = (value) => {
   if (isDateValid(value)) {
     emit("validDate", true);
     return true
@@ -200,16 +202,16 @@ const isDateValid = (inputDate) => {
 
   if (isNaN(day) || isNaN(month) || isNaN(year)) return false;
 
-  if (year < new Date().getFullYear() - 100 || year > new Date().getFullYear()) {
+  if (year < new Date().getUTCFullYear() - 100 || year > new Date().getUTCFullYear()) {
     return false;
   }
 
-  const lastDayOfMonth = new Date(year, month, 0).getDate();
+  const lastDayOfMonth = new Date(year, month, 0).getUTCDate();
 
   return day >= 1 && day <= lastDayOfMonth && month >= 1 && month <= 12;
 }
 
-const toggleCalendar = () =>{
+const toggleCalendar = () => {
   openCalendar.value = !openCalendar.value
 }
 
@@ -221,22 +223,26 @@ const toggleCalendar = () =>{
     <label for="date" class="label" v-if="props.title">{{ props.title }}</label>
     <section class="input-icon-calendar">
       <i class="bi bi-calendar icon-calendar" @click="toggleCalendar"></i>
-      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY" @change.prevent="event =>emitDateInputFormated(event.target.value)"
- v-mask="'##/##/####'" v-model="dateInput" 
+      <input type="text" class="input" id="date" placeholder="DD/MM/YYYY"
+        @change.prevent="event => emitDateInputFormated(event.target.value)" v-mask="'##/##/####'" v-model="dateInput"
         :class="{ 'invalid-date': isInputDateInvalid }" />
     </section>
     <transition name="fade">
       <div class="calendar" v-if="openCalendar" :class="{ 'open': openCalendar }">
         <section class="calendar-actions">
           <div class="calendar-header">
-            <button @click.prevent="previousMonth" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
+            <button @click.prevent="previousMonth" class="button left"><i
+                class="bi bi-chevron-left icon-calendar"></i></button>
             <h2>{{ currentMonth }}</h2>
-            <button @click.prevent="nextMonth" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
+            <button @click.prevent="nextMonth" class="button right"> <i
+                class="bi bi-chevron-right icon-calendar"></i></button>
           </div>
           <div class="calendar-header">
-            <button @click.prevent="previousYear" class="button left"><i class="bi bi-chevron-left icon-calendar"></i></button>
+            <button @click.prevent="previousYear" class="button left"><i
+                class="bi bi-chevron-left icon-calendar"></i></button>
             <h2>{{ currentYear }}</h2>
-            <button @click.prevent="nextYear" class="button right"> <i class="bi bi-chevron-right icon-calendar"></i></button>
+            <button @click.prevent="nextYear" class="button right"> <i
+                class="bi bi-chevron-right icon-calendar"></i></button>
           </div>
         </section>
         <table>
