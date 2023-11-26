@@ -52,6 +52,9 @@ export const useFoodStore = defineStore('food', {
     async getFood(payload) {
       return await userResource.getFood(payload)
     },
+    async getMealFood(payload) {
+      return await userResource.getMealFood(payload)
+    },
     async deleteMealFood(payload) {
       return await userResource.deleteMealFood(payload)
     },
@@ -60,6 +63,9 @@ export const useFoodStore = defineStore('food', {
     },
     async createMealFood(payload) {
       return await userResource.createMealFood(payload)
+    },
+    async editMealFood(payload) {
+      return await userResource.editMealFood(payload)
     },
     setFoods(payload) {
       this.food = payload

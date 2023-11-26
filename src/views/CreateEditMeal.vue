@@ -179,6 +179,10 @@ const deleteMealFood = (id) => {
     fetchMeal()
   })
 }
+
+const showFood = mealfood => {
+  router.push(`/meal/${route.params.id}/food/${mealfood.food.id}/meal_food/${mealfood.id}`);
+}
 </script>
 
 <template>
@@ -220,7 +224,7 @@ const deleteMealFood = (id) => {
       <section class="mealsList">
         <section class="foodItems">
           <div v-for="mealFood in meal.meal_food" :key="mealFood.id" class="foodItem">
-            <span class="oveflow">{{ mealFood.name }}</span>
+            <span class="oveflow" @click="showFood(mealFood)">{{ mealFood.name }}</span>
             <div>
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
               <span>{{ getUnity(mealFood.unity) }}</span>

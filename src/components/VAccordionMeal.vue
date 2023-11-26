@@ -1,6 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useFoodStore } from '../stores/food.store'
+
 const emit = defineEmits()
+const foodStore = useFoodStore()
 
 const props = defineProps({
   data: {
@@ -43,34 +46,23 @@ const calcQuantity = (qtd, amount, desc) => {
   <section class="accordion box-meal" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button
-          class="accordion-button"
-          :class="{ show: openAccord }"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseOne"
-          aria-expanded="true"
-          aria-controls="collapseOne"
-          @click="open()"
-        >
+        <button class="accordion-button" :class="{ show: openAccord }" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" @click="open()">
           <div class="MealAndQuantity">
             <span class="meal">{{ props.data.title }} </span>
             <span class="quantity">Consumido {{ props.data.quantity }} {{ unity }}</span>
           </div>
         </button>
       </h2>
-      <div
-        id="collapseOne"
-        :class="['accordion-collapse collapse', { show: openAccord }]"
-        data-bs-parent="#accordionExample"
-      >
+      <div id="collapseOne" :class="['accordion-collapse collapse', { show: openAccord }]"
+        data-bs-parent="#accordionExample">
         <div>
           <div class="accordionMeals">
             <div class="MealAndQuantity" v-for="item in data.items" :key="item.id">
               <span>{{ item.name }} </span>
               <div class="unity">
-                <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }} </span
-                ><span>{{ getUnity(mealFood.unity) }}</span>
+                <span>{{ calcQuantity(item.quantity, item.amount, item.unity) }} </span><span>{{ getUnity(item.unity)
+                }}</span>
               </div>
             </div>
             <button @click="$emit('showAddFood', data.id)" class="addQtdWater">
