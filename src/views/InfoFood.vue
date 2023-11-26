@@ -45,7 +45,8 @@ const chooseMessage = (error) => {
 const addFoodToMeal = () => {
 
   if (food.value.description && unityValue.value && qtdMeal.value && route.params.idfood && route.params.id) {
-    foodStore.createMealFood({
+
+    !route.params.idMealFood ? foodStore.createMealFood({
       name: food.value.description,
       unity: unityText.value,
       amount: parseFloat(unityValue.value),
@@ -55,7 +56,18 @@ const addFoodToMeal = () => {
     }).then((data) => {
       router.back()
       return
+    }) : foodStore.editMealFood({
+      name: food.value.description,
+      unity: unityText.value,
+      amount: parseFloat(unityValue.value),
+      quantity: qtdMeal.value,
+      id: route.params.idMealFood
+    }).then((data) => {
+      router.back()
+      return
     })
+
+
 
   }
   else {
@@ -68,8 +80,36 @@ const addFoodToMeal = () => {
   }
 }
 onMounted(async () => {
+
+  if (route.params.idMealFood) {
+    const mealfoodedit = await foodStore.getMealFood(route.params.idMealFood)
+
+    food.value = await foodStore.getFood(route.params.idfood)
+    const measur = await foodStore.getMeasure(route.params.idfood)
+
+    measures.value = measur.map((element, index) => {
+
+      if (measur[index - 1]?.description && measur[index - 1]?.description == element.description) {
+        return null;
+      }
+      return {
+        text: element.description,
+        value: element.amount
+      }
+    }).filter((item) => item);
+
+
+    unityValue.value = mealfoodedit.amount.toFixed(2).toString() || ''
+    unityText.value = mealfoodedit.unity || ''
+
+    qtdMeal.value = mealfoodedit.quantity
+
+    return
+  }
+
   food.value = await foodStore.getFood(route.params.idfood)
   const measur = await foodStore.getMeasure(route.params.idfood)
+
   measures.value = measur.map((element, index) => {
 
     if (measur[index - 1]?.description && measur[index - 1]?.description == element.description) {
@@ -116,7 +156,7 @@ const calcQuantity = (qtd, amount, desc) => {
             <select class="input-measure" v-model="unityValue">
               <option disabled class="option">Selecione</option>
               <option v-for="(item, index) in  measures" class="option" :value="item.value"
-                :selected="item.value === unityValue">
+                :selected="item.value == unityValue">
                 {{
                   item.text }} </option>
             </select>
@@ -143,7 +183,7 @@ const calcQuantity = (qtd, amount, desc) => {
           </div>
         </div>
       </section>
-      <VButton @click="addFoodToMeal()" text="Adicionar" class="button" />
+      <VButton @click="addFoodToMeal()" :text="route.params.idMealFood ? 'Editar' : 'Adicionar'" class="button" />
     </main>
 
   </div>

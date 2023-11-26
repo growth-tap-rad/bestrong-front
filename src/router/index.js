@@ -64,8 +64,7 @@ const ROUTES = [
     path: '/diet/:date?',
     name: 'Diet',
     component: Diet,
-    meta: { requiresAuth: true },
-   
+    meta: { requiresAuth: true }
   },
   {
     path: '/trains/:date?',
@@ -117,7 +116,7 @@ const ROUTES = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/meal/:id/food/:idfood',
+    path: '/meal/:id/food/:idfood/:meal_food(meal_food)?/:idMealFood?',
     name: 'InfoFood',
     component: InfoFood,
     meta: { requiresAuth: true }
