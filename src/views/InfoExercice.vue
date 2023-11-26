@@ -175,7 +175,8 @@ const updateExerciseRestDuration = (e) => {
       </section>
 
 
-      <VButton v-if="route.params.id" @click="addExerciceToTrain()" text="Adicionar" class="button" />
+      <VButton v-if="route.params.id" @click="addExerciceToTrain()" :text="isEditing ? 'Editar' : 'Adicionar'"
+        class="button" />
     </main>
 
   </div>
