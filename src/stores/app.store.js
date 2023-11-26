@@ -40,13 +40,13 @@ export const useAppStore = defineStore('app', {
     },
     updateCurrentDate(date) {
       const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
+      newDate.setDate(newDate.getUTCDate() + 1);
     
-      const year = newDate.getFullYear();
-      const month = newDate.getMonth() + 1;
-      const day = newDate.getDate();
+      const year = newDate.getUTCFullYear();
+      const month = newDate.getUTCMonth() + 1;
+      const day = newDate.getUTCDate();
     
-      if (newDate.getMonth() + 1 !== month) {
+      if (newDate.getUTCMonth() + 1 !== month) {
         this.currentDateSearch.month = month;
       }
     
@@ -60,13 +60,13 @@ export const useAppStore = defineStore('app', {
         this.currentDateSearch.day = lastDayOfPreviousMonth;
     
         const newDate = new Date(this.currentDateSearch.date);
-        newDate.setMonth(newDate.getMonth() - 1);
+        newDate.setMonth(newDate.getUTCMonth() - 1);
     
-        if (newDate.getFullYear() !== this.currentDateSearch.year) {
-          this.currentDateSearch.year = newDate.getFullYear();
+        if (newDate.getUTCFullYear() !== this.currentDateSearch.year) {
+          this.currentDateSearch.year = newDate.getUTCFullYear();
         }
     
-        this.currentDateSearch.month = newDate.getMonth() + 1;
+        this.currentDateSearch.month = newDate.getUTCMonth() + 1;
       }
      
       this.updateCurrentQueryDate();
@@ -81,24 +81,24 @@ export const useAppStore = defineStore('app', {
         this.currentDateSearch.day = 1;
     
         const newDate = new Date(this.currentDateSearch.date);
-        newDate.setMonth(newDate.getMonth() + 1);
+        newDate.setMonth(newDate.getUTCMonth() + 1);
   
-        if (newDate.getFullYear() !== this.currentDateSearch.year) {
-          this.currentDateSearch.year = newDate.getFullYear();
+        if (newDate.getUTCFullYear() !== this.currentDateSearch.year) {
+          this.currentDateSearch.year = newDate.getUTCFullYear();
         }
     
-        this.currentDateSearch.month = newDate.getMonth() + 1;
+        this.currentDateSearch.month = newDate.getUTCMonth() + 1;
       }
      
       this.updateCurrentQueryDate();
     },
     getLastDayOfMonth(date) {
-      const nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-      return nextMonth.getDate()
+      const nextMonth = new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)
+      return nextMonth.getUTCDate()
     },
     getLastDayOfPreviousMonth(date) {
-      const lastMonth = new Date(date.getFullYear(), date.getMonth(), 0)
-      return lastMonth.getDate()
+      const lastMonth = new Date(date.getUTCFullYear(), date.getUTCMonth(), 0)
+      return lastMonth.getUTCDate()
     },
     updateCurrentQueryDate() {
       const { year, month, day } = this.currentDateSearch
@@ -109,11 +109,11 @@ export const useAppStore = defineStore('app', {
     },
     setCurrentDayToDateSearch(searchDate) {
       const currentDate = searchDate ? new Date(searchDate) : new Date()
-      currentDate.setHours(0, 0, 0, 0)
+      currentDate.setUTCHours(0, 0, 0, 0)
 
-      const year = currentDate.getFullYear()
-      const month = currentDate.getMonth() + 1
-      const day = currentDate.getDate()
+      const year = currentDate.getUTCFullYear()
+      const month = currentDate.getUTCMonth() + 1
+      const day = currentDate.getUTCDate()
 
       this.setCurrentDateSearch({ date: currentDate, year, month, day })
 

@@ -153,7 +153,8 @@ const updateTrainName = (e) => {
             <div @click="editTrainExercise(train_exercise.id)" :key="train_exercise.id" class="exerciseItem">
               <span class="oveflow">{{ train_exercise.name }} </span>
 
-            </div> <button class="delete" @click="deleteTrainExercise(train_exercise.id)"><i class="bi bi-trash3"></i></button>
+            </div> <button class="delete" @click="deleteTrainExercise(train_exercise.id)"><i
+                class="bi bi-trash3"></i></button>
           </div>
 
 
@@ -235,14 +236,15 @@ p {
       flex-direction: column;
 
     }
+
     .delete {
-        border: none;
-        color: var(--text-color-light);
-        background: transparent;
-        width: 40px;
-        height: 40px;
-        font-size: 25px;
-      }
+      border: none;
+      color: var(--text-color-light);
+      background: transparent;
+      width: 40px;
+      height: 40px;
+      font-size: 25px;
+    }
   }
 
   .oveflow {
