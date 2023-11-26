@@ -192,11 +192,11 @@ export const deleteTrain = (id) => {
 
 export const fetchActivitys = (searchDate) => {
   const currentDate = searchDate ? new Date(searchDate) : new Date()
-  currentDate.setUTCHours(0, 0, 0, 0)
+  currentDate.setHours(0, 0, 0, 0)
 
-  const year = currentDate.getUTCFullYear()
-  const month = currentDate.getUTCMonth() + 1
-  const day = currentDate.getUTCDate()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
 
   const formattedDate = searchDate
     ? searchDate
@@ -247,11 +247,11 @@ export const deleteWater = (id) => {
 }
 export const addWater = (data) => {
   const currentDate = new Date()
-  currentDate.setUTCHours(0, 0, 0, 0)
+  currentDate.setHours(0, 0, 0, 0)
 
-  const year = currentDate.getUTCFullYear()
-  const month = currentDate.getUTCMonth() + 1
-  const day = currentDate.getUTCDate()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
 
   const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day
     .toString()
@@ -333,11 +333,11 @@ export const deleteMealFood = (id) => {
 
 export const getWater = (date) => {
   const currentDate = new Date()
-  currentDate.setUTCHours(0, 0, 0, 0)
+  currentDate.setHours(0, 0, 0, 0)
 
-  const year = currentDate.getUTCFullYear()
-  const month = currentDate.getUTCMonth() + 1
-  const day = currentDate.getUTCDate()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
 
   const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day
     .toString()
@@ -394,6 +394,7 @@ export const getFood = (data) => {
 }
 
 export const getMealFood = (data) => {
+
   return api
     .get(`/meal_food/${data}`)
     .then(({ data }) => {
@@ -601,11 +602,11 @@ export const editDiary = (data) => {
 }
 export const getDiary = (searchDate) => {
   const currentDate = searchDate ? new Date(searchDate) : new Date()
-  currentDate.setUTCHours(0, 0, 0, 0)
+  currentDate.setHours(0, 0, 0, 0)
 
-  const year = currentDate.getUTCFullYear()
-  const month = currentDate.getUTCMonth() + 1
-  const day = currentDate.getUTCDate()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
 
   const formattedDate = searchDate
     ? searchDate
@@ -627,11 +628,11 @@ export const getDiary = (searchDate) => {
 
 export const getUser = (searchDate) => {
   const currentDate = searchDate ? new Date(searchDate) : new Date()
-  currentDate.setUTCHours(0, 0, 0, 0)
+  currentDate.setHours(0, 0, 0, 0)
 
-  const year = currentDate.getUTCFullYear()
-  const month = currentDate.getUTCMonth() + 1
-  const day = currentDate.getUTCDate()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
 
   const formattedDate = searchDate
     ? searchDate
