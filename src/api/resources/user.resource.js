@@ -273,6 +273,27 @@ export const addWater = (data) => {
       })
     })
 }
+
+export const editMealFood = (data) => {
+  return api
+    .put(`/meal_food/${data.id}`, {
+      name: data.name,
+      unity: data.unity,
+      amount: data.amount,
+      quantity: data.quantity
+    })
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 export const createMealFood = (data) => {
   return api
     .post('/meal_food', {
@@ -294,6 +315,7 @@ export const createMealFood = (data) => {
       })
     })
 }
+
 export const deleteMealFood = (id) => {
   return api
     .delete(`/meal_food/${id}`)
@@ -370,6 +392,23 @@ export const getFood = (data) => {
       })
     })
 }
+
+export const getMealFood = (data) => {
+
+  return api
+    .get(`/meal_food/${data}`)
+    .then(({ data }) => {
+      return data
+    })
+    .catch((err) => {
+      showToast({
+        error: err,
+        message: 'Erro',
+        description: err?.response?.data?.message || err?.response?.message
+      })
+    })
+}
+
 export const addFood = (data) => {
   return api
     .post('users/me/meal/food', {
