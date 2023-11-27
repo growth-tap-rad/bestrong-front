@@ -225,7 +225,7 @@ const showFood = mealfood => {
         <section class="foodItems">
           <div v-for="mealFood in meal.meal_food" :key="mealFood.id" class="foodItem">
             <span class="oveflow" @click="showFood(mealFood)">{{ mealFood.name }}</span>
-            <div>
+            <div class="unity-item" @click="showFood(mealFood)">
               <span>{{ calcQuantity(mealFood.quantity, mealFood.amount, mealFood.unity) }}</span>
               <span>{{ getUnity(mealFood.unity) }}</span>
             </div>
@@ -331,6 +331,10 @@ p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
+    cursor: pointer;
+  }
+  .unity-item{
+    cursor: pointer;
   }
 
   .paragraphValue {
