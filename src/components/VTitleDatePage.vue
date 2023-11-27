@@ -245,7 +245,7 @@ const updateDateModel = (day) => {
 
 
 const toggleCalendar = () => {
-  if(!props.isDateDiet){
+  if (!props.isDateDiet) {
     return
   }
   openCalendar.value = !openCalendar.value
@@ -372,6 +372,7 @@ th {
 
 .today {
   color: var(--text-color-highlighted2);
+
   &.selected {
     color: var(--bg-color-light);
   }
@@ -423,6 +424,7 @@ th {
   .center-date {
     margin: 0 auto;
     position: relative;
+    cursor: pointer;
   }
 
   .icon {

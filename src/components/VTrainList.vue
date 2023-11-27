@@ -43,14 +43,14 @@ defineProps({
   padding: 20px;
   height: 100%;
   min-height: 180px;
-  background-color: var(--bg-color-dark-full);
+  background-color: var(--bg-color-dark5);
 
   font-size: 15px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 8px;
 
   .card-exercise-infos {
-    background-color: var(--bg-color-dark-full);
+    background-color: var(--bg-color-dark5);
     height: 100%;
 
     .infos {
@@ -79,7 +79,7 @@ defineProps({
     width: 45%;
     height: 115%;
     z-index: 3;
-    background: linear-gradient(to right, var(--bg-color-dark-full), rgb(0, 0, 0));
+    background: linear-gradient(to right, var(--bg-color-dark5), rgb(0, 0, 0));
     filter: blur(9px);
   }
 
